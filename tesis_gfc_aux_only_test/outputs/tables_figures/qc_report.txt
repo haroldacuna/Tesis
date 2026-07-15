@@ -1,0 +1,11 @@
+QC Report - panel_municipio_year
+========================================
+Rows: 26928
+Municipalities: 1122
+Duplicate (COD_DANE, year): 0
+Year range: 2001-2024
+Expected rows if balanced: 26928
+Null counts: {'loss_pixels': 0, 'loss_area_ha': 0, 'baseline_forest': 0}
+Negative numeric values: 0
+
+All QC checks passed.
