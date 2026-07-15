@@ -1,0 +1,28 @@
+.venv/
+
+# Large geospatial artifacts that are too heavy for GitHub.
+**/data/raw/auxiliary/Colombia_treecover2000.tif
+**/data/interim/municipios_clean.gpkg
+
+# Local environment and generated artifacts.
+.vscode/
+__pycache__/
+*.pyc
+*.log
+*.zip
+*.pdf
+*.pptx
+*.docx
+*.xlsx
+*.tif
+*.gpkg
+*.shp
+*.shx
+*.dbf
+*.prj
+*.sbn
+*.sbx
+*.cpg
+*.xml
+*_tmp*
+tmp_*
