@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import argparse
+import io
 import json
 import re
 import socket
 import time
+import zipfile
 import unicodedata
 from pathlib import Path
 from typing import Any
@@ -33,6 +35,7 @@ EXTERNAL_COLS = [
     "prec_anual_mm",
     "proyectos_carbono_co",
     "proyectos_berkeley_co",
+    "proyectos_offsetsdb_co",
     "proyectos_cdm_co",
 ]
 MUNICIPIOS_CANDIDATES = [
@@ -57,6 +60,13 @@ CDM_SEARCH_URL = "https://cdm.unfccc.int/Projects/search/search.html"
 CDM_CACHE = Path("data/raw/auxiliary/cdm_projects_colombia.csv")
 BERKELEY_COUNTS = Path("data/interim/berkeley_projects_municipio_year_counts.csv")
 
+# CarbonPlan OffsetsDB - harmonized project and credit database
+OFFSETSDB_URL = "https://carbonplan-offsets-db.s3.us-west-2.amazonaws.com/production/latest/offsets-db.csv.zip"
+OFFSETSDB_PROJECTS_CACHE = Path("data/interim/offsetsdb_projects_colombia.csv")
+OFFSETSDB_CREDITS_CACHE = Path("data/interim/offsetsdb_credits_colombia.csv")
+OFFSETSDB_COUNTS = Path("data/interim/offsetsdb_projects_municipio_year_counts.csv")
+OFFSETSDB_MUNICIPIO_BRIDGE = Path("data/raw/auxiliary/offsetsdb_project_municipios.csv")
+
 
 def _empty_external_df() -> pd.DataFrame:
     return pd.DataFrame(columns=EXTERNAL_COLS)
@@ -72,10 +82,14 @@ def _load_checkpoint(checkpoint_path: Path) -> pd.DataFrame:
         print(f"Warning: could not read checkpoint file at {checkpoint_path}. Starting from scratch.")
         return _empty_external_df()
 
-    missing = set(EXTERNAL_COLS) - set(df.columns)
-    if missing:
-        print(f"Warning: checkpoint missing columns {sorted(missing)}. Starting from scratch.")
+    missing_required = {"COD_DANE", "year"} - set(df.columns)
+    if missing_required:
+        print(f"Warning: checkpoint missing required columns {sorted(missing_required)}. Starting from scratch.")
         return _empty_external_df()
+
+    for col in EXTERNAL_COLS:
+        if col not in df.columns:
+            df[col] = pd.NA
 
     df = df[EXTERNAL_COLS].copy()
     df["COD_DANE"] = df["COD_DANE"].astype(str)
@@ -446,6 +460,118 @@ def obtener_proyectos_cdm(cache_file: Path = CDM_CACHE) -> pd.DataFrame:
     return pd.DataFrame()
 
 
+def _load_csv_from_zip(zf: zipfile.ZipFile, name_contains: str) -> pd.DataFrame:
+    matches = [name for name in zf.namelist() if name_contains in name.lower() and name.endswith(".csv")]
+    if not matches:
+        raise FileNotFoundError(f"No CSV matching '{name_contains}' found in archive: {zf.namelist()}")
+    with zf.open(matches[0]) as handle:
+        return pd.read_csv(handle, low_memory=False)
+
+
+def _find_column(df: pd.DataFrame, candidates: list[str]) -> str | None:
+    normalized = {str(col).strip().lower().replace(" ", "").replace("/", "_"): col for col in df.columns}
+    for candidate in candidates:
+        key = candidate.strip().lower().replace(" ", "").replace("/", "_")
+        if key in normalized:
+            return normalized[key]
+    return None
+
+
+def obtener_proyectos_offsetsdb(
+    projects_cache: Path = OFFSETSDB_PROJECTS_CACHE,
+    credits_cache: Path = OFFSETSDB_CREDITS_CACHE,
+    bridge_file: Path = OFFSETSDB_MUNICIPIO_BRIDGE,
+    country: str = "Colombia",
+) -> pd.DataFrame:
+    """Download CarbonPlan OffsetsDB projects and credits for Colombia."""
+    if projects_cache.exists():
+        try:
+            df = pd.read_csv(projects_cache)
+            print(f"Using OffsetsDB project cache: {len(df)} projects")
+            if bridge_file.exists():
+                df = _apply_offsetsdb_municipio_bridge(df, bridge_file)
+                df.to_csv(projects_cache, index=False)
+            return df
+        except Exception as exc:
+            print(f"Warning: could not read OffsetsDB project cache ({exc}).")
+
+    try:
+        print(f"Downloading OffsetsDB from {OFFSETSDB_URL}...")
+        resp = requests.get(OFFSETSDB_URL, timeout=120)
+        resp.raise_for_status()
+        zf = zipfile.ZipFile(io.BytesIO(resp.content))
+
+        projects = _load_csv_from_zip(zf, "project")
+        credits = _load_csv_from_zip(zf, "credit")
+
+        country_col = _find_column(projects, ["country", "country_area", "country/area", "countryarea"])
+        if country_col:
+            country_values = projects[country_col].astype(str)
+            mask = country_values.str.contains(country, case=False, na=False)
+            if country.upper() == "CO":
+                mask = mask | country_values.str.contains("colombia", case=False, na=False)
+            projects_co = projects[mask].copy()
+        else:
+            projects_co = projects.copy()
+
+        project_id_col = _find_column(projects_co, ["project_id", "projectid", "id"])
+        credit_project_id_col = _find_column(credits, ["project_id", "projectid", "id"])
+        vintage_col = _find_column(credits, ["vintage", "vintage_year", "year"])
+
+        if project_id_col and credit_project_id_col and not credits.empty:
+            credits_co = credits[credits[credit_project_id_col].isin(projects_co[project_id_col])].copy()
+        else:
+            credits_co = credits.copy()
+
+        if project_id_col and credit_project_id_col and vintage_col and not credits_co.empty:
+            credits_co[vintage_col] = pd.to_numeric(credits_co[vintage_col], errors="coerce")
+            credit_summary = (
+                credits_co.dropna(subset=[vintage_col])
+                .groupby(credit_project_id_col, as_index=False)
+                .agg(
+                    vintage_start=(vintage_col, "min"),
+                    vintage_end=(vintage_col, "max"),
+                    credit_rows=(credit_project_id_col, "size"),
+                )
+            )
+            projects_co = projects_co.merge(
+                credit_summary,
+                left_on=project_id_col,
+                right_on=credit_project_id_col,
+                how="left",
+            )
+        else:
+            projects_co["vintage_start"] = pd.NA
+            projects_co["vintage_end"] = pd.NA
+            projects_co["credit_rows"] = pd.NA
+
+        start_col = _find_column(projects_co, ["startdate", "start_date", "projectstartdate", "project_start_date"])
+        end_col = _find_column(projects_co, ["enddate", "end_date", "projectenddate", "project_end_date"])
+        if start_col is None:
+            projects_co["startDate"] = projects_co["vintage_start"].fillna(projects_co.get("vintage_end"))
+        else:
+            projects_co["startDate"] = projects_co[start_col]
+        if end_col is None:
+            projects_co["endDate"] = projects_co["vintage_end"].fillna(projects_co.get("vintage_start"))
+        else:
+            projects_co["endDate"] = projects_co[end_col]
+
+            projects_co = _apply_offsetsdb_municipio_bridge(projects_co, bridge_file)
+        projects_co["fuente"] = "carbonplan_offsetsdb"
+
+        projects_cache.parent.mkdir(parents=True, exist_ok=True)
+        credits_cache.parent.mkdir(parents=True, exist_ok=True)
+        projects_co.to_csv(projects_cache, index=False)
+        credits_co.to_csv(credits_cache, index=False)
+        print(f"OffsetsDB: {len(projects_co)} Colombia projects → {projects_cache}")
+        print(f"OffsetsDB: {len(credits_co)} Colombia credits → {credits_cache}")
+        return projects_co
+    except Exception as exc:
+        print(f"Warning: could not download OffsetsDB data ({exc}).")
+
+    return pd.DataFrame()
+
+
 def _extract_label_value(text: str, label: str) -> str | None:
     pattern = rf"{re.escape(label)}\s*[:|]?\s*([A-Za-z0-9\-/,.'() ]{{2,80}})"
     m = re.search(pattern, text, flags=re.IGNORECASE)
@@ -609,6 +735,83 @@ def _apply_verra_municipio_bridge(df_verra: pd.DataFrame, bridge_file: Path) -> 
     matched = int((out["bridge_cod_dane"] != "").sum())
     if matched > 0:
         print(f"Applied Verra municipio bridge for {matched} project rows from: {bridge_file}")
+
+    drop_cols = [c for c in ["project_id", "project_id_str", "bridge_cod_dane", "bridge_municipalities"] if c in out.columns]
+    return out.drop(columns=drop_cols)
+
+
+def _apply_offsetsdb_municipio_bridge(df_offsetsdb: pd.DataFrame, bridge_file: Path) -> pd.DataFrame:
+    if df_offsetsdb.empty:
+        return df_offsetsdb
+    if not bridge_file.exists():
+        return df_offsetsdb
+
+    try:
+        bridge = pd.read_csv(bridge_file, dtype=str)
+    except Exception as exc:
+        print(f"Warning: could not read OffsetsDB municipio bridge file {bridge_file} ({exc}).")
+        return df_offsetsdb
+
+    required = {"project_id", "cod_dane"}
+    if not required.issubset(set(bridge.columns)):
+        print(
+            "Warning: OffsetsDB municipio bridge missing required columns "
+            f"{sorted(required)} at {bridge_file}."
+        )
+        return df_offsetsdb
+
+    bridge = bridge.copy()
+    bridge["project_id"] = bridge["project_id"].astype(str).str.strip()
+    bridge["cod_dane"] = bridge["cod_dane"].astype(str).str.extract(r"(\d{4,6})", expand=False).fillna("")
+    bridge["cod_dane"] = bridge["cod_dane"].str.zfill(5)
+    bridge = bridge[bridge["project_id"] != ""]
+    bridge = bridge[bridge["cod_dane"] != ""]
+    if bridge.empty:
+        return df_offsetsdb
+
+    if "municipio" not in bridge.columns:
+        bridge["municipio"] = ""
+
+    agg = (
+        bridge.groupby("project_id", as_index=False)
+        .agg(
+            bridge_cod_dane=("cod_dane", lambda s: ";".join(sorted(set(v for v in s if v)))),
+            bridge_municipalities=("municipio", lambda s: ";".join(sorted(set(v for v in s if str(v).strip())))),
+        )
+    )
+
+    out = df_offsetsdb.copy()
+    project_id_col = _find_column(out, ["project_id", "projectid", "id"])
+    if project_id_col is None:
+        return out
+
+    out["project_id_str"] = out[project_id_col].astype(str).str.strip()
+    out = out.merge(agg, how="left", left_on="project_id_str", right_on="project_id")
+
+    if "cod_dane" not in out.columns:
+        out["cod_dane"] = ""
+    if "municipalities" not in out.columns:
+        out["municipalities"] = ""
+
+    out["cod_dane"] = out["cod_dane"].fillna("").astype(str)
+    out["municipalities"] = out["municipalities"].fillna("").astype(str)
+    out["bridge_cod_dane"] = out["bridge_cod_dane"].fillna("").astype(str)
+    out["bridge_municipalities"] = out["bridge_municipalities"].fillna("").astype(str)
+
+    out["cod_dane"] = out.apply(
+        lambda r: ";".join(sorted(set(filter(None, re.split(r"[;,|/]", f"{r['cod_dane']};{r['bridge_cod_dane']}"))))),
+        axis=1,
+    )
+    out["municipalities"] = out.apply(
+        lambda r: ";".join(
+            sorted(set(filter(None, [p.strip() for p in re.split(r"[;,|/]", f"{r['municipalities']};{r['bridge_municipalities']}" )])) )
+        ),
+        axis=1,
+    )
+
+    matched = int((out["bridge_cod_dane"] != "").sum())
+    if matched > 0:
+        print(f"Applied OffsetsDB municipio bridge for {matched} project rows from: {bridge_file}")
 
     drop_cols = [c for c in ["project_id", "project_id_str", "bridge_cod_dane", "bridge_municipalities"] if c in out.columns]
     return out.drop(columns=drop_cols)
@@ -954,6 +1157,7 @@ def construir_panel_enriquecido(
     include_climate: bool = True,
     include_verra: bool = True,
     include_berkeley: bool = True,
+    include_offsetsdb: bool = True,
     include_cdm: bool = True,
     pause_seconds: float = 0.3,
     resume: bool = True,
@@ -970,6 +1174,7 @@ def construir_panel_enriquecido(
     verra_public_id_max: int = 2800,
     verra_local_file: Path = VERA_LOCAL_FALLBACK,
     verra_municipio_bridge_file: Path = VERA_MUNICIPIO_BRIDGE,
+    offsetsdb_municipio_bridge_file: Path = OFFSETSDB_MUNICIPIO_BRIDGE,
     allow_empty_verra: bool = False,
 ) -> pd.DataFrame:
     if not INPUT_PANEL.exists():
@@ -1105,6 +1310,31 @@ def construir_panel_enriquecido(
     else:
         berkeley_by_mun_year = {}
 
+    # Load OffsetsDB projects
+    offsetsdb_by_mun_year: dict[tuple[str, int], int] = {}
+    if include_offsetsdb:
+        if OFFSETSDB_COUNTS.exists() and not offsetsdb_municipio_bridge_file.exists():
+            try:
+                df_offsetsdb_counts = pd.read_csv(OFFSETSDB_COUNTS, dtype={"COD_DANE": str, "year": int})
+                offsetsdb_by_mun_year = {
+                    (str(r["COD_DANE"]).zfill(5), int(r["year"])): int(r["proyectos_offsetsdb_co"]) if "proyectos_offsetsdb_co" in r else 1
+                    for _, r in df_offsetsdb_counts.iterrows()
+                }
+                print(f"Loaded OffsetsDB municipality-year counts from: {OFFSETSDB_COUNTS} ({len(offsetsdb_by_mun_year)} entries)")
+            except Exception as exc:
+                print(f"Warning: could not read OffsetsDB counts ({exc}). Falling back to raw OffsetsDB parsing.")
+                df_offsetsdb = obtener_proyectos_offsetsdb(bridge_file=offsetsdb_municipio_bridge_file)
+                offsetsdb_by_mun_year = _compute_projects_active_counts_by_municipio(df_offsetsdb, mun_panel, years)
+        else:
+            if OFFSETSDB_COUNTS.exists() and offsetsdb_municipio_bridge_file.exists():
+                print(
+                    f"OffsetsDB bridge found at {offsetsdb_municipio_bridge_file}; recomputing municipality-year counts from raw data instead of using {OFFSETSDB_COUNTS}."
+                )
+            df_offsetsdb = obtener_proyectos_offsetsdb(bridge_file=offsetsdb_municipio_bridge_file)
+            offsetsdb_by_mun_year = _compute_projects_active_counts_by_municipio(df_offsetsdb, mun_panel, years)
+    else:
+        offsetsdb_by_mun_year = {}
+
     # Load CDM projects
     df_cdm = obtener_proyectos_cdm(cache_file=CDM_CACHE) if include_cdm else pd.DataFrame()
     cdm_by_mun_year = _compute_projects_active_counts_by_municipio(df_cdm, mun_panel, years) if include_cdm else {}
@@ -1172,6 +1402,7 @@ def construir_panel_enriquecido(
                     "prec_anual_mm": clima["prec_anual_mm"],
                     "proyectos_carbono_co": int(verra_by_mun_year.get((cod_dane, int(anio)), 0)),
                     "proyectos_berkeley_co": int(berkeley_by_mun_year.get((cod_dane, int(anio)), 0)) if include_berkeley else 0,
+                    "proyectos_offsetsdb_co": int(offsetsdb_by_mun_year.get((cod_dane, int(anio)), 0)) if include_offsetsdb else 0,
                     "proyectos_cdm_co": int(cdm_by_mun_year.get((cod_dane, int(anio)), 0)) if include_cdm else 0,
                 }
             )
@@ -1218,6 +1449,7 @@ def construir_panel_enriquecido(
         "prec_anual_mm": include_climate,
         "proyectos_carbono_co": include_verra,
         "proyectos_berkeley_co": include_berkeley,
+        "proyectos_offsetsdb_co": include_offsetsdb,
         "proyectos_cdm_co": include_cdm,
     }
     
@@ -1235,6 +1467,8 @@ def construir_panel_enriquecido(
         panel_enriched["proyectos_carbono_co"] = panel_enriched["proyectos_carbono_co"].fillna(0).astype(int)
     if include_berkeley and "proyectos_berkeley_co" in panel_enriched.columns:
         panel_enriched["proyectos_berkeley_co"] = panel_enriched["proyectos_berkeley_co"].fillna(0).astype(int)
+    if include_offsetsdb and "proyectos_offsetsdb_co" in panel_enriched.columns:
+        panel_enriched["proyectos_offsetsdb_co"] = panel_enriched["proyectos_offsetsdb_co"].fillna(0).astype(int)
     if include_cdm and "proyectos_cdm_co" in panel_enriched.columns:
         panel_enriched["proyectos_cdm_co"] = panel_enriched["proyectos_cdm_co"].fillna(0).astype(int)
     if include_population and "poblacion_dane" in panel_enriched.columns:
@@ -1247,15 +1481,19 @@ def construir_panel_enriquecido(
             pass  # Keep as float
     
     # Create combined project column
-    if include_verra and include_berkeley:
-        panel_enriched["proyectos_carbono_total"] = (
-            panel_enriched.get("proyectos_carbono_co", 0).fillna(0).astype(int) +
-            panel_enriched.get("proyectos_berkeley_co", 0).fillna(0).astype(int)
-        )
-    elif include_verra:
-        panel_enriched["proyectos_carbono_total"] = panel_enriched.get("proyectos_carbono_co", 0).fillna(0).astype(int)
-    elif include_berkeley:
-        panel_enriched["proyectos_carbono_total"] = panel_enriched.get("proyectos_berkeley_co", 0).fillna(0).astype(int)
+    carbon_total_parts: list[pd.Series] = []
+    if include_verra and "proyectos_carbono_co" in panel_enriched.columns:
+        carbon_total_parts.append(panel_enriched["proyectos_carbono_co"].fillna(0).astype(int))
+    if include_berkeley and "proyectos_berkeley_co" in panel_enriched.columns:
+        carbon_total_parts.append(panel_enriched["proyectos_berkeley_co"].fillna(0).astype(int))
+    if include_offsetsdb and "proyectos_offsetsdb_co" in panel_enriched.columns:
+        carbon_total_parts.append(panel_enriched["proyectos_offsetsdb_co"].fillna(0).astype(int))
+
+    if carbon_total_parts:
+        total = carbon_total_parts[0].copy()
+        for part in carbon_total_parts[1:]:
+            total = total + part
+        panel_enriched["proyectos_carbono_total"] = total
     
     panel_enriched = panel_enriched.sort_values(["COD_DANE", "year"]).reset_index(drop=True)
 
@@ -1403,6 +1641,17 @@ def parse_args() -> argparse.Namespace:
         help="Skip Berkeley VROD projects (https://vrod.berkeley.edu/).",
     )
     parser.add_argument(
+        "--sin-offsetsdb",
+        action="store_true",
+        help="Skip CarbonPlan OffsetsDB projects (https://carbonplan.org/research/offsets-db).",
+    )
+    parser.add_argument(
+        "--offsetsdb-municipio-bridge-file",
+        type=str,
+        default=str(OFFSETSDB_MUNICIPIO_BRIDGE),
+        help="CSV mapping OffsetsDB project_id to COD_DANE for precise municipality aggregation.",
+    )
+    parser.add_argument(
         "--sin-cdm",
         action="store_true",
         help="Skip CDM (Clean Development Mechanism) projects (https://cdm.unfccc.int/).",
@@ -1417,6 +1666,7 @@ def main() -> None:
     include_climate = not args.sin_clima and not args.solo_verra
     include_verra = (not args.sin_verra) if not args.solo_verra else True
     include_berkeley = not args.sin_berkeley
+    include_offsetsdb = not args.sin_offsetsdb
     include_cdm = not args.sin_cdm
     construir_panel_enriquecido(
         anio_inicio=args.anio_inicio,
@@ -1426,6 +1676,7 @@ def main() -> None:
         include_climate=include_climate,
         include_verra=include_verra,
         include_berkeley=include_berkeley,
+        include_offsetsdb=include_offsetsdb,
         include_cdm=include_cdm,
         pause_seconds=args.pausa,
         resume=not args.sin_reanudar,
@@ -1442,6 +1693,7 @@ def main() -> None:
         verra_public_id_max=args.verra_public_id_max,
         verra_local_file=Path(args.verra_local_file),
         verra_municipio_bridge_file=Path(args.verra_municipio_bridge_file),
+        offsetsdb_municipio_bridge_file=Path(args.offsetsdb_municipio_bridge_file),
         allow_empty_verra=args.permitir_verra_vacio,
     )
 

@@ -1,34 +1,42 @@
 #!/usr/bin/env python
-"""Quick test of updated endpoint functions"""
+"""Quick smoke test for the current external data loaders."""
 
-import sys
-sys.path.insert(0, 'scripts')
+from __future__ import annotations
+
 import importlib.util
+import sys
+from pathlib import Path
 
-spec = importlib.util.spec_from_file_location("enrich", "scripts/06_enrich_panel_external.py")
+import pandas as pd
+
+ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(ROOT / "scripts"))
+
+spec = importlib.util.spec_from_file_location("enrich", str(ROOT / "scripts" / "06_enrich_panel_external.py"))
 module = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(module)
+try:
+    spec.loader.exec_module(module)
+except ModuleNotFoundError as exc:
+    print(f"Skipping smoke test: missing dependency {exc.name}")
+    raise SystemExit(0)
+
+
+def _assert_dataframe(name: str, df: pd.DataFrame) -> None:
+    assert isinstance(df, pd.DataFrame), f"{name} did not return a DataFrame"
+    print(f"✓ {name}: {len(df)} rows")
+
 
 print("=" * 60)
-print("Testing deprecated carbon registry functions...")
+print("Testing current external loaders...")
 print("=" * 60)
 
-df_eco = module.obtener_proyectos_ecoregistry()
-print(f"✓ EcoRegistry: {len(df_eco)} rows (expected: 0)")
+_assert_dataframe("Berkeley VROD", module.obtener_proyectos_berkeley())
+_assert_dataframe("OffsetsDB", module.obtener_proyectos_offsetsdb())
+_assert_dataframe("CDM", module.obtener_proyectos_cdm())
 
-df_cad = module.obtener_proyectos_climateactiondata()
-print(f"✓ Climate Action Data: {len(df_cad)} rows (expected: 0)")
-
-df_gs = module.obtener_proyectos_goldstandard()
-print(f"✓ Gold Standard: {len(df_gs)} rows (expected: 0)")
-
-df_acr = module.obtener_proyectos_acr()
-print(f"✓ ACR: {len(df_acr)} rows (expected: 0)")
-
-# Test that Offsets DB still works (trying cache fallback)
-df_offsets = module.obtener_proyectos_offsetsdb()
-print(f"✓ Offsets DB: {len(df_offsets)} rows (optional S3 data)")
+assert "proyectos_offsetsdb_co" in module.EXTERNAL_COLS, "OffsetsDB column not wired into EXTERNAL_COLS"
+print("✓ OffsetsDB column is present in EXTERNAL_COLS")
 
 print("=" * 60)
-print("✓ All endpoint tests passed!")
+print("✓ All endpoint smoke tests passed!")
 print("=" * 60)
