@@ -23,6 +23,11 @@ except ImportError:  # pragma: no cover - optional dependency
 
 INPUT_PANEL = Path("data/final/panel_municipio_year.csv")
 OUTPUT_PANEL_ENRICHED = Path("data/final/panel_municipio_year_enriched.csv")
+CONSOLIDATED_PANEL_OUTPUT = Path("data/final/dataset_consolidado_completo.csv")
+LOCAL_PANEL_BASE = Path("data/final/panel_municipio_year_enriched.csv")
+LOCAL_PANEL_STATA = Path("data/raw/auxiliary/PANEL_CARACTERISTICAS_GENERALES(2024).dta")
+LOCAL_DANE_EXCEL = Path("data/raw/auxiliary/PPED-AreaMun-2018-2042_VP.xlsx")
+LOCAL_CLIMATE_CSV = Path("data/raw/auxiliary/clima_historico_gee.csv")
 VERA_CACHE = Path("data/interim/verra_projects_colombia.csv")
 VERA_LOCAL_FALLBACK = Path("data/raw/auxiliary/verra_projects_colombia_manual.csv")
 VERA_MUNICIPIO_BRIDGE = Path("data/raw/auxiliary/verra_project_municipios.csv")
@@ -177,6 +182,16 @@ def _normalize_text(value: str | None) -> str:
     return txt.upper().strip()
 
 
+def limpiar_texto(texto: Any) -> str:
+    """Normalize text for safe joins across local sources."""
+    if pd.isna(texto):
+        return ""
+    texto = str(texto).strip().lower()
+    return "".join(
+        c for c in unicodedata.normalize("NFD", texto) if unicodedata.category(c) != "Mn"
+    )
+
+
 def _extract_year_from_row(row: dict[str, Any]) -> int | None:
     for key in ["a_o", "anio", "ano", "a\u00f1o"]:
         if key in row and row[key] not in (None, ""):
@@ -291,6 +306,91 @@ def obtener_poblacion_dane(
                 continue
 
     return None
+
+
+def consolidar_dataset_local(
+    panel_base_path: Path = LOCAL_PANEL_BASE,
+    stata_path: Path = LOCAL_PANEL_STATA,
+    dane_excel_path: Path = LOCAL_DANE_EXCEL,
+    climate_csv_path: Path = LOCAL_CLIMATE_CSV,
+    output_path: Path = CONSOLIDATED_PANEL_OUTPUT,
+) -> pd.DataFrame:
+    """Merge population and climate covariates into the enriched panel using local files."""
+    print("1. Cargando base principal...")
+    if not panel_base_path.exists():
+        raise FileNotFoundError(f"Missing base panel file: {panel_base_path}")
+
+    df_base = pd.read_csv(panel_base_path)
+    df_base["COD_DANE"] = df_base["COD_DANE"].astype(str).str.zfill(5)
+
+    print("2. Procesando e integrando población (CEDE + DANE oficial)...")
+
+    df_stata = pd.read_stata(stata_path)
+    df_stata = df_stata.rename(
+        columns={
+            "codmpio": "COD_DANE",
+            "ano": "year",
+            "pobl_tot": "poblacion_dane",
+        }
+    )
+    df_stata["COD_DANE"] = (
+        pd.to_numeric(df_stata["COD_DANE"], errors="coerce").fillna(0).astype(int).astype(str).str.zfill(5)
+    )
+    df_stata["year"] = pd.to_numeric(df_stata["year"], errors="coerce").fillna(0).astype(int)
+    df_stata_filtrado = df_stata[["COD_DANE", "year", "poblacion_dane"]].dropna(subset=["COD_DANE", "year"])
+    df_stata_filtrado = df_stata_filtrado[(df_stata_filtrado["year"] >= 2001) & (df_stata_filtrado["year"] < 2018)]
+
+    print("   -> Leyendo proyecciones oficiales del DANE (Excel)...")
+    df_dane_excel = pd.read_excel(dane_excel_path, sheet_name="PobMunicipalxÁrea", skiprows=10)
+    df_dane_excel.columns = ["CodDpto", "Depto", "CodMpio", "Mpio", "Year", "Area", "Poblacion"]
+    df_dane_excel = df_dane_excel[df_dane_excel["Area"].astype(str).str.strip().str.lower() == "total"].copy()
+    df_dane_excel["COD_DANE"] = (
+        pd.to_numeric(df_dane_excel["CodMpio"], errors="coerce").fillna(0).astype(int).astype(str).str.zfill(5)
+    )
+    df_dane_excel["year"] = pd.to_numeric(df_dane_excel["Year"], errors="coerce").astype(int)
+    df_dane_excel["poblacion_dane"] = pd.to_numeric(df_dane_excel["Poblacion"], errors="coerce")
+    df_dane_reciente = df_dane_excel[["COD_DANE", "year", "poblacion_dane"]].dropna(subset=["COD_DANE", "year"])
+    df_dane_reciente = df_dane_reciente[df_dane_reciente["year"] >= 2018]
+
+    df_poblacion_total = pd.concat([df_stata_filtrado, df_dane_reciente], ignore_index=True)
+    df_poblacion_total = df_poblacion_total.drop_duplicates(subset=["COD_DANE", "year"])
+
+    if "poblacion_dane" in df_base.columns:
+        df_base = df_base.drop(columns=["poblacion_dane"])
+
+    df_base = pd.merge(df_base, df_poblacion_total, on=["COD_DANE", "year"], how="left")
+
+    print("3. Integrando datos climáticos de GEE...")
+    df_clima = pd.read_csv(climate_csv_path)
+    df_clima = df_clima.rename(
+        columns={
+            "year": "year",
+            "temp_media_c": "temp_media_c",
+            "prec_anual_mm": "prec_anual_mm",
+            "ADM2_NAME": "municipio_gee",
+        }
+    )
+    df_clima["year"] = pd.to_numeric(df_clima["year"], errors="coerce").astype(int)
+    df_clima["mun_limpio"] = df_clima["municipio_gee"].apply(limpiar_texto)
+
+    for col in ["temp_media_c", "prec_anual_mm"]:
+        if col in df_base.columns:
+            df_base = df_base.drop(columns=[col])
+
+    df_base["mun_limpio"] = df_base["NOMBRE_MPI"].apply(limpiar_texto)
+    df_clima_filtrado = df_clima[["mun_limpio", "year", "temp_media_c", "prec_anual_mm"]].drop_duplicates(
+        subset=["mun_limpio", "year"]
+    )
+
+    df_base = pd.merge(df_base, df_clima_filtrado, on=["mun_limpio", "year"], how="left")
+    df_base = df_base.drop(columns=["mun_limpio"])
+
+    print("4. Guardando dataset consolidado...")
+    df_base = df_base.sort_values(by=["COD_DANE", "year"]).reset_index(drop=True)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    df_base.to_csv(output_path, index=False, encoding="utf-8-sig")
+    print(f"¡Listo! Archivo guardado con éxito en:\n{output_path}")
+    return df_base
 
 
 def obtener_clima_gee(geom_ee: Any, anio: int) -> dict[str, float | None]:
@@ -1656,12 +1756,64 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Skip CDM (Clean Development Mechanism) projects (https://cdm.unfccc.int/).",
     )
-    
+
+    # Local consolidation mode (población CEDE/DANE + clima GEE desde archivos locales)
+    parser.add_argument(
+        "--consolidar-local",
+        action="store_true",
+        help=(
+            "Run only the local consolidation step (población CEDE/DANE + clima GEE "
+            "desde archivos locales) instead of the full external enrichment pipeline. "
+            "Equivalent to the standalone consolidation script."
+        ),
+    )
+    parser.add_argument(
+        "--panel-base-local",
+        type=str,
+        default=str(LOCAL_PANEL_BASE),
+        help="Ruta del panel base (CSV) sobre el que se integran población y clima.",
+    )
+    parser.add_argument(
+        "--panel-stata",
+        type=str,
+        default=str(LOCAL_PANEL_STATA),
+        help="Ruta del .dta CEDE con población histórica (2001-2017).",
+    )
+    parser.add_argument(
+        "--dane-excel",
+        type=str,
+        default=str(LOCAL_DANE_EXCEL),
+        help="Ruta del Excel de proyecciones de población del DANE (2018+).",
+    )
+    parser.add_argument(
+        "--clima-csv",
+        type=str,
+        default=str(LOCAL_CLIMATE_CSV),
+        help="Ruta del CSV con clima histórico extraído de Google Earth Engine.",
+    )
+    parser.add_argument(
+        "--salida-consolidado",
+        type=str,
+        default=str(CONSOLIDATED_PANEL_OUTPUT),
+        help="Ruta de salida para el dataset consolidado.",
+    )
+
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
+
+    if args.consolidar_local:
+        consolidar_dataset_local(
+            panel_base_path=Path(args.panel_base_local),
+            stata_path=Path(args.panel_stata),
+            dane_excel_path=Path(args.dane_excel),
+            climate_csv_path=Path(args.clima_csv),
+            output_path=Path(args.salida_consolidado),
+        )
+        return
+
     include_population = not args.sin_poblacion and not args.solo_verra
     include_climate = not args.sin_clima and not args.solo_verra
     include_verra = (not args.sin_verra) if not args.solo_verra else True
