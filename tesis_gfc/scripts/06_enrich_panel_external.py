@@ -656,7 +656,8 @@ def obtener_proyectos_offsetsdb(
         else:
             projects_co["endDate"] = projects_co[end_col]
 
-            projects_co = _apply_offsetsdb_municipio_bridge(projects_co, bridge_file)
+        projects_co = _apply_offsetsdb_municipio_bridge(projects_co, bridge_file)
+        
         projects_co["fuente"] = "carbonplan_offsetsdb"
 
         projects_cache.parent.mkdir(parents=True, exist_ok=True)

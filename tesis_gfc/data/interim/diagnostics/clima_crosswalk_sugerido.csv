@@ -1,0 +1,127 @@
+﻿COD_DANE,NOMBRE_MPI,mun_limpio_panel,confianza_sugerencia,candidatos_subcadena,candidatos_difflib_solamente
+05042,SANTA FÉ DE ANTIOQUIA,santa fe de antioquia,alta (coincidencia de subcadena),antioquia,santander de quilichao; san jose de fragua; santafe de bogota d.c.; san jose de la montana; santa rosa de cabal
+05101,CIUDAD BOLÍVAR,ciudad bolivar,alta (coincidencia de subcadena),bolivar,el carmen de bolivar
+05148,EL CARMEN DE VIBORAL,el carmen de viboral,alta (coincidencia de subcadena),carmen de viboral; el carmen,el carmen de bolivar; carmen de apicala; belen de umbria
+05237,DONMATÍAS,donmatias,"baja (solo similitud de letras, verificar con cuidado)",,don matias; nimaima
+05390,LA PINTADA,la pintada,"baja (solo similitud de letras, verificar con cuidado)",,la tebaida; la llanada; planadas; la uvita; la playa
+05585,PUERTO NARE,puerto nare,"baja (solo similitud de letras, verificar con cuidado)",,puerto narino; puerto carreno; puerto parra; puerto salgar; puerto rico
+05647,SAN ANDRÉS DE CUERQUÍA,san andres de cuerquia,alta (coincidencia de subcadena),san andres,san andres y providencia; san juan de betulia; santander de quilichao; san juan de uraba; san andres de sotavento
+05664,SAN PEDRO DE LOS MILAGROS,san pedro de los milagros,alta (coincidencia de subcadena),san pedro,san pedro de cartago; santa rosa de osos; san pedro de uraba
+05674,SAN VICENTE FERRER,san vicente ferrer,alta (coincidencia de subcadena),san vicente,san vicente de chucuri; san vicente del caguan
+05697,EL SANTUARIO,el santuario,alta (coincidencia de subcadena),santuario,el rosario; el calvario; santamaria; santa rosa
+08001,BARRANQUILLA,barranquilla,alta (coincidencia de subcadena),barranquilla  (dist.port.,marinilla; barrancas; arauquita; raquira
+08558,POLONUEVO,polonuevo,"baja (solo similitud de letras, verificar con cuidado)",,polo nuevo; pueblo nuevo; hato nuevo
+11001,"BOGOTÁ, D.C.","bogota, d.c.","baja (solo similitud de letras, verificar con cuidado)",,santafe de bogota d.c.
+13001,CARTAGENA DE INDIAS,cartagena de indias,"baja (solo similitud de letras, verificar con cuidado)",,cartagena del chaira; agua de dios; cartagena (dist. esp.); barranca de upia; carmen de viboral
+13042,ARENAL,arenal,"baja (solo similitud de letras, verificar con cuidado)",,armenia; saravena; zarzal; tauramena; carepa
+13062,ARROYOHONDO,arroyohondo,"baja (solo similitud de letras, verificar con cuidado)",,yondo
+13222,CLEMENCIA,clemencia,"baja (solo similitud de letras, verificar con cuidado)",,valencia; florencia; venecia; leticia; armenia
+13268,EL PEÑÓN,el penon,"baja (solo similitud de letras, verificar con cuidado)",,el pe¥on; el pi¥on; el playon; el espino; repelon
+13468,SANTA CRUZ DE MOMPOX,santa cruz de mompox,alta (coincidencia de subcadena),santa cruz,santa rosa de osos; santa helena de opon
+13490,NOROSÍ,norosi,"baja (solo similitud de letras, verificar con cuidado)",,anori; potosi; toro
+13580,REGIDOR,regidor,"baja (solo similitud de letras, verificar con cuidado)",,retiro; abrego
+13620,SAN CRISTÓBAL,san cristobal,"baja (solo similitud de letras, verificar con cuidado)",,santa rita; san jacinto; san benito abad; santa isabel; san francisco
+13655,SAN JACINTO DEL CAUCA,san jacinto del cauca,alta (coincidencia de subcadena),san jacinto,san vicente del caguan; san juan del cesar; san juan de uraba; san juan de arama
+15332,GÜICÁN DE LA SIERRA,guican de la sierra,alta (coincidencia de subcadena),guican; la sierra,candelaria; juan de acosta
+15550,PISBA,pisba,"baja (solo similitud de letras, verificar con cuidado)",,pisva; oiba; isla; apia; purisima
+15806,TIBASOSA,tibasosa,"baja (solo similitud de letras, verificar con cuidado)",,tibabosa; tibana; barbosa; tausa; tasco
+15839,TUTAZÁ,tutaza,alta (coincidencia de subcadena),tuta,tutasa; suaza; tubara; taraza
+17495,NORCASIA,norcasia,"baja (solo similitud de letras, verificar con cuidado)",,nocaima; circasia; tocaima; carcasi; caucasia
+17665,SAN JOSÉ,san jose,alta (coincidencia de subcadena),san jose de fragua; san jose de la montana; san jose de ocune; san jose de pare; san jose del guaviare,san roque; santa rosa; san onofre; san marcos
+18610,SAN JOSÉ DEL FRAGUA,san jose del fragua,"baja (solo similitud de letras, verificar con cuidado)",,san jose de fragua; san jose del guaviare; san jose del palmar; san jose de pare; san jose de ocune
+18785,SOLITA,solita,"baja (solo similitud de letras, verificar con cuidado)",,soata; suaita; sotara; solano; socota
+19300,GUACHENÉ,guachene,"baja (solo similitud de letras, verificar con cuidado)",,guacheta; guarne; gacheta; guateque; guaca
+19532,PATÍA,patia,alta (coincidencia de subcadena),patia (el bordo),paipa; supata; palestina; paya; palmira
+19533,PIAMONTE,piamonte,"baja (solo similitud de letras, verificar con cuidado)",,ocamonte; pamplonita; gigante; pinchote; piendamo
+19548,PIENDAMÓ - TUNÍA,piendamo - tunia,alta (coincidencia de subcadena),piendamo,
+19760,SOTARÁ PAISPAMBA,sotara paispamba,alta (coincidencia de subcadena),sotara,
+19824,TOTORÓ,totoro,alta (coincidencia de subcadena),toro,yotoco; toribio; socorro; tota
+19845,VILLA RICA,villa rica,"baja (solo similitud de letras, verificar con cuidado)",,villarrica; villamaria; villa caro; villa vieja; villa hermosa
+20400,LA JAGUA DE IBIRICO,la jagua de ibirico,"baja (solo similitud de letras, verificar con cuidado)",,la jagua de iribico; san juan de rio seco; agua de dios
+20570,PUEBLO BELLO,pueblo bello,alta (coincidencia de subcadena),bello,pueblo viejo; pueblo nuevo; pueblo rico; puerto berrio; pueblorrico
+23300,COTORRA,cotorra,"baja (solo similitud de letras, verificar con cuidado)",,cota; cocorna; victoria; corrales; concordia
+23350,LA APARTADA,la apartada,"baja (solo similitud de letras, verificar con cuidado)",,la plata; apartado; la dorada; la tebaida; la llanada
+23500,MOÑITOS,monitos,alta (coincidencia de subcadena),monitos (is.),mo¥itos; orito; montecristo; potosi
+23586,PURÍSIMA DE LA CONCEPCIÓN,purisima de la concepcion,alta (coincidencia de subcadena),concepcion; purisima,
+23675,SAN BERNARDO DEL VIENTO,san bernardo del viento,alta (coincidencia de subcadena),san bernardo,san bernardo el viento; san bernardo el viento (i; san andres de sotavento; santa rosa de viterbo
+23682,SAN JOSÉ DE URÉ,san jose de ure,"baja (solo similitud de letras, verificar con cuidado)",,san jose de pare; san jose de ocune; san jose del guaviare; san jose de fragua; san jose del palmar
+23815,TUCHÍN,tuchin,"baja (solo similitud de letras, verificar con cuidado)",,chinu; nunchia; chia; achi
+25258,EL PEÑÓN,el penon,"baja (solo similitud de letras, verificar con cuidado)",,el pe¥on; el pi¥on; el playon; el espino; repelon
+25260,EL ROSAL,el rosal,"baja (solo similitud de letras, verificar con cuidado)",,el rosario; el cairo; rosas
+25398,LA PEÑA,la pena,"baja (solo similitud de letras, verificar con cuidado)",,la pe¥a; la paz; la vega; la mesa; la ceja
+25599,APULO,apulo,alta (coincidencia de subcadena),apulo (rafael reyes),puli; ulloa; plato
+25645,SAN ANTONIO DEL TEQUENDAMA,san antonio del tequendama,alta (coincidencia de subcadena),san antonio; san antonio del tequendam,san juan de uraba; san juan de arama
+25662,SAN JUAN DE RIOSECO,san juan de rioseco,"baja (solo similitud de letras, verificar con cuidado)",,san juan de rio seco; san juan de uraba; san juan de arama; san juan del cesar; san juan nepomuceno
+25843,VILLA DE SAN DIEGO DE UBATÉ,villa de san diego de ubate,alta (coincidencia de subcadena),san diego; ubate,
+27025,ALTO BAUDÓ,alto baudo,alta (coincidencia de subcadena),alto baudo (pie de pato),obando; bajo baudo (is.); salado blanco; hato nuevo
+27050,ATRATO,atrato,"baja (solo similitud de letras, verificar con cuidado)",,marmato; aratoca; ataco; mistrato; paramo
+27075,BAHÍA SOLANO,bahia solano,alta (coincidencia de subcadena),bahia solano (ciudad muti; solano,
+27077,BAJO BAUDÓ,bajo baudo,alta (coincidencia de subcadena),bajo baudo (is.); bajo baudo (pizarro),bagado
+27099,BOJAYÁ,bojaya,alta (coincidencia de subcadena),bojaya (bella vista),bojaca; olaya; saboya; boyaca; baraya
+27135,EL CANTÓN DEL SAN PABLO,el canton del san pablo,alta (coincidencia de subcadena),san pablo,canton de san pablo; litoral del san juan
+27150,CARMEN DEL DARIÉN,carmen del darien,"baja (solo similitud de letras, verificar con cuidado)",,carmen de carupa; carmen de apicala; candelaria; el carmen de bolivar; cartagena del chaira
+27160,CÉRTEGUI,certegui,"baja (solo similitud de letras, verificar con cuidado)",,cerete; togui
+27245,EL CARMEN DE ATRATO,el carmen de atrato,alta (coincidencia de subcadena),el carmen,carmen de carupa; el carmen de bolivar; carmen de viboral; carmen de apicala
+27250,EL LITORAL DEL SAN JUAN,el litoral del san juan,alta (coincidencia de subcadena),litoral del san juan,litoral del san juan (is.; valle de san juan
+27425,MEDIO ATRATO,medio atrato,"baja (solo similitud de letras, verificar con cuidado)",,mistrato; marmato
+27430,MEDIO BAUDÓ,medio baudo,sin sugerencia,,
+27450,MEDIO SAN JUAN,medio san juan,"baja (solo similitud de letras, verificar con cuidado)",,valle de san juan; litoral del san juan; san juanito; medina
+27493,NUEVO BELÉN DE BAJIRÁ,nuevo belen de bajira,alta (coincidencia de subcadena),belen,belen de umbria
+27580,RÍO IRÓ,rio iro,"baja (solo similitud de letras, verificar con cuidado)",,rio viejo; riofrio; rio de oro; riosucio; rionegro
+27600,RÍO QUITO,rio quito,"baja (solo similitud de letras, verificar con cuidado)",,riosucio; rio viejo; mariquita; riofrio
+27810,UNIÓN PANAMERICANA,union panamericana,sin sugerencia,,
+41132,CAMPOALEGRE,campoalegre,"baja (solo similitud de letras, verificar con cuidado)",,campo alegre; canalete; campohermoso
+41660,SALADOBLANCO,saladoblanco,"baja (solo similitud de letras, verificar con cuidado)",,salado blanco; solano; rioblanco; caldono; el banco
+41872,VILLAVIEJA,villavieja,"baja (solo similitud de letras, verificar con cuidado)",,villa vieja; villeta; villarrica; villanueva; villavicencio
+44090,DIBULLA,dibulla,"baja (solo similitud de letras, verificar con cuidado)",,padilla; ulloa
+44098,DISTRACCIÓN,distraccion,"baja (solo similitud de letras, verificar con cuidado)",,mistrato; contratacion; fundacion
+44378,HATONUEVO,hatonuevo,alta (coincidencia de subcadena),hato,hato nuevo; polo nuevo
+44420,LA JAGUA DEL PILAR,la jagua del pilar,"baja (solo similitud de letras, verificar con cuidado)",,la jagua de iribico; san juan del cesar; san jose del palmar; san juan de arama; agua de dios
+47001,SANTA MARTA,santa marta,alta (coincidencia de subcadena),santa marta (dist. esp.); santa marta (dist. esp.)(,santa maria; santamaria; santa rita; santa ana; santa rosa
+47030,ALGARROBO,algarrobo,"baja (solo similitud de letras, verificar con cuidado)",,salgar; malambo
+47161,CERRO DE SAN ANTONIO,cerro de san antonio,alta (coincidencia de subcadena),san antonio,cerro san antonio; canton de san pablo
+47258,EL PIÑÓN,el pinon,"baja (solo similitud de letras, verificar con cuidado)",,el pi¥on; el espino; el pe¥on; el playon; el molino
+47268,EL RETÉN,el reten,"baja (solo similitud de letras, verificar con cuidado)",,el retorno; cerete; el carmen; el pe¥on; el bagre
+47460,NUEVA GRANADA,nueva granada,alta (coincidencia de subcadena),granada,la llanada
+47545,PIJIÑO DEL CARMEN,pijino del carmen,alta (coincidencia de subcadena),el carmen,
+47570,PUEBLOVIEJO,puebloviejo,"baja (solo similitud de letras, verificar con cuidado)",,pueblo viejo; pueblorrico; pueblo rico; pueblo nuevo; el dovio
+47660,SABANAS DE SAN ÁNGEL,sabanas de san angel,"baja (solo similitud de letras, verificar con cuidado)",,santa rosa de cabal; canton de san pablo; sabana de torres
+47692,SAN SEBASTIÁN DE BUENAVISTA,san sebastian de buenavista,alta (coincidencia de subcadena),buenavista; san sebastian; san sebastian de buenavis,san jose del guaviare; san martin de loba; san juan de betulia
+47720,SANTA BÁRBARA DE PINTO,santa barbara de pinto,alta (coincidencia de subcadena),santa barbara,santa rosa de viterbo; santa rosa de osos; santa rosa del sur
+47745,SITIONUEVO,sitionuevo,"baja (solo similitud de letras, verificar con cuidado)",,hato nuevo; polo nuevo
+47960,ZAPAYÁN,zapayan,alta (coincidencia de subcadena),paya,popayan; zapatoca; la playa; pelaya
+47980,ZONA BANANERA,zona bananera,"baja (solo similitud de letras, verificar con cuidado)",,santa barbara
+50370,URIBE,uribe,alta (coincidencia de subcadena),la uribe,uribia; cumaribo; ubate; turbo
+52224,CUASPUD CARLOSAMA,cuaspud carlosama,alta (coincidencia de subcadena),cuaspud,
+52254,EL PEÑOL,el penol,alta (coincidencia de subcadena),penol,el pe¥on; el espino; el retorno; el paso
+52258,EL TABLÓN DE GÓMEZ,el tablon de gomez,alta (coincidencia de subcadena),el tablon,
+52699,SANTACRUZ,santacruz,"baja (solo similitud de letras, verificar con cuidado)",,santa cruz; santamaria; santa rosa; santa rita; santana
+52835,SAN ANDRÉS DE TUMACO,san andres de tumaco,alta (coincidencia de subcadena),san andres; tumaco,san carlos de guaroa; san andres de sotavento; santander de quilichao; san juan de betulia
+54001,SAN JOSÉ DE CÚCUTA,san jose de cucuta,alta (coincidencia de subcadena),cucuta,san jose de ocune; san jose de pare; san jose de fragua; san jose del guaviare; san jose del palmar
+54498,OCAÑA,ocana,"baja (solo similitud de letras, verificar con cuidado)",,oca¥a; oicata; tocancipa; tona; tocaima
+66170,DOSQUEBRADAS,dosquebradas,"baja (solo similitud de letras, verificar con cuidado)",,dos quebradas; mosquera; quebradanegra; mosquera (is.)
+68235,EL CARMEN DE CHUCURÍ,el carmen de chucuri,alta (coincidencia de subcadena),el carmen,el carmen de bolivar; san vicente de chucuri; carmen de carupa; belen de umbria
+68250,EL PEÑÓN,el penon,"baja (solo similitud de letras, verificar con cuidado)",,el pe¥on; el pi¥on; el playon; el espino; repelon
+68684,SAN JOSÉ DE MIRANDA,san jose de miranda,alta (coincidencia de subcadena),miranda,san jose miranda; san jose de fragua; san jose de la montana; san jose de pare; san jose del palmar
+68720,SANTA HELENA DEL OPÓN,santa helena del opon,"baja (solo similitud de letras, verificar con cuidado)",,santa helena de opon; santa rosa de osos; santa rosa del sur
+68855,VALLE DE SAN JOSÉ,valle de san jose,"baja (solo similitud de letras, verificar con cuidado)",,valle de  san jose; valle de san juan
+70204,COLOSÓ,coloso,alta (coincidencia de subcadena),coloso (ricaurte),colon; coello; caloto; yolombo; dolores
+70221,COVEÑAS,covenas,"baja (solo similitud de letras, verificar con cuidado)",,ovejas; vetas
+70233,EL ROBLE,el roble,"baja (solo similitud de letras, verificar con cuidado)",,el colegio; la uribe; el copey; el cairo; el bagre
+70742,SAN LUIS DE SINCÉ,san luis de since,alta (coincidencia de subcadena),san luis; since,san luis de gaceno; san luis de palenque; san jose de ocune; san miguel de sema
+70820,SANTIAGO DE TOLÚ,santiago de tolu,alta (coincidencia de subcadena),santiago; tolu,santa rosa de viterbo; santa rosa del sur; santa rosa de osos; santa rosa de cabal
+70823,SAN JOSÉ DE TOLUVIEJO,san jose de toluviejo,alta (coincidencia de subcadena),tolu; toluviejo,san jose de ocune; san jose del guaviare; san jose de pare; santa rosa de viterbo; san jose de fragua
+73055,ARMERO,armero,alta (coincidencia de subcadena),armero (guayabal),retiro; paramo; abrego; palermo; marmato
+73443,SAN SEBASTIÁN DE MARIQUITA,san sebastian de mariquita,alta (coincidencia de subcadena),mariquita; san sebastian,san sebastian de buenavis; san juan de arama
+73520,PALOCABILDO,palocabildo,sin sugerencia,,
+73671,SALDAÑA,saldana,alta (coincidencia de subcadena),aldana,salda¥a; salamina; samana; santana
+73870,VILLAHERMOSA,villahermosa,"baja (solo similitud de letras, verificar con cuidado)",,villa hermosa; vistahermosa; villa del rosario; villarrica; villanueva
+76001,SANTIAGO DE CALI,santiago de cali,alta (coincidencia de subcadena),cali; santiago,santa rosa de cabal; santa catalina; santa rosalia; cartagena del chaira
+76111,GUADALAJARA DE BUGA,guadalajara de buga,alta (coincidencia de subcadena),buga,
+76126,CALIMA,calima,alta (coincidencia de subcadena),cali; calima  (darien),tocaima; nocaima; coyaima; calamar
+86865,VALLE DEL GUAMUEZ,valle del guamuez,alta (coincidencia de subcadena),valle del guamuez (la hor,valle de san juan; valle de  san jose
+91460,MIRITÍ - PARANÁ,miriti - parana,"baja (solo similitud de letras, verificar con cuidado)",,miriti parana
+91530,PUERTO ALEGRÍA,puerto alegria,"baja (solo similitud de letras, verificar con cuidado)",,puerto salgar; puerto lleras; puerto leguizamo; puerto parra; puerto narino
+91536,PUERTO ARICA,puerto arica,"baja (solo similitud de letras, verificar con cuidado)",,puerto rico; puerto parra; puerto narino; puerto gaitan; puerto boyaca
+94343,BARRANCOMINAS,barrancominas,"baja (solo similitud de letras, verificar con cuidado)",,barranco minas; barrancas; barbacoas; baranoa; barranco de loba
+94888,MORICHAL,morichal,"baja (solo similitud de letras, verificar con cuidado)",,lorica; morales; riohacha; monteria; socha

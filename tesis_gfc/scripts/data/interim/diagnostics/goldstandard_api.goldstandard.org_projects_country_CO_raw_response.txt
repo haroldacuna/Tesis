@@ -1,0 +1,1 @@
+{"message":"Can only accept requests of type: authenticated"}

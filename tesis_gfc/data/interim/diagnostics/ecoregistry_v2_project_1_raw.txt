@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-WDX4FVGP');
+    </script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="https://media.licdn.com/dms/image/C4E0BAQFXSuRKSqdYLQ/company-logo_200_200/0/1662545988675?e=2147483647&v=beta&t=bdHJZkxDhKqEWlIq1t6i8OKr_lo0tKsOmkI_AyfrFUM"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBd_550FotD-D12M0J62zQhawPbpXd7R9I&libraries=places"
+      defer
+    ></script>
+    <!--
+      ChatBot
+    -->
+    <link
+      rel="stylesheet"
+      href="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/themes/df-messenger-default.css"
+    />
+    <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
+    <df-messenger
+      project-id="ecoregistry-421119"
+      agent-id="22381859-3cd9-4e19-bfc0-f2f94c196fad"
+      language-code="en"
+      max-query-length="-1"
+    >
+      <df-messenger-chat-bubble chat-title="EcoRegistry chatbot">
+      </df-messenger-chat-bubble>
+    </df-messenger>
+    <style>
+      df-messenger {
+        z-index: 999;
+        position: fixed;
+        --df-messenger-font-color: #000;
+        --df-messenger-font-family: Google Sans;
+        --df-messenger-chat-background: #f3f6fc;
+        --df-messenger-message-user-background: #d3e3fd;
+        --df-messenger-message-bot-background: #fff;
+        bottom: 80px;
+        right: 16px;
+      }
+    </style>
+    <title>EcoRegistry</title>
+    <script type="module" crossorigin src="/assets/index-76d33f22.js"></script>
+    <link rel="stylesheet" href="/assets/index-5010a9fe.css">
+  </head>
+  <body class="dx-viewport">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WDX4FVGP"
+      height="0" width="0" style="display:none;visibility:hidden">
+      </iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div id="root"></div>
+    
+  </body>
+</html>

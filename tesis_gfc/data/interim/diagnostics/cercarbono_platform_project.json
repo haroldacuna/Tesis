@@ -1,0 +1,10 @@
+{
+  "status": 0,
+  "codeMessages": [
+    {
+      "codeMessage": "ERROR_TOKEN_EXPIRATE",
+      "param": "invalid",
+      "message": "Token caducado"
+    }
+  ]
+}

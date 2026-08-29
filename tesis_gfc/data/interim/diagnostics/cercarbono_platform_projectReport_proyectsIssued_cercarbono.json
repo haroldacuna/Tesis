@@ -1,0 +1,10 @@
+{
+  "status": 0,
+  "codeMessages": [
+    {
+      "codeMessage": "ERROR_STANDARID_INVALID",
+      "param": "invalid",
+      "message": "Programa o estándar inválido"
+    }
+  ]
+}

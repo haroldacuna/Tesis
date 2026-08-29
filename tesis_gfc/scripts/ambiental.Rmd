@@ -1,0 +1,384 @@
+---
+title: "Modelo Ambiental"
+author: "Harold Acuña"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load-libs, message=FALSE, include=FALSE, paged.print=TRUE, results='asis'}
+### Cargar Paquetes Necesarios
+
+# Limpieza Preliminar
+
+rm(list = ls())
+cat("\f")
+Extension <- "C:/Users/USUARIO/Documents/Maestria/Economía Ambiental/investigacion/Datos"
+
+setwd(Extension)
+
+# Instalar paquetes necesarios si no est?n instalados
+
+#Paquetes
+load.lib <- c('kableExtra','knitr','ggplot2','dplyr','tidyverse','msm','xtable',
+              'data.table','stargazer','tidyr','gridExtra','purrr','readr',
+              "sandwich","lmtest","readxl","fixest","ggplot2","broom","purrr",
+              "modelsummary","gt", "did","tibble")
+
+install.lib <- load.lib[!load.lib %in% installed.packages()]
+for(lib in install.lib) install.packages(lib) 
+sapply(load.lib,require,character=TRUE)
+
+print("Librerias Cargadas")
+
+# Fijar semilla 
+
+set.seed(666)
+```
+
+```{r fuctions, message=FALSE, include=FALSE, paged.print=TRUE, results='asis'}
+
+############################################################
+# 1. LEER BASE FINAL DE PANEL Y CONSTRUIR VARIABLES
+############################################################
+
+# Ajusta esta ruta a tu carpeta
+Extension <- "C:/Users/USUARIO/Documents/Maestria/Economía Ambiental/investigacion/Datos"
+data_path <- file.path(Extension, "df_final.xlsx")
+
+df <- read_excel(data_path)
+
+# Escala y unidades más razonables ----------------------------
+
+df <- df %>% 
+  mutate(
+    # Emisiones en millones de toneladas
+    CO2_Mt       = CO2_emitido_ton / 1e6,
+    
+    # Deforestación en miles de hectáreas
+    defor_mil_ha = ha_deforest_calc / 1e3,
+    
+    # Controles escalados
+    PIB_pc_mill  = PIB_per_capita_pesos / 1e6,   # millones de pesos
+    Inv_pub_mill = Inversion_Publica_Rural_Pesos / 1e6,
+    Poblacion_M  = Poblacion_Total / 1e6        # millones de hab
+  )
+
+summary(dplyr::select(df, CO2_Mt, defor_mil_ha, PIB_pc_mill, Inv_pub_mill, Poblacion_M))
+
+# Asegurar tipos correctos y crear IDs -----------------------
+
+df <- df %>%
+  mutate(
+    # id numérico requerido por el paquete did
+    dept_id = as.numeric(factor(Departamento)),
+    # asegurar Año numérico
+    Año     = as.integer(Año)
+  )
+
+# Crear año de primer tratamiento:
+#  - Sun & Abraham: NA = nunca tratado
+#  - Callaway & Sant'Anna: 0 = nunca tratado
+
+df <- df %>%
+  group_by(Departamento) %>%
+  mutate(
+    first_treat_year_sa = ifelse(any(tratamiento == 1),
+                                 min(Año[tratamiento == 1]),
+                                 NA_integer_),
+    first_treat_year_cs = ifelse(any(tratamiento == 1),
+                                 min(Año[tratamiento == 1]),
+                                 0L)
+  ) %>%
+  ungroup()
+
+############################################################
+# 2. MODELOS TWFE (DID CLÁSICO CON FE)
+############################################################
+
+# Emisiones (CO2_Mt) con FE depto + año, errores agrupados por depto
+mod_CO2_twfe <- feols(
+  CO2_Mt ~ tratamiento +
+    PIB_pc_mill + Empleo_Rural_Porcentaje +
+    Precipitacion_Anual_mm + Temperatura_Media_C +
+    Densidad_Demografica_km2 + Poblacion_M + Inv_pub_mill |
+    Departamento + Año,
+  data    = df,
+  cluster = ~ Departamento
+)
+
+# Deforestación (mil ha) con FE depto + año, errores agrupados por depto
+mod_def_twfe <- feols(
+  defor_mil_ha ~ tratamiento +
+    PIB_pc_mill + Empleo_Rural_Porcentaje +
+    Precipitacion_Anual_mm + Temperatura_Media_C +
+    Densidad_Demografica_km2 + Poblacion_M + Inv_pub_mill |
+    Departamento + Año,
+  data    = df,
+  cluster = ~ Departamento
+)
+
+############################################################
+# 3. EVENT STUDY SUN & ABRAHAM (2021) CON fixest::sunab
+############################################################
+
+# Emisiones
+es_CO2_sa <- feols(
+  CO2_Mt ~ sunab(first_treat_year_sa, Año) +
+    PIB_pc_mill + Empleo_Rural_Porcentaje +
+    Precipitacion_Anual_mm + Temperatura_Media_C +
+    Densidad_Demografica_km2 + Poblacion_M + Inv_pub_mill |
+    Departamento + Año,
+  data    = df,
+  cluster = ~ Departamento
+)
+
+# Deforestación
+es_def_sa <- feols(
+  defor_mil_ha ~ sunab(first_treat_year_sa, Año) +
+    PIB_pc_mill + Empleo_Rural_Porcentaje +
+    Precipitacion_Anual_mm + Temperatura_Media_C +
+    Densidad_Demografica_km2 + Poblacion_M + Inv_pub_mill |
+    Departamento + Año,
+  data    = df,
+  cluster = ~ Departamento
+)
+
+# Gráficos tipo event study (Sun & Abraham)
+iplot(es_CO2_sa, main = "Event study – Emisiones CO₂ (Sun & Abraham)",
+      xlab = "Años relativos al tratamiento",
+      ylab = "Efecto sobre CO₂ (Mt)")
+abline(h = 0, lty = 2)
+
+iplot(es_def_sa, main = "Event study – Deforestación (Sun & Abraham)",
+      xlab = "Años relativos al tratamiento",
+      ylab = "Efecto sobre deforestación (mil ha)")
+abline(h = 0, lty = 2)
+
+############################################################
+# 4. CALLAWAY & SANT’ANNA (2021) CON did::att_gt
+############################################################
+
+# Emisiones CO2
+cs_CO2 <- att_gt(
+  yname   = "CO2_Mt",
+  tname   = "Año",
+  idname  = "dept_id",              # numérico
+  gname   = "first_treat_year_cs",  # 0 = never-treated
+  xformla = ~ PIB_pc_mill + Empleo_Rural_Porcentaje +
+             Precipitacion_Anual_mm + Temperatura_Media_C +
+             Densidad_Demografica_km2 + Poblacion_M + Inv_pub_mill,
+  data    = df,
+  panel   = TRUE,
+  est_method = "dr"                 # doblemente robusto
+)
+
+# Deforestación
+cs_def <- att_gt(
+  yname   = "defor_mil_ha",
+  tname   = "Año",
+  idname  = "dept_id",
+  gname   = "first_treat_year_cs",
+  xformla = ~ PIB_pc_mill + Empleo_Rural_Porcentaje +
+             Precipitacion_Anual_mm + Temperatura_Media_C +
+             Densidad_Demografica_km2 + Poblacion_M + Inv_pub_mill,
+  data    = df,
+  panel   = TRUE,
+  est_method = "dr"
+)
+
+# Mirar resultados grupo-tiempo (opcional)
+summary(cs_CO2)
+summary(cs_def)
+
+
+############################################################
+# 5. TABLA ESTILO JOURNAL – TWFE
+############################################################
+
+journal_theme <- function(gt_obj) {
+  gt_obj %>%
+    gt::opt_table_font(font = "serif") %>%
+    gt::tab_options(
+      table.font.size = gt::px(14),
+      data_row.padding = gt::px(2),
+      table.border.top.width = gt::px(2),
+      table.border.bottom.width = gt::px(2),
+      heading.border.bottom.width = gt::px(2)
+    )
+}
+
+tabla_twfe <- modelsummary(
+  list(
+    "Emisiones CO₂ (Mt, depto)"      = mod_CO2_twfe,
+    "Deforestación (mil ha, depto)"  = mod_def_twfe
+  ),
+  stars      = TRUE,
+  coef_omit  = "Departamento|Año",  # oculta FE
+  gof_omit   = "AIC|BIC|RMSE",
+  title      = "Resultados TWFE: Bonos de carbono y resultados ambientales",
+  output     = "gt",
+  fmt        = 4
+)
+
+tabla_twfe_journal <- journal_theme(tabla_twfe)
+
+tabla_twfe_journal
+
+# Guardar tabla TWFE como PNG
+gtsave(
+  tabla_twfe_journal,
+  filename = "tabla_twfe_bonos_carbono.png",
+  path     = getwd(),
+  vwidth   = 2000,
+  vheight  = 1400,
+  expand   = 10
+)
+
+############################################################
+# 6. COMPARACIÓN ENTRE MÉTODOS
+#    (TWFE vs Callaway & Sant'Anna, ATT promedio manual)
+############################################################
+
+# Función auxiliar para sacar ATT "simple" tipo Callaway-Sant'Anna
+# usando promedio ponderado de ATT(g,t) con pesos n (tamaño grupo-tiempo)
+cs_overall <- function(cs_obj) {
+  df_tmp <- data.frame(
+    att = cs_obj$att,
+    se  = cs_obj$se,
+    n   = cs_obj$n
+  )
+  
+  # eliminar filas con NA en att o se
+  df_tmp <- df_tmp[!is.na(df_tmp$att) & !is.na(df_tmp$se), ]
+  
+  w <- df_tmp$n / sum(df_tmp$n)  # pesos proporcionales al tamaño del grupo
+  
+  overall_att <- sum(w * df_tmp$att)
+  # aprox var agregada ignorando covarianzas entre ATT(g,t)
+  overall_se  <- sqrt(sum((w^2) * (df_tmp$se^2)))
+  
+  list(att = overall_att, se = overall_se)
+}
+
+cs_CO2_overall <- cs_overall(cs_CO2)
+cs_def_overall <- cs_overall(cs_def)
+
+# Extraer betas y errores estándar de TWFE
+beta_twfe_CO2 <- coef(mod_CO2_twfe)["tratamiento"]
+se_twfe_CO2   <- se(mod_CO2_twfe)["tratamiento"]
+
+beta_twfe_def <- coef(mod_def_twfe)["tratamiento"]
+se_twfe_def   <- se(mod_def_twfe)["tratamiento"]
+
+# "ATT simple" Callaway & Sant'Anna (promedio ponderado manual)
+beta_cs_CO2 <- cs_CO2_overall$att
+se_cs_CO2   <- cs_CO2_overall$se
+
+beta_cs_def <- cs_def_overall$att
+se_cs_def   <- cs_def_overall$se
+
+# Comparativa para CO2
+comp_CO2 <- tibble(
+  Metodo    = c("TWFE (FE depto + año)",
+                "Callaway & Sant’Anna (ATT promedio ponderado)"),
+  Estimador = c(beta_twfe_CO2, beta_cs_CO2),
+  SE        = c(se_twfe_CO2,   se_cs_CO2)
+) %>%
+  mutate(
+    CI_inf = Estimador - 1.96 * SE,
+    CI_sup = Estimador + 1.96 * SE
+  )
+
+# Comparativa para deforestación
+comp_def <- tibble(
+  Metodo    = c("TWFE (FE depto + año)",
+                "Callaway & Sant’Anna (ATT promedio ponderado)"),
+  Estimador = c(beta_twfe_def, beta_cs_def),
+  SE        = c(se_twfe_def,   se_cs_def)
+) %>%
+  mutate(
+    CI_inf = Estimador - 1.96 * SE,
+    CI_sup = Estimador + 1.96 * SE
+  )
+
+# Tablas estilo journal para la comparación
+tabla_comp_CO2 <- comp_CO2 %>%
+  gt() %>%
+  tab_header(title = "Comparación de estimadores – Emisiones CO₂") %>%
+  journal_theme()
+
+tabla_comp_def <- comp_def %>%
+  gt() %>%
+  tab_header(title = "Comparación de estimadores – Deforestación") %>%
+  journal_theme()
+
+tabla_comp_CO2
+tabla_comp_def
+
+# Guardar comparativas
+gtsave(
+  tabla_comp_CO2,
+  filename = "comparacion_metodos_CO2.png",
+  path     = getwd(),
+  vwidth   = 2000,
+  vheight  = 1400,
+  expand   = 10
+)
+
+gtsave(
+  tabla_comp_def,
+  filename = "comparacion_metodos_deforestacion.png",
+  path     = getwd(),
+  vwidth   = 2000,
+  vheight  = 1400,
+  expand   = 10
+)
+```
+
+
+```{r}
+
+df <- df %>%
+  group_by(Departamento) %>%
+  mutate(
+    first_treat_year = ifelse(any(tratamiento == 1),
+                              min(Año[tratamiento == 1]),
+                              NA_integer_)
+  ) %>%
+  ungroup()
+
+# Event study emisiones
+es_CO2 <- feols(
+  CO2_Mt ~ sunab(first_treat_year, Año) +
+    PIB_pc_mill + Empleo_Rural_Porcentaje +
+    Precipitacion_Anual_mm + Temperatura_Media_C +
+    Densidad_Demografica_km2 + Poblacion_M + Inv_pub_mill |
+    Departamento + Año,
+  data    = df,
+  cluster = ~ Departamento
+)
+
+iplot(es_CO2, main = "Event study – Emisiones CO₂ (Mt)",
+      xlab = "Años relativos al tratamiento", ylab = "Efecto sobre CO₂ (Mt)")
+abline(h = 0, lty = 2)
+
+es_def <- feols(
+  defor_mil_ha ~ sunab(first_treat_year, Año) +
+    PIB_pc_mill + Empleo_Rural_Porcentaje +
+    Precipitacion_Anual_mm + Temperatura_Media_C +
+    Densidad_Demografica_km2 + Poblacion_M + Inv_pub_mill |
+    Departamento + Año,
+  data    = df,
+  cluster = ~ Departamento
+)
+
+iplot(es_def, main = "Event study – Deforestación (mil ha)",
+      xlab = "Años relativos al tratamiento", ylab = "Efecto sobre deforestación (mil ha)")
+abline(h = 0, lty = 2)
+  
+
+```

@@ -1,0 +1,8 @@
+"part","term","statistic","TWFE - Alta confianza","TWFE - Todas las fuentes"
+"estimates","tratado_alta","estimate","49.659",""
+"estimates","tratado_alta","std.error","(80.478)",""
+"estimates","tratado_todas","estimate","","35.479"
+"estimates","tratado_todas","std.error","","(70.583)"
+"gof","Num.Obs.","","26928","26928"
+"gof","R2","","0.752","0.752"
+"gof","R2 Within","","0.000","0.000"
