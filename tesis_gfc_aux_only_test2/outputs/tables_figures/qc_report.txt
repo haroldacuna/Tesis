@@ -1,5 +1,0 @@
-QC Report - panel_municipio_year
-========================================
-Rows: 0
-Warning: final panel is empty.
-QC completed in degraded mode.
