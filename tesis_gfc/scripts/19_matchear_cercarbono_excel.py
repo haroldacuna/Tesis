@@ -107,13 +107,13 @@ def parse_args() -> argparse.Namespace:
     p.add_argument(
         "--excel", 
         type=Path, 
-        default=Path("../data/raw/auxiliary/cercarbono_projects_report.xlsx"), 
+        default=Path("data/raw/auxiliary/cercarbono_projects_report.xlsx"),
         help="Ruta al Excel exportado desde registry.cercarbono.com"
     )
     p.add_argument(
         "--panel", 
         type=Path, 
-        default=Path("../data/final/panel_municipio_year.csv")
+        default=Path("data/final/panel_municipio_year.csv")
     )
     
     return p.parse_args()
