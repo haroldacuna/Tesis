@@ -34,12 +34,12 @@ library(dplyr)
 library(did)
 library(ggplot2)
 
-PANEL_ANALISIS <- "output/panel_analisis_did.rds"
+PANEL_ANALISIS <- "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/panel_analisis_did.rds"
 SEMILLA <- 20260824
 
-dir.create("output", showWarnings = FALSE)
-dir.create("output/figuras", showWarnings = FALSE)
-dir.create("output/tablas", showWarnings = FALSE)
+dir.create("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs", showWarnings = FALSE, recursive = TRUE)
+dir.create("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/figuras", showWarnings = FALSE, recursive = TRUE)
+dir.create("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas", showWarnings = FALSE, recursive = TRUE)
 
 panel <- readRDS(PANEL_ANALISIS)
 
@@ -66,13 +66,14 @@ COVARIABLES_XFORMLA <- ~ baseline_forest_base + temp_media_c_base +
 ## de (definición de tratamiento) x (especificación) x (variable de outcome)
 ## =============================================================================
 
-correr_did <- function(data, col_gname, xformla, outcome, etiqueta) {
+correr_did <- function(data, col_gname, xformla, outcome, etiqueta,
+                       weightsname = NULL) {
   cat("\n", strrep("-", 70), "\n", sep = "")
   cat("Modelo:", etiqueta, "| outcome:", outcome, "\n")
   cat(strrep("-", 70), "\n")
-
+  
   data_modelo <- data %>% rename(.gname = all_of(col_gname))
-
+  
   set.seed(SEMILLA)
   att_gt_out <- tryCatch({
     att_gt(
@@ -82,6 +83,7 @@ correr_did <- function(data, col_gname, xformla, outcome, etiqueta) {
       gname = ".gname",
       xformla = xformla,
       data = data_modelo,
+      weightsname = weightsname,
       control_group = "notyettreated",
       est_method = "dr",
       bstrap = TRUE,
@@ -92,14 +94,14 @@ correr_did <- function(data, col_gname, xformla, outcome, etiqueta) {
     cat("ERROR en att_gt():", conditionMessage(e), "\n")
     NULL
   })
-
+  
   if (is.null(att_gt_out)) return(NULL)
-
+  
   agg_simple <- aggte(att_gt_out, type = "simple", na.rm = TRUE)
   agg_dinamico <- aggte(att_gt_out, type = "dynamic", min_e = -10, max_e = 10, na.rm = TRUE)
   agg_grupo <- aggte(att_gt_out, type = "group", na.rm = TRUE)
   agg_calendario <- aggte(att_gt_out, type = "calendar", na.rm = TRUE)
-
+  
   n_na <- sum(is.na(att_gt_out$att))
   if (n_na > 0) {
     cat("Aviso:", n_na, "de", length(att_gt_out$att),
@@ -113,19 +115,32 @@ correr_did <- function(data, col_gname, xformla, outcome, etiqueta) {
     cat("  (1-3 municipios) en tus datos reales, no un error del script - considera agrupar\n")
     cat("  cohortes adyacentes chicas, o apoyarte mas en las especificaciones (a)/(c).\n")
   }
-
+  
+  ## Valor critico bootstrap frente al normal. did lo calcula con cband=TRUE y
+  ## advierte que con grupos pequenos puede superar ampliamente 1,96. Se imprime
+  ## para que la eleccion del critico usado en los intervalos quede documentada.
+  crit <- tryCatch(as.numeric(agg_simple$crit.val.egt), error = function(e) NA_real_)
+  if (length(crit) != 1 || !is.finite(crit)) crit <- NA_real_
+  
   cat("\nATT simple (promedio, todas las cohortes y periodos post-tratamiento):\n")
   cat(sprintf("  Estimado: %.4f   Error estandar: %.4f   IC 95%%: [%.4f, %.4f]\n",
               agg_simple$overall.att, agg_simple$overall.se,
               agg_simple$overall.att - 1.96 * agg_simple$overall.se,
               agg_simple$overall.att + 1.96 * agg_simple$overall.se))
-
+  if (!is.na(crit)) {
+    cat(sprintf("  Valor critico bootstrap: %.4f (normal: 1,96)   IC bootstrap: [%.4f, %.4f]\n",
+                crit,
+                agg_simple$overall.att - crit * agg_simple$overall.se,
+                agg_simple$overall.att + crit * agg_simple$overall.se))
+  }
+  
   list(
     att_gt = att_gt_out,
     simple = agg_simple,
     dinamico = agg_dinamico,
     grupo = agg_grupo,
     calendario = agg_calendario,
+    crit_bootstrap = crit,
     etiqueta = etiqueta
   )
 }
@@ -136,11 +151,29 @@ correr_did <- function(data, col_gname, xformla, outcome, etiqueta) {
 
 cargar_submuestra_emparejada <- function(panel, ruta_matching) {
   if (!file.exists(ruta_matching)) {
-    cat("Aviso: no encuentro", ruta_matching, "- corre primero 02_matching_psm.R. Se omite la especificación (c).\n")
+    cat("Aviso: no encuentro", ruta_matching,
+        "- corre primero 02_matching_psm.R. Se omite la especificación (c).\n")
     return(NULL)
   }
   m <- readRDS(ruta_matching)
-  panel %>% filter(COD_DANE %in% m$municipios_emparejados)
+  
+  ## Con emparejamiento completo los pesos NO son uniformes: filtrar por
+  ## COD_DANE sin ponderar produce estimaciones sesgadas.
+  sub <- panel %>%
+    filter(COD_DANE %in% m$municipios_emparejados) %>%
+    left_join(m$pesos %>% select(COD_DANE, peso_psm), by = "COD_DANE")
+  
+  if (any(is.na(sub$peso_psm))) {
+    stop("Municipios emparejados sin peso asignado: ",
+         paste(head(unique(sub$COD_DANE[is.na(sub$peso_psm)]), 10), collapse = ", "))
+  }
+  
+  uniformes <- all(abs(sub$peso_psm - 1) < 1e-8)
+  cat(sprintf("  Submuestra (c): %d municipios | pesos %s (rango %.4f-%.4f)\n",
+              n_distinct(sub$COD_DANE),
+              if (uniformes) "uniformes" else "NO uniformes",
+              min(sub$peso_psm), max(sub$peso_psm)))
+  sub
 }
 
 ## =============================================================================
@@ -152,35 +185,35 @@ cargar_submuestra_emparejada <- function(panel, ruta_matching) {
 resultados <- list()
 
 definiciones <- list(
-  alta = list(col = "first_treat_alta", ruta_matching = "output/matching_alta_confianza.rds", nombre = "Confianza alta"),
-  todas = list(col = "first_treat_todas", ruta_matching = "output/matching_todas_fuentes.rds", nombre = "Todas las fuentes")
+  alta = list(col = "first_treat_alta", ruta_matching = "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/matching_alta_confianza.rds", nombre = "Confianza alta"),
+  todas = list(col = "first_treat_todas", ruta_matching = "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/matching_todas_fuentes.rds", nombre = "Todas las fuentes")
 )
 
 for (def in names(definiciones)) {
   info <- definiciones[[def]]
-
+  
   # (a) sin covariables
   resultados[[paste0(def, "_sin_cov")]] <- correr_did(
     panel, info$col, ~1, "loss_area_ha",
     paste0(info$nombre, " - sin covariables")
   )
-
+  
   # (b) doblemente robusto con covariables
   resultados[[paste0(def, "_dr")]] <- correr_did(
     panel, info$col, COVARIABLES_XFORMLA, "loss_area_ha",
     paste0(info$nombre, " - doblemente robusto (con covariables)")
   )
-
-  # (c) submuestra emparejada
+  
+  # (c) muestra reponderada por emparejamiento
   panel_emparejado <- cargar_submuestra_emparejada(panel, info$ruta_matching)
   if (!is.null(panel_emparejado)) {
     resultados[[paste0(def, "_matched")]] <- correr_did(
       panel_emparejado, info$col, ~1, "loss_area_ha",
-      paste0(info$nombre, " - submuestra emparejada (PSM)")
+      paste0(info$nombre, " - muestra reponderada (PSM)"),
+      weightsname = "peso_psm"
     )
   }
 }
-
 ## =============================================================================
 ## Tabla resumen de robustez: ATT simple en las 6 especificaciones
 ## =============================================================================
@@ -202,7 +235,7 @@ cat("TABLA RESUMEN DE ROBUSTEZ - ATT simple por especificacion\n")
 cat(strrep("=", 70), "\n")
 print(tabla_resumen, row.names = FALSE)
 
-write_csv(tabla_resumen, "output/tablas/resumen_robustez_att.csv")
+write_csv(tabla_resumen, "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas/resumen_robustez_att.csv")
 
 ## =============================================================================
 ## Grafico de estudio de eventos - especificacion principal (b): doblemente
@@ -216,12 +249,12 @@ for (def in names(definiciones)) {
   p <- ggdid(r$dinamico) +
     labs(
       title = paste("Estudio de eventos -", definiciones[[def]]$nombre),
-      subtitle = "Especificacion doblemente robusta, con covariables de linea base",
-      x = "Anios desde el inicio del tratamiento", y = "ATT (efecto sobre hectareas deforestadas)"
+      subtitle = "Especificación doblemente robusta, con covariables de linea base",
+      x = "Años desde el inicio del tratamiento", y = "ATT (efecto sobre hectareas deforestadas)"
     ) +
     theme_minimal()
 
-  ruta <- paste0("output/figuras/event_study_", def, ".png")
+  ruta <- paste0("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/figuras/event_study_", def, ".png")
   ggsave(ruta, p, width = 9, height = 5.5, dpi = 150)
   cat("\nGrafico guardado:", ruta, "\n")
 }
@@ -230,6 +263,6 @@ for (def in names(definiciones)) {
 ## Guardar todos los resultados para inspeccion posterior
 ## =============================================================================
 
-saveRDS(resultados, "output/resultados_did_completos.rds")
+saveRDS(resultados, "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/resultados_did_completos.rds")
 cat("\nGuardado: output/resultados_did_completos.rds (todos los att_gt/aggte de las 6 especificaciones)\n")
 cat("Guardado: output/tablas/resumen_robustez_att.csv\n")

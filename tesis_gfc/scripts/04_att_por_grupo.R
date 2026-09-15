@@ -19,10 +19,10 @@ library(dplyr)
 library(did)
 library(ggplot2)
 
-resultados <- readRDS("output/resultados_did_completos.rds")
-panel <- readRDS("output/panel_analisis_did.rds")
-dir.create("output/tablas", showWarnings = FALSE)
-dir.create("output/figuras", showWarnings = FALSE)
+resultados <- readRDS("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/resultados_did_completos.rds")
+panel <- readRDS("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/panel_analisis_did.rds")
+dir.create("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas", showWarnings = FALSE, recursive = TRUE)
+dir.create("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/figuras", showWarnings = FALSE, recursive = TRUE)
 
 ## =============================================================================
 ## Tamaño de cada cohorte (cuántos municipios), para dar contexto a la
@@ -92,8 +92,8 @@ if (n_sig_todas > 0) {
   cat("  Cohortes significativas (todas las fuentes):", tabla_todas$cohorte[tabla_todas$significativo], "\n")
 }
 
-write_csv(tabla_alta, "output/tablas/att_por_cohorte_alta_confianza.csv")
-write_csv(tabla_todas, "output/tablas/att_por_cohorte_todas_fuentes.csv")
+write_csv(tabla_alta, "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas/att_por_cohorte_alta_confianza.csv")
+write_csv(tabla_todas, "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas/att_por_cohorte_todas_fuentes.csv")
 cat("\nGuardado: output/tablas/att_por_cohorte_alta_confianza.csv\n")
 cat("Guardado: output/tablas/att_por_cohorte_todas_fuentes.csv\n")
 
@@ -113,7 +113,7 @@ graficar_por_grupo <- function(tabla, etiqueta, ruta) {
     labs(
       title = paste("ATT por cohorte de tratamiento -", etiqueta),
       subtitle = "Especificacion doblemente robusta. Rojo = significativo al 95% (banda simultanea). n = municipios en la cohorte.",
-      x = "Anio de inicio del tratamiento (cohorte)",
+      x = "Año de inicio del tratamiento (cohorte)",
       y = "ATT (efecto sobre hectareas deforestadas)"
     ) +
     theme_minimal() +
@@ -123,8 +123,8 @@ graficar_por_grupo <- function(tabla, etiqueta, ruta) {
   cat("Grafico guardado:", ruta, "\n")
 }
 
-graficar_por_grupo(tabla_alta, "Confianza alta", "output/figuras/att_por_cohorte_alta.png")
-graficar_por_grupo(tabla_todas, "Todas las fuentes", "output/figuras/att_por_cohorte_todas.png")
+graficar_por_grupo(tabla_alta, "Confianza alta", "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/figuras/att_por_cohorte_alta.png")
+graficar_por_grupo(tabla_todas, "Todas las fuentes", "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/figuras/att_por_cohorte_todas.png")
 
 cat(
   "\n*** Interpretacion sugerida: si el ATT simple (agregado) no es",

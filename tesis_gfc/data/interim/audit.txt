@@ -1,0 +1,1169 @@
+======================================================================
+Cargando y normalizando cada fuente...
+======================================================================
+Aviso: no encuentro data\interim\verra_platts_colombia_con_municipio.csv, se omite Verra.
+Gold Standard: 0 eventos cargados (0 con año de inicio válido).
+  Diagnóstico n_matches en RENARE: {0: 281}
+RENARE: 0 matches únicos de 281 totales (el resto: ambiguos o sin match, no se incluyen aquí).
+RENARE: 0 / 0 con año de inicio extraído.
+Cercarbono: 33 matches únicos de 234 totales.
+  Aviso: 17 proyectos sin año de inicio extraído. Valores crudos de 'Duration start' que fallaron:
+    {nan: 17}
+    (si salen todos como NaN/vacío: es un hueco real en los datos de Cercarbono, no un problema del parser — esos proyectos entrarán sin año de inicio, y por lo tanto no se les podrá asignar tratamiento por año hasta que se complete a mano)
+Cercarbono: 16 / 33 con año de inicio extraído.
+
+======================================================================
+Total eventos consolidados: 33
+Municipios distintos (todas las fuentes, todas las confianzas): 16
+Guardado en: data\interim\eventos_carbono_consolidado.csv
+*** Revisa este archivo antes de confiar en el panel final. ***
+
+Ambiguos guardados para revisión manual en: data\interim\eventos_carbono_para_revisar_manualmente.csv
+
+======================================================================
+Construyendo columnas de tratamiento en el panel...
+======================================================================
+
+Panel con tratamiento actualizado guardado en: data\final\panel_con_tratamiento_actualizado.csv
+(NO se sobreescribió data\final\panel_municipio_year.csv — compara antes de reemplazarlo)
+
+Municipios tratados (solo alta confianza — Verra + Gold Standard): 0
+Municipios tratados (alta + media confianza — + RENARE + Cercarbono): 8
+
+Adjuntando el paquete: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Aviso:
+package 'dplyr' was built under R version 4.4.2
+Cargando panel principal: C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/data/final/panel_con_psm_covariables_reparado.csv
+Verificacion Antioquia+Atlantico: 148 municipios, 665048 ha
+Cargando tratamiento: C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/data/final/panel_con_tratamiento_actualizado.csv
+Municipios con fecha de tratamiento (alta confianza): 88
+Municipios con fecha de tratamiento (alta + media confianza): 99
+
+Cobertura de covariables en su año base respectivo (2001 para la mayoría, 2003 para homicidios/secuestros/acc_subversivas):
+  baseline_forest_base           100.0%
+  temp_media_c_base              100.0%
+  prec_anual_mm_base             100.0%
+  discapital_base                99.9%
+  disbogota_base                 99.9%
+  altura_base                    99.9%
+  distancia_mercado_base         99.9%
+  H_coca_base                    99.9%
+  coca_base                      99.9%
+  o_desplaza_base                99.9%
+  homicidios_base                99.9%
+  secuestros_base                99.9%
+  acc_subversivas_base           99.9%
+
+Aviso: 3 municipio(s) con cohorte de tratamiento <= 2003 — para esos, el año base de homicidios/secuestros/ acc_subversivas coincide o es posterior al inicio del tratamiento. Revisar si  corresponde excluirlos del emparejamiento o documentarlo como limitación.
+
+Panel balanceado: los 1122 municipios tienen 24 años cada uno.
+
+Guardado: C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/scripts/output/panel_analisis_did.rds ( 26928 filas, 1122 municipios )
+Guardado: C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/scripts/output/covariables_base_municipio.rds
+
+=== Resumen de cohortes de tratamiento (alta confianza) ===
+# A tibble: 20 × 2
+   first_treat_alta     n
+              <dbl> <int>
+ 1                0  1034
+ 2             2002     2
+ 3             2006     1
+ 4             2007     1
+ 5             2010     2
+ 6             2011     3
+ 7             2012     3
+ 8             2013     6
+ 9             2014    10
+10             2015     8
+11             2016     7
+12             2017    11
+13             2018     6
+14             2019     7
+15             2020     2
+16             2021     5
+17             2022     8
+18             2023     3
+19             2024     2
+20             2025     1
+
+=== Resumen de cohortes de tratamiento (todas las fuentes) ===
+# A tibble: 22 × 2
+   first_treat_todas     n
+               <dbl> <int>
+ 1                 0  1023
+ 2              2002     3
+ 3              2006     1
+ 4              2007     1
+ 5              2008     2
+ 6              2009     1
+ 7              2010     5
+ 8              2011     4
+ 9              2012     3
+10              2013     7
+# ℹ 12 more rows
+
+Control post-escritura: C:\Users\USUARIO\Documents\Maestria\Tesis\tesis_gfc\scripts\output\panel_analisis_did.rds
+  Antioquia+Atlantico en el archivo guardado: 665048 ha
+  Verificacion correcta.
+
+Adjuntando el paquete: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Aviso:
+package 'dplyr' was built under R version 4.4.2
+Aviso:
+package 'MatchIt' was built under R version 4.4.3
+Aviso:
+package 'ggplot2' was built under R version 4.4.2
+==============================================================================
+CONSTRUCCIÓN DE COVARIABLES DE DEFORESTACIÓN PRE-TRATAMIENTO
+==============================================================================
+Ventana pre-tratamiento: 2001 - 2005 (5 años)
+Municipios con al menos 3 años en la ventana: 1122 de 1122
+
+==============================================================================
+COBERTURA DE LAS COVARIABLES DEL MODELO DE PROPENSIÓN
+==============================================================================
+  [OK  ] log_defor_pre_media         100.0%
+  [OK  ] defor_pre_tendencia         100.0%
+  [OK  ] log_baseline_forest         100.0%
+  [OK  ] temp_media_c_base           100.0%
+  [OK  ] prec_anual_mm_base          100.0%
+  [OK  ] altura_base                  99.9%
+  [OK  ] discapital_base              99.9%
+  [OK  ] disbogota_base               99.9%
+  [OK  ] distancia_mercado_base       99.9%
+  [OK  ] H_coca_base                  99.9%
+  [OK  ] homicidios_base              99.9%
+  [OK  ] o_desplaza_base              99.9%
+
+Covariables excluidas por decisión explícita:
+   secuestros_base, acc_subversivas_base, coca_base
+Modelo de propensión con 12 covariables.
+
+
+==============================================================================
+MATCHING — Confianza alta (Verra + Gold Standard)
+==============================================================================
+Restricción a municipios con bosque en 2000: 1122 de 1122
+Eliminación por lista: tratados 88 -> 88 (pierde 0, 0.0%) | controles 1034 -> 1033 (pierde 1, 0.1%)
+
+Modelo de propensión:
+   tratado ~ log_defor_pre_media + defor_pre_tendencia + log_baseline_forest + temp_media_c_base + prec_anual_mm_base + altura_base + discapital_base + disbogota_base + distancia_mercado_base + H_coca_base + homicidios_base + o_desplaza_base
+
+--- Soporte común ---
+  Puntaje tratados   : min 0.0049 | mediana 0.1562 | max 0.8391
+  Puntaje controles  : min 0.0018 | mediana 0.0365 | max 0.7856
+  Región de soporte común: [0.0049 , 0.7856]
+  Tratados fuera del soporte común: 1 de 88 (1.1%)
+  Puntajes extremos (<0.01 o >0.99): 2 tratados, 120 controles
+  AVISO: los puntajes extremos generan pesos inestables en el estimador
+         doblemente robusto de 03_did_callaway_santanna.R. Revisa qué
+         municipios son (output/tablas/soporte_comun_*.csv).
+
+--- Balance de covariables (antes / después) ---
+Criterios: |dif. estandarizada| < 0,1 y razón de varianzas en [0,5 ; 2,0].
+
+# A tibble: 13 × 5
+   covariable             dif_estandarizada_antes dif_estandarizada_despues
+   <chr>                                    <dbl>                     <dbl>
+ 1 distance                                 0.809                     0.002
+ 2 log_defor_pre_media                      0.744                     0.055
+ 3 defor_pre_tendencia                      0.429                    -0.024
+ 4 log_baseline_forest                      0.823                     0.127
+ 5 temp_media_c_base                        0.332                    -0.007
+ 6 prec_anual_mm_base                       0.665                    -0.014
+ 7 altura_base                             -0.296                    -0.043
+ 8 discapital_base                          0.194                     0.029
+ 9 disbogota_base                           0.183                     0.068
+10 distancia_mercado_base                   0.301                     0.154
+11 H_coca_base                              0.132                     0.067
+12 homicidios_base                          0.2                      -0.088
+13 o_desplaza_base                          0.316                    -0.013
+# ℹ 2 more variables: razon_varianzas_despues <dbl>, ecdf_max_despues <dbl>
+
+  AVISO: covariables aún desbalanceadas tras emparejar: log_baseline_forest, distancia_mercado_base
+  Opciones: reducir el calibre, añadir mahvars, o incluirlas de todos
+  modos en xformla del script 03 (ajuste doblemente robusto).
+
+Figuras: output/figuras/love_plot_alta_confianza.png y output/figuras/soporte_comun_alta_confianza.png
+Municipios emparejados: 1102 ( 87 tratados, 1015 controles )
+
+  *** ATENCIÓN: los pesos NO son uniformes. 03_did_callaway_santanna.R
+      filtra por COD_DANE sin usar pesos, lo que sería INCORRECTO aquí.
+      Pasa `weightsname` a did::att_gt() usando pesos_psm_alta_confianza.csv ***
+
+
+==============================================================================
+MATCHING — Todas las fuentes (+ RENARE + Cercarbono)
+==============================================================================
+Restricción a municipios con bosque en 2000: 1122 de 1122
+Eliminación por lista: tratados 99 -> 99 (pierde 0, 0.0%) | controles 1023 -> 1022 (pierde 1, 0.1%)
+
+Modelo de propensión:
+   tratado ~ log_defor_pre_media + defor_pre_tendencia + log_baseline_forest + temp_media_c_base + prec_anual_mm_base + altura_base + discapital_base + disbogota_base + distancia_mercado_base + H_coca_base + homicidios_base + o_desplaza_base
+
+--- Soporte común ---
+  Puntaje tratados   : min 0.0046 | mediana 0.1630 | max 0.8223
+  Puntaje controles  : min 0.0029 | mediana 0.0451 | max 0.7809
+  Región de soporte común: [0.0046 , 0.7809]
+  Tratados fuera del soporte común: 1 de 99 (1.0%)
+  Puntajes extremos (<0.01 o >0.99): 1 tratados, 64 controles
+  AVISO: los puntajes extremos generan pesos inestables en el estimador
+         doblemente robusto de 03_did_callaway_santanna.R. Revisa qué
+         municipios son (output/tablas/soporte_comun_*.csv).
+
+--- Balance de covariables (antes / después) ---
+Criterios: |dif. estandarizada| < 0,1 y razón de varianzas en [0,5 ; 2,0].
+
+# A tibble: 13 × 5
+   covariable             dif_estandarizada_antes dif_estandarizada_despues
+   <chr>                                    <dbl>                     <dbl>
+ 1 distance                                 0.781                     0.005
+ 2 log_defor_pre_media                      0.713                    -0.041
+ 3 defor_pre_tendencia                      0.358                    -0.038
+ 4 log_baseline_forest                      0.813                     0.083
+ 5 temp_media_c_base                        0.251                     0.005
+ 6 prec_anual_mm_base                       0.601                     0.052
+ 7 altura_base                             -0.248                    -0.019
+ 8 discapital_base                          0.188                     0.065
+ 9 disbogota_base                           0.178                     0.012
+10 distancia_mercado_base                   0.289                     0.09
+11 H_coca_base                              0.113                     0.02
+12 homicidios_base                          0.19                     -0.083
+13 o_desplaza_base                          0.282                    -0.039
+# ℹ 2 more variables: razon_varianzas_despues <dbl>, ecdf_max_despues <dbl>
+
+  Todas las covariables cumplen |dif. estandarizada| < 0,1 tras emparejar.
+
+Figuras: output/figuras/love_plot_todas_fuentes.png y output/figuras/soporte_comun_todas_fuentes.png
+Municipios emparejados: 1112 ( 98 tratados, 1014 controles )
+
+  *** ATENCIÓN: los pesos NO son uniformes. 03_did_callaway_santanna.R
+      filtra por COD_DANE sin usar pesos, lo que sería INCORRECTO aquí.
+      Pasa `weightsname` a did::att_gt() usando pesos_psm_todas_fuentes.csv ***
+
+
+==============================================================================
+MATCHING — Confianza alta (Verra + Gold Standard) [SIN COHORTES TEMPRANAS]
+==============================================================================
+Municipios excluidos por cohorte <= 2005:
+# A tibble: 2 × 3
+  COD_DANE NOMBRE_MPI cohorte
+  <chr>    <chr>        <dbl>
+1 05120    CÁCERES       2002
+2 73043    ANZOÁTEGUI    2002
+Restricción a municipios con bosque en 2000: 1120 de 1120
+Eliminación por lista: tratados 86 -> 86 (pierde 0, 0.0%) | controles 1034 -> 1033 (pierde 1, 0.1%)
+
+Modelo de propensión:
+   tratado ~ log_defor_pre_media + defor_pre_tendencia + log_baseline_forest + temp_media_c_base + prec_anual_mm_base + altura_base + discapital_base + disbogota_base + distancia_mercado_base + H_coca_base + homicidios_base + o_desplaza_base
+
+--- Soporte común ---
+  Puntaje tratados   : min 0.0055 | mediana 0.1536 | max 0.8456
+  Puntaje controles  : min 0.0018 | mediana 0.0355 | max 0.8006
+  Región de soporte común: [0.0055 , 0.8006]
+  Tratados fuera del soporte común: 1 de 86 (1.2%)
+  Puntajes extremos (<0.01 o >0.99): 2 tratados, 126 controles
+  AVISO: los puntajes extremos generan pesos inestables en el estimador
+         doblemente robusto de 03_did_callaway_santanna.R. Revisa qué
+         municipios son (output/tablas/soporte_comun_*.csv).
+
+--- Balance de covariables (antes / después) ---
+Criterios: |dif. estandarizada| < 0,1 y razón de varianzas en [0,5 ; 2,0].
+
+# A tibble: 13 × 5
+   covariable             dif_estandarizada_antes dif_estandarizada_despues
+   <chr>                                    <dbl>                     <dbl>
+ 1 distance                                 0.806                    -0.004
+ 2 log_defor_pre_media                      0.731                     0.001
+ 3 defor_pre_tendencia                      0.44                     -0.028
+ 4 log_baseline_forest                      0.816                     0.097
+ 5 temp_media_c_base                        0.345                    -0.047
+ 6 prec_anual_mm_base                       0.666                    -0.004
+ 7 altura_base                             -0.299                     0.029
+ 8 discapital_base                          0.195                     0.042
+ 9 disbogota_base                           0.197                     0.079
+10 distancia_mercado_base                   0.307                     0.138
+11 H_coca_base                              0.133                     0.044
+12 homicidios_base                          0.203                    -0.098
+13 o_desplaza_base                          0.317                    -0.013
+# ℹ 2 more variables: razon_varianzas_despues <dbl>, ecdf_max_despues <dbl>
+
+  AVISO: covariables aún desbalanceadas tras emparejar: distancia_mercado_base
+  Opciones: reducir el calibre, añadir mahvars, o incluirlas de todos
+  modos en xformla del script 03 (ajuste doblemente robusto).
+
+Figuras: output/figuras/love_plot_alta_confianza_sin_tempranas.png y output/figuras/soporte_comun_alta_confianza_sin_tempranas.png
+Municipios emparejados: 1088 ( 85 tratados, 1003 controles )
+
+  *** ATENCIÓN: los pesos NO son uniformes. 03_did_callaway_santanna.R
+      filtra por COD_DANE sin usar pesos, lo que sería INCORRECTO aquí.
+      Pasa `weightsname` a did::att_gt() usando pesos_psm_alta_confianza_sin_tempranas.csv ***
+
+
+==============================================================================
+MATCHING — Todas las fuentes (+ RENARE + Cercarbono) [SIN COHORTES TEMPRANAS]
+==============================================================================
+Municipios excluidos por cohorte <= 2005:
+# A tibble: 3 × 3
+  COD_DANE NOMBRE_MPI cohorte
+  <chr>    <chr>        <dbl>
+1 05120    CÁCERES       2002
+2 17174    CHINCHINÁ     2002
+3 73043    ANZOÁTEGUI    2002
+Restricción a municipios con bosque en 2000: 1119 de 1119
+Eliminación por lista: tratados 96 -> 96 (pierde 0, 0.0%) | controles 1023 -> 1022 (pierde 1, 0.1%)
+
+Modelo de propensión:
+   tratado ~ log_defor_pre_media + defor_pre_tendencia + log_baseline_forest + temp_media_c_base + prec_anual_mm_base + altura_base + discapital_base + disbogota_base + distancia_mercado_base + H_coca_base + homicidios_base + o_desplaza_base
+
+--- Soporte común ---
+  Puntaje tratados   : min 0.0050 | mediana 0.1590 | max 0.8204
+  Puntaje controles  : min 0.0029 | mediana 0.0436 | max 0.7917
+  Región de soporte común: [0.0050 , 0.7917]
+  Tratados fuera del soporte común: 1 de 96 (1.0%)
+  Puntajes extremos (<0.01 o >0.99): 1 tratados, 70 controles
+  AVISO: los puntajes extremos generan pesos inestables en el estimador
+         doblemente robusto de 03_did_callaway_santanna.R. Revisa qué
+         municipios son (output/tablas/soporte_comun_*.csv).
+
+--- Balance de covariables (antes / después) ---
+Criterios: |dif. estandarizada| < 0,1 y razón de varianzas en [0,5 ; 2,0].
+
+# A tibble: 13 × 5
+   covariable             dif_estandarizada_antes dif_estandarizada_despues
+   <chr>                                    <dbl>                     <dbl>
+ 1 distance                                 0.782                     0.005
+ 2 log_defor_pre_media                      0.697                     0.076
+ 3 defor_pre_tendencia                      0.375                     0.005
+ 4 log_baseline_forest                      0.818                     0.05
+ 5 temp_media_c_base                        0.268                     0.009
+ 6 prec_anual_mm_base                       0.603                    -0.029
+ 7 altura_base                             -0.254                    -0.032
+ 8 discapital_base                          0.2                       0.072
+ 9 disbogota_base                           0.201                     0.073
+10 distancia_mercado_base                   0.3                       0.093
+11 H_coca_base                              0.116                     0.008
+12 homicidios_base                          0.192                    -0.068
+13 o_desplaza_base                          0.287                     0.06
+# ℹ 2 more variables: razon_varianzas_despues <dbl>, ecdf_max_despues <dbl>
+
+  Todas las covariables cumplen |dif. estandarizada| < 0,1 tras emparejar.
+
+Figuras: output/figuras/love_plot_todas_fuentes_sin_tempranas.png y output/figuras/soporte_comun_todas_fuentes_sin_tempranas.png
+Municipios emparejados: 1106 ( 95 tratados, 1011 controles )
+
+  *** ATENCIÓN: los pesos NO son uniformes. 03_did_callaway_santanna.R
+      filtra por COD_DANE sin usar pesos, lo que sería INCORRECTO aquí.
+      Pasa `weightsname` a did::att_gt() usando pesos_psm_todas_fuentes_sin_tempranas.csv ***
+
+
+------------------------------------------------------------------------------
+COMPARACIÓN DE BALANCE — Confianza alta (Verra + Gold Standard)
+------------------------------------------------------------------------------
+# A tibble: 13 × 3
+   covariable             smd_principal smd_sin_tempranas
+   <chr>                          <dbl>             <dbl>
+ 1 distance                       0.002            -0.004
+ 2 log_defor_pre_media            0.055             0.001
+ 3 defor_pre_tendencia           -0.024            -0.028
+ 4 log_baseline_forest            0.127             0.097
+ 5 temp_media_c_base             -0.007            -0.047
+ 6 prec_anual_mm_base            -0.014            -0.004
+ 7 altura_base                   -0.043             0.029
+ 8 discapital_base                0.029             0.042
+ 9 disbogota_base                 0.068             0.079
+10 distancia_mercado_base         0.154             0.138
+11 H_coca_base                    0.067             0.044
+12 homicidios_base               -0.088            -0.098
+13 o_desplaza_base               -0.013            -0.013
+
+
+------------------------------------------------------------------------------
+COMPARACIÓN DE BALANCE — Todas las fuentes (+ RENARE + Cercarbono)
+------------------------------------------------------------------------------
+# A tibble: 13 × 3
+   covariable             smd_principal smd_sin_tempranas
+   <chr>                          <dbl>             <dbl>
+ 1 distance                       0.005             0.005
+ 2 log_defor_pre_media           -0.041             0.076
+ 3 defor_pre_tendencia           -0.038             0.005
+ 4 log_baseline_forest            0.083             0.05
+ 5 temp_media_c_base              0.005             0.009
+ 6 prec_anual_mm_base             0.052            -0.029
+ 7 altura_base                   -0.019            -0.032
+ 8 discapital_base                0.065             0.072
+ 9 disbogota_base                 0.012             0.073
+10 distancia_mercado_base         0.09              0.093
+11 H_coca_base                    0.02              0.008
+12 homicidios_base               -0.083            -0.068
+13 o_desplaza_base               -0.039             0.06
+
+
+==============================================================================
+SALIDAS GENERADAS
+==============================================================================
+  output/matching_{alta_confianza,todas_fuentes}.rds            <- usados por el script 03
+  output/matching_*_sin_tempranas.rds                           <- sensibilidad
+  output/tablas/balance_psm_*.csv                               <- tabla de balance completa
+  output/tablas/soporte_comun_*.csv                             <- puntajes y banderas por municipio
+  output/tablas/pesos_psm_*.csv                                 <- pesos (weightsname del script 03)
+  output/figuras/love_plot_*.png, soporte_comun_*.png
+
+Adjuntando el paquete: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Aviso:
+package 'dplyr' was built under R version 4.4.2
+Aviso:
+package 'did' was built under R version 4.4.3
+Aviso:
+package 'ggplot2' was built under R version 4.4.2
+
+----------------------------------------------------------------------
+Modelo: Confianza alta - sin covariables | outcome: loss_area_ha
+----------------------------------------------------------------------
+
+ATT simple (promedio, todas las cohortes y periodos post-tratamiento):
+  Estimado: -125.4643   Error estandar: 83.3998   IC 95%: [-288.9279, 37.9993]
+
+----------------------------------------------------------------------
+Modelo: Confianza alta - doblemente robusto (con covariables) | outcome: loss_area_ha
+----------------------------------------------------------------------
+Aviso: 23 de 414 (6%) pares grupo-tiempo con estimacion NA - excluidos de las agregaciones via na.rm = TRUE.
+  Cohortes mas afectadas (grupo = anio, n = cuantos pares grupo-tiempo de ese grupo salieron NA):
+2006
+  23
+  Si esto es una fraccion alta (>30-40%), probablemente refleja cohortes muy chicas
+  (1-3 municipios) en tus datos reales, no un error del script - considera agrupar
+  cohortes adyacentes chicas, o apoyarte mas en las especificaciones (a)/(c).
+
+ATT simple (promedio, todas las cohortes y periodos post-tratamiento):
+  Estimado: -57.5032   Error estandar: 81.3616   IC 95%: [-216.9719, 101.9655]
+  Submuestra (c): 1102 municipios | pesos NO uniformes (rango 0.1556-23.3333)
+
+----------------------------------------------------------------------
+Modelo: Confianza alta - muestra reponderada (PSM) | outcome: loss_area_ha
+----------------------------------------------------------------------
+
+ATT simple (promedio, todas las cohortes y periodos post-tratamiento):
+  Estimado: -178.1399   Error estandar: 84.7594   IC 95%: [-344.2684, -12.0115]
+
+----------------------------------------------------------------------
+Modelo: Todas las fuentes - sin covariables | outcome: loss_area_ha
+----------------------------------------------------------------------
+
+ATT simple (promedio, todas las cohortes y periodos post-tratamiento):
+  Estimado: -105.8575   Error estandar: 70.6342   IC 95%: [-244.3005, 32.5856]
+
+----------------------------------------------------------------------
+Modelo: Todas las fuentes - doblemente robusto (con covariables) | outcome: loss_area_ha
+----------------------------------------------------------------------
+Aviso: 23 de 460 (5%) pares grupo-tiempo con estimacion NA - excluidos de las agregaciones via na.rm = TRUE.
+  Cohortes mas afectadas (grupo = anio, n = cuantos pares grupo-tiempo de ese grupo salieron NA):
+2006
+  23
+  Si esto es una fraccion alta (>30-40%), probablemente refleja cohortes muy chicas
+  (1-3 municipios) en tus datos reales, no un error del script - considera agrupar
+  cohortes adyacentes chicas, o apoyarte mas en las especificaciones (a)/(c).
+
+ATT simple (promedio, todas las cohortes y periodos post-tratamiento):
+  Estimado: -54.8639   Error estandar: 72.0561   IC 95%: [-196.0938, 86.3659]
+  Submuestra (c): 1112 municipios | pesos NO uniformes (rango 0.1113-41.3878)
+
+----------------------------------------------------------------------
+Modelo: Todas las fuentes - muestra reponderada (PSM) | outcome: loss_area_ha
+----------------------------------------------------------------------
+
+ATT simple (promedio, todas las cohortes y periodos post-tratamiento):
+  Estimado: -149.7000   Error estandar: 70.1495   IC 95%: [-287.1930, -12.2070]
+Hubo 50 o más avisos (use warnings() para ver los primeros 50)
+
+
+======================================================================
+TABLA RESUMEN DE ROBUSTEZ - ATT simple por especificacion
+======================================================================
+                                           especificacion        att       se
+                         Confianza alta - sin covariables -125.46431 83.39978
+    Confianza alta - doblemente robusto (con covariables)  -57.50324 81.36158
+               Confianza alta - muestra reponderada (PSM) -178.13992 84.75942
+                      Todas las fuentes - sin covariables -105.85746 70.63420
+ Todas las fuentes - doblemente robusto (con covariables)  -54.86394 72.05606
+            Todas las fuentes - muestra reponderada (PSM) -149.70000 70.14951
+    ic_inf    ic_sup
+ -288.9279  37.99926
+ -216.9719 101.96545
+ -344.2684 -12.01146
+ -244.3005  32.58558
+ -196.0938  86.36594
+ -287.1930 -12.20696
+
+Grafico guardado: output/figuras/event_study_alta.png
+
+Grafico guardado: output/figuras/event_study_todas.png
+
+Guardado: output/resultados_did_completos.rds (todos los att_gt/aggte de las 6 especificaciones)
+Guardado: output/tablas/resumen_robustez_att.csv
+
+Adjuntando el paquete: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Aviso:
+package 'dplyr' was built under R version 4.4.2
+Aviso:
+package 'did' was built under R version 4.4.3
+Aviso:
+package 'ggplot2' was built under R version 4.4.2
+
+======================================================================
+ATT POR COHORTE — Confianza alta (doblemente robusto)
+======================================================================
+# A tibble: 17 × 7
+   cohorte n_municipios      att      se  ic_inf ic_sup significativo
+     <dbl>        <int>    <dbl>   <dbl>   <dbl>  <dbl> <lgl>
+ 1    2002            2  127.     282.   -1095.  1350.  FALSE
+ 2    2007            1  -12.7      9.25   -52.8   27.5 FALSE
+ 3    2010            2  -26.4     14.8    -90.6   37.8 FALSE
+ 4    2011            3   18.5     33.3   -126.   163.  FALSE
+ 5    2012            3  132.     103.    -317.   580.  FALSE
+ 6    2013            6 -645.     318.   -2023.   733.  FALSE
+ 7    2014           10   62.3     90.7   -331.   456.  FALSE
+ 8    2015            8    3.42    54.9   -235.   242.  FALSE
+ 9    2016            7  168.     128.    -388.   724.  FALSE
+10    2017           11 -270.     389.   -1959.  1420.  FALSE
+11    2018            6 -177.    1347.   -6023.  5668.  FALSE
+12    2019            7  158.     288.   -1090.  1406.  FALSE
+13    2020            2   -3.12     7.74   -36.7   30.5 FALSE
+14    2021            5   21.3     70.7   -286.   328.  FALSE
+15    2022            8    3.39    94.8   -408.   415.  FALSE
+16    2023            3   -0.342    4.45   -19.7   19.0 FALSE
+17    2024            2  -83.4     89.7   -473.   306.  FALSE
+
+======================================================================
+ATT POR COHORTE — Todas las fuentes (doblemente robusto)
+======================================================================
+# A tibble: 19 × 7
+   cohorte n_municipios       att     se   ic_inf  ic_sup significativo
+     <dbl>        <int>     <dbl>  <dbl>    <dbl>   <dbl> <lgl>
+ 1    2002            3   79.1    132.    -226.    384.   FALSE
+ 2    2007            1  -13.0      9.14   -34.2     8.11 FALSE
+ 3    2008            2   27.8      5.23    15.8    39.9  TRUE
+ 4    2009            1   56.7      1.89    52.4    61.1  TRUE
+ 5    2010            5  -21.8     61.6   -164.    120.   FALSE
+ 6    2011            4   15.5     29.0    -51.5    82.5  FALSE
+ 7    2012            3  132.     120.    -146.    409.   FALSE
+ 8    2013            7 -632.     310.   -1348.     84.5  FALSE
+ 9    2014           11   60.8     80.6   -125.    247.   FALSE
+10    2015            7   30.1     54.8    -96.6   157.   FALSE
+11    2016            7  165.     155.    -192.    523.   FALSE
+12    2017           12 -263.     209.    -747.    221.   FALSE
+13    2018            9 -111.     922.   -2243.   2021.   FALSE
+14    2019            6  125.     366.    -721.    970.   FALSE
+15    2020            2   -2.78     8.76   -23.0    17.5  FALSE
+16    2021            4   26.6     79.0   -156.    209.   FALSE
+17    2022            8    3.51    94.2   -214.    221.   FALSE
+18    2023            3   -0.0807   4.25    -9.90    9.74 FALSE
+19    2024            1 -206.      12.5   -235.   -177.   TRUE
+
+Cohortes con ATT individualmente significativo (banda simultánea 95%):
+  Confianza alta: 0 de 17
+  Todas las fuentes: 3 de 19
+  Cohortes significativas (todas las fuentes): 2008 2009 2024
+
+Guardado: output/tablas/att_por_cohorte_alta_confianza.csv
+Guardado: output/tablas/att_por_cohorte_todas_fuentes.csv
+Grafico guardado: output/figuras/att_por_cohorte_alta.png
+Grafico guardado: output/figuras/att_por_cohorte_todas.png
+
+*** Interpretacion sugerida: si el ATT simple (agregado) no es significativo pero aqui ves 1-2 cohortes con estimados grandes y opuestos entre si (unas positivas, otras negativas), el promedio simple se puede estar cancelando -- vale la pena reportar la heterogeneidad por cohorte en vez de (o ademas de) el ATT agregado. Si en cambio todas las cohortes apuntan en la misma direccion pero ninguna es individualmente significativa, el problema es mas de potencia estadistica (muestra chica por cohorte) que de heterogeneidad real. ***
+
+Adjuntando el paquete: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Aviso:
+package 'dplyr' was built under R version 4.4.2
+Aviso:
+package 'did' was built under R version 4.4.3
+Aviso:
+package 'ggplot2' was built under R version 4.4.2
+Municipios-año sin tasa_deforestacion calculable (baseline_forest_base = 0): 0
+(quedan fuera de este modelo -- municipios sin bosque base no tienen 'tasa de perdida' definida)
+
+
+----------------------------------------------------------------------
+Modelo: Confianza alta | outcome: tasa_deforestacion
+----------------------------------------------------------------------
+NA en att_gt: 23 de 414 (6%)
+
+ATT simple (tasa): -0.00012   SE: 0.00036   IC 95%: [-0.00083, 0.00059]
+(interpretacion: cambio en la FRACCION del bosque base perdida por año, no hectareas)
+Hubo 50 o más avisos (use warnings() para ver los primeros 50)
+
+----------------------------------------------------------------------
+Modelo: Todas las fuentes | outcome: tasa_deforestacion
+----------------------------------------------------------------------
+NA en att_gt: 23 de 460 (5%)
+
+ATT simple (tasa): 0.00017   SE: 0.00033   IC 95%: [-0.00048, 0.00083]
+(interpretacion: cambio en la FRACCION del bosque base perdida por año, no hectareas)
+Hubo 50 o más avisos (use warnings() para ver los primeros 50)
+
+
+=== Ancho del IC por cohorte (tasa_deforestacion) -- Confianza alta ===
+# A tibble: 17 × 2
+   cohorte ancho_ic_tasa
+     <dbl>         <dbl>
+ 1    2018      0.0102
+ 2    2021      0.00888
+ 3    2022      0.00867
+ 4    2011      0.00857
+ 5    2024      0.00776
+ 6    2019      0.00706
+ 7    2015      0.00680
+ 8    2013      0.00609
+ 9    2016      0.00536
+10    2017      0.00518
+11    2020      0.00437
+12    2002      0.00378
+13    2010      0.00289
+14    2014      0.00288
+15    2023      0.00228
+16    2012      0.00211
+17    2007      0.000642
+
+Guardado: output/resultados_did_tasa.rds
+Guardado: output/tablas/resumen_att_tasa_deforestacion.csv
+
+Compara el 'ancho_ic_tasa' de arriba contra los IC en hectareas de 04_att_por_grupo.R --
+si la cohorte 2018 (u otras) ya no domina desproporcionadamente, confirma que el outcome
+en hectareas absolutas era sensible a valores extremos.
+
+Adjuntando el paquete: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Aviso:
+package 'dplyr' was built under R version 4.4.2
+Aviso:
+package 'did' was built under R version 4.4.3
+
+======================================================================
+SENSIBILIDAD -- Confianza alta
+======================================================================
+Excluyendo 2 municipio(s): 05120, 73043
+
+--- CON todos los municipios (resultado original) ---
+ATT: -57.5032   SE: 81.3616   IC 95%: [-216.9719, 101.9655]
+
+--- SIN los municipios de cohorte temprana ---
+ATT: -69.8513   SE: 86.3485   IC 95%: [-239.0943, 99.3916]
+
+Cambio en el ATT al excluirlos: 21.5%
+-> Cambio considerable: estos municipios SI influyen bastante en el resultado agregado.
+   Documentar esto explicitamente como limitacion, y considerar reportar ambas versiones.
+Hubo 50 o más avisos (use warnings() para ver los primeros 50)
+
+======================================================================
+SENSIBILIDAD -- Todas las fuentes
+======================================================================
+Excluyendo 3 municipio(s): 05120, 17174, 73043
+
+--- CON todos los municipios (resultado original) ---
+ATT: -54.8639   SE: 72.0561   IC 95%: [-196.0938, 86.3659]
+
+--- SIN los municipios de cohorte temprana ---
+ATT: -66.0314   SE: 74.6799   IC 95%: [-212.4039, 80.3412]
+
+Cambio en el ATT al excluirlos: 20.4%
+-> Cambio considerable: estos municipios SI influyen bastante en el resultado agregado.
+   Documentar esto explicitamente como limitacion, y considerar reportar ambas versiones.
+Hubo 50 o más avisos (use warnings() para ver los primeros 50)
+
+
+Guardado: output/tablas/sensibilidad_cohortes_tempranas.csv
+
+Adjuntando el paquete: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Aviso:
+package 'dplyr' was built under R version 4.4.2
+Linking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.3.1; sf_use_s2() is TRUE
+Cargando paquete requerido: spData
+To access larger datasets in this package, install the spDataLarge
+package with: `install.packages('spDataLarge',
+repos='https://nowosad.github.io/drat/', type='source')`
+Aviso:
+package 'spdep' was built under R version 4.4.3
+Aviso:
+package 'did' was built under R version 4.4.3
+Aviso:
+package 'fixest' was built under R version 4.4.3
+Cargando shapefile de municipios...
+Municipios en el shapefile: 1122
+Avisos:
+1: In poly2nb(municipios_sf, queen = TRUE) :
+  some observations have no neighbours;
+if this seems unexpected, try increasing the snap argument.
+2: In poly2nb(municipios_sf, queen = TRUE) :
+  neighbour object has 3 sub-graphs;
+if this sub-graph count seems unexpected, try increasing the snap argument.
+Vecindad construida. Promedio de vecinos por municipio: 5.9
+Aviso: 2 municipios sin ningún vecino detectado (islas, límites de datos) -- quedan sin exposición a spillover por construcción.
+
+======================================================================
+SPILLOVER -- Confianza alta
+======================================================================
+Municipios nunca tratados directamente: 1034
+De esos, alguna vez vecinos de un municipio tratado: 304
+
+ATT del spillover (efecto de tener un vecino tratado): 41.233  SE: 68.872  IC95%: [-93.756, 176.222]
+-> No significativo: sin evidencia clara de spillover en ninguna dirección.
+Avisos:
+1: In pre_process_did(yname = yname, tname = tname, idname = idname,  :
+  Be aware that there are some small groups in your dataset.
+  Check groups: 2006,2024.
+2: In att_gt(yname = "loss_area_ha", tname = "year", idname = "id_num",  :
+  Not returning pre-test Wald statistic due to singular covariance matrix
+
+======================================================================
+SPILLOVER -- Todas las fuentes
+======================================================================
+Municipios nunca tratados directamente: 1023
+De esos, alguna vez vecinos de un municipio tratado: 353
+
+ATT del spillover (efecto de tener un vecino tratado): 31.821  SE: 55.904  IC95%: [-77.752, 141.394]
+-> No significativo: sin evidencia clara de spillover en ninguna dirección.
+Avisos:
+1: In pre_process_did(yname = yname, tname = tname, idname = idname,  :
+  Be aware that there are some small groups in your dataset.
+  Check groups: 2006,2023,2024.
+2: In att_gt(yname = "loss_area_ha", tname = "year", idname = "id_num",  :
+  Not returning pre-test Wald statistic due to singular covariance matrix
+
+
+======================================================================
+ENFOQUE B: regresion con rezago espacial del tratamiento
+======================================================================
+
+--- Alta confianza ---
+NOTE: 48 observations removed because of NA values (RHS: 48).
+OLS estimation, Dep. Var.: loss_area_ha
+Observations: 26,880
+Fixed-effects: COD_DANE: 1,120,  year: 24
+Standard-errors: Clustered (COD_DANE)
+                      Estimate Std. Error t value  Pr(>|t|)
+tratado_directo        21.5564    83.1778 0.25916 0.7955595
+prop_vecinos_tratados 279.1781   104.3360 2.67576 0.0075649 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+RMSE: 463.7     Adj. R2: 0.741632
+              Within R2: 0.001874
+
+--- Todas las fuentes ---
+NOTE: 48 observations removed because of NA values (RHS: 48).
+OLS estimation, Dep. Var.: loss_area_ha
+Observations: 26,880
+Fixed-effects: COD_DANE: 1,120,  year: 24
+Standard-errors: Clustered (COD_DANE)
+                       Estimate Std. Error  t value  Pr(>|t|)
+tratado_directo         8.89231    73.3510 0.121230 0.9035309
+prop_vecinos_tratados 279.88212    99.5879 2.810403 0.0050342 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+RMSE: 463.7     Adj. R2: 0.741661
+              Within R2: 0.001988
+
+
+*** Interpretacion del coeficiente 'prop_vecinos_tratados': si es positivo y significativo, cada vecino tratado adicional (como proporcion del total de vecinos) se asocia a MAS deforestacion propia -- evidencia de fuga. Si es negativo, sugiere un efecto protector regional que se extiende mas alla del municipio tratado. Compara el signo con el resultado del enfoque A (DiD espacial) -- si ambos coinciden, es una conclusion mas solida. ***
+
+Adjuntando el paquete: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Aviso:
+package 'dplyr' was built under R version 4.4.2
+Aviso:
+package 'did' was built under R version 4.4.3
+Usando año 2005 como base para IPM (no disponible en 2001 ).
+Mediana de IPM (año 2005 ): 70.91
+Usando año 2001 como base para DF_desemp_fisc (Panel Buen Gobierno).
+Mediana de desempeño fiscal (año 2001 ): 53.5  | cobertura: 1002 municipios
+Distribución de municipios por región:
+
+ Amazonía    Andina    Caribe Orinoquía  Pacífica
+       59       629       197        59       178
+
+Distribución de municipios por grupo de IPM:
+
+  IPM alto (más pobreza) IPM bajo (menos pobreza)                     <NA>
+                     556                      557                        9
+
+Distribución de municipios por capacidad fiscal (Buen Gobierno CEDE):
+
+Capacidad fiscal alta Capacidad fiscal baja                  <NA>
+                  500                   502                   120
+
+======================================================================
+HETEROGENEIDAD TERRITORIAL -- first_treat_alta | outcome: loss_area_ha
+======================================================================
+
+Andina                       [loss_area_ha] municipios= 629  con_outcome= 629  tratados= 45  ATT=-6.02277  SE=44.62936  IC95%=[-93.49633, 81.45078]
+
+Caribe                       [loss_area_ha] municipios= 197  con_outcome= 197  tratados=  7  ATT=38.33668  SE=87.72758  IC95%=[-133.60938, 210.28274]
+
+Pacífica                    [loss_area_ha] municipios= 178  con_outcome= 178  tratados= 19  ATT=-63.32438  SE=115.70601  IC95%=[-290.10816, 163.45941]
+
+Orinoquía                   [loss_area_ha] municipios=  59  con_outcome=  59  tratados=  9  ATT=-223.14134  SE=223.34722  IC95%=[-660.90190, 214.61921]
+
+Amazonía                    [loss_area_ha] municipios=  58  con_outcome=  58  tratados=  8  ATT=-1297.40752  SE=809.52507  IC95%=[-2884.07666, 289.26162]
+
+Guardado: output/tablas/heterogeneidad_regional_loss_area_ha_first_treat_alta.csv
+
+======================================================================
+HETEROGENEIDAD TERRITORIAL -- first_treat_alta | outcome: tasa_deforestacion
+======================================================================
+
+Andina                       [tasa_deforestacion] municipios= 629  con_outcome= 629  tratados= 45  ATT=0.00044  SE=0.00047  IC95%=[-0.00048, 0.00136]
+
+Caribe                       [tasa_deforestacion] municipios= 197  con_outcome= 197  tratados=  7  ATT=0.00121  SE=0.00230  IC95%=[-0.00330, 0.00571]
+
+Pacífica                    [tasa_deforestacion] municipios= 178  con_outcome= 178  tratados= 19  ATT=0.00054  SE=0.00034  IC95%=[-0.00013, 0.00121]
+
+Orinoquía                   [tasa_deforestacion] municipios=  59  con_outcome=  59  tratados=  9  ATT=-0.00060  SE=0.00100  IC95%=[-0.00256, 0.00136]
+
+Amazonía                    [tasa_deforestacion] municipios=  58  con_outcome=  58  tratados=  8  ATT=-0.00177  SE=0.00054  IC95%=[-0.00283, -0.00070]
+
+Guardado: output/tablas/heterogeneidad_regional_tasa_deforestacion_first_treat_alta.csv
+
+======================================================================
+HETEROGENEIDAD TERRITORIAL -- first_treat_todas | outcome: loss_area_ha
+======================================================================
+
+Andina                       [loss_area_ha] municipios= 629  con_outcome= 629  tratados= 51  ATT=-11.57210  SE=37.54853  IC95%=[-85.16722, 62.02302]
+
+Caribe                       [loss_area_ha] municipios= 197  con_outcome= 197  tratados=  9  ATT=67.13432  SE=46.54374  IC95%=[-24.09142, 158.36006]
+
+Pacífica                    [loss_area_ha] municipios= 178  con_outcome= 178  tratados= 21  ATT=-51.59129  SE=97.62515  IC95%=[-242.93658, 139.75400]
+
+Orinoquía                   [loss_area_ha] municipios=  59  con_outcome=  59  tratados=  9  ATT=-223.14134  SE=223.34722  IC95%=[-660.90190, 214.61921]
+
+Amazonía                    [loss_area_ha] municipios=  58  con_outcome=  58  tratados=  9  ATT=-1119.14488  SE=702.32983  IC95%=[-2495.71135, 257.42159]
+
+Guardado: output/tablas/heterogeneidad_regional_loss_area_ha_first_treat_todas.csv
+
+======================================================================
+HETEROGENEIDAD TERRITORIAL -- first_treat_todas | outcome: tasa_deforestacion
+======================================================================
+
+Andina                       [tasa_deforestacion] municipios= 629  con_outcome= 629  tratados= 51  ATT=0.00042  SE=0.00039  IC95%=[-0.00035, 0.00118]
+
+Caribe                       [tasa_deforestacion] municipios= 197  con_outcome= 197  tratados=  9  ATT=0.00309  SE=0.00158  IC95%=[-0.00000, 0.00618]
+
+Pacífica                    [tasa_deforestacion] municipios= 178  con_outcome= 178  tratados= 21  ATT=0.00068  SE=0.00030  IC95%=[0.00009, 0.00127]
+
+Orinoquía                   [tasa_deforestacion] municipios=  59  con_outcome=  59  tratados=  9  ATT=-0.00060  SE=0.00100  IC95%=[-0.00256, 0.00136]
+
+Amazonía                    [tasa_deforestacion] municipios=  58  con_outcome=  58  tratados=  9  ATT=-0.00163  SE=0.00050  IC95%=[-0.00261, -0.00065]
+
+Guardado: output/tablas/heterogeneidad_regional_tasa_deforestacion_first_treat_todas.csv
+Hubo 42 avisos (use warnings() para verlos)
+
+======================================================================
+HETEROGENEIDAD POR IPM (proxy socioeconomico, NO institucional estricto) -- first_treat_alta
+======================================================================
+
+IPM bajo (menos pobreza)     [tasa_deforestacion] municipios= 557  con_outcome= 557  tratados= 39  ATT=0.00031  SE=0.00047  IC95%=[-0.00060, 0.00122]
+
+IPM alto (más pobreza)      [tasa_deforestacion] municipios= 556  con_outcome= 556  tratados= 48  ATT=-0.00002  SE=0.00054  IC95%=[-0.00109, 0.00104]
+
+Guardado: output/tablas/heterogeneidad_ipm_first_treat_alta.csv
+
+======================================================================
+HETEROGENEIDAD POR IPM (proxy socioeconomico, NO institucional estricto) -- first_treat_todas
+======================================================================
+
+IPM bajo (menos pobreza)     [tasa_deforestacion] municipios= 557  con_outcome= 557  tratados= 44  ATT=0.00050  SE=0.00042  IC95%=[-0.00032, 0.00133]
+
+IPM alto (más pobreza)      [tasa_deforestacion] municipios= 556  con_outcome= 556  tratados= 53  ATT=0.00013  SE=0.00051  IC95%=[-0.00088, 0.00113]
+
+Guardado: output/tablas/heterogeneidad_ipm_first_treat_todas.csv
+Avisos:
+1: In pre_process_did(yname = yname, tname = tname, idname = idname,  :
+  Be aware that there are some small groups in your dataset.
+  Check groups: 2007,2010,2011,2012,2013,2015,2016,2017,2018,2019,2020,2021,2023,2024.
+2: In att_gt(yname = yname, tname = "year", idname = "id_num", gname = ".gname",  :
+  Not returning pre-test Wald statistic due to singular covariance matrix
+3: In pre_process_did(yname = yname, tname = tname, idname = idname,  :
+  Be aware that there are some small groups in your dataset.
+  Check groups: 2002,2006,2010,2011,2012,2013,2015,2016,2018,2021,2022,2023,2024.
+4: In att_gt(yname = yname, tname = "year", idname = "id_num", gname = ".gname",  :
+  Not returning pre-test Wald statistic due to singular covariance matrix
+5: In pre_process_did(yname = yname, tname = tname, idname = idname,  :
+  Be aware that there are some small groups in your dataset.
+  Check groups: 2002,2007,2008,2009,2010,2011,2012,2013,2015,2016,2018,2019,2020,2021,2023.
+6: In att_gt(yname = yname, tname = "year", idname = "id_num", gname = ".gname",  :
+  Not returning pre-test Wald statistic due to singular covariance matrix
+7: In pre_process_did(yname = yname, tname = tname, idname = idname,  :
+  Be aware that there are some small groups in your dataset.
+  Check groups: 2002,2006,2008,2010,2011,2012,2013,2015,2016,2021,2022,2023,2024.
+8: In att_gt(yname = yname, tname = "year", idname = "id_num", gname = ".gname",  :
+  Not returning pre-test Wald statistic due to singular covariance matrix
+
+Cruce capacidad fiscal x región (diagnóstico de confusión regional):
+
+                        Amazonía Andina Caribe Orinoquía Pacífica
+  Capacidad fiscal alta       18    310     48        39       85
+  Capacidad fiscal baja       20    292    107        15       68
+  <NA>                        21     27     42         5       25
+
+======================================================================
+HETEROGENEIDAD INSTITUCIONAL (Índice de Desempeño Fiscal, año base 2001 ) -- first_treat_alta | outcome: loss_area_ha
+======================================================================
+
+Capacidad fiscal alta        [loss_area_ha] municipios= 500  con_outcome= 500  tratados= 44  ATT=-236.08623  SE=177.19198  IC95%=[-583.38251, 111.21004]
+
+Capacidad fiscal baja        [loss_area_ha] municipios= 502  con_outcome= 502  tratados= 31  ATT=20.58183  SE=52.00197  IC95%=[-81.34203, 122.50569]
+
+Guardado: output/tablas/heterogeneidad_institucional_loss_area_ha_first_treat_alta.csv
+
+======================================================================
+HETEROGENEIDAD INSTITUCIONAL (Índice de Desempeño Fiscal, año base 2001 ) -- first_treat_alta | outcome: tasa_deforestacion
+======================================================================
+
+Capacidad fiscal alta        [tasa_deforestacion] municipios= 500  con_outcome= 500  tratados= 44  ATT=0.00022  SE=0.00060  IC95%=[-0.00096, 0.00140]
+
+Capacidad fiscal baja        [tasa_deforestacion] municipios= 502  con_outcome= 502  tratados= 31  ATT=-0.00006  SE=0.00049  IC95%=[-0.00102, 0.00090]
+
+Guardado: output/tablas/heterogeneidad_institucional_tasa_deforestacion_first_treat_alta.csv
+
+======================================================================
+HETEROGENEIDAD INSTITUCIONAL (Índice de Desempeño Fiscal, año base 2001 ) -- first_treat_todas | outcome: loss_area_ha
+======================================================================
+
+Capacidad fiscal alta        [loss_area_ha] municipios= 500  con_outcome= 500  tratados= 49  ATT=-204.72123  SE=142.82006  IC95%=[-484.64854, 75.20608]
+
+Capacidad fiscal baja        [loss_area_ha] municipios= 502  con_outcome= 502  tratados= 35  ATT=28.18462  SE=43.52061  IC95%=[-57.11578, 113.48502]
+
+Guardado: output/tablas/heterogeneidad_institucional_loss_area_ha_first_treat_todas.csv
+
+======================================================================
+HETEROGENEIDAD INSTITUCIONAL (Índice de Desempeño Fiscal, año base 2001 ) -- first_treat_todas | outcome: tasa_deforestacion
+======================================================================
+
+Capacidad fiscal alta        [tasa_deforestacion] municipios= 500  con_outcome= 500  tratados= 49  ATT=0.00032  SE=0.00053  IC95%=[-0.00072, 0.00135]
+
+Capacidad fiscal baja        [tasa_deforestacion] municipios= 502  con_outcome= 502  tratados= 35  ATT=0.00042  SE=0.00045  IC95%=[-0.00045, 0.00129]
+
+Guardado: output/tablas/heterogeneidad_institucional_tasa_deforestacion_first_treat_todas.csv
+Hubo 16 avisos (use warnings() para verlos)
+
+
+*** Nota metodologica: algunas regiones (Orinoquia, Amazonia) tienen pocos municipios en total (59 cada una a nivel nacional) -- si el numero de tratados en esa region es muy chico, el resultado se omite automaticamente (menos de 3 tratados) o debe interpretarse con la misma cautela que las cohortes pequenas de la seccion de heterogeneidad temporal. El mismo criterio de omision (< 3 tratados) aplica igual a los grupos de capacidad fiscal e IPM. ***
+
+Adjuntando el paquete: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Aviso:
+package 'dplyr' was built under R version 4.4.2
+Aviso:
+package 'fixest' was built under R version 4.4.3
+
+======================================================================
+SUN & ABRAHAM (2021) -- Confianza alta
+======================================================================
+
+--- Coeficientes dinamicos (tiempo relativo al tratamiento) ---
+OLS estimation, Dep. Var.: loss_area_ha
+Observations: 26,928
+Fixed-effects: COD_DANE: 1,122,  year: 24
+Standard-errors: Clustered (COD_DANE)
+           Estimate Std. Error   t value   Pr(>|t|)
+year::-23  -92.7458    47.5191 -1.951758 5.1216e-02 .
+year::-22   26.3305    15.8129  1.665128 9.6167e-02 .
+year::-21   42.8201    88.3625  0.484596 6.2806e-01
+year::-20  125.3660    88.3340  1.419227 1.5611e-01
+year::-19   78.5235    29.4997  2.661841 7.8826e-03 **
+year::-18  -64.5827   110.1463 -0.586336 5.5777e-01
+year::-17 -821.5573   491.2942 -1.672231 9.4758e-02 .
+year::-16 -632.1119   300.8795 -2.100881 3.5874e-02 *
+year::-15 -623.0570   314.9454 -1.978302 4.8139e-02 *
+year::-14 -382.5146   229.4969 -1.666753 9.5843e-02 .
+year::-13 -325.2282   185.4982 -1.753268 7.9829e-02 .
+year::-12 -413.5882   225.8790 -1.831017 6.7363e-02 .
+year::-11 -239.1469   141.2962 -1.692522 9.0824e-02 .
+year::-10 -169.0965    79.3932 -2.129861 3.3400e-02 *
+year::-9  -237.3496   166.0099 -1.429732 1.5307e-01
+year::-8  -300.9009   176.9716 -1.700278 8.9356e-02 .
+year::-7  -295.3708   157.6496 -1.873590 6.1247e-02 .
+year::-6  -291.8003   139.8263 -2.086877 3.7125e-02 *
+year::-5  -188.6444    98.4431 -1.916278 5.5584e-02 .
+year::-4  -128.9431    75.8531 -1.699905 8.9426e-02 .
+year::-3  -163.1103   161.3556 -1.010875 3.1229e-01
+year::-2   -62.8211   117.3491 -0.535335 5.9252e-01
+year::0     24.5463    58.7203  0.418020 6.7601e-01
+year::1   -179.0677   101.6679 -1.761299 7.8460e-02 .
+year::2    -93.5876    51.3538 -1.822408 6.8659e-02 .
+year::3   -183.1234    93.3041 -1.962651 4.9934e-02 *
+year::4   -239.1061   102.0855 -2.342214 1.9344e-02 *
+year::5   -461.7805   210.0151 -2.198796 2.8096e-02 *
+year::6   -289.1409   115.4928 -2.503540 1.2437e-02 *
+year::7   -110.4825    46.4081 -2.380674 1.7447e-02 *
+year::8    -41.0949    41.6436 -0.986825 3.2394e-01
+year::9   -110.8332    47.8447 -2.316519 2.0710e-02 *
+year::10   -77.0172    40.5038 -1.901482 5.7495e-02 .
+year::11   -43.6213    90.1377 -0.483941 6.2852e-01
+year::12   488.4718    59.9149  8.152760 9.4454e-16 ***
+year::13   585.9604    46.7059 12.545758  < 2.2e-16 ***
+year::14   580.2892    84.3687  6.878014 1.0066e-11 ***
+year::15   858.1059   189.1659  4.536262 6.3423e-06 ***
+year::16   387.9585   140.7342  2.756675 5.9340e-03 **
+year::17   133.1013    93.2517  1.427333 1.5376e-01
+year::18   156.9482   117.5454  1.335214 1.8208e-01
+year::19    12.8274    87.5684  0.146485 8.8357e-01
+year::20    45.9797   148.4996  0.309629 7.5690e-01
+year::21   222.9758   234.3777  0.951353 3.4163e-01
+year::22    50.3782    98.2038  0.512997 6.0805e-01
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+RMSE: 447.5     Adj. R2: 0.755126
+              Within R2: 0.069061
+
+--- ATT agregado (ponderado, comparable con Callaway-Sant'Anna) ---
+    Estimate Std. Error   t value   Pr(>|t|)
+ATT -122.832   59.40905 -2.067565 0.03891003
+Aviso:
+The VCOV matrix is not positive definite and was 'fixed' (see ?vcov).
+
+======================================================================
+SUN & ABRAHAM (2021) -- Todas las fuentes
+======================================================================
+
+--- Coeficientes dinamicos (tiempo relativo al tratamiento) ---
+OLS estimation, Dep. Var.: loss_area_ha
+Observations: 26,928
+Fixed-effects: COD_DANE: 1,122,  year: 24
+Standard-errors: Clustered (COD_DANE)
+            Estimate Std. Error    t value   Pr(>|t|)
+year::-23 -157.98609    11.4202 -13.833964  < 2.2e-16 ***
+year::-22   27.68356    18.1960   1.521410 1.2844e-01
+year::-21   42.32025    95.0257   0.445356 6.5615e-01
+year::-20  129.04469    98.4694   1.310505 1.9029e-01
+year::-19   78.89172    31.1952   2.528968 1.1576e-02 *
+year::-18  -84.66425   120.3743  -0.703342 4.8199e-01
+year::-17 -818.76131   525.2113  -1.558918 1.1930e-01
+year::-16 -612.58355   314.8145  -1.945855 5.1922e-02 .
+year::-15 -602.31120   335.6161  -1.794644 7.2980e-02 .
+year::-14 -374.33998   241.7245  -1.548623 1.2175e-01
+year::-13 -311.11618   195.8987  -1.588148 1.1253e-01
+year::-12 -406.11261   235.3555  -1.725528 8.4708e-02 .
+year::-11 -239.53325   145.8212  -1.642651 1.0074e-01
+year::-10 -165.60047    81.8858  -2.022333 4.3379e-02 *
+year::-9  -214.65025   165.2556  -1.298899 1.9425e-01
+year::-8  -285.45611   173.7886  -1.642548 1.0076e-01
+year::-7  -261.46788   152.9301  -1.709721 8.7594e-02 .
+year::-6  -251.56204   136.0372  -1.849216 6.4690e-02 .
+year::-5  -164.10414    97.0656  -1.690652 9.1181e-02 .
+year::-4  -102.22348    73.2466  -1.395608 1.6311e-01
+year::-3  -140.57384   152.9605  -0.919021 3.5828e-01
+year::-2   -51.88549   107.9779  -0.480519 6.3095e-01
+year::0     24.81284    53.3567   0.465037 6.4200e-01
+year::1   -154.91477    96.4135  -1.606775 1.0839e-01
+year::2    -89.52738    45.9339  -1.949049 5.1539e-02 .
+year::3   -162.78759    85.3811  -1.906599 5.6828e-02 .
+year::4   -195.07659    91.4295  -2.133629 3.3090e-02 *
+year::5   -386.30698   190.2511  -2.030511 4.2540e-02 *
+year::6   -233.95100   101.6638  -2.301222 2.1562e-02 *
+year::7   -101.90244    40.1436  -2.538451 1.1269e-02 *
+year::8    -50.13854    35.7590  -1.402126 1.6115e-01
+year::9    -91.70438    40.0607  -2.289137 2.2257e-02 *
+year::10   -82.66050    32.7919  -2.520762 1.1848e-02 *
+year::11   -47.75764    62.9759  -0.758348 4.4840e-01
+year::12   282.09199    43.4625   6.490463 1.2822e-10 ***
+year::13   331.18990    35.5099   9.326686  < 2.2e-16 ***
+year::14   273.99792    44.0438   6.221038 6.9618e-10 ***
+year::15   448.02672   107.7899   4.156480 3.4780e-05 ***
+year::16   218.38435    87.3388   2.500428 1.2546e-02 *
+year::17    96.21834    82.6807   1.163735 2.4478e-01
+year::18    92.58919    96.3248   0.961218 3.3665e-01
+year::19   -21.65450    66.4632  -0.325812 7.4463e-01
+year::20     9.86151   104.3004   0.094549 9.2469e-01
+year::21   141.45609   170.6011   0.829163 4.0719e-01
+year::22    10.44094    73.7868   0.141501 8.8750e-01
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+RMSE: 450.9     Adj. R2: 0.750863
+              Within R2: 0.054573
+
+--- ATT agregado (ponderado, comparable con Callaway-Sant'Anna) ---
+     Estimate Std. Error   t value   Pr(>|t|)
+ATT -103.1587   52.21138 -1.975789 0.04842356
+Aviso:
+The VCOV matrix is not positive definite and was 'fixed' (see ?vcov).
+Error: in coefplot(..., i.select = i.select, obje...:
+ Argument `plot_prms` must be a named list. Problem: it is of length 0,
+ while it should have a positive length.
+Ejecución interrumpida

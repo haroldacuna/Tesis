@@ -1,0 +1,13 @@
+id,name,latitude,longitude,lat_corregida,lon_corregida,metodo_correccion,crediting_period_start_date,crediting_period_end_date,COD_DANE,NOMBRE_MPI
+1806,Vichada Climate Reforestation Project (PAZ),4.207808,-69.335847,4.207808,-69.335847,original,2006-02-02,2035-02-02,99773,CUMARIBO
+854,Barroso 20MW hydroelectric project,5.9076,-75.892,5.9076,-75.892,original,2016-01-29,2030-01-28,05642,SALGAR
+670,Guanaquitas 9.74 MW hydroelectric project,6.6597,-75.291,6.6597,-75.291,original,2014-02-04,2021-02-04,05310,GÓMEZ PLATA
+655,GS3510 Fundacion Natura Cookstove PoA_Satander,6.3837,-73.3913,6.3837,-73.3913,original,2014-08-15,2021-08-14,68176,CHIMA
+629,"Vegachi, ecological restoration of degraded lands",6.758611,-74.874167,6.758611,-74.874167,original,2015-03-01,2024-03-01,05858,VEGACHÍ
+608,Fundacion Natura Cookstove POA,6.419167,-73.328611,6.419167,-73.328611,original,2014-09-03,2021-09-03,68745,SIMACOTA
+570,GEN+: Alejandría Small Hydropower (SHP) Run-of-the-River CDM Project Bundle,75.1411,6.3769,6.3769,-75.1411,intercambiado_neg,2014-07-08,2019-07-08,05021,ALEJANDRÍA
+556,Programme of Activities for the Development and Promotion of Renewable Energy,6.4,75.55,6.4,-75.55,lon_negado,2012-11-28,2022-11-27,05664,SAN PEDRO DE LOS MILAGROS
+520,"Conservation and reforestation of degraded areas in Barbosa, Colombia",6.421111,-75.400833,6.421111,-75.400833,original,2011-10-03,2051-10-03,05079,BARBOSA
+228,Caruquia 9.76 MW hydroelectric project,6.643161,-75.337511,6.643161,-75.337511,original,2011-04-18,2018-01-16,05686,SANTA ROSA DE OSOS
+172,Caruquia 9.76 MW hydroelectric project Pre-CDM VERs,6.643161,-75.337511,6.643161,-75.337511,original,2010-01-28,2019-01-27,05686,SANTA ROSA DE OSOS
+57,Santander and Las Tapias Renewable Energy Project,4.520464,-74.198472,4.520464,-74.198472,original,2013-04-01,2027-03-31,25754,SOACHA

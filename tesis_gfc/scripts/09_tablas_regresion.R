@@ -28,8 +28,9 @@ library(did)
 library(fixest)
 library(modelsummary)
 
-panel <- readRDS("output/panel_analisis_did.rds")
-dir.create("output/tablas", showWarnings = FALSE)
+OUTPUT_ROOT <- "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs"
+panel <- readRDS(file.path(OUTPUT_ROOT, "panel_analisis_did.rds"))
+dir.create(file.path(OUTPUT_ROOT, "tablas"), showWarnings = FALSE, recursive = TRUE)
 
 COVARIABLES_XFORMLA <- ~ baseline_forest_base + temp_media_c_base +
   disbogota_base + H_coca_base + homicidios_base
@@ -93,7 +94,7 @@ print(tabla_did, row.names = FALSE)
 cat("\nNotas: *** p<0.01, ** p<0.05, * p<0.1. Errores estandar entre parentesis,\n")
 cat("clusterizados por municipio. N = 1,122 municipios, panel 2001-2024.\n")
 
-write.csv(tabla_did, "output/tablas/tabla_regresion_did.csv", row.names = FALSE)
+write.csv(tabla_did, file.path(OUTPUT_ROOT, "tablas/tabla_regresion_did.csv"), row.names = FALSE)
 cat("\nGuardado: output/tablas/tabla_regresion_did.csv\n")
 cat("(la exportacion directa a .docx de modelsummary requiere una version de\n")
 cat("'tinytable' con soporte de render a Word que no esta disponible en este\n")
@@ -131,7 +132,7 @@ tabla_twfe <- modelsummary(
   stars = c("*" = 0.1, "**" = 0.05, "***" = 0.01),
   gof_map = c("nobs", "r.squared", "r2.within")
 )
-write.csv(tabla_twfe, "output/tablas/tabla_regresion_twfe.csv", row.names = FALSE)
+write.csv(tabla_twfe, file.path(OUTPUT_ROOT, "tablas/tabla_regresion_twfe.csv"), row.names = FALSE)
 cat("\nGuardado: output/tablas/tabla_regresion_twfe.csv\n")
 
 cat(

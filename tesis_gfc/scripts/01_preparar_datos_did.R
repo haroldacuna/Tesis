@@ -33,8 +33,9 @@ library(dplyr)
 library(tidyr)
 
 ## --- Rutas de entrada (ajustar si es necesario) -----------------------------
-RUTA_PANEL      <- "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/data/final/panel_con_psm_covariables.csv"
-RUTA_TRATAMIENTO <- "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/data/final/panel_con_tratamiento_actualizado.csv"
+DATA_ROOT       <- "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/data"
+RUTA_PANEL      <- file.path(DATA_ROOT, "final/panel_con_psm_covariables_reparado.csv")
+RUTA_TRATAMIENTO <- file.path(DATA_ROOT, "final/panel_con_tratamiento_actualizado.csv")
 ANIO_BASE       <- 2001L  # primer año del panel; usado como corte pre-tratamiento
 
 # Algunas variables de conflicto (homicidios, secuestros, acc_subversivas) del
@@ -48,9 +49,11 @@ ANIO_BASE_CONFLICTO_TARDIO <- 2003L
 VARS_BASE_TARDIA <- c("homicidios", "secuestros", "acc_subversivas")
 
 ## --- Salidas -----------------------------------------------------------------
-dir.create("output", showWarnings = FALSE)
-OUT_PANEL_ANALISIS <- "output/panel_analisis_did.rds"
-OUT_COVARIABLES_BASE <- "output/covariables_base_municipio.rds"
+
+DIR_OUTPUT <- "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs"
+dir.create(DIR_OUTPUT, showWarnings = FALSE, recursive = TRUE)
+OUT_PANEL_ANALISIS   <- file.path(DIR_OUTPUT, "panel_analisis_did.rds")
+OUT_COVARIABLES_BASE <- file.path(DIR_OUTPUT, "covariables_base_municipio.rds")
 
 ## =============================================================================
 ## 1. Cargar y unir
@@ -58,6 +61,25 @@ OUT_COVARIABLES_BASE <- "output/covariables_base_municipio.rds"
 
 cat("Cargando panel principal:", RUTA_PANEL, "\n")
 panel <- read_csv(RUTA_PANEL, col_types = cols(COD_DANE = col_character()), show_col_types = FALSE)
+
+## --- Verificacion de integridad del panel de entrada -------------------------
+## El panel tuvo un defecto que dejo a Antioquia y Atlantico con deforestacion
+## nula durante los 24 anios, por un cruce fallido enmascarado con fillna(0).
+## Se verifica aqui para que una lectura del archivo equivocado falle de
+## inmediato, en lugar de propagarse a toda la cadena de estimacion.
+verif <- panel %>%
+  mutate(dpto = substr(COD_DANE, 1, 2)) %>%
+  filter(dpto %in% c("05", "08")) %>%
+  summarise(municipios = n_distinct(COD_DANE), perdida_ha = sum(loss_area_ha, na.rm = TRUE))
+
+cat(sprintf("Verificacion Antioquia+Atlantico: %d municipios, %.0f ha\n",
+            verif$municipios, verif$perdida_ha))
+
+if (verif$perdida_ha < 600000) {
+  stop("PANEL DEFECTUOSO: Antioquia y Atlantico suman ", round(verif$perdida_ha),
+       " ha, cuando deberian sumar ~665.048. Se esta leyendo el archivo sin reparar.\n",
+       "Ruta usada: ", RUTA_PANEL)
+}
 
 cat("Cargando tratamiento:", RUTA_TRATAMIENTO, "\n")
 tratamiento <- read_csv(RUTA_TRATAMIENTO, col_types = cols(COD_DANE = col_character()), show_col_types = FALSE)
@@ -213,3 +235,18 @@ print(panel %>% filter(year == ANIO_BASE) %>% count(first_treat_alta) %>% arrang
 
 cat("\n=== Resumen de cohortes de tratamiento (todas las fuentes) ===\n")
 print(panel %>% filter(year == ANIO_BASE) %>% count(first_treat_todas) %>% arrange(first_treat_todas))
+
+## --- Verificacion post-escritura ---------------------------------------------
+## Releer el archivo recien guardado y confirmar que contiene lo que debe.
+## Una fecha de modificacion reciente NO garantiza contenido correcto: puede
+## venir de una corrida anterior que escribio en otra carpeta.
+control <- readRDS(OUT_PANEL_ANALISIS)
+ha_control <- sum(control$loss_area_ha[substr(control$COD_DANE, 1, 2) %in% c("05", "08")])
+
+cat(sprintf("\nControl post-escritura: %s\n", normalizePath(OUT_PANEL_ANALISIS)))
+cat(sprintf("  Antioquia+Atlantico en el archivo guardado: %.0f ha\n", ha_control))
+
+if (ha_control < 600000) {
+  stop("El archivo guardado NO contiene los datos reparados. Revisar la ruta de salida.")
+}
+cat("  Verificacion correcta.\n")

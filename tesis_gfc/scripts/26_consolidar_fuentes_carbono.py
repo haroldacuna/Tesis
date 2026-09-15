@@ -53,12 +53,15 @@ from __future__ import annotations
 import ast
 import re
 from pathlib import Path
-
+from filtro_sectorial import anotar_sector
 import pandas as pd
 
 # ---------------------------------------------------------------------------
 # Rutas de entrada (ajusta si moviste algo)
 # ---------------------------------------------------------------------------
+
+
+
 VERRA_FILE = Path("data/interim/verra_platts_colombia_con_municipio.csv")
 GOLDSTANDARD_FILE_1 = Path("data/interim/goldstandard_projects_colombia_con_municipio.csv")
 GOLDSTANDARD_FILE_2 = Path("data/interim/goldstandard_coords_corregidas.csv")
@@ -339,14 +342,28 @@ def _construir_panel_tratamiento(eventos: pd.DataFrame) -> None:
     panel = pd.read_csv(panel_path, low_memory=False)
     panel["COD_DANE"] = panel["COD_DANE"].astype(str).str.zfill(5)
 
+    eventos = anotar_sector(eventos, estricto=True)
     con_fecha = eventos[eventos["anio_inicio"].notna()].copy()
+    con_fecha = con_fecha.drop_duplicates(subset=["COD_DANE", "nombre_proyecto"]) 
+    con_fecha = eventos[eventos["anio_inicio"].notna()].copy()
+    
     con_fecha["anio_inicio"] = con_fecha["anio_inicio"].astype(int)
 
+    combinaciones = [
+        (["alta"],          True,  "alta_confianza"),
+        (["alta", "media"], True,  "todas_fuentes"),
+        (["alta"],          False, "alta_confianza_sinfiltro"),
+        (["alta", "media"], False, "todas_fuentes_sinfiltro"),
+    ]
     resultado = panel.copy()
-    for confianza_incluida, sufijo in [(["alta"], "alta_confianza"), (["alta", "media"], "todas_fuentes")]:
-        subset = con_fecha[con_fecha["confianza"].isin(confianza_incluida)]
-        primero_por_municipio = subset.groupby("COD_DANE")["anio_inicio"].min().rename(f"anio_inicio_tratamiento_{sufijo}")
-        resultado = resultado.merge(primero_por_municipio, on="COD_DANE", how="left")
+    for confianzas, solo_afolu, sufijo in combinaciones:
+        subset = con_fecha[con_fecha["confianza"].isin(confianzas)]
+        if solo_afolu:
+            subset = subset[subset["sector"] == "AFOLU"]
+        primero = subset.groupby("COD_DANE")["anio_inicio"].min().rename(
+            f"anio_inicio_tratamiento_{sufijo}"
+        )
+        resultado = resultado.merge(primero, on="COD_DANE", how="left")
         resultado[f"tratado_{sufijo}"] = (
             resultado["year"] >= resultado[f"anio_inicio_tratamiento_{sufijo}"]
         ).fillna(False).astype(int)
@@ -362,6 +379,12 @@ def _construir_panel_tratamiento(eventos: pd.DataFrame) -> None:
 
 
 def main() -> None:
+    import os
+    from filtro_sectorial import RAIZ_PROYECTO, avisar_carpeta_sombra
+    os.chdir(RAIZ_PROYECTO)          # ancla todas las rutas relativas del script
+    print(f"Directorio de trabajo fijado en: {RAIZ_PROYECTO}")
+    avisar_carpeta_sombra()
+        
     print("=" * 70)
     print("Cargando y normalizando cada fuente...")
     print("=" * 70)

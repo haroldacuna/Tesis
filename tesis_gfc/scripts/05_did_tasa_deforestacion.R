@@ -21,9 +21,9 @@ library(dplyr)
 library(did)
 library(ggplot2)
 
-panel <- readRDS("output/panel_analisis_did.rds")
-dir.create("output/tablas", showWarnings = FALSE)
-dir.create("output/figuras", showWarnings = FALSE)
+panel <- readRDS("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/panel_analisis_did.rds")
+dir.create("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas", showWarnings = FALSE, recursive = TRUE)
+dir.create("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/figuras", showWarnings = FALSE, recursive = TRUE)
 
 COVARIABLES_XFORMLA <- ~ baseline_forest_base + temp_media_c_base +
   disbogota_base + H_coca_base + homicidios_base
@@ -86,14 +86,14 @@ print(comparar_ancho_ic(resultado_alta, "alta"), n = Inf)
 ## Guardar
 ## =============================================================================
 
-saveRDS(list(alta = resultado_alta, todas = resultado_todas), "output/resultados_did_tasa.rds")
+saveRDS(list(alta = resultado_alta, todas = resultado_todas), "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/resultados_did_tasa.rds")
 
 tabla_comparacion <- tibble(
   especificacion = c("Confianza alta - tasa", "Todas las fuentes - tasa"),
   att = c(resultado_alta$simple$overall.att, resultado_todas$simple$overall.att),
   se = c(resultado_alta$simple$overall.se, resultado_todas$simple$overall.se)
 )
-write_csv(tabla_comparacion, "output/tablas/resumen_att_tasa_deforestacion.csv")
+write_csv(tabla_comparacion, "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas/resumen_att_tasa_deforestacion.csv")
 
 cat("\nGuardado: output/resultados_did_tasa.rds\n")
 cat("Guardado: output/tablas/resumen_att_tasa_deforestacion.csv\n")

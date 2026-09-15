@@ -25,8 +25,8 @@ library(readr)
 library(dplyr)
 library(did)
 
-panel <- readRDS("output/panel_analisis_did.rds")
-dir.create("output/tablas", showWarnings = FALSE)
+panel <- readRDS("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/panel_analisis_did.rds")
+dir.create("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas", showWarnings = FALSE, recursive = TRUE)
 
 ANIO_BASE_CONFLICTO_TARDIO <- 2003L
 
@@ -100,5 +100,5 @@ resultado_alta <- comparar("first_treat_alta", "Confianza alta")
 resultado_todas <- comparar("first_treat_todas", "Todas las fuentes")
 
 tabla_final <- bind_rows(resultado_alta, resultado_todas)
-write_csv(tabla_final, "output/tablas/sensibilidad_cohortes_tempranas.csv")
+write_csv(tabla_final, "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas/sensibilidad_cohortes_tempranas.csv")
 cat("\n\nGuardado: output/tablas/sensibilidad_cohortes_tempranas.csv\n")

@@ -1,0 +1,56 @@
+﻿Rscript : 
+En línea: 4 Carácter: 1
++ Rscript 08_sensibilidad_excluir_cohortes_tempranas.R 2>&1 | Out-File  ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Adjuntando el paquete: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Aviso:
+package 'dplyr' was built under R version 4.4.2 
+Aviso:
+package 'did' was built under R version 4.4.3 
+
+======================================================================
+SENSIBILIDAD -- Confianza alta 
+====================================================================== 
+Excluyendo 2 municipio(s): 05120, 73043 
+
+--- CON todos los municipios (resultado original) ---
+ATT: -57.5032   SE: 81.3616   IC 95%: [-216.9719, 101.9655]
+
+--- SIN los municipios de cohorte temprana ---
+ATT: -69.8513   SE: 86.3485   IC 95%: [-239.0943, 99.3916]
+
+Cambio en el ATT al excluirlos: 21.5%
+-> Cambio considerable: estos municipios SI influyen bastante en el resultado agregado.
+   Documentar esto explicitamente como limitacion, y considerar reportar ambas versiones.
+Hubo 50 o m├ís avisos (use warnings() para ver los primeros 50)
+
+======================================================================
+SENSIBILIDAD -- Todas las fuentes 
+====================================================================== 
+Excluyendo 3 municipio(s): 05120, 17174, 73043 
+
+--- CON todos los municipios (resultado original) ---
+ATT: -54.8639   SE: 72.0561   IC 95%: [-196.0938, 86.3659]
+
+--- SIN los municipios de cohorte temprana ---
+ATT: -66.0314   SE: 74.6799   IC 95%: [-212.4039, 80.3412]
+
+Cambio en el ATT al excluirlos: 20.4%
+-> Cambio considerable: estos municipios SI influyen bastante en el resultado agregado.
+   Documentar esto explicitamente como limitacion, y considerar reportar ambas versiones.
+Hubo 50 o m├ís avisos (use warnings() para ver los primeros 50)
+
+
+Guardado: output/tablas/sensibilidad_cohortes_tempranas.csv

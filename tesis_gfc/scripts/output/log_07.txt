@@ -1,0 +1,83 @@
+﻿Rscript : 
+En línea: 3 Carácter: 1
++ Rscript 07_auditar_n_efectivo_por_cohorte.R 2>&1 | Out-File -Encoding ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Adjuntando el paquete: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Aviso:
+package 'dplyr' was built under R version 4.4.2 
+
+======================================================================
+AUDITORIA DE N EFECTIVO POR COHORTE -- Confianza alta 
+====================================================================== 
+# A tibble: 19 ├ù 5
+   cohorte n_nominal n_sin_bosque_base n_efectivo_tasa pct_perdido
+     <dbl>     <int>             <int>           <int>       <dbl>
+ 1    2002         2                 0               2           0
+ 2    2006         1                 0               1           0
+ 3    2007         1                 0               1           0
+ 4    2010         2                 0               2           0
+ 5    2011         3                 0               3           0
+ 6    2012         3                 0               3           0
+ 7    2013         6                 0               6           0
+ 8    2014        10                 0              10           0
+ 9    2015         8                 0               8           0
+10    2016         7                 0               7           0
+11    2017        11                 0              11           0
+12    2018         6                 0               6           0
+13    2019         7                 0               7           0
+14    2020         2                 0               2           0
+15    2021         5                 0               5           0
+16    2022         8                 0               8           0
+17    2023         3                 0               3           0
+18    2024         2                 0               2           0
+19    2025         1                 0               1           0
+
+Ninguna cohorte queda con n efectivo <= 2 para tasa_deforestacion.
+
+======================================================================
+AUDITORIA DE N EFECTIVO POR COHORTE -- Todas las fuentes 
+====================================================================== 
+# A tibble: 21 ├ù 5
+   cohorte n_nominal n_sin_bosque_base n_efectivo_tasa pct_perdido
+     <dbl>     <int>             <int>           <int>       <dbl>
+ 1    2002         3                 0               3           0
+ 2    2006         1                 0               1           0
+ 3    2007         1                 0               1           0
+ 4    2008         2                 0               2           0
+ 5    2009         1                 0               1           0
+ 6    2010         5                 0               5           0
+ 7    2011         4                 0               4           0
+ 8    2012         3                 0               3           0
+ 9    2013         7                 0               7           0
+10    2014        11                 0              11           0
+11    2015         7                 0               7           0
+12    2016         7                 0               7           0
+13    2017        12                 0              12           0
+14    2018         9                 0               9           0
+15    2019         6                 0               6           0
+16    2020         2                 0               2           0
+17    2021         4                 0               4           0
+18    2022         8                 0               8           0
+19    2023         3                 0               3           0
+20    2024         1                 0               1           0
+21    2025         2                 0               2           0
+
+Ninguna cohorte queda con n efectivo <= 2 para tasa_deforestacion.
+
+
+Guardado: output/tablas/n_efectivo_tasa_alta_confianza.csv
+Guardado: output/tablas/n_efectivo_tasa_todas_fuentes.csv
+
+*** Antes de reportar CUALQUIER resultado de tasa_deforestacion por cohorte, cruza contra esta tabla: si n_efectivo_tasa es 1 o 2 para esa cohorte, no la reportes como hallazgo aunque salga 'significativa' -- es el mismo problema que encontramos en la cohorte 2012. ***

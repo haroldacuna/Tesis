@@ -18,8 +18,8 @@
 library(dplyr)
 library(readr)
 
-panel <- readRDS("output/panel_analisis_did.rds")
-dir.create("output/tablas", showWarnings = FALSE)
+panel <- readRDS("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/panel_analisis_did.rds")
+dir.create("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas", showWarnings = FALSE, recursive = TRUE)
 
 auditar <- function(panel, col_gname, etiqueta) {
   cat("\n", strrep("=", 70), "\n", sep = "")
@@ -69,8 +69,8 @@ auditar <- function(panel, col_gname, etiqueta) {
 resumen_alta <- auditar(panel, "first_treat_alta", "Confianza alta")
 resumen_todas <- auditar(panel, "first_treat_todas", "Todas las fuentes")
 
-write_csv(resumen_alta, "output/tablas/n_efectivo_tasa_alta_confianza.csv")
-write_csv(resumen_todas, "output/tablas/n_efectivo_tasa_todas_fuentes.csv")
+write_csv(resumen_alta, "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas/n_efectivo_tasa_alta_confianza.csv")
+write_csv(resumen_todas, "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas/n_efectivo_tasa_todas_fuentes.csv")
 cat("\n\nGuardado: output/tablas/n_efectivo_tasa_alta_confianza.csv\n")
 cat("Guardado: output/tablas/n_efectivo_tasa_todas_fuentes.csv\n")
 cat(

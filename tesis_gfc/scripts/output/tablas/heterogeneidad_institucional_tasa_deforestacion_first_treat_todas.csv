@@ -1,0 +1,3 @@
+grupo,outcome,n_municipios,n_con_outcome,n_tratados,att,se,ic_inf,ic_sup
+Capacidad fiscal alta,tasa_deforestacion,500,500,49,3.152723124729371e-4,5.300355502240703e-4,-7.235973659662406e-4,0.0013541419909121146
+Capacidad fiscal baja,tasa_deforestacion,502,502,35,4.200332923207927e-4,4.4573017877401906e-4,-4.5359785807628464e-4,0.00129366444271787

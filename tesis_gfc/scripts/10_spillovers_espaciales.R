@@ -39,10 +39,12 @@ library(did)
 library(fixest)
 library(readr)
 
-PANEL_ANALISIS <- "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/scripts/output/panel_analisis_did.rds"
+DATA_ROOT <- "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/data"
+OUTPUT_ROOT <- "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs"
+PANEL_ANALISIS <- file.path(OUTPUT_ROOT, "panel_analisis_did.rds")
 MUNICIPIOS_GPKG <- "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/data/interim/municipios_clean.gpkg"
 MUNICIPIOS_LAYER <- "municipios_clean"
-dir.create("output/tablas", showWarnings = FALSE)
+dir.create(file.path(OUTPUT_ROOT, "tablas"), showWarnings = FALSE, recursive = TRUE)
 
 ## =============================================================================
 ## 1. Construir la lista de vecinos (contigüidad tipo "reina")
@@ -152,7 +154,7 @@ correr_spillover <- function(panel, col_first_treat, etiqueta) {
 resultado_alta <- correr_spillover(panel, "first_treat_alta", "Confianza alta")
 resultado_todas <- correr_spillover(panel, "first_treat_todas", "Todas las fuentes")
 
-saveRDS(list(alta = resultado_alta, todas = resultado_todas), "output/resultados_spillover.rds")
+saveRDS(list(alta = resultado_alta, todas = resultado_todas), file.path(OUTPUT_ROOT, "resultados_spillover.rds"))
 
 ## =============================================================================
 ## 3. Enfoque B: regresion TWFE con proporcion de vecinos tratados

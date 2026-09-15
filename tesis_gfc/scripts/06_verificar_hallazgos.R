@@ -23,8 +23,8 @@
 library(dplyr)
 library(did)
 
-panel <- readRDS("output/panel_analisis_did.rds")
-resultados_tasa <- readRDS("output/resultados_did_tasa.rds")
+panel <- readRDS("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/panel_analisis_did.rds")
+resultados_tasa <- readRDS("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/resultados_did_tasa.rds")
 
 ANIO_BASE_CONFLICTO_TARDIO <- 2003L  # debe coincidir con el usado en 01_preparar_datos_did.R
 

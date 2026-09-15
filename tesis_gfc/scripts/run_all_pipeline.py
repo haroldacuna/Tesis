@@ -10,16 +10,21 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 SCRIPTS_DIR = Path(__file__).resolve().parent
 
-# Scripts del flujo de obtención de la data final, en orden de ejecución.
-# Ver scripts/README.md para el detalle de qué produce cada etapa.
+# Rscript se instala fuera del PATH en este equipo. Se usa una ruta explícita
+# para que el lanzador sea reproducible desde VS Code y PowerShell.
+RSCRIPT = Path(r"C:\Program Files\R\R-4.4.1\bin\Rscript.exe")
+
+# Orden de producción: primero se construyen los datos, después se consolidan
+# las fuentes y finalmente se ejecutan los modelos y tablas en R.
 scripts_to_run = [
-    # 1) Base geoespacial y panel municipio-año
+    "00_diagnostico_geometrias.py",
+    "00b_rastrear_procedencia.py",
+    "00c_rastrear_arbol_original.py",
+    "00d_verificar_rasters.py",
     "01_prepare_boundaries.py",
     "02_extract_loss_by_municipio.py",
     "03_expand_panel_years.py",
     "04_merge_covariates.py",
-    # 2) Extracción y geolocalización de fuentes de proyectos de carbono
-    #    (alimentan la consolidación del paso 4)
     "12_construir_bridge_offsetsdb.py",
     "13_extraer_goldstandard.py",
     "14_asignar_municipio_goldstandard_espacial.py",
@@ -29,16 +34,39 @@ scripts_to_run = [
     "19_matchear_cercarbono_excel.py",
     "24_extraer_verra_platts.py",
     "25_asignar_municipio_verra_espacial.py",
-    # 3) Enriquecimiento externo (población, clima, proyectos de carbono) y QC
+    "21_reparar_deforestacion_panel.py",
     "06_enrich_panel_external.py",
     "05_qc_checks.py",
-    # 4) Consolidación de eventos de tratamiento (carbono) sobre el panel
+    "27_auditar_sector_proyectos.py",
+    "28_clasificar_sector.py",
+    "29_auditar_matching_municipal.py",
     "26_consolidar_fuentes_carbono.py",
-    # 5) Cierre de huecos de clima vía Google Earth Engine
+    "reconstruir_eventos_intensidad.py",
     "30_recalcular_clima_gee_directo.py",
     "31_integrar_clima_gee_al_panel.py",
-    # 6) Covariables de accesibilidad/conflicto (CEDE) -> dataset final para PSM/DiD
     "32_integrar_accesibilidad_conflicto_cede.py",
+    "asignar_goldstandard_espacial.R",
+    "01_preparar_datos_did.R",
+    "02_matching_psm.R",
+    "03_did_callaway_santanna.R",
+    "03b_excluir_vecinos_de_control.R",
+    "03c_diagnostico_composicion_dr_filtrado.R",
+    "04_att_por_grupo.R",
+    "04b_diagnostico_discrepancias_numericas.R",
+    "04c_inspeccion_cohortes_2006_2025_y_columna_region.R",
+    "05_did_tasa_deforestacion.R",
+    "06_verificar_hallazgos.R",
+    "07_auditar_n_efectivo_por_cohorte.R",
+    "08_sensibilidad_excluir_cohortes_tempranas.R",
+    "09_tablas_regresion.R",
+    "10_spillovers_espaciales.R",
+    "11_heterogeneidad_territorial.R",
+    "13_sun_abraham.R",
+    "14_intensidad_tratamiento.R",
+    "15_diagnostico_twfe_vs_cs.R",
+    "15_robustez_periodo_base_sutva.R",
+    "15_tablas_modelsummary.R",
+    "15_tablas_stargazer.R",
 ]
 
 
@@ -58,8 +86,15 @@ def run_scripts():
         script_path = SCRIPTS_DIR / script
         start_time = time.time()
         try:
+            if script_path.suffix.lower() == ".r":
+                if not RSCRIPT.exists():
+                    raise FileNotFoundError(f"No se encontró Rscript en '{RSCRIPT}'.")
+                command = [str(RSCRIPT), str(script_path)]
+            else:
+                command = [sys.executable, str(script_path)]
+
             subprocess.run(
-                [sys.executable, str(script_path)],
+                command,
                 check=True,
                 cwd=PROJECT_ROOT,
             )
@@ -92,9 +127,6 @@ def run_scripts():
     else:
         print("\n✅ Todos los scripts se ejecutaron exitosamente sin errores.")
     print("==================================================")
-
-    input("\nPresiona Enter para cerrar esta ventana...")
-
 
 if __name__ == "__main__":
     run_scripts()
