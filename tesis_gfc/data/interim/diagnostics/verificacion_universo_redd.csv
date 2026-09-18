@@ -1,0 +1,802 @@
+﻿fuente,nombre_proyecto,campo_sectorial,COD_DANE,anio_inicio,clase,motivo
+cercarbono,Bonos Verdes Colombia Grupo Custodiar S.A.,CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands | Land use (AFOLU) | PROTOCOL CVCC V2.1 | Removal,13212;52215;63212,,AFOLU_NO_REDD,sector~afforest
+cercarbono,Bonos de Carbono Caracoli,"CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishment of Woody Crops | Land use (AFOLU) | PROTOCOL CVCC 3.1 | Removal",05142,,AFOLU_NO_REDD,sector~reforest
+cercarbono,CARBONO GRESCO2,"CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishment of Woody Crops | Land use (AFOLU) | ES-I-CC-002, PROTOCOL CVCC V1.1 | Re",05129;15131;17433;17541;17873;25743;52381,,AFOLU_NO_REDD,sector~reforest
+cercarbono,CARBONO NEGOCIOS AGROFORESTALES,"CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands, CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishm",05154;05895;13654,,AFOLU_NO_REDD,sector~afforest
+cercarbono,CARBONO OXIGENO PARA TODOS,"CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands, CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishm",05001;05129;05148;05607;15131;54245,2009.0,AFOLU_NO_REDD,sector~afforest
+cercarbono,CARBONO RINCCO,"CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands, CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishm",,2008.0,AFOLU_NO_REDD,sector~afforest
+cercarbono,CARBONO SANTA INES,"CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands, CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishm",13654;13657,2013.0,AFOLU_NO_REDD,sector~afforest
+cercarbono,Carbono Agroforestal La Argentina,"NTC 6208 - Mitigation actions in the land use, change in land use and forestry sector at the rural level, incorporating social and biodiversity considerations | Land use (AFOLU) | PROTOCOL CVCC 3.1 | ",05001;05858;41378,,AFOLU_NO_REDD,nombre~agroforest
+cercarbono,Carbono Agroporvanda,CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands | Land use (AFOLU) | PROTOCOL CVCC V1.1 | Removal,,,AFOLU_NO_REDD,sector~afforest
+cercarbono,Carbono Agrorios,CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands | Land use (AFOLU) | PROTOCOL CVCC V1.1 | Removal,,,AFOLU_NO_REDD,sector~afforest
+cercarbono,Carbono Bagatela,"CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishment of Woody Crops | Land use (AFOLU) | PROTOCOL CVCC V2.1 | Removal",05051;13212;23419;52215;63212,2011.0,AFOLU_NO_REDD,sector~reforest
+cercarbono,Carbono Flor y Nuevo,CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands | Land use (AFOLU) | PROTOCOL CVCC V1.1 | Removal,,,AFOLU_NO_REDD,sector~afforest
+cercarbono,Carbono Ganados y Bosques,CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands | Land use (AFOLU) | PROTOCOL CVCC V2.1 | Removal,05490,,AFOLU_NO_REDD,sector~afforest
+cercarbono,Carbono Hass,"CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishment of Woody Crops | Land use (AFOLU) | PROTOCOL CVCC 4.2 | Removal",05129;15104;15131;17616,,AFOLU_NO_REDD,sector~reforest
+cercarbono,Carbono Inmunizar,CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands | Land use (AFOLU) | PROTOCOL CVCC V2.1 | Removal,,,AFOLU_NO_REDD,sector~afforest
+cercarbono,Carbono La Puya y San Lorenzo,"CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands, CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishm",13212;23419;52215;52687;63212,,AFOLU_NO_REDD,sector~afforest
+cercarbono,Carbono Nueva Esperanza,CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands | Land use (AFOLU) | PROTOCOL CVCC V2.1 | Removal,,,AFOLU_NO_REDD,sector~afforest
+cercarbono,Carbono Paja Perdida,"CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands, CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishm",05659,,AFOLU_NO_REDD,sector~afforest
+cercarbono,Carbono Rancho Victoria,"CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishment of Woody Crops | Land use (AFOLU) | PROTOCOL CVCC 4.2 | Removal",50573,,AFOLU_NO_REDD,sector~reforest
+cercarbono,Carbono Reforesta,CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands | Land use (AFOLU) | PROTOCOL CVCC V2.1 | Removal,,,AFOLU_NO_REDD,sector~afforest
+cercarbono,Carbono Reforestadora El Guasimo,"CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands, CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishm",05001;05129;15131,2007.0,AFOLU_NO_REDD,sector~afforest
+cercarbono,Carbono Refosinu,CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands | Land use (AFOLU) | ES-I-CC-002 | Removal,,,AFOLU_NO_REDD,sector~afforest
+cercarbono,Carbono Verde,CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands | Land use (AFOLU) | PROTOCOL CVCC V2.1 | Removal,13212;23580;52215;63212,,AFOLU_NO_REDD,sector~afforest
+cercarbono,Carvida,"CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands, CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishm",05129;15131,2007.0,AFOLU_NO_REDD,sector~afforest
+cercarbono,LIGNUS - BONOS DE CARBONO,"CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishment of Woody Crops | Land use (AFOLU) | PROTOCOL CVCC 4.4 | Removal",13873;44874;68872;85162;85440,2020.0,AFOLU_NO_REDD,sector~reforest
+cercarbono,MultiAntioquia,"CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands, CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishm",05129;05670;15131;17013;19110;52381;68013,,AFOLU_NO_REDD,sector~afforest
+cercarbono,Nucleos Carbono,"CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands, CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishm",05001;05036;05129;05347;05647;05887;05890;15131;68669;73675;88001,,AFOLU_NO_REDD,sector~afforest
+cercarbono,PROYECTO ASOCIATIVO PROGRAMATICO ZONA ANDINA Y COSTA ATLANTICA - FCG,"CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands, CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishm",,2011.0,AFOLU_NO_REDD,sector~afforest
+cercarbono,Programa de Compensaciones de Gases de Efecto Invernadero (GEI) – Reforestadora Caceri S.A.,"CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishment of Woody Crops | Land use (AFOLU) | PROTOCOL CVCC 3.1 | Removal",,,AFOLU_NO_REDD,sector~reforest
+cercarbono,Proyecto Carbono CAS,"CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands, CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishm",19392,2008.0,AFOLU_NO_REDD,sector~afforest
+cercarbono,Proyecto Forestal CO2CERO Chiguiro,"CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishment of Woody Crops | Land use (AFOLU) | PROTOCOL CVCC 4.5 | Removal",50568;50573;99524,2020.0,AFOLU_NO_REDD,sector~reforest
+cercarbono,Proyecto Forestal de Mitigacion de Cambio Climatico en areas degradadas por ganaderia Fincas La Clara y Suebra,CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands | Land use (AFOLU) | PROTOCOL CVCC V1.1 | Removal,,,AFOLU_NO_REDD,sector~afforest
+cercarbono,Proyecto de Mitigacion Forestal Bonanza Verde,CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands | Land use (AFOLU) | PROTOCOL CVCC V1.1 | Removal,,,AFOLU_NO_REDD,sector~afforest
+cercarbono,"Proyecto de mitigacion en el sector del uso del suelo cambio en el uso del suelo y silvicultura por remociones debidas al establecimiento de sistemas forestales de Hevea brasiliensis en el municipio de Barrancabermeja, Santander, Colombia.","CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands, CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishm",68081,,AFOLU_NO_REDD,sector~afforest
+cercarbono,Proyecto forestal de mitigacion de cambio climatico “Forestal de La Orinoquia”,CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands | Land use (AFOLU) | PROTOCOL CVCC 3.1 | Removal,99001;99524,,AFOLU_NO_REDD,sector~afforest
+cercarbono,Recuperacion de suelos degradados con el uso de incentivos financieros en el centro y oriente de Colombia,CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands | Land use (AFOLU) | PROTOCOL CVCC 3.1 | Removal,05129;15131;17616,,AFOLU_NO_REDD,sector~afforest
+cercarbono,Reforestacion Comercial en Meta,CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands | Land use (AFOLU) | PROTOCOL CVCC V2.1 | Removal,,,AFOLU_NO_REDD,sector~afforest
+cercarbono,Reforestacion de suelos degradados por la ganaderia y la agricultura en Antioquia,CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands | Land use (AFOLU) | PROTOCOL CVCC V1.1 | Removal,,,AFOLU_NO_REDD,sector~afforest
+cercarbono,SKCARBONO,"CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands, CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishm",05129;15131;17616,,AFOLU_NO_REDD,sector~afforest
+gold_standard,"Conservation and reforestation of degraded areas in Barbosa, Colombia",Afforestation/Reforestation GHG Emissions Reduction & Sequestration Methodology,05079,2011.0,AFOLU_NO_REDD,sector~afforest
+gold_standard,"Vegachi, ecological restoration of degraded lands",,05858,2015.0,AFOLU_NO_REDD,nombre~restorat
+gold_standard,Vichada Climate Reforestation Project (PAZ),,99773,2006.0,AFOLU_NO_REDD,nombre~reforest
+renare,BaumInvest Flor Morado Reforestation Project Punta Hermosa & Moriche Solo,PDBC - Programas de Desarrollo Bajo en Carbono | [],,,AFOLU_NO_REDD,nombre~reforest
+renare,BaumInvest Flor Morado Reforestation Project Punta Hermosa & Moriche Solo,PDBC - Programas de Desarrollo Bajo en Carbono | ,,,AFOLU_NO_REDD,nombre~reforest
+renare,BaumInvest Flor Morado Reforestation Project Veraneo,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,AFOLU_NO_REDD,nombre~reforest
+renare,BaumInvest Flor Morado Reforestation Project Veraneo,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,AFOLU_NO_REDD,nombre~reforest
+renare,BaumInvest Flor Saphira Reforestation Project El Capricho & La Catorce,PDBC - Programas de Desarrollo Bajo en Carbono | [],,,AFOLU_NO_REDD,nombre~reforest
+renare,BaumInvest Flor Saphira Reforestation Project El Capricho & La Catorce,PDBC - Programas de Desarrollo Bajo en Carbono | ,,,AFOLU_NO_REDD,nombre~reforest
+renare,Bella Bosque Afforestation Project - Colombia,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '$ 4.239', 'tipo_actividad_1': 708, 'contribucion_propia_1': '$ 21.000.000', 'costo_total_1': '$ 21.000",,,AFOLU_NO_REDD,sector~afforest
+renare,Bella Bosque Afforestation Project - Colombia,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,AFOLU_NO_REDD,nombre~afforest
+renare,Brujula Verde Project,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'fuente_relacionada_1': '{""value"":""Aforestacion, Reforestacion y Revegetacion en sabanas degradadas""}', 'tipo_actividad_1': 746, 'descripcion_activid",,,AFOLU_NO_REDD,sector~reforest
+renare,CARBONO AGROPORVANDA,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,CARBONO LA TABACA - AGI,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Carbono Agroforestal La Argentina,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Carbono Agroforestal La Argentina,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,41378,,AFOLU_NO_REDD,nombre~agroforest
+renare,Carbono Bagatela,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 746, 'contribucion_propia_1': '$ 100.000.000', 'costo_total_1': '$ 100.000.000'",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Carbono Inmunizar,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Commercial reforestation on lands dedicated to extensive cattle grazing activities in the region of Magdalena Bajo Seco,MDL - Proyectos del Mecanismo de Desarrollo Limpio | [],,,AFOLU_NO_REDD,nombre~reforest
+renare,Commercial reforestation on lands dedicated to extensive cattle grazing activities in the region of Magdalena Bajo Seco,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,AFOLU_NO_REDD,nombre~reforest
+renare,Cumare Carbon Proyect,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,ENTREPALMAS S.A.S,"MDL - Proyectos del Mecanismo de Desarrollo Limpio | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 666, 'contribucion_propia_1': '$ 2.000.000.000', 'costo_total_1': '$ 2.000.",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,"FINCA LA PAZ II LA VICHADA, COLOMBIA","PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '$ 4.400', 'tipo_actividad_1': 746, 'contribucion_propia_1': '$ 10.188.646', 'costo_total_1': '$ 10.188",,,AFOLU_NO_REDD,sector~reforest
+renare,Los Tities de San Juan,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '$ 4.249', 'tipo_actividad_1': 747, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 1.416.518', 'se",,,AFOLU_NO_REDD,sector~restauraci
+renare,Mas Bosques para Medellin,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 64.416.028.121', 'costo_total_1': '$ 64.416.02",,,AFOLU_NO_REDD,sector~reforest
+renare,PAISAJES PRODUCTIVOS RESTAURADOS EN LA CUENCA MEDIA DEL RIO MAGDALENA EN COLOMBIA,"PDBC - Programas de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 747, 'contribucion_propia_1': '$ 880.000.000', 'costo_total_1': '$ 880.000.000'",,,AFOLU_NO_REDD,sector~restauraci
+renare,PROYECTO ASOCIATIVO PROGRAMATICO ZONA ANDINA Y COSTA ATLANTICA -FCG,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 746, 'contribucion_propia_1': '$ 667.575.315', 'costo_total_1': '$ 667.575.315'",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,PROYECTO FORESTAL CARBONO IG FARMS,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 746, 'contribucion_propia_1': '$ 144.394.554', 'costo_total_1': '$ 144.394.554'",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,PROYECTO FORESTAL CO2CERO CASANARE,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 746, 'contribucion_propia_1': '$ 1.000.000.000', 'costo_total_1': '$ 1.000.000.",,,AFOLU_NO_REDD,sector~reforest
+renare,PROYECTO FORESTAL CO2CERO CASANARE _3_2021,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 2.893.957.568', 'secto",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,PROYECTO FORESTAL CO2CERO CAUCHO EL VIENTO,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 746, 'contribucion_propia_1': '$ 68.424.448', 'costo_total_1': '$ 68.424.448', ",,,AFOLU_NO_REDD,sector~reforest
+renare,PROYECTO FORESTAL CO2CERO CAUCHO PL UNO,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 746, 'contribucion_propia_1': '$ 344.808.808', 'costo_total_1': '$ 344.808.808'",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,PROYECTO FORESTAL CO2CERO CORDILLERA CENTRAL,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 746, 'contribucion_propia_1': '$ 1.000.000.000', 'costo_total_1': '$ 1.000.000.",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,PROYECTO FORESTAL CO2CERO META,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 746, 'contribucion_propia_1': '$ 1.000.000.000', 'costo_total_1': '$ 1.000.000.",,,AFOLU_NO_REDD,sector~reforest
+renare,PROYECTO FORESTAL CO2CERO META_09,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 746, 'contribucion_propia_1': '$ 1.000.000.000', 'costo_total_1': '$ 1.000.000.",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,PROYECTO FORESTAL CO2CERO REFOCOSTA LA GLORIA,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 746, 'contribucion_propia_1': '$ 53.421.686', 'costo_total_1': '$ 53.421.686', ",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,PROYECTO FORESTAL CO2CERO SANTANDER,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 746, 'contribucion_propia_1': '$ 1.000.000', 'costo_total_1': '$ 1.000.000', 's",,,AFOLU_NO_REDD,sector~reforest
+renare,PROYECTO FORESTAL NUCLEO VICHADA META CO2CERO,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 103.263.715.798', 'costo_total_1': '$ 103.263.",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Programa de Compensaciones de Gases de Efecto Invernadero (GEI) - Reforestadora Caceri SA,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Programa de Compensaciones de Gases de Efecto Invernadero (GEI) - Reforestadora Caceri SA,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,AFOLU_NO_REDD,nombre~reforest
+renare,Proyecto CO2CERO COL LA GLORIA - Alouatta Carbon Forest,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'fuente_relacionada_1': '{""value"":""Plantaciones forestales""}', 'tipo_actividad_1': 746, 'descripcion_actividad_1': 'Plantacion Forestal comercial', '",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Proyecto Carbono Sombrilla Abejorral,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 4.026.891.947', 'costo_total_1': '$ 4.026.891.",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Proyecto Carbono Verde,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Proyecto Forestal CO2CERO,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 63.130.091.992', 'sect",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Proyecto Forestal CO2CERO Alcaravan Orinoquia,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'fuente_relacionada_1': '{""value"":""Plantaciones forestales""}', 'tipo_actividad_1': 746, 'descripcion_actividad_1': 'El area de implementacion se loca",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Proyecto Forestal CO2CERO CARIBE,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 746, 'contribucion_propia_1': '$ 171.998.681', 'costo_total_1': '$ 171.998.681'",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Proyecto Forestal CO2CERO Chiguiro,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'fuente_relacionada_1': '{""value"":""Plantaciones Forestales""}', 'tipo_actividad_1': 746, 'descripcion_actividad_1': 'Desarrollar un proyecto de carbon",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Proyecto Forestal CO2CERO VICHADA,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 708, 'contribucion_propia_1': '$ 3.242.935.118', 'costo_total_1': '$ 3.242.935.",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Proyecto Forestal Carbono Sombrilla Abejorral,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 746, 'contribucion_propia_1': '$ 169.407.874', 'costo_total_1': '$ 169.407.874'",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Proyecto Forestal MAVALLE en plantaciones de Caucho natural,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Proyecto Forestal MAVALLE en plantaciones de Caucho natural,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,50568;50573,,AFOLU_NO_REDD,nombre~plantaci[oó]n
+renare,Proyecto Forestal Nucleo Vichada - Meta CO2CERO,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 746, 'contribucion_propia_1': '$ 346.056.871', 'costo_total_1': '$ 346.056.871'",,,AFOLU_NO_REDD,sector~reforest
+renare,"Proyecto Forestal Para La Cuenca del Rio Chinchina, una alternativa ambiental para la ciudad y La Region¿","PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Proyecto Forestal Sombrilla Urrao FCG,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 746, 'contribucion_propia_1': '$ 399.528.388', 'costo_total_1': '$ 399.528.388'",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Proyecto Forestal de Mitigacion Carbono SOMBRILLA ZONA CAFETERA FCG-CO2CERO,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 746, 'contribucion_propia_1': '$ 1.000.000', 'costo_total_1': '$ 3.000.000', 's",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Proyecto carbono CAS,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,"Proyecto de Captura de Carbono, y Conservacion Hidrica del Bosque Altoandino-Humedo en la Finca La Giovanna, Pamplona (Norte de Santander).","PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'fuente_relacionada_1': '{""value"":""Remocion de CO2 por biomasa aerea y subterranea en bosque natural altoandino""}', 'tipo_actividad_1': 246, 'descrip",,,AFOLU_NO_REDD,sector~restauraci
+renare,Proyecto de Carbono en Bosques de Sabor y Aroma,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,AFOLU_NO_REDD,sector~\bARR\b
+renare,"Proyecto de mitigacion en el sector del USCUSS por remociones debidas al establecimiento de sistemas forestales de Hevea brasiliensis en el municipio de Barrancabermeja, Santander, Colombia","PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 1.000.000.000', 'costo_total_1': '$ 1.000.000.",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,"Proyecto de mitigacion en el sector del USCUSS por remociones debidas al establecimiento de sistemas forestales de Hevea brasiliensis en los municipios de Sucre y el Penon Santander, Colombia","PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 351.460.000', 'costo_total_1': '$ 1.500.000.00",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Proyecto de mitigacion forestal Bonanza Verde,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 790.625.000', 'costo_total_1': '$ 790.625.000'",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,"Restauracion de areas degradadas y reforestacion en Caceres y Cravo Norte, Colombia","PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': '$ 1.210.000.000', 'costo_total_1': '$ 1.210.000.",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,"Restauracion de areas degradadas y reforestacion en Caceres y Cravo Norte, Colombia",PDBC - Proyectos de Desarrollo Bajo en Carbono | ,5120;81220,,AFOLU_NO_REDD,nombre~reforest
+renare,SAHBIO CARBONO,"NAMA - Acciones Nacionalmente Apropiadas de Mitigacion | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 709, 'contribucion_propia_1': '$ 46.800.000.000', 'costo_total_1': '$ 4",,,AFOLU_NO_REDD,sector~restauraci
+renare,SOMBRILLA BAJO CAUCA Y COSTA NORTE CO2CERO-FCG,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 746, 'contribucion_propia_1': '$ 259.517.383', 'costo_total_1': '$ 259.517.383'",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+renare,Sembrando Futuro 2.0,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'fuente_relacionada_1': '{""value"":""Remocion de CO2 por incremento de biomasa forestal – Proyecto Sembrando Futuro 2.0""}', 'tipo_actividad_1': 747, 'd",,,AFOLU_NO_REDD,sector~restauraci
+renare,Sustainable Agroforestry Cacao Meta,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '$ 4.147', 'tipo_actividad_1': 712, 'contribucion_propia_1': '$ 289.750.957', 'costo_total_1': '$ 289.7",,,AFOLU_NO_REDD,sector~agroforest
+renare,Sustainable Agroforestry Cacao Meta,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,50124,,AFOLU_NO_REDD,nombre~agroforest
+renare,prueba_py_pdbc,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '$ 4.000', 'tipo_actividad_1': 746, 'contribucion_propia_1': '$ 1.111', 'costo_total_1': '$ 2.222', 'se",,,AFOLU_NO_REDD,sector~plantaci[oó]n
+verra,ACABA REDD+ Project,Agriculture Forestry and Other Land Use | ,27025,2019.0,AFOLU_NO_REDD,sector~agricultur
+verra,"AFFORESTATION OF DEGRADED GRASSLANDS IN VICHADA, COLOMBIA",Agriculture Forestry and Other Land Use | ,99001,2016.0,AFOLU_NO_REDD,sector~agricultur
+verra,ASATIQ Vaupes Maloca REDD+ Project,Agriculture Forestry and Other Land Use | ,97001,2019.0,AFOLU_NO_REDD,sector~agricultur
+verra,ASATRIZY Vaupes Maloca REDD+ Project,Agriculture Forestry and Other Land Use | ,97001,2019.0,AFOLU_NO_REDD,sector~agricultur
+verra,Acapa -­ Bajo Mira Y Frontera REDD+ Project,Agriculture Forestry and Other Land Use | ,52835,2013.0,AFOLU_NO_REDD,sector~agricultur
+verra,BLUE CARBON PROJECT GULF OF MORROSQUILLO “VIDA MANGLAR”,Agriculture Forestry and Other Land Use | ,23672,2015.0,AFOLU_NO_REDD,sector~agricultur
+verra,Bajo Atrato REDD+ Project,Agriculture Forestry and Other Land Use | ,27615,2019.0,AFOLU_NO_REDD,sector~agricultur
+verra,Bajo Calima y Bahia Malaga (BCBM) REDD+ Project,Agriculture Forestry and Other Land Use | ,76109,2013.0,AFOLU_NO_REDD,sector~agricultur
+verra,Bella Bosque Vichada Afforestation Project,Agriculture Forestry and Other Land Use | ,99524,2024.0,AFOLU_NO_REDD,sector~agricultur
+verra,Boomitra grassland Restoration in Colombia,Agriculture Forestry and Other Land Use | ,20295,2022.0,AFOLU_NO_REDD,sector~agricultur
+verra,CARBONO VIVO- A REGENERATIVE LIVESTOCK CARBON PROJECT WITH A PARTICIPATORY APPROACH IN COLOMBIA,Agriculture Forestry and Other Land Use | ,50573,2020.0,AFOLU_NO_REDD,sector~agricultur
+verra,CHONTA COROZO REDD+,Agriculture Forestry and Other Land Use | ,19318,2017.0,AFOLU_NO_REDD,sector~agricultur
+verra,CO2ROZO,Agriculture Forestry and Other Land Use | ,08001,2024.0,AFOLU_NO_REDD,sector~agricultur
+verra,"COCOMACIA COMMUNITY REDD+ PROGRAM, CHOCO/ANTIOQUIA COLOMBIA",Agriculture Forestry and Other Land Use | ,27001,2016.0,AFOLU_NO_REDD,sector~agricultur
+verra,CONDOTO REDD+,Agriculture Forestry and Other Land Use | ,27205,2019.0,AFOLU_NO_REDD,sector~agricultur
+verra,"CONSEJOS COMUNITARIOS DEL PACIFICO VALLE DEL CAUCA (CCPVC) PROGRAMA REDD+ VALLE DEL CAUCA, COLOMBIA",Agriculture Forestry and Other Land Use | ,76109,2018.0,AFOLU_NO_REDD,sector~agricultur
+verra,"CONSERVATION PROJECT REDD+ SUR DEL META BOSQUES DE PAZ, SUSTENTO DE VIDA",Agriculture Forestry and Other Land Use | ,50590,2019.0,AFOLU_NO_REDD,sector~agricultur
+verra,CRIMA PREDIO PUTUMAYO Y ANDOQUE DE ADUCHE REDD+ PROJECT,Agriculture Forestry and Other Land Use | ,18756,2018.0,AFOLU_NO_REDD,sector~agricultur
+verra,Cajambre REDD+ Project,Agriculture Forestry and Other Land Use | ,76109,2013.0,AFOLU_NO_REDD,sector~agricultur
+verra,Carbon In Flavor and Arome Forests (C-BOSAR),Agriculture Forestry and Other Land Use | ,20570,2022.0,AFOLU_NO_REDD,sector~agricultur
+verra,Carmen del Darien (CDD) REDD+ Project,Agriculture Forestry and Other Land Use | ,27150,2014.0,AFOLU_NO_REDD,sector~agricultur
+verra,Concosta REDD+ Project,Agriculture Forestry and Other Land Use | ,27077,2013.0,AFOLU_NO_REDD,sector~agricultur
+verra,Conservacion de los Ecosistemas y el Almacen de Carbono Region de Transicion Guayano Amazonica 'Flor de Inirida',Agriculture Forestry and Other Land Use | ,94001,2017.0,AFOLU_NO_REDD,sector~agricultur
+verra,Cumare carbon project,Agriculture Forestry and Other Land Use | ,50689,2016.0,AFOLU_NO_REDD,sector~agricultur
+verra,Finca la Paz II,Agriculture Forestry and Other Land Use | ,99001,2016.0,AFOLU_NO_REDD,sector~agricultur
+verra,"Forestry Project for the Basin of the Chinchina River, an Environmental and Productive Alternative for the City and the Region",Agriculture Forestry and Other Land Use | ,73043,2002.0,AFOLU_NO_REDD,sector~agricultur
+verra,Forestry Project “More Forests for Medellin”,Agriculture Forestry and Other Land Use | ,05001,,AFOLU_NO_REDD,sector~agricultur
+verra,Green and Carbon Capture project,Agriculture Forestry and Other Land Use | ,47551,2022.0,AFOLU_NO_REDD,sector~agricultur
+verra,"Grouped Project REDD+ conservation of the Oak ecological corridor Guantiva – La Rusia – Iguaque, Colombia",Agriculture Forestry and Other Land Use | ,68464,2015.0,AFOLU_NO_REDD,sector~agricultur
+verra,Grouped Project for Commercial Forest Plantations Initiatives in the Department of Vichada,Agriculture Forestry and Other Land Use | ,99001,2011.0,AFOLU_NO_REDD,sector~agricultur
+verra,Grouped Project for reducing emissions from deforestation and forest degradation-REDD-in the Regional Natural Park:Biological Corridor PNN Purace-PNN Cueva de los Guacharos,Agriculture Forestry and Other Land Use | ,41668,2014.0,AFOLU_NO_REDD,sector~agricultur
+verra,"Grouped Project for restoration of degraded lands in Jaguar Corridors, Colombia",Agriculture Forestry and Other Land Use | ,68190,2015.0,AFOLU_NO_REDD,sector~agricultur
+verra,Kuvay Macaro Vidi REDD+ Caruru -KUMAVI REDD+,Agriculture Forestry and Other Land Use | ,97161,2017.0,AFOLU_NO_REDD,sector~agricultur
+verra,"MUSESI project for active restoration in areas of the Sierra Nevada Santa Marta, Colombia",Agriculture Forestry and Other Land Use | ,47189,2022.0,AFOLU_NO_REDD,sector~agricultur
+verra,Mutata REDD+ Project,Agriculture Forestry and Other Land Use | ,05480,2013.0,AFOLU_NO_REDD,sector~agricultur
+verra,NATURAL SILVOPASTORAL SYSTEMS IN THE COLOMBIAN ORINOQUIA REGION,Agriculture Forestry and Other Land Use | ,99524,2021.0,AFOLU_NO_REDD,sector~agricultur
+verra,NAYA REDD+,Agriculture Forestry and Other Land Use | ,19418,2015.0,AFOLU_NO_REDD,sector~agricultur
+verra,"NatureRe assisted natural regeneration project in degraded lands in Antioquia, Colombia",Agriculture Forestry and Other Land Use | ,05579,2022.0,AFOLU_NO_REDD,sector~agricultur
+verra,Origen Atrato-Baudo REDD+ Project,Agriculture Forestry and Other Land Use | ,27600,2019.0,AFOLU_NO_REDD,sector~agricultur
+verra,PAYMENT FOR ENVIRONMENTAL SERVICES SCHEME FOR FOREST MANAGEMENT AND CONSERVATION OF WATER SOURCES IN THE JURISDICTION OF CORPOCHIVOR,Agriculture Forestry and Other Land Use | ,15236,2014.0,AFOLU_NO_REDD,sector~agricultur
+verra,PROJECT MATANI REDD+ DIOS MAYOR DE LOS PUEBLOS CABILLARI,Agriculture Forestry and Other Land Use | ,97511,2017.0,AFOLU_NO_REDD,sector~agricultur
+verra,"PROJECT URAMIA – COMMUNITY-LED FOREST CONSERVATION REDD+ PROJECT IN CHOCO, COLOMBIA",Agriculture Forestry and Other Land Use | ,27361,2024.0,AFOLU_NO_REDD,sector~agricultur
+verra,Project MATANI REDD+ DIOS MAYOR DE LOS PUEBLOS CABILLARI CONSERVACION ANCESTRAL,Agriculture Forestry and Other Land Use | ,97511,2020.0,AFOLU_NO_REDD,sector~agricultur
+verra,Protection of mangroves and community developmental activities in the biodiversity hotspot of Colombia,Agriculture Forestry and Other Land Use | ,27800,2018.0,AFOLU_NO_REDD,sector~agricultur
+verra,Proyecto REDD++ PANI,Agriculture Forestry and Other Land Use | ,91669,2022.0,AFOLU_NO_REDD,sector~agricultur
+verra,REDD + in the Forests of the Otun River Basin,Agriculture Forestry and Other Land Use | ,66682,2016.0,AFOLU_NO_REDD,sector~agricultur
+verra,REDD PROJECT OF THE INDIGENOUS PEOPLES OF VAUPES YUTUCU AND OTHERS,Agriculture Forestry and Other Land Use | ,97001,2017.0,AFOLU_NO_REDD,sector~agricultur
+verra,REDD+ CONSERVATION OF ETHNO SUSTAINABLE AFRO-COLOMBIAN COMMUNITY IN THE TROPICAL RAIN FOREST OF COLOMBIA,Agriculture Forestry and Other Land Use | ,27006,2018.0,AFOLU_NO_REDD,sector~agricultur
+verra,REDD+ Esteros y Manglares,Agriculture Forestry and Other Land Use | ,52490,2021.0,AFOLU_NO_REDD,sector~agricultur
+verra,REDD+ Project Magnolios de Yarumal,Agriculture Forestry and Other Land Use | ,05134,2016.0,AFOLU_NO_REDD,sector~agricultur
+verra,REDD+ Project Pueblos indigenas resguardando la selva,Agriculture Forestry and Other Land Use | ,91405,2016.0,AFOLU_NO_REDD,sector~agricultur
+verra,REDD+ Project Resguardo Indigena Unificado Selva de Mataven (RIU SM),Agriculture Forestry and Other Land Use | ,99773,2013.0,AFOLU_NO_REDD,sector~agricultur
+verra,REDD+ Project for the Conservation of Lowland Forest in the Magdalena Medio Region of Colombia,Agriculture Forestry and Other Land Use | ,05893,2018.0,AFOLU_NO_REDD,sector~agricultur
+verra,REDD+ Project in the Alto Predio Putumayo Indigenous Reservation in Colombia,Agriculture Forestry and Other Land Use | ,18150,2018.0,AFOLU_NO_REDD,sector~agricultur
+verra,REDD+ Yaguara Llanos del Yari,Agriculture Forestry and Other Land Use | ,95015,,AFOLU_NO_REDD,sector~agricultur
+verra,REDD++ Manglares del Bajo Baudo,Agriculture Forestry and Other Land Use | ,27077,2022.0,AFOLU_NO_REDD,sector~agricultur
+verra,"REFORESTATION OF GRAZING LANDS HACIENDA EL MANANTIAL IN PUERTO LOPEZ, COLOMBIA",Agriculture Forestry and Other Land Use | ,50573,2014.0,AFOLU_NO_REDD,sector~agricultur
+verra,RESTORED PRODUCTIVE LANDSCAPES IN THE MAGDALENA RIVER MIDDLE BASIN IN COLOMBIA,Agriculture Forestry and Other Land Use | ,68190,2023.0,AFOLU_NO_REDD,sector~agricultur
+verra,Recovery of degraded areas with agroforestry systems in Colombia,Agriculture Forestry and Other Land Use | ,05837,2012.0,AFOLU_NO_REDD,sector~agricultur
+verra,Reforestation with Rubber on degraded lands of Colombia,Agriculture Forestry and Other Land Use | ,99624,2011.0,AFOLU_NO_REDD,sector~agricultur
+verra,Regenerating Colombian Coffee Ecosystems,Agriculture Forestry and Other Land Use | ,05670,2014.0,AFOLU_NO_REDD,sector~agricultur
+verra,"Restoration of degraded areas and reforestation in Caceres and Cravo Norte, Colombia",Agriculture Forestry and Other Land Use | ,05120,2002.0,AFOLU_NO_REDD,sector~agricultur
+verra,Rio Pepe y ACABA REDD+ Project,Agriculture Forestry and Other Land Use | ,27430,2014.0,AFOLU_NO_REDD,sector~agricultur
+verra,Riscales REDD+ Project,Agriculture Forestry and Other Land Use | ,27495,2014.0,AFOLU_NO_REDD,sector~agricultur
+verra,SIVIRU-USARAGA-PIZARRO-PILIZA (SUPP) REDD+ Project,Agriculture Forestry and Other Land Use | ,27077,2013.0,AFOLU_NO_REDD,sector~agricultur
+verra,Saving Colombia's Cloud Forest,Agriculture Forestry and Other Land Use | ,05034,2017.0,AFOLU_NO_REDD,sector~agricultur
+verra,Sembrando Futuro 2.0,Agriculture Forestry and Other Land Use | ,05679,2023.0,AFOLU_NO_REDD,sector~agricultur
+verra,Sembrando Futuro Restoration Project,Agriculture Forestry and Other Land Use | ,05364,2021.0,AFOLU_NO_REDD,sector~agricultur
+verra,"Sustainable Agroforestry Cacao Meta, Colombia",Agriculture Forestry and Other Land Use | ,50124,2017.0,AFOLU_NO_REDD,sector~agricultur
+verra,THE FOREST CARBON PROJECT AGROREFORESTADORA RANCHO VICTORIA S. A,Agriculture Forestry and Other Land Use | ,50573,2018.0,AFOLU_NO_REDD,sector~agricultur
+verra,The Choco-Darien Conservation Corridor REDD Project,Agriculture Forestry and Other Land Use | ,27006,2010.0,AFOLU_NO_REDD,sector~agricultur
+verra,"Yagual - Carbon Sequestration Grouped Project for the Restoration, Conservation and Sustainable Production in the Guerrero, Sumapaz and Rabanal Paramo Systems",Agriculture Forestry and Other Land Use | ,25793,2018.0,AFOLU_NO_REDD,sector~agricultur
+cercarbono,APROVECHAMIENTO Y RECUPERACION DE GAS MEDIANTE LA INSTALACION DE UNA PLANTA PARA LA GENERACION DE ENERGIA ELECTRICA - TERMOMECHERO,"Methodological guide for the certification of emissions reduced by the implementation of operational improvement projects in the hydrocarbons sector | Fugitive emissions from fuels (solids, oil and ga",,2018.0,NO_AFOLU,sector~hydro
+cercarbono,Alto Tulua Minor Hydroelectric Power Plant,"CDM - ACM0002: Grid-connected electricity generation from renewable sources, M/EE-EG001 Implementation of GHG Emission Reduction Projects Through Renewable Energy Use for Electric Power Generation. | ",,2012.0,NO_AFOLU,sector~renewable\s*energ
+cercarbono,Amaime Minor Hydroelectric Power Plant,"CDM - ACM0002: Grid-connected electricity generation from renewable sources | Energy industries | PROTOCOL CVCC 3.1, PROTOCOL CVCC 4.5 | Avoidance",68162;76248,2010.0,NO_AFOLU,nombre~hydro
+cercarbono,Bajo Tulua Minor Hydroelectric Power Plant,"CDM - ACM0002: Grid-connected electricity generation from renewable sources, M/EE-EG001 Implementation of GHG Emission Reduction Projects Through Renewable Energy Use for Electric Power Generation. | ",70717;76670,2011.0,NO_AFOLU,sector~renewable\s*energ
+cercarbono,Bosques Solares de los Llanos 1,ACM0002: Grid-connected electricity generation from renewable sources / ACM0006: Electricity and heat generation from biomass | Energy industries | PROTOCOL CVCC 3.1 | Avoidance,,,NO_AFOLU,nombre~solar
+cercarbono,CELSIA EOLICO AGRUPADO 2022,"CDM - ACM0002: Grid-connected electricity generation from renewable sources, CDM - AMS-I.D.: Grid connected renewable electricity generation | Energy industries | PROTOCOL CVCC 3.1 | Avoidance",,,NO_AFOLU,nombre~e[oó]lic
+cercarbono,Cartagena Landfill Gas Capture and Usage Project,"CDM - ACM0001: Flaring or use of landfill gas, Methodology for executing projects that capture, destroy, or use the biogas produced in sanitary landfills | Waste handling and disposal | PROTOCOL CVCC ",,,NO_AFOLU,sector~biog[aá]s
+cercarbono,Celsia Solar Agrupado Colombia 2021,CDM - ACM0002: Grid-connected electricity generation from renewable sources | Energy industries | PROTOCOL CVCC V2.1 | Avoidance,,,NO_AFOLU,nombre~solar
+cercarbono,Central Hidroelectrica de Santa Ana,CDM - AMS-I.D.: Grid connected renewable electricity generation | Energy industries | PROTOCOL CVCC 3.1 | Avoidance,47707,,NO_AFOLU,nombre~hidroel
+cercarbono,Certificacion de Reduccion de Emisiones de GEI de Aceites Manuelita S.A.,"AMS-I.C.: Thermal energy production with or without electricity, CDM - AMS-III.H.: Methane recovery in wastewater treatment, AMS-III.F: Avoidance of methane emissions through composting | Combined (Se",,2017.0,NO_AFOLU,sector~^AMS-I
+cercarbono,Ciclo Combinado Termoflores IV,CDM - ACM0007: Conversion from single cycle to combined cycle power generation | Energy industries | PROTOCOL CVCC V2.1 | Avoidance,08001,2017.0,NO_AFOLU,sector~combined\s*cycle
+cercarbono,Cucuana Hydroelectric Power Plant,"CDM - ACM0002: Grid-connected electricity generation from renewable sources | Energy industries | PROTOCOL CVCC V2.1, PROTOCOL CVCC 3.1 | Avoidance",70708;73622,,NO_AFOLU,nombre~hydro
+cercarbono,Dona Juana Landfill Gas to Energy Project,"CDM - ACM0001: Flaring or use of landfill gas, Methodology for executing projects that capture, destroy, or use the biogas produced in sanitary landfills, M/WM-RE_ED01: Methodology for the implementat",,2009.0,NO_AFOLU,sector~biog[aá]s
+cercarbono,Eficiencia energetica por Control Operacional en la Refineria de Cartagena,CDM - AMS-II.D: Energy efficiency and fuel switching measures for industrial facilities | Manufacturing industry | PROTOCOL CVCC 3.1 | Avoidance,,,NO_AFOLU,sector~fuel\s*switch
+cercarbono,Generacion de Energia y Reduccion de GEI-IACSA,"CDM - AMS-I.F.: Renewable electricity generation for captive use and mini-grid, CDM - AMS-III.H.: Methane recovery in wastewater treatment | Energy industries; Waste handling and disposal | PROTOCOL C",,2025.0,NO_AFOLU,sector~water\s*treatment
+cercarbono,Granja Solar de Inirida,CDM - AMS-I.F.: Renewable electricity generation for captive use and mini-grid | Energy industries | PROTOCOL CVCC V2.1 | Avoidance,94001,,NO_AFOLU,nombre~solar
+cercarbono,Guajira I Wind Farm,CDM - ACM0002: Grid-connected electricity generation from renewable sources | Energy industries | PROTOCOL CVCC 4.3 | Avoidance,,2022.0,NO_AFOLU,nombre~wind\s*(power|farm|energy)
+cercarbono,PARQUE EOLICO WESP 01,CDM - ACM0002: Grid-connected electricity generation from renewable sources | Energy industries | PROTOCOL CVCC 4.1 | Avoidance,,2023.0,NO_AFOLU,nombre~e[oó]lic
+cercarbono,PCH CANTAYUS,"CDM - AMS-I.D.: Grid connected renewable electricity generation, CDM - AMS-I.F.: Renewable electricity generation for captive use and mini-grid | Energy industries | PROTOCOL CVCC 4.2 | Avoidance",05190;47707,,NO_AFOLU,nombre~\bPCH\b
+cercarbono,PCH La Naveta,CDM - AMS-I.D.: Grid connected renewable electricity generation | Energy industries | PROTOCOL CVCC V2.1 | Avoidance,,2016.0,NO_AFOLU,nombre~\bPCH\b
+cercarbono,PCH NARE,CDM - ACM0002: Grid-connected electricity generation from renewable sources | Energy industries | PROTOCOL CVCC 4.4 | Avoidance,05021;05690,2027.0,NO_AFOLU,nombre~\bPCH\b
+cercarbono,PEQUENA CENTRAL HIDROELECTRICA SAN ANDRES DE CUERQUIA,"CDM - ACM0002: Grid-connected electricity generation from renewable sources | Energy industries | PROTOCOL CVCC 4.3, PROTOCOL CVCC 4.4 | Avoidance",05647;05887;68669;88001,2013.0,NO_AFOLU,nombre~hidroel
+cercarbono,PMCC AGROINCE,"CDM - AMS-III.H.: Methane recovery in wastewater treatment, CDM - AMS-I.F.: Renewable electricity generation for captive use and mini-grid | Energy industries; Waste handling and disposal | PROTOCOL C",,,NO_AFOLU,sector~water\s*treatment
+cercarbono,PRR-GEI ENTREPALMAS S.A.S,"CDM - AMS-III.H.: Methane recovery in wastewater treatment, AMS-I.C.: Thermal energy production with or without electricity, AMS-III.F: Avoidance of methane emissions through composting | Energy indus",,2017.0,NO_AFOLU,sector~water\s*treatment
+cercarbono,Planta de Tratamiento de Aguas Residuales - PTAR Aguas Claras,ACM0014: Treatment of wastewater | Waste handling and disposal | PROTOCOL CVCC 4.4 | Avoidance,05001,2020.0,NO_AFOLU,nombre~aguas\s*residuales
+cercarbono,Primer Proyecto Agrupado de Helios S.A.S E.S.P para la energizacion de hogares en Zonas No Interconectadas en Colombia,AMS-I.L.: Electrification of rural communities using renewable energy | Energy industries | PROTOCOL CVCC 4.2 | Avoidance,,,NO_AFOLU,sector~^AMS-I
+cercarbono,Primera sombrilla de generacion solar fotovoltaica de Ecopetrol,CDM - AMS-I.F.: Renewable electricity generation for captive use and mini-grid | Energy industries | PROTOCOL CVCC V2.1 | Avoidance,,,NO_AFOLU,nombre~solar
+cercarbono,Programa de aprovechamiento de gas asociado de Ecopetrol,"Methodological guide for the certification of emissions reduced by the implementation of operational improvement projects in the hydrocarbons sector | Fugitive emissions from fuels (solids, oil and ga",,,NO_AFOLU,sector~hydro
+cercarbono,Proyecto Agrupado Bio D S.A,"CDM - AMS-III.H.: Methane recovery in wastewater treatment, CDM - AMS-I.F.: Renewable electricity generation for captive use and mini-grid, AMS-I.C.: Thermal energy production with or without electric",,,NO_AFOLU,sector~water\s*treatment
+cercarbono,Proyecto Hidroelectrico Alejandria,CDM - ACM0002: Grid-connected electricity generation from renewable sources | Energy industries | PROTOCOL CVCC V2.1 | Avoidance,05021,2016.0,NO_AFOLU,nombre~hidroel
+cercarbono,Proyecto Hidroelectrico Dario Valencia Samper,CDM - ACM0002: Grid-connected electricity generation from renewable sources | Energy industries | PROTOCOL CVCC V2.1 | Avoidance,23855;25245;25386,2015.0,NO_AFOLU,nombre~hidroel
+cercarbono,Proyecto Hidroelectrico El Quimbo,CDM - ACM0002: Grid-connected electricity generation from renewable sources | Energy industries | PROTOCOL CVCC V2.1 | Avoidance,05091;41013;41026;41298;41306;41518;41797;68211,,NO_AFOLU,nombre~hidroel
+cercarbono,Proyecto Hidroelectrico El Salto II,CDM - ACM0002: Grid-connected electricity generation from renewable sources | Energy industries | PROTOCOL CVCC V2.1 | Avoidance,05483;17665;25386;25483;25645;52480;73675,,NO_AFOLU,nombre~hidroel
+cercarbono,Proyecto Hidroelectrico Guavio,CDM - ACM0002: Grid-connected electricity generation from renewable sources | Energy industries | PROTOCOL CVCC V2.1 | Avoidance,,,NO_AFOLU,nombre~hidroel
+cercarbono,Proyecto Hidroelectrico Guavio Menor,CDM - AMS-I.D.: Grid connected renewable electricity generation | Energy industries | PROTOCOL CVCC V2.1 | Avoidance,15236;25293;25297,2016.0,NO_AFOLU,nombre~hidroel
+cercarbono,"Proyecto Hidroelectrico Tequendama 1, 2, 3 y 4",CDM - ACM0002: Grid-connected electricity generation from renewable sources | Energy industries | PROTOCOL CVCC V2.1 | Avoidance,05483;17665;25386;25483;25645;52480;73675,,NO_AFOLU,nombre~hidroel
+cercarbono,Proyecto Palmas del Cesar S.A,"CDM - AMS-III.H.: Methane recovery in wastewater treatment, AMS-III.F: Avoidance of methane emissions through composting, CDM - AMS-I.F.: Renewable electricity generation for captive use and mini-grid",,2023.0,NO_AFOLU,sector~water\s*treatment
+cercarbono,Proyecto Solar Fotovoltaico Agrupado URRA S.A. E.S.P.,CCB - M/E-ER01: Methodology for the realization of GHG emissions reduction projects by the use of renewable energy | Energy industries | PROTOCOL CVCC 3.1 | Avoidance,,,NO_AFOLU,sector~renewable\s*energ
+cercarbono,Proyecto Solar Fotovoltaico Greenyellow,CCB - M/E-ER01: Methodology for the realization of GHG emissions reduction projects by the use of renewable energy | Energy industries | PROTOCOL CVCC 4.1 | Avoidance,,2024.0,NO_AFOLU,sector~renewable\s*energ
+cercarbono,Proyecto agrupado de PTGs - Parex,"Methodological guide for the certification of emissions reduced by the implementation of operational improvement projects in the hydrocarbons sector | Fugitive emissions from fuels (solids, oil and ga",,,NO_AFOLU,sector~hydro
+cercarbono,Proyecto de Generacion de Energia Solar Fotovoltaica El Paso,CCB - M/E-ER01: Methodology for the realization of GHG emissions reduction projects by the use of renewable energy | Energy industries | PROTOCOL CVCC 4.1 | Avoidance,20250,2018.0,NO_AFOLU,sector~renewable\s*energ
+cercarbono,Proyecto de Generacion de Energia Solar Fotovoltaica Guayepo,M/EE-EG001 Implementation of GHG Emission Reduction Projects Through Renewable Energy Use for Electric Power Generation. | Energy industries | PROTOCOL CVCC 4.4 | Does not apply,,,NO_AFOLU,sector~renewable\s*energ
+cercarbono,Proyecto de Generacion de Energia Solar Fotovoltaica La Loma,M/EE-EG001 Implementation of GHG Emission Reduction Projects Through Renewable Energy Use for Electric Power Generation. | Energy industries | PROTOCOL CVCC 4.4 | Does not apply,20250,2023.0,NO_AFOLU,sector~renewable\s*energ
+cercarbono,Proyecto de reduccion de GEI - GREMCA,"CDM - AMS-III.H.: Methane recovery in wastewater treatment, CDM - AMS-I.F.: Renewable electricity generation for captive use and mini-grid | Energy industries; Waste handling and disposal | PROTOCOL C",,,NO_AFOLU,sector~water\s*treatment
+cercarbono,Proyecto hidroelectrico Porce III,"CDM - ACM0002: Grid-connected electricity generation from renewable sources | Energy industries | PROTOCOL CVCC V1.1, PROTOCOL CVCC 3.1 | Avoidance",05001;05031;05310,,NO_AFOLU,nombre~hidroel
+cercarbono,Proyectos Fotovoltaicos Guamo y Numbana,CCB - M/E-ER01: Methodology for the realization of GHG emissions reduction projects by the use of renewable energy | Energy industries | PROTOCOL CVCC 4.3 | Avoidance,,,NO_AFOLU,sector~renewable\s*energ
+cercarbono,Rio Amoya Run-of-River Hydro Project,CDM - ACM0002: Grid-connected electricity generation from renewable sources | Energy industries | PROTOCOL CVCC 4.1 | Avoidance,73168,2008.0,NO_AFOLU,nombre~hydro
+cercarbono,Sogamoso Hydroelectric Project,CDM - ACM0002: Grid-connected electricity generation from renewable sources | Energy industries | PROTOCOL CVCC 4.3 | Avoidance,15759,2023.0,NO_AFOLU,nombre~hydro
+cercarbono,Soluciones Energeticas Promigas,M/EE-EG001 Implementation of GHG Emission Reduction Projects Through Renewable Energy Use for Electric Power Generation. | Energy industries | PROTOCOL CVCC 4.4 | Does not apply,,2020.0,NO_AFOLU,sector~renewable\s*energ
+cercarbono,Sustitucion de combustibles fosiles por combustibles alternativos en la produccion de Clinker Planta Cartagena,CDM - ACM0003: Partial substitution of fossil fuels in cement or quicklime manufacture | Manufacturing industry | PROTOCOL CVCC 3.1 | Avoidance,,,NO_AFOLU,sector~cement
+cercarbono,Veolia LFG PTA Antanas landfill,CDM - ACM0001: Flaring or use of landfill gas | Waste handling and disposal | PROTOCOL CVCC V2.1 | Avoidance,,,NO_AFOLU,sector~landfill
+cercarbono,Veolia LFG PTA Cucuta Landfill,CDM - ACM0001: Flaring or use of landfill gas | Waste handling and disposal | PROTOCOL CVCC V2.1 | Avoidance,,,NO_AFOLU,sector~landfill
+cercarbono,Veolia LFG PTA Manizales and Cucuta Landfill,CDM - ACM0001: Flaring or use of landfill gas | Energy industries; Waste handling and disposal | PROTOCOL CVCC 3.1 | Avoidance,17001,,NO_AFOLU,sector~landfill
+cercarbono,Veolia LFG PTA Presidente landfill,"CDM - ACM0001: Flaring or use of landfill gas | Waste handling and disposal | PROTOCOL CVCC V2.1, PROTOCOL CVCC 3.1 | Avoidance",,,NO_AFOLU,sector~landfill
+gold_standard,Barroso 20MW hydroelectric project,,05642,2016.0,NO_AFOLU,nombre~hydro
+gold_standard,Caruquia 9.76 MW hydroelectric project,AMS-I.D. Grid connected renewable electricity generation,05686,2011.0,NO_AFOLU,sector~^AMS-I
+gold_standard,Caruquia 9.76 MW hydroelectric project Pre-CDM VERs,AMS-I.D. Grid connected renewable electricity generation,05686,2010.0,NO_AFOLU,sector~^AMS-I
+gold_standard,Fundacion Natura Cookstove POA,GS TPDDTEC v 1.,68745,2014.0,NO_AFOLU,sector~TPDDTEC
+gold_standard,GEN+: Alejandria Small Hydropower (SHP) Run-of-the-River CDM Project Bundle,,05021,2014.0,NO_AFOLU,nombre~hydro
+gold_standard,GS3510 Fundacion Natura Cookstove PoA_Satander,GS TPDDTEC v 2.,68176,2014.0,NO_AFOLU,sector~TPDDTEC
+gold_standard,Guanaquitas 9.74 MW hydroelectric project,AMS-I.D. Grid connected renewable electricity generation,05310,2014.0,NO_AFOLU,sector~^AMS-I
+gold_standard,Programme of Activities for the Development and Promotion of Renewable Energy,,05664,2012.0,NO_AFOLU,nombre~renewable\s*energ
+gold_standard,Santander and Las Tapias Renewable Energy Project,GS SS Ecologically Sound Fuel Switch to Biomass v1.,25754,2013.0,NO_AFOLU,sector~fuel\s*switch
+renare,Alma Solar & Bayunca,"MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 970, 'contribucion_propia_1': '$ 90.000.000', 'costo_tot",,,NO_AFOLU,sector~solar
+renare,Alma Solar & Bayunca,MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | ,,,NO_AFOLU,nombre~solar
+renare,Bajo Tulua Minor Hydroelectric Power Plant - CDM,"MDL - Proyectos del Mecanismo de Desarrollo Limpio | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 558, 'contribucion_propia_1': '$ 160.000.000.000', 'costo_total_1': '$ 160.",,,NO_AFOLU,sector~energ[ií]a\s*renovable
+renare,Bajo Tulua Minor Hydroelectric Power Plant - CDM,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,NO_AFOLU,nombre~hydro
+renare,Celsia Solar Agrupado VERRA,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~solar
+renare,Celsia Solar Agrupado VERRA,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~solar
+renare,Central Hidroelectrica Carlos Lleras Restrepo,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~hidroel
+renare,Central Hidroelectrica Carlos Lleras Restrepo,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~hidroel
+renare,Central Hidroelectrica Cucuana,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 558, 'contribucion_propia_1': '$ 200.000.000.000', 'costo_total_1': '$ 200.000.",,,NO_AFOLU,nombre~hidroel
+renare,Central Hidroelectrica Cucuana,"MDL - Proyectos del Mecanismo de Desarrollo Limpio | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 558, 'contribucion_propia_1': '$ 200.000.000.000', 'costo_total_1': '$ 200.",,,NO_AFOLU,sector~energ[ií]a\s*renovable
+renare,Central Hidroelectrica Cucuana,"MDL - Proyectos del Mecanismo de Desarrollo Limpio | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 564, 'contribucion_propia_1': '$ 153.000.000.000', 'costo_total_1': '$ 153.",,,NO_AFOLU,nombre~hidroel
+renare,Central Hidroelectrica Cucuana,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~hidroel
+renare,Central Hidroelectrica Cucuana,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,NO_AFOLU,nombre~hidroel
+renare,Central Hidroelectrica Cucuana,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,NO_AFOLU,nombre~hidroel
+renare,Central Hidroelectrica Escuela de Minas,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~hidroel
+renare,Central Hidroelectrica Escuela de Minas,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~hidroel
+renare,Central Hidroelectrica Menor Alto Tulua,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 558, 'contribucion_propia_1': '$ 160.000.000.000', 'costo_total_1': '$ 160.000.",,,NO_AFOLU,nombre~hidroel
+renare,Central Hidroelectrica Menor Alto Tulua,"MDL - Proyectos del Mecanismo de Desarrollo Limpio | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 558, 'contribucion_propia_1': '$ 160.000.000.000', 'costo_total_1': '$ 160.",,,NO_AFOLU,sector~energ[ií]a\s*renovable
+renare,Central Hidroelectrica Menor Alto Tulua,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~hidroel
+renare,Central Hidroelectrica Menor Alto Tulua,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,NO_AFOLU,nombre~hidroel
+renare,Central Hidroelectrica Menor Amaime,"MDL - Proyectos del Mecanismo de Desarrollo Limpio | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 558, 'contribucion_propia_1': '$ 160.000.000.000', 'costo_total_1': '$ 160.",,,NO_AFOLU,sector~energ[ií]a\s*renovable
+renare,Central Hidroelectrica Menor Amaime,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 558, 'contribucion_propia_1': '$ 160.000.000.000', 'costo_total_1': '$ 160.000.",,,NO_AFOLU,nombre~hidroel
+renare,Central Hidroelectrica Menor Amaime,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,NO_AFOLU,nombre~hidroel
+renare,Central Hidroelectrica Menor Amaime,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~hidroel
+renare,Central Hidroelectrica Menor Bajo Tulua,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 558, 'contribucion_propia_1': '$ 160.000.000.000', 'costo_total_1': '$ 160.000.",,,NO_AFOLU,nombre~hidroel
+renare,Central Hidroelectrica Menor Bajo Tulua,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~hidroel
+renare,Ciclo Combinado Termoflores IV,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 294, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~ciclo\s*combinado
+renare,Ciclo Combinado Termoflores IV,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~termo
+renare,Diseno y desarrollo de sistemas de tratamientos de aguas residuales domesticas e industriales a traves de biomasas adsorbentes.,"MDL - Proyectos del Mecanismo de Desarrollo Limpio | [{'fuente_relacionada_1': '{""value"":""Biomasas adsorbentes ""}', 'tipo_actividad_1': 518, 'descripcion_actividad_1': 'Las biomasas adsorbentes convie",,,NO_AFOLU,sector~aguas\s*residuales
+renare,Diseno y desarrollo de sistemas de tratamientos de aguas residuales domesticas e industriales a traves de biomasas adsorbentes.,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,NO_AFOLU,nombre~aguas\s*residuales
+renare,Dona Juana Landfill Gas to Energy Project,"PDBC - Programas de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '$ 4.120', 'tipo_actividad_1': 575, 'contribucion_propia_1': '$ 20.500.000', 'costo_total_1': '$ 26.300",,,NO_AFOLU,sector~biog[aá]s
+renare,Dona Juana Landfill Gas to Energy Project,PDBC - Programas de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~landfill
+renare,FAZNI-GGC-074-521-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-075-520-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-076-523-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-077-525-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-081-544-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-082-545-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-083-546-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-083-604-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-087-585-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-093-570-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-094-572-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-095-573-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-096-593-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-098-597-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-105-611-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-106-612-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 437, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-107-613-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-108-614-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-109-615-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-110-616-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-111-617-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-112-619-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-113-620-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-114-622-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-115-626-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-116-627-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-117-628-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-118-629-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-119-630-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-120-631-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-121-625-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-122-643-17,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-397-16,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,FAZNI-GGC-403-16,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~solar
+renare,ISAGEN,"MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 970, 'contribucion_propia_1': '$ 100.000.000', 'costo_to",,,NO_AFOLU,sector~solar
+renare,Implementacion de buses electricos para el transporte de empleados de Cerro Matoso S.A.,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~transport
+renare,Implementacion de buses electricos para el transporte de empleados de Cerro Matoso S.A.,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~transport
+renare,"Introduction of the recovery and combustion of methane in the existing sludge treatment system of the Wastewater Treatment Plant of Canaveralejo EMCALI in Cali, Colombia","MDL - Proyectos del Mecanismo de Desarrollo Limpio | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 715, 'contribucion_propia_1': '$ 94.107.013.948', 'costo_total_1': '$ 94.10",,,NO_AFOLU,sector~biog[aá]s
+renare,"Introduction of the recovery and combustion of methane in the existing sludge treatment system of the Wastewater Treatment Plant of Canaveralejo EMCALI in Cali, Colombia",MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,NO_AFOLU,nombre~water\s*treatment
+renare,Liberacion de refrigerantes al final de la vida util de los refrigeradores domesticos-Sustitucion,NAMA - Acciones Nacionalmente Apropiadas de Mitigacion | [],,,NO_AFOLU,nombre~refriger
+renare,Liberacion de refrigerantes al final de la vida util de los refrigeradores domesticos-Sustitucion,NAMA - Acciones Nacionalmente Apropiadas de Mitigacion | ,,,NO_AFOLU,nombre~refriger
+renare,MDL PoA Mundo verde,"MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | [{'fuente_relacionada_1': '{""value"":""Fuente 1""}', 'tipo_actividad_1': 859, 'descripcion_actividad_1': 'Prueba', 'fecha_inicial_1",,,NO_AFOLU,sector~cement
+renare,Multimodal transport on the Magdalena River by Impala Terminals.,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~transport
+renare,Multimodal transport on the Magdalena River by Impala Terminals.,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~transport
+renare,PCH CANTAYUS,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~\bPCH\b
+renare,PCH CANTAYUS,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~\bPCH\b
+renare,PCH Cantayus,MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | [],,,NO_AFOLU,nombre~\bPCH\b
+renare,PCH Cantayus,MDL - Proyectos del Mecanismo de Desarrollo Limpio | [],,,NO_AFOLU,nombre~\bPCH\b
+renare,PCH Cantayus,MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | ,,,NO_AFOLU,nombre~\bPCH\b
+renare,PCH Cantayus,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,NO_AFOLU,nombre~\bPCH\b
+renare,PCH LA NAVETA,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 544, 'contribucion_propia_1': '$ 165.000.000', 'costo_total_1': '$ 165.000.000'",,,NO_AFOLU,sector~hidroel
+renare,PCH LA NAVETA,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~\bPCH\b
+renare,PLANTA PARA LA GENERACION DE ENERGIA ELECTRICA PROCESO POR GRUPO ELECTROGENO CON MOTOR DE ENCENDIDO POR CHISPA Y GENERADOR ¿ PLANTA DE ENERGIA MODULAR- TermoMechero,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~termo
+renare,PLANTA PARA LA GENERACION DE ENERGIA ELECTRICA PROCESO POR GRUPO ELECTROGENO CON MOTOR DE ENCENDIDO POR CHISPA Y GENERADOR ¿ PLANTA DE ENERGIA MODULAR- TermoMechero,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~termo
+renare,Parque Eolico Guajira I,"MDL - Proyectos del Mecanismo de Desarrollo Limpio | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 564, 'contribucion_propia_1': '$ 134.497.709.191', 'costo_total_1': '$ 134.",,,NO_AFOLU,sector~e[oó]lic
+renare,Parque Eolico Guajira I,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,NO_AFOLU,nombre~e[oó]lic
+renare,Parque Solar Cano Limon Phase 1 20 MW,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~fotovolt
+renare,Parque Solar Cano Limon Phase 1 20 MW,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~solar
+renare,Parque Solar Cano Limon Phase 2 20 MW,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~fotovolt
+renare,Parque Solar Cano Limon Phase 2 20 MW,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~solar
+renare,Parque eolico Guajira I,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~e[oó]lic
+renare,Parque eolico Guajira I,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~e[oó]lic
+renare,Parque eolico WESP 01,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~e[oó]lic
+renare,Parque eolico WESP 01,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~e[oó]lic
+renare,Pequena Central Hidroelectrica Alto Tulua,"MDL - Proyectos del Mecanismo de Desarrollo Limpio | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 564, 'contribucion_propia_1': '$ 165.000.000.000', 'costo_total_1': '$ 165.",,,NO_AFOLU,nombre~hidroel
+renare,Pequena Central Hidroelectrica Alto Tulua,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,NO_AFOLU,nombre~hidroel
+renare,Pequena Central Hidroelectrica Amaime,"MDL - Proyectos del Mecanismo de Desarrollo Limpio | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 564, 'contribucion_propia_1': '$ 87.000.000.000', 'costo_total_1': '$ 87.00",,,NO_AFOLU,nombre~hidroel
+renare,Pequena Central Hidroelectrica Amaime,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,NO_AFOLU,nombre~hidroel
+renare,Pequena Central hidroelectrica Bajo Tulua,"MDL - Proyectos del Mecanismo de Desarrollo Limpio | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 564, 'contribucion_propia_1': '$ 156.000.000.000', 'costo_total_1': '$ 156.",,,NO_AFOLU,nombre~hidroel
+renare,Pequena Central hidroelectrica Bajo Tulua,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,NO_AFOLU,nombre~hidroel
+renare,Pequena central hidroelectrica Montanitas,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~hidroel
+renare,Pequena central hidroelectrica Montanitas,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~hidroel
+renare,Pequena central hidroelectrica San Andres de Cuerquia,PDBC - Programas de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~hidroel
+renare,Pequena central hidroelectrica San Andres de Cuerquia,PDBC - Programas de Desarrollo Bajo en Carbono | ,5647;68669;88001,,NO_AFOLU,nombre~hidroel
+renare,Planta De Energia Solar - Awarala,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~solar
+renare,Planta De Energia Solar - Awarala,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~solar
+renare,Planta Solar Fotovoltaica Fundacion,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~solar
+renare,Planta Solar Fotovoltaica Fundacion,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~solar
+renare,Proyecto Hidroelectrico El Eden,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'fuente_relacionada_1': '{""value"":""Generacion de energia renovable""}', 'tipo_actividad_1': 558, 'descripcion_actividad_1': 'Proyecto hidroelectrico e",,,NO_AFOLU,sector~hidroel
+renare,Proyecto Hidroelectrico El Eden,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,15131;17433;17444;17541;25743;5129,,NO_AFOLU,nombre~hidroel
+renare,Proyecto Hidroelectrico Guanaquitas 9.74 MW,MDL - Proyectos del Mecanismo de Desarrollo Limpio | [],,,NO_AFOLU,nombre~hidroel
+renare,Proyecto Hidroelectrico Guanaquitas 9.74 MW,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,NO_AFOLU,nombre~hidroel
+renare,Proyecto Hidroelectrico San Miguel 42 MW,PDBC - Programas de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~hidroel
+renare,Proyecto Hidroelectrico San Miguel 42 MW,PDBC - Programas de Desarrollo Bajo en Carbono | ,68686;86757,,NO_AFOLU,nombre~hidroel
+renare,Proyecto Hidroelectrico Sogamoso,"MDL - Proyectos del Mecanismo de Desarrollo Limpio | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 564, 'contribucion_propia_1': '$ 290.413.700.000', 'costo_total_1': '$ 290.",,,NO_AFOLU,sector~hidroel
+renare,Proyecto Hidroelectrico Sogamoso,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,15759,,NO_AFOLU,nombre~hidroel
+renare,Proyecto Hidroelectrico del rio Amoya,"MDL - Proyectos del Mecanismo de Desarrollo Limpio | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 564, 'contribucion_propia_1': '$ 288.691.000.000', 'costo_total_1': '$ 288.",,,NO_AFOLU,sector~hidroel
+renare,Proyecto Hidroelectrico del rio Amoya,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,NO_AFOLU,nombre~hidroel
+renare,Proyecto Solar Fotovoltaico Agrupado URRA S.A. E.S.P.,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': ",,,NO_AFOLU,sector~fotovolt
+renare,Proyecto Solar Fotovoltaico Agrupado URRA S.A. E.S.P.,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~solar
+renare,Proyecto Solar Fotovoltaico Greenyellow,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~solar
+renare,Proyecto Solar Fotovoltaico Greenyellow,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~solar
+renare,Proyecto de Desarrollo Bajo en Carbono - Granja Solar El Cinco,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'fuente_relacionada_1': '{""value"":""Consumo de energia electrica del Sistema Interconectado Nacional (SIN)""}', 'tipo_actividad_1': 3772, 'descripcion_",,,NO_AFOLU,sector~solar
+renare,Proyecto de Desarrollo Bajo en Carbono - Granja Solar El Cinco,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~solar
+renare,Proyecto de Generacion de Energia Solar Fotovoltaica La Loma,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~solar
+renare,Proyecto de Generacion de Energia Solar Fotovoltaica La Loma,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~solar
+renare,Proyecto hidroelectrico Barroso 20MW,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~hidroel
+renare,Proyecto hidroelectrico Barroso 20MW,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~hidroel
+renare,Proyecto hidroelectrico Caruquia,PDBC - Programas de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~hidroel
+renare,Proyecto hidroelectrico Caruquia,PDBC - Programas de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~hidroel
+renare,Proyecto hidroelectrico PCH Luzma,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~hidroel
+renare,Proyecto hidroelectrico PCH Luzma,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~hidroel
+renare,Proyecto hidroelectrico Popal 20 MW,PDBC - Programas de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~hidroel
+renare,Proyecto hidroelectrico Popal 20 MW,PDBC - Programas de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~hidroel
+renare,Proyecto hidroelectrico Sogamoso,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~hidroel
+renare,Proyecto hidroelectrico Sogamoso,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,15759,,NO_AFOLU,nombre~hidroel
+renare,Proyecto hidroelectrico a filo de agua Rio Amoya,PDBC - Programas de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~hidroel
+renare,Proyecto hidroelectrico a filo de agua Rio Amoya,PDBC - Programas de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~hidroel
+renare,Proyectos hidroelectricos El Molino - San Matias,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~hidroel
+renare,Proyectos hidroelectricos El Molino - San Matias,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,44110,,NO_AFOLU,nombre~hidroel
+renare,Prueba,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'fuente_relacionada_1': '{""value"":""Prueba Fuente 1""}', 'tipo_actividad_1': 400, 'descripcion_actividad_1': 'Prueba', 'fecha_inicial_1': '01/01/2025',",,,NO_AFOLU,sector~cement
+renare,Prueba,"NAMA - Acciones Nacionalmente Apropiadas de Mitigacion | [{'fuente_relacionada_1': '{""value"":""Fuente Prueba""}', 'tipo_actividad_1': 144, 'descripcion_actividad_1': 'Prueba', 'fecha_inicial_1': '01/09/",,,NO_AFOLU,sector~cement
+renare,Rehabilitacion del Corredor Ferreo La Dorada - Chiriguana,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'fuente_relacionada_1': '{""value"":""Consumo de diesel B10 en locomotoras – operacion ferroviaria corredor La Dorada – Chiriguana (UF1)""}', 'tipo_activ",,,NO_AFOLU,sector~transport
+renare,Sistema de generacion fotovoltaico Pintuco,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,NO_AFOLU,nombre~fotovolt
+renare,Sistema de generacion fotovoltaico Pintuco,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~fotovolt
+renare,Solario,MDL - Proyectos del Mecanismo de Desarrollo Limpio | [],,,NO_AFOLU,nombre~solar
+renare,Solario,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,NO_AFOLU,nombre~solar
+renare,Sombrilla Centrales Hidroelectricas de Suba y Usaquen,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 308, 'contribucion_propia_1': '$ 28.000.000.000', 'costo_total_1': '$ 28.000.00",,,NO_AFOLU,sector~\bPCH\b
+renare,Sombrilla Centrales Hidroelectricas de Suba y Usaquen,"MDL - Proyectos del Mecanismo de Desarrollo Limpio | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 564, 'contribucion_propia_1': '$ 28.000.000.000', 'costo_total_1': '$ 28.00",,,NO_AFOLU,sector~hidroel
+renare,Sombrilla Centrales Hidroelectricas de Suba y Usaquen,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~hidroel
+renare,Sombrilla Centrales Hidroelectricas de Suba y Usaquen,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,NO_AFOLU,nombre~hidroel
+renare,Veolia LFG PTA Antanas landfill,"PDBC - Programas de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 50500, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera'",,,NO_AFOLU,sector~relleno\s*sanitario
+renare,Veolia LFG PTA Antanas landfill,PDBC - Programas de Desarrollo Bajo en Carbono | ,,,NO_AFOLU,nombre~landfill
+renare,knfknl,"MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | [{'fuente_relacionada_1': '{""value"":""Fuente1""}', 'tipo_actividad_1': 859, 'descripcion_actividad_1': 'Descripcion de la activida",,,NO_AFOLU,sector~cement
+verra,"Bionersis landfill project in Pasto, Colombia",Waste handling and disposal | ,52001,2020.0,NO_AFOLU,nombre~landfill
+verra,"Bionersis landfill project in Pasto, Colombia",Energy industries (renewable/non-renewable sources) | ,86757,,NO_AFOLU,nombre~landfill
+verra,Caruquia 9.76 MW Hydroelectric Project,Energy industries (renewable/non-renewable sources) | ,05686,2020.0,NO_AFOLU,nombre~hydro
+verra,Curva de Rodas and La Pradera landfill gas management project,Waste handling and disposal | ,05212,2022.0,NO_AFOLU,nombre~landfill
+verra,El Estero biogas recovery and utilization,"Energy industries (renewable/non-renewable sources), Waste handling and disposal | ",85139,2025.0,NO_AFOLU,nombre~biog[aá]s
+verra,El Molino-San Matias hydroelectric projects,Energy industries (renewable/non-renewable sources) | ,05197,2017.0,NO_AFOLU,nombre~hydro
+verra,Electric Mobility Program Colombia,Transport | ,50573,2026.0,NO_AFOLU,sector~transport
+verra,Escuela de Minas Hydroelectric Project,Energy industries (renewable/non-renewable sources) | ,05440,2019.0,NO_AFOLU,nombre~hydro
+verra,GUACHICONO SMALL HYDROELECTRIC PROJECT,Energy industries (renewable/non-renewable sources) | ,19392,2021.0,NO_AFOLU,nombre~hydro
+verra,Guanaquitas 9.74 MW Hydroelectric Project,Energy industries (renewable/non-renewable sources) | ,05686,2020.0,NO_AFOLU,nombre~hydro
+verra,HYDROELECTRIC PROJECT ITUANGO,Energy industries (renewable/non-renewable sources) | ,05107,2023.0,NO_AFOLU,nombre~hydro
+verra,Hydroelectric Project Aures Bajo,Energy industries (renewable/non-renewable sources) | ,05756,2018.0,NO_AFOLU,nombre~hydro
+verra,Hydroelectric Project Cantayus,Energy industries (renewable/non-renewable sources) | ,05690,2015.0,NO_AFOLU,nombre~hydro
+verra,Hydroelectric Project El Eden,Energy industries (renewable/non-renewable sources) | ,17541,2017.0,NO_AFOLU,nombre~hydro
+verra,Hydroelectric Project MULATOS II,Energy industries (renewable/non-renewable sources) | ,05792,2019.0,NO_AFOLU,nombre~hydro
+verra,Hydroelectric Project PCH Luzma,Energy industries (renewable/non-renewable sources) | ,05031,2017.0,NO_AFOLU,nombre~hydro
+verra,Hydroelectric projects at Oibita River,Energy industries (renewable/non-renewable sources) | ,68500,2023.0,NO_AFOLU,nombre~hydro
+verra,La Cascada 2.3 MW Hydroelectric Project,Energy industries (renewable/non-renewable sources) | ,05670,2007.0,NO_AFOLU,nombre~hydro
+verra,Montanitas Hydroelectric Project,Energy industries (renewable/non-renewable sources) | ,05237,2022.0,NO_AFOLU,nombre~hydro
+verra,Multimodal Transport on the Magdalena River by Impala Terminals,Transport | ,68081,2015.0,NO_AFOLU,sector~transport
+verra,SOLAR GROUPED PROJECT BY EPSA-CELSIA,Energy industries (renewable/non-renewable sources) | ,11001,2017.0,NO_AFOLU,nombre~solar
+verra,San Andres Hydroelectric project,Energy industries (renewable/non-renewable sources) | ,05647,2013.0,NO_AFOLU,nombre~hydro
+verra,Santa Ana Hydroelectric Plant - CER Conversion,Energy industries (renewable/non-renewable sources) | ,25845,2012.0,NO_AFOLU,nombre~hydro
+verra,Santa Rosa - Altamira hydroelectric projects,Energy industries (renewable/non-renewable sources) | ,68770,2020.0,NO_AFOLU,nombre~hydro
+verra,Suba and Usaquen Hydroelectric Umbrella Project,Energy industries (renewable/non-renewable sources) | ,11001,2023.0,NO_AFOLU,nombre~hydro
+verra,WIND POWER GROUPED PROJECT BY CELSIA COLOMBIA - BEGONIA POWER,Energy industries (renewable/non-renewable sources) | ,44430,2021.0,NO_AFOLU,nombre~wind\s*(power|farm|energy)
+cercarbono,AZIRPA,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC V2.1 | Avoidance and removal,,,REDD_PLUS,sector~\bREDD\b
+cercarbono,Awakadaa Jiduaa,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 4.1 | Avoidance and removal,08573;17665;94884,,REDD_PLUS,sector~\bREDD\b
+cercarbono,Awakadaa Matsiadali,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 3.1 | Avoidance and removal,,,REDD_PLUS,sector~\bREDD\b
+cercarbono,BAKA ROKARIRE ~IA TIR+~DITO,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC V2.1 | Avoidance and removal,,,REDD_PLUS,sector~\bREDD\b
+cercarbono,BANAKALE - ISIMALI REDD+,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC V2.1 | Avoidance and removal,05660;73678,,REDD_PLUS,sector~\bREDD\b
+cercarbono,CHONTA COROZO REDD+ Project,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 4.1 | Avoidance and removal,,,REDD_PLUS,sector~\bREDD\b
+cercarbono,COCOMAN FRONTERA REDD+,"CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC V2.1, PROTOCOL CVCC 4.4 | Avoidance and removal",27372;27491,2016.0,REDD_PLUS,sector~\bREDD\b
+cercarbono,"Cavadacavᵾ Coreivᵾ Jocᵾ Bᵾcᵾro Re, Nᵾje Necᵾva Aiye Baquepe",CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 4.1 | Avoidance and removal,,,REDD_PLUS,sector~\bREDD\b
+cercarbono,GUAINIA REDD+ PROJECT,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 4.1 | Avoidance and removal,,,REDD_PLUS,sector~\bREDD\b
+cercarbono,Infraestructuras Ecosistemicas REDD+ para los Campesinos de Antioquia Colombia,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 4.5 | Avoidance and removal,,2019.0,REDD_PLUS,sector~\bREDD\b
+cercarbono,JAJOM CMARI REDD+,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 3.1 | Avoidance and removal,08573;94001;94343;94884;94888,,REDD_PLUS,sector~\bREDD\b
+cercarbono,Jocu Bucuro Apuro,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 3.1 | Avoidance and removal,,,REDD_PLUS,sector~\bREDD\b
+cercarbono,Makaro Ap+ro,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC V2.1 | Avoidance and removal,,2018.0,REDD_PLUS,sector~\bREDD\b
+cercarbono,"Manejo Sostenible de los Bosques Aplicado al Predio Santa Ana, Vereda El Popal, Municipio De Sonson, Bajo El Esquema BancO2",CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 4.1 | Avoidance and removal,05756;47707,,REDD_PLUS,sector~\bREDD\b
+cercarbono,Manejo Sostenible de los Bosques Aplicado en el Oriente Antioqueno bajo el esquema BancO2®,"CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 3.1, PROTOCOL CVCC 4.4 | Avoidance and removal",,,REDD_PLUS,sector~\bREDD\b
+cercarbono,ORINOCO REDD+ PROJECT,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 4.1 | Avoidance and removal,99773,,REDD_PLUS,sector~\bREDD\b
+cercarbono,PITUGUCAJUDE,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 3.1 | Avoidance and removal,,,REDD_PLUS,sector~\bREDD\b
+cercarbono,PROYECTO REDD+ PAZCIFICO SUR,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 4.1 | Avoidance and removal,05483;25483;52480,,REDD_PLUS,sector~\bREDD\b
+cercarbono,Pedeguita y Mancilla REDD+,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 3.1 | Avoidance and removal,17614;27150;27615,2020.0,REDD_PLUS,sector~\bREDD\b
+cercarbono,Planeta Agradecido con el Resguardo indigena Bajo Rio Guainia y Rio Negro II,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 4.1 | Avoidance and removal,,,REDD_PLUS,sector~\bREDD\b
+cercarbono,Proyecto Agrupado YAAWI IIPANA REDD+,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 4.1 | Avoidance and removal,13683;19701;94888,2016.0,REDD_PLUS,sector~\bREDD\b
+cercarbono,Proyecto Conservacion ARLEQUIN REDD+,"CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 3.1, PROTOCOL CVCC 4.4 | Avoidance and removal",13670;27160;52693,2015.0,REDD_PLUS,sector~\bREDD\b
+cercarbono,Proyecto REDD+ Fundacion Biodiversa en tierras bajas del Magdalena,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 4.4 | Avoidance and removal,47189;52079,2019.0,REDD_PLUS,sector~\bREDD\b
+cercarbono,Proyecto REDD+ Zona Isana y Surubi,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 3.1 | Avoidance and removal,,2018.0,REDD_PLUS,sector~\bREDD\b
+cercarbono,Proyecto de Conservacion UNU-MAI REDD+,"CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 4.2, PROTOCOL CVCC 4.4 | Avoidance and removal",94001,2017.0,REDD_PLUS,sector~\bREDD\b
+cercarbono,REDD+ PAZCIFICO,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC V2.1 | Avoidance and removal,,,REDD_PLUS,sector~\bREDD\b
+cercarbono,RUTA ANDINA,"CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels, CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation,",,2019.0,REDD_PLUS,sector~\bREDD\b
+cercarbono,“PLANETA AGRADECIDO CON EL RESGUARDO INDIGENA CMARI”,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC V2.1 | Avoidance and removal,,,REDD_PLUS,sector~\bREDD\b
+cercarbono,“Planeta agradecido con el Resguardo Indigena Bajo Rio Guainia y Rio Negro”,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 3.1 | Avoidance and removal,,,REDD_PLUS,sector~\bREDD\b
+renare,ACABA REDD+ Project,Proyecto REDD+ | [],,,REDD_PLUS,sector~\bREDD\b
+renare,ACABA REDD+ Project,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,ASATIQ VAUPES MALOCA REDD+ PROJECT,Proyecto REDD+ | [{'acciones_redd_mas_1': '1) Mejorar los sistemas de produccion tradicionales asociados a la gestion de la chagra y los huertos familiares. \nEsta actividad del AQRP busca el desarrol,,,REDD_PLUS,sector~\bREDD\b
+renare,ASATIQ VAUPES MALOCA REDD+ PROJECT,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,ASATRIZY VAUPES MALOCA REDD+ PROJECT,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Esta actividad del AVMRP busca el desarrollo de actividades productivas compatibles con los componentes de desarrollo del Plan de Vida ASATRIZY, el bienestar",,,REDD_PLUS,sector~\bREDD\b
+renare,ASATRIZY VAUPES MALOCA REDD+ PROJECT,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REDD_PLUS,nombre~\bREDD\b
+renare,ASATRIZY VAUPES MALOCA REDD+ PROJECT,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,ASATRIZY VAUPES MALOCA REDD+ PROJECT,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REDD_PLUS,nombre~\bREDD\b
+renare,Awakadaa Jiduaa,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Proteccion de los Bosques y Conservacion Ambiental, Gobernanza Forestal y Autonomia Indigena, Buen Vivir y produccion sostenible, Proteccion de los conocimie",,,REDD_PLUS,sector~\bREDD\b
+renare,Awakadaa Jiduaa,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,BAJO ATRATO REDD+ PROJECT,"Proyecto REDD+ | [{'acciones_redd_mas_1': '1) Gestion comunitaria del bosque.\n', 'tasa_cambio_1': '', 'tipo_actividad_1': 713, 'contribucion_propia_1': '', 'costo_total_1': '', 'sector_cartera': '[{""",,,REDD_PLUS,sector~\bREDD\b
+renare,BAJO ATRATO REDD+ PROJECT,Proyecto REDD+ | ,27050,,REDD_PLUS,sector~\bREDD\b
+renare,Bosques Vitales: Programa REDD+ para la Conservacion y el Clima,"Programa REDD+ | [{'fuente_relacionada_1': '{""value"":""ABC""}', 'tipo_actividad_1': 3771, 'descripcion_actividad_1': 'asfafa', 'fecha_inicial_1': '01/01/2024', 'fecha_final_1': '31/07/2026', 'acciones_r",,,REDD_PLUS,sector~\bREDD\b
+renare,Bosques Vitales: Programa REDD+ para la Conservacion y el Clima,Programa REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,CO2BIO FASE I,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Definir e implementar el Plan de Manejo del area del proyecto, que permita ejercer esta gobernanza forestal por parte de los propietarios; Realizar seguimien",,,REDD_PLUS,sector~\bREDD\b
+renare,CO2BIO FASE I,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,CO2Bio P4,Proyecto REDD+ | [],,,REDD_PLUS,sector~\bREDD\b
+renare,CO2Bio P4,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,CO2Bio Proyecto 2,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Capacitaciones y/o talleres impartidos fundamentados en la conservacion y manejo sostenible de los ecosistemas y su biodiversidad', 'tasa_cambio_1': '', 'tip",,,REDD_PLUS,sector~\bREDD\b
+renare,CO2Bio Proyecto 2,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,CO2Bio Proyecto 2- 2,Proyecto REDD+ | [{'acciones_redd_mas_1': 'Fortalecer los conocimientos para la gestion sostenible de los ecosistemas y conservacion de la biodiversidad por medio de capacitaciones virtuales y/o prese,,,REDD_PLUS,sector~\bREDD\b
+renare,CO2Bio Proyecto 2- 2,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,CO2rozo P1,Proyecto REDD+ | [],,,REDD_PLUS,sector~\bREDD\b
+renare,CO2rozo P1,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,"Cavadacav¿ Coreiv¿ Joc¿ B¿c¿ro R¿, N¿¿j¿ N¿ec¿va Aiye Baquepe","Proyecto REDD+ | [{'acciones_redd_mas_1': 'Proteccion de los Bosques y Conservacion Ambiental, Gobernanza Forestal y Autonomia Indigena, Buen Vivir y produccion sostenible, Proteccion de los conocimie",,,REDD_PLUS,sector~\bREDD\b
+renare,"Cavadacav¿ Coreiv¿ Joc¿ B¿c¿ro R¿, N¿¿j¿ N¿ec¿va Aiye Baquepe",Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,"Conservacion REDD+ Sur del Meta ""Bosques de paz, Sustento de vida",Proyecto REDD+ | [],,,REDD_PLUS,sector~\bREDD\b
+renare,"Conservacion REDD+ Sur del Meta ""Bosques de paz, Sustento de vida",Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Corredor de Conservacion Choco-Darien,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Las actividades del proyecto pertenecen a tres temas: (i) desarrollar la capacidad de gobernanza, aumentando la conciencia sobre la identidad y los derechos ",,,REDD_PLUS,sector~\bREDD\b
+renare,Corredor de Conservacion Choco-Darien,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Crima Predio Putumayo-Andoque de Aduche REDD+,Proyecto REDD+ | [{'acciones_redd_mas_1': 'Fortalecimiento de la gobernanza territorial; procesos productivos agricolas sostenibles; delimitacion de bosques y areas de proteccion forestal; monitoreo; ,,,REDD_PLUS,sector~\bREDD\b
+renare,Crima Predio Putumayo-Andoque de Aduche REDD+,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,DEIYIABENA REDD+ NUKAK,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Fomento de capacidades, etnodesarrollo sostenible, gestion de recursos naturales, gobernanza y monitoreo, reporte y verificacion comunitario', 'tasa_cambio_1",,,REDD_PLUS,sector~\bREDD\b
+renare,DEIYIABENA REDD+ NUKAK,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,FEMAWA REDD+ Parte Alta del Rio Guainia,Proyecto REDD+ | [],,,REDD_PLUS,sector~\bREDD\b
+renare,FEMAWA REDD+ Parte Alta del Rio Guainia,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,GROUPED PROJECT FOR REDUCING EMISSIONS FROM DEFORESTATION AND FOREST DEGRADATION REDD - IN THE REGIONAL NATURAL PARK: BIOLOGICAL CORRIDOR PNN PURACE PNN CUEVA DE LOS GUACHAROS,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Implementacion de actividades para la disminucion de la deforestacion en la zona del proyecto, como sistemas de produccion sostenible a traves de reconversio",,,REDD_PLUS,sector~\bREDD\b
+renare,GROUPED PROJECT FOR REDUCING EMISSIONS FROM DEFORESTATION AND FOREST DEGRADATION REDD - IN THE REGIONAL NATURAL PARK: BIOLOGICAL CORRIDOR PNN PURACE PNN CUEVA DE LOS GUACHAROS,Proyecto REDD+ | ,19585,,REDD_PLUS,sector~\bREDD\b
+renare,GUANIA REDD+ PROJECT,Proyecto REDD+ | [{'acciones_redd_mas_1': 'Gobernanza ambiental y gobernabilidad delos pueblos indigenas; Seguridad y soberania alimentaria; Bioeconomia sostenible; Salud; Promocion y fortalecimientos,,,REDD_PLUS,sector~\bREDD\b
+renare,GUANIA REDD+ PROJECT,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Guainia III,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Proteccion de los Bosques y Conservacion Ambiental, Gobernanza Forestal y Autonomia Indigena, Buen Vivir y produccion sostenible, Proteccion de los conocimie",,,REDD_PLUS,sector~\bREDD\b
+renare,Guainia III,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Infraestructuras Ecosistemicas REDD+ para los campesinos de Antioquia Colombia,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Capacitaciones en REDD y servicios ecosistemicos, monitoreo de conservacion del bosque, acuerdos de conservacion, proyectos productivos comunitarios, fortale",,,REDD_PLUS,sector~\bREDD\b
+renare,Infraestructuras Ecosistemicas REDD+ para los campesinos de Antioquia Colombia,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,KUVAY MACARO VIDI REDD+ CARURU,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Reduccion de las emisiones de GEI a causa de la degradacion forestal no planeada', 'tasa_cambio_1': '', 'tipo_actividad_1': 714, 'contribucion_propia_1': '',",,,REDD_PLUS,sector~\bREDD\b
+renare,KUVAY MACARO VIDI REDD+ CARURU,Proyecto REDD+ | ,97161,,REDD_PLUS,sector~\bREDD\b
+renare,MARENA ICHENA - NAG+MA ENOYE RAFUE,Proyecto REDD+ | [],,,REDD_PLUS,sector~\bREDD\b
+renare,MARENA ICHENA - NAG+MA ENOYE RAFUE,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,MATANI REDD+ DIOS MAYOR DE LOS PUEBLOS CABILLARI CONSERVACION ANCESTRAL,"Proyecto REDD+ | [{'fuente_relacionada_1': '{""value"":""BOSQUES""}', 'tipo_actividad_1': 46, 'descripcion_actividad_1': 'Para asegurar la integridad del Proyecto REDD+ Matani, se ha establecido un protoc",,,REDD_PLUS,sector~\bREDD\b
+renare,MATANI REDD+ DIOS MAYOR DE LOS PUEBLOS CABILLARI CONSERVACION ANCESTRAL,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Makaro Ap+ro,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Las acciones se establecen en el plan estrategico del proyecto.', 'tasa_cambio_1': '', 'tipo_actividad_1': 706, 'contribucion_propia_1': '$ 0', 'costo_total_",,,REDD_PLUS,sector~\bREDD\b
+renare,Makaro Ap+ro,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Maloca Vaupes,Proyecto REDD+ | [{'acciones_redd_mas_1': 'Fortalecimiento de la gobernanza y control territorial; fortalecimiento de actividades tradicionales de produccion amazonica basada en productos no maderable,,,REDD_PLUS,sector~\bREDD\b
+renare,Maloca Vaupes,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,ORIGEN ATRATO-BAUDO REDD+ PROJECT,"Proyecto REDD+ | [{'acciones_redd_mas_1': '1: Proteccion, conservacion y recuperacion de los bosques y la biodiversidad.\n2: Economias sostenibles\n3: Autonomia territorial\n4: Adaptacion al cambio cl",,,REDD_PLUS,sector~\bREDD\b
+renare,ORIGEN ATRATO-BAUDO REDD+ PROJECT,Proyecto REDD+ | ,27050,,REDD_PLUS,sector~\bREDD\b
+renare,Orinoco2 P1,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Evitar cambio de uso del suelo en sabana natural a partir de practicas productivas sostenibles', 'tasa_cambio_1': '', 'tipo_actividad_1': 704, 'contribucion_",,,REDD_PLUS,sector~\bREDD\b
+renare,Orinoco2 P1,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Orinoco2 P2,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Evitar cambio de uso del suelo en sabana natural a partir de practicas productivas sostenibles', 'tasa_cambio_1': '', 'tipo_actividad_1': 704, 'contribucion_",,,REDD_PLUS,sector~\bREDD\b
+renare,Orinoco2 P2,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,PARAMUNO Proyecto 1,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Acciones de conservacion, eco turismo y gestion del conocimiento', 'tasa_cambio_1': '', 'tipo_actividad_1': 704, 'contribucion_propia_1': '', 'costo_total_1'",,,REDD_PLUS,sector~\bREDD\b
+renare,PARAMUNO Proyecto 1,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,PITUGUCAJUDE,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Proteccion de los Bosques y Conservacion Ambiental, Gobernanza Forestal y Autonomia Indigena, Buen Vivir y produccion sostenible, Proteccion de los conocimie",,,REDD_PLUS,sector~\bREDD\b
+renare,PITUGUCAJUDE,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,PROYECTO COMUNITARIO COCOMACIA REDD+ CHOCO / ANTIOQUIA COLOMBIA,Proyecto REDD+ | [{'acciones_redd_mas_1': 'a) reduccion de las emisiones debidas a la deforestacion;\nb) reduccion de las emisiones debidas a la degradacion forestal;\nc) conservacion de las reservas ,,,REDD_PLUS,sector~\bREDD\b
+renare,PROYECTO COMUNITARIO COCOMACIA REDD+ CHOCO / ANTIOQUIA COLOMBIA,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,PROYECTO REDD+ CUENCA ALTO BAUDO,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Etno desarrollo foresal sostenible, Monitoreo forestal comunitario', 'tasa_cambio_1': '', 'tipo_actividad_1': 714, 'contribucion_propia_1': '', 'costo_total_",,,REDD_PLUS,sector~\bREDD\b
+renare,PROYECTO REDD+ CUENCA ALTO BAUDO,Proyecto REDD+ | ,27025,,REDD_PLUS,sector~\bREDD\b
+renare,PROYECTO REDD+ MACROTERRITORIO JAGUARES DE YURUPARI,Proyecto REDD+ | [],,,REDD_PLUS,sector~\bREDD\b
+renare,PROYECTO REDD+ MACROTERRITORIO JAGUARES DE YURUPARI,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,"PROYECTO URAMIA - Proyecto REDD+ de Conservacion Forestal Liderado por la Comunidad en Choco, Colombia","Proyecto REDD+ | [{'fuente_relacionada_1': '{""value"":""Deforestation""}', 'tipo_actividad_1': 48, 'descripcion_actividad_1': 'El proyecto tiene como objetivo conservar una seleccion de 255.220 ha de bos",,,REDD_PLUS,sector~\bREDD\b
+renare,"PROYECTO URAMIA - Proyecto REDD+ de Conservacion Forestal Liderado por la Comunidad en Choco, Colombia",Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Paramuno Proyecto 2,Proyecto REDD+ | [],,,REDD_PLUS,sector~\bREDD\b
+renare,Paramuno Proyecto 2,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Pedeguita y Mancilla REDD+,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Acciones enmarcadas en cuatro componentes:\n- Actividades productivas\n- Inversiones sociales\n- Gobernanza\n- Monitoreo territorial', 'tasa_cambio_1': '', '",,,REDD_PLUS,sector~\bREDD\b
+renare,Pedeguita y Mancilla REDD+,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Pedeguita-Jiguamando REDD+,Proyecto REDD+ | [{'acciones_redd_mas_1': 'Fortalecimiento de la gobernanza territorial; procesos productivos agricolas sostenibles; delimitacion de bosques y areas de proteccion forestal; monitoreo; ,,,REDD_PLUS,sector~\bREDD\b
+renare,Pedeguita-Jiguamando REDD+,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,"Planeta agradecido con el Gran resguardo indigena del Vaupes, proyecto 1",Proyecto REDD+ | [{'acciones_redd_mas_1': 'Las actividades que se disenaron y se estan implementando se enmarcan en dos lineas de accion: la linea de accion ¿especifica¿ que abarca los 3 segmentos inc,,,REDD_PLUS,sector~\bREDD\b
+renare,"Planeta agradecido con el Gran resguardo indigena del Vaupes, proyecto 1",Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,"Planeta agradecido con el Gran resguardo indigena del Vaupes, proyecto 2",Proyecto REDD+ | [{'acciones_redd_mas_1': 'Las actividades que se disenaron y se estan implementando se enmarcan en dos lineas de accion: la linea de accion ¿especifica¿ que abarca los 3 segmentos inc,,,REDD_PLUS,sector~\bREDD\b
+renare,"Planeta agradecido con el Gran resguardo indigena del Vaupes, proyecto 2",Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,"Planeta agradecido con el Gran resguardo indigena del Vaupes, proyecto 3",Proyecto REDD+ | [{'acciones_redd_mas_1': 'Las actividades que se disenaron y se estan implementando se enmarcan en dos lineas de accion: la linea de accion ¿especifica¿ que abarca los 3 segmentos inc,,,REDD_PLUS,sector~\bREDD\b
+renare,"Planeta agradecido con el Gran resguardo indigena del Vaupes, proyecto 3",Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Planeta agradecido con el resguardo indigena Bajo Rio Guainia y Rio Negro,Proyecto REDD+ | [{'acciones_redd_mas_1': 'Las actividades que se disenaron y se estan implementando se enmarcan en dos lineas de accion: la linea de accion ¿especifica¿ que abarca los 3 segmentos inc,,,REDD_PLUS,sector~\bREDD\b
+renare,Planeta agradecido con el resguardo indigena Bajo Rio Guainia y Rio Negro,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Planeta agradecido con el resguardo indigena Bajo Rio Guainia y Rio Negro II,Proyecto REDD+ | [{'acciones_redd_mas_1': 'En el marco del proyecto se llevaran a cabo diversas actividades enmarcadas en 15 programas los cuales fueron construidos de manera conjunta con las comunida,,,REDD_PLUS,sector~\bREDD\b
+renare,Planeta agradecido con el resguardo indigena Bajo Rio Guainia y Rio Negro II,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Planeta agradecido con el resguardo indigena CMARI,Proyecto REDD+ | [{'acciones_redd_mas_1': 'Las actividades que se disenaron y se estan implementando se enmarcan en dos lineas de accion: la linea de accion ¿especifica¿ que abarca los 3 segmentos inc,,,REDD_PLUS,sector~\bREDD\b
+renare,Planeta agradecido con el resguardo indigena CMARI,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,"Project REDD+ Pacifico Norte-Sur, ACADESAN.","Proyecto REDD+ | [{'fuente_relacionada_1': '{""value"":""CO2""}', 'tipo_actividad_1': 46, 'descripcion_actividad_1': 'La conservacion de los bosques de la region pacifica colombiana mediante el mecanismo ",,,REDD_PLUS,sector~\bREDD\b
+renare,"Project REDD+ Pacifico Norte-Sur, ACADESAN.",Proyecto REDD+ | ,27077,,REDD_PLUS,sector~\bREDD\b
+renare,Protection of Mangroves and community developmental activities in the biodiversity hotspot of Colombia,Proyecto REDD+ | [],,,REDD_PLUS,sector~\bREDD\b
+renare,Protection of Mangroves and community developmental activities in the biodiversity hotspot of Colombia,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proy REDD+ Respira Futuro: Programa de Actividades para un Aire Limpio,"Proyecto REDD+ | [{'fuente_relacionada_1': '{""value"":""Fuente directa""}', 'tipo_actividad_1': 48, 'descripcion_actividad_1': 'Prueba', 'fecha_inicial_1': '17/09/2025', 'fecha_final_1': '09/01/2026', 'a",,,REDD_PLUS,sector~\bREDD\b
+renare,Proy REDD+ Respira Futuro: Programa de Actividades para un Aire Limpio,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto CHONTA COROZO REDD+,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Fortalecimiento de la gobernanza, reforestacion participativa, monitoreo y control de la deforestacion, fortalecimiento en educacion, atencion en salud, fort",,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto CHONTA COROZO REDD+,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto PELIWAISI REDD+ UNUMA VICHADA,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Se basa en tres lineas: 1) Gestion de recursos naturales: reforestacion con especies nativas, restauracion de areas perturbadas y etnoeducacion. 2) Fortaleci",,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto PELIWAISI REDD+ UNUMA VICHADA,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto Planeta Agradecido con el Resguardo Indigena CMARI,Proyecto REDD+ | [{'acciones_redd_mas_1': 'En el marco del proyecto se llevaran a cabo diversas actividades enmarcadas en 15 programas los cuales fueron construidos de manera conjunta con las comunida,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto Planeta Agradecido con el Resguardo Indigena CMARI,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto Planeta agradecido con el resguardo indigena Bajo Rio Guainia y Rio Negro,Proyecto REDD+ | [{'acciones_redd_mas_1': 'En el marco del proyecto se llevaran a cabo diversas actividades enmarcadas en 15 programas los cuales fueron construidos de manera conjunta con las comunida,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto Planeta agradecido con el resguardo indigena Bajo Rio Guainia y Rio Negro,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD Mapiripan,"Proyecto REDD+ | [{'fuente_relacionada_1': '{""value"":""Deforestacion no planeada""}', 'tipo_actividad_1': 48, 'descripcion_actividad_1': 'El area de aproximadamente 50.000 ha en su primera instancia, se",,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD Mapiripan,Proyecto REDD+ | ,13650;50325;94888,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Awakadaa Matsiadali,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Proteccion de los Bosques y Conservacion Ambiental, Gobernanza Forestal y Autonomia Indigena, Buen Vivir y produccion sostenible, Proteccion de los conocimie",,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Awakadaa Matsiadali,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Baka Rokarire ~ia tir+~dito,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Proteccion de los Bosques y Conservacion Ambiental, Gobernanza Forestal y Autonomia Indigena, Buen Vivir y produccion sostenible, Proteccion de los conocimie",,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Baka Rokarire ~ia tir+~dito,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Bogota Region,"Proyecto REDD+ | [{'fuente_relacionada_1': '{""value"":""Bosques Andinos""}', 'tipo_actividad_1': 46, 'descripcion_actividad_1': 'El proyecto busca conservar los bosques y coberturas naturales de paramo q",,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Bogota Region,Proyecto REDD+ | ,15104;15248;19300,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Cabildo Mayor Indigena de Vigia del Fuerte,Proyecto REDD+ | [],,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Cabildo Mayor Indigena de Vigia del Fuerte,Proyecto REDD+ | ,05873,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Consejo Comunitario del Rio Guajui REDD,Proyecto REDD+ | [],,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Consejo Comunitario del Rio Guajui REDD,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Fundacion Biodiversa en tierras bajas del Magdalena,Proyecto REDD+ | [],,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Fundacion Biodiversa en tierras bajas del Magdalena,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Jocu Bucuro Apuro,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Reduccion de la deforestacion.', 'tasa_cambio_1': '', 'tipo_actividad_1': 706, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_cartera': '[{""",,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Jocu Bucuro Apuro,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Origen Atrato - Baudo_,Proyecto REDD+ | [{'acciones_redd_mas_1': 'Fortalecimiento de la gobernanza y el control territorial\nfomento de actividades productivas basadas en el uso y conservacion de la biodiversidad y sus serv,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Origen Atrato - Baudo_,Proyecto REDD+ | ,27050,,REDD_PLUS,sector~\bREDD\b
+renare,"Proyecto REDD+ Pacifico Norte-Sur, Chanzara y Rio Sequihonda","Proyecto REDD+ | [{'fuente_relacionada_1': '{""value"":""CO2""}', 'tipo_actividad_1': 46, 'descripcion_actividad_1': 'Los ingresos generados por esta venta de bonos, permitira invertir recursos en accione",,,REDD_PLUS,sector~\bREDD\b
+renare,"Proyecto REDD+ Pacifico Norte-Sur, Chanzara y Rio Sequihonda",Proyecto REDD+ | [],,,REDD_PLUS,sector~\bREDD\b
+renare,"Proyecto REDD+ Pacifico Norte-Sur, Chanzara y Rio Sequihonda",Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,"Proyecto REDD+ Pacifico Norte-Sur, Chanzara y Rio Sequihonda",Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,"Proyecto REDD+ Pacifico Norte-Sur, La Voz de los Negros","Proyecto REDD+ | [{'fuente_relacionada_1': '{""value"":""CO2""}', 'tipo_actividad_1': 46, 'descripcion_actividad_1': 'El Proyecto REDD+ plantea la realizacion de acciones sociales y productivas, enfocadas",,,REDD_PLUS,sector~\bREDD\b
+renare,"Proyecto REDD+ Pacifico Norte-Sur, La Voz de los Negros","Proyecto REDD+ | [{'fuente_relacionada_1': '{""value"":""Fuente de Prueba""}', 'tipo_actividad_1': 50, 'descripcion_actividad_1': 'Descripcion de la actividad del proyecto', 'fecha_inicial_1': '29/01/2023",,,REDD_PLUS,sector~\bREDD\b
+renare,"Proyecto REDD+ Pacifico Norte-Sur, La Voz de los Negros",Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,"Proyecto REDD+ Pacifico Norte-Sur, La Voz de los Negros",Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Resguardo Indigena Unificado - Selva de Mataven (RIU-SM),"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Prod/Act: P1 Reduccion vulnerabilidad / A1.1 Vigilacia y control del territorio, A1.2 Sistemas de comunicacion, informacion y transporte, A1.3 Fortalecimient",,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Resguardo Indigena Unificado - Selva de Mataven (RIU-SM),Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Zona Isana y Surubi,Proyecto REDD+ | [{'acciones_redd_mas_1': 'En el marco del proyecto se llevaran a cabo diversas actividades enmarcadas en 15 programas los cuales fueron construidos de manera conjunta con las comunida,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ Zona Isana y Surubi,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ del Bajo Atrato,Proyecto REDD+ | [{'acciones_redd_mas_1': 'Fortalecimiento de la gobernanza y el control territorial\nfomento de actividades productivas basadas en el uso y conservacion de la biodiversidad y sus serv,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ del Bajo Atrato,Proyecto REDD+ | ,27050,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ en los Bosques de la cuenca del Rio Otun,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Cuatro lineas estrategicas enfocadas en la implementacion de rutas continuas de vigilancia y control de la deforestacion, actividades de ecoturismo apoyada p",,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ en los Bosques de la cuenca del Rio Otun,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ “Futuro Verde”,"Proyecto REDD+ | [{'fuente_relacionada_1': '{""value"":""Fuente indirecta 1""}', 'tipo_actividad_1': 3772, 'descripcion_actividad_1': 'El programa articula acciones con pueblos indigenas, comunidades camp",,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD+ “Futuro Verde”,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD++ PANI,"Proyecto REDD+ | [{'fuente_relacionada_1': '{""value"":""Bosque Region Amazonia""}', 'tipo_actividad_1': 46, 'descripcion_actividad_1': 'Constituye una iniciativa unica por integrar la conservacion ambien",,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto REDD++ PANI,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto de Conservacion KALIAWIRI REDD+,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Fortalecimiento de la gobernanza territorial, reforestacion participativa, procesos productivos sostenibles con productos como cacao, yuca brava, aji, pina, ",,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto de Conservacion KALIAWIRI REDD+,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto de Conservacion NAYA REDD+,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Fortalecimiento de la gobernanza territorial, reforestacion participativa, aprovechamiento sostenible de PFNM para uso medicinal, artesanal y cultural, mejor",,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto de Conservacion NAYA REDD+,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto de Conservacion PALAMEKU KUWEI REDD+,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Fortalecimiento de la gobernanza territorial, reforestacion participativa, procesos productivos sostenibles con productos como cacao, yuca brava, aji, cana d",,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto de Conservacion PALAMEKU KUWEI REDD+,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Fortalecimiento de la gobernanza territorial, reforestacion participativa, procesos productivos agricolas sostenibles incorporacion del ecoturismo para la co",,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto de Conservacion PALAMEKU KUWEI REDD+,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Proyecto de Conservacion PALAMEKU KUWEI REDD+,Proyecto REDD+ | ,94888,,REDD_PLUS,sector~\bREDD\b
+renare,"Proyecto de Mitigacion Forestal Resguardo Indigena Tikuna, Cocama y Yagua (TICOYA)","Proyecto REDD+ | [{'acciones_redd_mas_1': 'Cinco lineas estrategicas: Recuperacion y rehabilitacion de bosques, Proyectos productivos y empresariales agropecuarios sostenibles, Fortalecimiento de la s",,,REDD_PLUS,sector~\bREDD\b
+renare,"Proyecto de Mitigacion Forestal Resguardo Indigena Tikuna, Cocama y Yagua (TICOYA)",Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,Putumayo REDD+,Proyecto REDD+ | [],,,REDD_PLUS,sector~\bREDD\b
+renare,Putumayo REDD+,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,REDD+ Awia Tuparro+9,Proyecto REDD+ | [{'acciones_redd_mas_1': '1. Capacitacion sobre los efectos de deforestacion y degradacion\n2. Recuperacion de ecosistemas terrestres y acuaticos\nlineas de inversion 4.4 Educacion am,,,REDD_PLUS,sector~\bREDD\b
+renare,REDD+ Awia Tuparro+9,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,REDD+ Corpoguavio,Proyecto REDD+ | [],,,REDD_PLUS,sector~\bREDD\b
+renare,REDD+ Corpoguavio,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,REDD+ JIGRANTU,Proyecto REDD+ | [{'acciones_redd_mas_1': '¿\tFormular y ejecutar el plan de etnodesarrollo fomentado la gobernanza y rescate de las practicas culturales dentro de los Consejos Comunitarios.\n¿\tMejor,,,REDD_PLUS,sector~\bREDD\b
+renare,REDD+ JIGRANTU,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,REDD+ Monochoa,Proyecto REDD+ | [{'acciones_redd_mas_1': 'Fortalecimiento de la gobernanza territorial y forestal; desarrollo de actividades productivas sostenibles y compatibles con la naturaleza; inversion social;,,,REDD_PLUS,sector~\bREDD\b
+renare,REDD+ Monochoa,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,REDD+ PAZcifico,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Mejoramiento de las actividades de aprovechamiento forestal, reduccion de cultivos ilicitos y proteccion de manglar.', 'tasa_cambio_1': '', 'tipo_actividad_1",,,REDD_PLUS,sector~\bREDD\b
+renare,REDD+ PAZcifico,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,REDD+ PAZcifico sur,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Identificar las actividades que mitigan y evitan el crecimiento de los factores de deforestacion y degradacion a nivel local por un periodo de 20 anos', 'tas",,,REDD_PLUS,sector~\bREDD\b
+renare,REDD+ PAZcifico sur,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,REDD+ Puerto Zabalo-Los Monos,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Fortalecimiento de la gobernanza territorial, planificacion y ordenamiento del territorio', 'tasa_cambio_1': '', 'tipo_actividad_1': 50, 'contribucion_propia",,,REDD_PLUS,sector~\bREDD\b
+renare,REDD+ Puerto Zabalo-Los Monos,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,REDD+ conservation of Ethno sustainable Afro-Colombian community in the Tropical Rain Forest of Colombia,Proyecto REDD+ | [],,,REDD_PLUS,sector~\bREDD\b
+renare,REDD+ conservation of Ethno sustainable Afro-Colombian community in the Tropical Rain Forest of Colombia,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,REDD++ Manglares del Bajo Baudo,"Proyecto REDD+ | [{'acciones_redd_mas_1': '1. Desarrollo sostenible \n2. Fortalecimeinto de capacidades \n3. Fortalecimiento de Gobernanza y cultura \n4. Conservacion y monitoreo \n', 'tasa_cambio_1':",,,REDD_PLUS,sector~\bREDD\b
+renare,REDD++ Manglares del Bajo Baudo,Proyecto REDD+ | ,27077,,REDD_PLUS,sector~\bREDD\b
+renare,UNU-MAI REDD+,"Proyecto REDD+ | [{'acciones_redd_mas_1': 'Fortalecimiento de gobernanza, fortalecimiento en educacion, atencion en salud, reforestacion participativa, monitoreo y control de la deforestacion, fortale",,,REDD_PLUS,sector~\bREDD\b
+renare,UNU-MAI REDD+,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+renare,afsdfsa,"Proyecto REDD+ | [{'fuente_relacionada_1': '{""value"":""Fuente1""}', 'tipo_actividad_1': 50, 'descripcion_actividad_1': 'nsljdvnds', 'fecha_inicial_1': '01/01/2025', 'fecha_final_1': '01/12/2028', 'accio",,,REDD_PLUS,sector~\bREDD\b
+renare,afsdfsa,Proyecto REDD+ | ,,,REDD_PLUS,sector~\bREDD\b
+cercarbono,Agua Fresca Multipurpose and Environmental Services Project,CDM - AMS-I.D.: Grid connected renewable electricity generation | Energy industries | PROTOCOL CVCC 4.4 | Avoidance,05368;15368;73547,2007.0,REVISAR,sin coincidencia
+cercarbono,Generacion Electrica/Termica a partir de Biomasa – Manuelita S.A.,CDM - ACM0006: Electricity and heat generation from biomass | Energy industries | PROTOCOL CVCC 4.2 | Avoidance,,2018.0,REVISAR,sin coincidencia
+cercarbono,Proyecto agrupado HZ Energy,CDM - AMS-I.D.: Grid connected renewable electricity generation | Energy industries | PROTOCOL CVCC V2.1 | Avoidance,05031;05670,,REVISAR,sin coincidencia
+cercarbono,"Proyecto de mitigacion en el sector del uso del suelo cambio en el uso del suelo y silvicultura por remociones debidas al establecimiento de sistemas forestales de Hevea brasiliensis en los municipios de Sucre y el Penon Santander, Colombia.",CDM - ACM0002: Grid-connected electricity generation from renewable sources | Land use (AFOLU) | PROTOCOL CVCC V2.1 | Avoidance,13268;25258;68250,,REVISAR,sin coincidencia
+renare,A,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,A,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,AgroTrace,PDBC - Programas de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,AgroTrace,PDBC - Programas de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Agua Fresca Multipurpose and Environmental Services Project,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,Agua Fresca Multipurpose and Environmental Services Project,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Brujula Verde Project,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,CARBONO AGROPORVANDA,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,CARBONO LA TABACA - AGI,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 708, 'contribucion_propia_1': '$ 1.302.070.000', 'costo_total_1': '$ 1.302.070.",,,REVISAR,sin coincidencia
+renare,CARBONO LA TABACA - AGI,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,CARBONO LA TABACA - AGI,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,CARVIDA DURATEX,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,CARVIDA DURATEX,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,CIM 1,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,CIM 1,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,CIM2,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,CIM2,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,CO2Bio P4,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,CO2Bio P4,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,CO2rozo Proyecto 1,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,CO2rozo Proyecto 1,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Captura de CO2 a partir de biorreactores con microalgas chlorella vulgaris,PDBC - Programas de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,Captura de CO2 a partir de biorreactores con microalgas chlorella vulgaris,PDBC - Programas de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Carbono Bagatela,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,13212;23419;5051;52215;63212,,REVISAR,sin coincidencia
+renare,Carbono Inmunizar,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Carbono Verde II,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,Carbono Verde II,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Conservacion de la Selva de Guainia,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,Conservacion de la Selva de Guainia,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,CultivO2,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,CultivO2,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Cumare Carbon Proyect,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Despacho tecnico-economico de energia y vapor en la Refineria de Barrancabermeja-GRB,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 295, 'contribucion_propia_1': '$ 300.000.000', 'costo_total_1': '$ 300.000.000'",,,REVISAR,sin coincidencia
+renare,Despacho tecnico-economico de energia y vapor en la Refineria de Barrancabermeja-GRB,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,68081,,REVISAR,sin coincidencia
+renare,ENTREPALMAS S.A.S,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,REVISAR,sin coincidencia
+renare,EcoAccion MDL,"MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | [{'fuente_relacionada_1': 'Residuos solidos urbanos', 'tipo_actividad_1': 772, 'descripcion_actividad_1': 'Promover y coordinar ",,,REVISAR,sin coincidencia
+renare,EcoAccion MDL,"MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | [{'fuente_relacionada_1': 'Residuos solidos urbanos', 'tipo_actividad_1': 772, 'descripcion_actividad_1': 'Promover y coordinar ",,,REVISAR,sin coincidencia
+renare,EcoAccion MDL,"MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | [{'fuente_relacionada_1': 'Residuos solidos urbanos', 'tipo_actividad_1': 772, 'descripcion_actividad_1': 'Promover y coordinar ",,,REVISAR,sin coincidencia
+renare,EcoAccion MDL,MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | ,,,REVISAR,sin coincidencia
+renare,EcoAccion MDL,MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | ,,,REVISAR,sin coincidencia
+renare,EcoAccion MDL,MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-074-521-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-075-520-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-076-523-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-077-525-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-081-544-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-082-545-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-083-546-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-083-604-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-087-585-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-093-570-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-094-572-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-095-573-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-096-593-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-098-597-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-105-611-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-106-612-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-107-613-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-108-614-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-109-615-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-110-616-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-111-617-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-112-619-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-113-620-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-114-622-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-115-626-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-116-627-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-117-628-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-118-629-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-119-630-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-120-631-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-121-625-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-122-643-17,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-397-16,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,FAZNI-GGC-403-16,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,"FINCA LA PAZ II LA VICHADA, COLOMBIA",PDBC - Proyectos de Desarrollo Bajo en Carbono | ,20621;68397,,REVISAR,sin coincidencia
+renare,Generacion de electricidad a partir de biomasa forestal para la Zona No Interconectada de Puerto Carreno - Vichada,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,Generacion de electricidad a partir de biomasa forestal para la Zona No Interconectada de Puerto Carreno - Vichada,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,99001,,REVISAR,sin coincidencia
+renare,ISAGEN,MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | ,,,REVISAR,sin coincidencia
+renare,Los Tities de San Juan,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,MDL PoA Mundo verde,MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | ,,,REVISAR,sin coincidencia
+renare,Mas Bosques para Medellin,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,05001,,REVISAR,sin coincidencia
+renare,Nombre Iniciativa prueba,"MDL - Proyectos del Mecanismo de Desarrollo Limpio | [{'fuente_relacionada_1': '{""value"":""Nombre fuente1""}', 'tipo_actividad_1': 710, 'descripcion_actividad_1': 'Descripcion de la actividad del proyec",,,REVISAR,sin coincidencia
+renare,Nombre Iniciativa prueba,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,REVISAR,sin coincidencia
+renare,Nucleos Carbono,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,Nucleos Carbono,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Nucleos Timberlife,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,Nucleos Timberlife,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,PAISAJES PRODUCTIVOS RESTAURADOS EN LA CUENCA MEDIA DEL RIO MAGDALENA EN COLOMBIA,PDBC - Programas de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,PIDs Planes Integrales de Descarbonnizacion,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,PIDs Planes Integrales de Descarbonnizacion,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,PMCC Carbono Hass,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 712, 'contribucion_propia_1': '$ 357.586.066', 'costo_total_1': '$ 357.586.066'",,,REVISAR,sin coincidencia
+renare,PMCC Carbono Hass,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,PROYECTO ASOCIATIVO PROGRAMATICO ZONA ANDINA Y COSTA ATLANTICA -FCG,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,PROYECTO CARBONO EN GANADERIA REGENERATIVA EN COLOMBIA VCS ID 3927 VERRA,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 712, 'contribucion_propia_1': '$ 1.400.000.000', 'costo_total_1': '$ 4.400.000.",,,REVISAR,sin coincidencia
+renare,PROYECTO CARBONO EN GANADERIA REGENERATIVA EN COLOMBIA VCS ID 3927 VERRA,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,PROYECTO FORESTAL CARBONO IG FARMS,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,13212;23350;52215;63212,,REVISAR,sin coincidencia
+renare,PROYECTO FORESTAL CO2CERO CASANARE,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,PROYECTO FORESTAL CO2CERO CASANARE _3_2021,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,PROYECTO FORESTAL CO2CERO CAUCHO EL VIENTO,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,PROYECTO FORESTAL CO2CERO CAUCHO PL UNO,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,50568;50573;5628;85162;85300;8638,,REVISAR,sin coincidencia
+renare,PROYECTO FORESTAL CO2CERO CORDILLERA CENTRAL,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,PROYECTO FORESTAL CO2CERO META,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,PROYECTO FORESTAL CO2CERO META_09,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,PROYECTO FORESTAL CO2CERO REFOCOSTA LA GLORIA,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,20383,,REVISAR,sin coincidencia
+renare,PROYECTO FORESTAL CO2CERO SANTANDER,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,PROYECTO FORESTAL COSERVECO SAS - 24,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,PROYECTO FORESTAL COSERVECO SAS - 24,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,PROYECTO FORESTAL NUCLEO VICHADA META CO2CERO,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Paramuno P2,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,Paramuno P2,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Plan VERDE: Valoracion de Energias Renovables y Disminucion de Emisiones,"MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | [{'fuente_relacionada_1': '{""value"":""Disminucion del consumo energetico total mediante eficiencia energetica""}', 'tipo_actividad",,,REVISAR,sin coincidencia
+renare,Plan VERDE: Valoracion de Energias Renovables y Disminucion de Emisiones,MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | ,47189,,REVISAR,sin coincidencia
+renare,Primer Proyecto Agrupado de Helios S.A. E.S.P para la energizacion de hogares en Zonas No Interconectadas en Colombia,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,Primer Proyecto Agrupado de Helios S.A. E.S.P para la energizacion de hogares en Zonas No Interconectadas en Colombia,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Proyecto CO2CERO COL LA GLORIA - Alouatta Carbon Forest,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,20383,,REVISAR,sin coincidencia
+renare,Proyecto Carbono Sombrilla Abejorral,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,05002,,REVISAR,sin coincidencia
+renare,Proyecto Carbono Verde,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Proyecto CultivO2,"MDL - Proyectos del Mecanismo de Desarrollo Limpio | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 704, 'contribucion_propia_1': '$ 0', 'costo_total_1': '$ 0', 'sector_carter",,,REVISAR,sin coincidencia
+renare,Proyecto CultivO2,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,REVISAR,sin coincidencia
+renare,Proyecto Forestal CO2CERO,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Proyecto Forestal CO2CERO Alcaravan Orinoquia,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,50568;50577;99773,,REVISAR,sin coincidencia
+renare,Proyecto Forestal CO2CERO CARIBE,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Proyecto Forestal CO2CERO Chiguiro,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Proyecto Forestal CO2CERO VICHADA,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Proyecto Forestal Carbono Sombrilla Abejorral,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,05002,,REVISAR,sin coincidencia
+renare,Proyecto Forestal Nucleo Vichada - Meta CO2CERO,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,"Proyecto Forestal Para La Cuenca del Rio Chinchina, una alternativa ambiental para la ciudad y La Region¿",PDBC - Proyectos de Desarrollo Bajo en Carbono | ,17174,,REVISAR,sin coincidencia
+renare,Proyecto Forestal Sombrilla Urrao FCG,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Proyecto Forestal de Mitigacion Carbono SOMBRILLA ZONA CAFETERA FCG-CO2CERO,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Proyecto carbono CAS,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,"Proyecto de Captura de Carbono, y Conservacion Hidrica del Bosque Altoandino-Humedo en la Finca La Giovanna, Pamplona (Norte de Santander).",PDBC - Proyectos de Desarrollo Bajo en Carbono | ,54518,,REVISAR,sin coincidencia
+renare,Proyecto de Carbono en Bosques de Sabor y Aroma,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Proyecto de Certificacion COPEY,MDL - Proyectos del Mecanismo de Desarrollo Limpio | [],,,REVISAR,sin coincidencia
+renare,Proyecto de Certificacion COPEY,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,REVISAR,sin coincidencia
+renare,Proyecto de Mitigacion de Cambio Climatico Region Caribe+,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,Proyecto de Mitigacion de Cambio Climatico Region Caribe+,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,"Proyecto de mitigacion en el sector del USCUSS por remociones debidas al establecimiento de sistemas forestales de Hevea brasiliensis en el municipio de Barrancabermeja, Santander, Colombia",PDBC - Proyectos de Desarrollo Bajo en Carbono | ,68081,,REVISAR,sin coincidencia
+renare,"Proyecto de mitigacion en el sector del USCUSS por remociones debidas al establecimiento de sistemas forestales de Hevea brasiliensis en los municipios de Sucre y el Penon Santander, Colombia",PDBC - Proyectos de Desarrollo Bajo en Carbono | ,13268;25258;68250,,REVISAR,sin coincidencia
+renare,Proyecto de mitigacion en el sector del uso del suelo cambio en el uso del suelo y silvicultura por remociones debidas al establecimiento de sistemas forestales de Hevea brasiliensis en el municipio d,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 708, 'contribucion_propia_1': '$ 1.086.636.600', 'costo_total_1': '$ 1.086.636.",,,REVISAR,sin coincidencia
+renare,Proyecto de mitigacion en el sector del uso del suelo cambio en el uso del suelo y silvicultura por remociones debidas al establecimiento de sistemas forestales de Hevea brasiliensis en el municipio d,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Proyecto de mitigacion forestal Bonanza Verde,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Proyecto de optimizacion Nodo Llanos,MDL - Proyectos del Mecanismo de Desarrollo Limpio | [],,,REVISAR,sin coincidencia
+renare,Proyecto de optimizacion Nodo Llanos,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,REVISAR,sin coincidencia
+renare,Proyecto de reduccion de emisiones de la Comercializadora Global Grupo Garcia,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,Proyecto de reduccion de emisiones de la Comercializadora Global Grupo Garcia,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Prueba,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Prueba,NAMA - Acciones Nacionalmente Apropiadas de Mitigacion | ,,,REVISAR,sin coincidencia
+renare,RUTA ANDINA,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,RUTA ANDINA,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Rehabilitacion del Corredor Ferreo La Dorada - Chiriguana,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,15131;17380;20178;47189;5129,,REVISAR,sin coincidencia
+renare,SAHBIO CARBONO,NAMA - Acciones Nacionalmente Apropiadas de Mitigacion | ,,,REVISAR,sin coincidencia
+renare,SOMBRILLA BAJO CAUCA Y COSTA NORTE CO2CERO-FCG,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,Sembrando Futuro 2.0,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,5364;5789,,REVISAR,sin coincidencia
+renare,abclnlkvn,"PDBC - Programas de Desarrollo Bajo en Carbono | [{'fuente_relacionada_1': '{""value"":""jdvbjsdkvbsd""}', 'tipo_actividad_1': 503, 'descripcion_actividad_1': 'dfafadfa', 'fecha_inicial_1': '01/01/2025', ",,,REVISAR,sin coincidencia
+renare,abclnlkvn,PDBC - Programas de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,hkjhkh,"MDL - Proyectos del Mecanismo de Desarrollo Limpio | [{'fuente_relacionada_1': '{""value"":""Fuente 1""}', 'tipo_actividad_1': 558, 'descripcion_actividad_1': 'dfsfs', 'fecha_inicial_1': '01/01/2025', 'fe",,,REVISAR,sin coincidencia
+renare,hkjhkh,MDL - Proyectos del Mecanismo de Desarrollo Limpio | ,,,REVISAR,sin coincidencia
+renare,knfknl,MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | ,,,REVISAR,sin coincidencia
+renare,nombre prueba,"PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'fuente_relacionada_1': '{""value"":""Fuente Prueba1""}', 'tipo_actividad_1': 643, 'descripcion_actividad_1': 'Desc de la actividad', 'fecha_inicial_1': ",,,REVISAR,sin coincidencia
+renare,nombre prueba,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,proyecto Carbono Santa Ines,PDBC - Proyectos de Desarrollo Bajo en Carbono | [],,,REVISAR,sin coincidencia
+renare,proyecto Carbono Santa Ines,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+renare,prueba_py_pdbc,PDBC - Proyectos de Desarrollo Bajo en Carbono | ,,,REVISAR,sin coincidencia
+verra,AXIA Energia Cogeneration Project in Familia,Manufacturing industries | ,05001,2016.0,REVISAR,sin coincidencia
+verra,AXIA Energia Cogeneration Project in Unibol,Manufacturing industries | ,08758,2015.0,REVISAR,sin coincidencia
+verra,EPM Grouped Natural Gas Project,"Energy industries (renewable/non-renewable sources), Manufacturing industries | ",05615,2022.0,REVISAR,sin coincidencia

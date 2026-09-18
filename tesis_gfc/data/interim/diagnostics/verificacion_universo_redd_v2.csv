@@ -1,0 +1,159 @@
+﻿fuente,nombre_proyecto,campos_sectoriales,COD_DANE,anio_inicio,clase,motivo
+verra,CARBONO VIVO- A REGENERATIVE LIVESTOCK CARBON PROJECT WITH A PARTICIPATORY APPROACH IN COLOMBIA,Agriculture Forestry and Other Land Use | ,50573,2020.0,AFOLU_GENERICO,sectoralScope~solo alcance sectorial
+verra,CO2ROZO,Agriculture Forestry and Other Land Use | ,08001,2024.0,AFOLU_GENERICO,sectoralScope~solo alcance sectorial
+verra,Carbon In Flavor and Arome Forests (C-BOSAR),Agriculture Forestry and Other Land Use | ,20570,2022.0,AFOLU_GENERICO,sectoralScope~solo alcance sectorial
+verra,Conservacion de los Ecosistemas y el Almacen de Carbono Region de Transicion Guayano Amazonica 'Flor de Inirida',Agriculture Forestry and Other Land Use | ,94001,2017.0,AFOLU_GENERICO,sectoralScope~solo alcance sectorial
+verra,Cumare carbon project,Agriculture Forestry and Other Land Use | ,50689,2016.0,AFOLU_GENERICO,sectoralScope~solo alcance sectorial
+verra,Finca la Paz II,Agriculture Forestry and Other Land Use | ,99001,2016.0,AFOLU_GENERICO,sectoralScope~solo alcance sectorial
+verra,"Forestry Project for the Basin of the Chinchina River, an Environmental and Productive Alternative for the City and the Region",Agriculture Forestry and Other Land Use | ,73043,2002.0,AFOLU_GENERICO,sectoralScope~solo alcance sectorial
+verra,Forestry Project “More Forests for Medellin”,Agriculture Forestry and Other Land Use | ,05001,,AFOLU_GENERICO,sectoralScope~solo alcance sectorial
+verra,Green and Carbon Capture project,Agriculture Forestry and Other Land Use | ,47551,2022.0,AFOLU_GENERICO,sectoralScope~solo alcance sectorial
+verra,Grouped Project for Commercial Forest Plantations Initiatives in the Department of Vichada,Agriculture Forestry and Other Land Use | ,99001,2011.0,AFOLU_GENERICO,sectoralScope~solo alcance sectorial
+verra,"NatureRe assisted natural regeneration project in degraded lands in Antioquia, Colombia",Agriculture Forestry and Other Land Use | ,05579,2022.0,AFOLU_GENERICO,sectoralScope~solo alcance sectorial
+verra,PAYMENT FOR ENVIRONMENTAL SERVICES SCHEME FOR FOREST MANAGEMENT AND CONSERVATION OF WATER SOURCES IN THE JURISDICTION OF CORPOCHIVOR,Agriculture Forestry and Other Land Use | ,15236,2014.0,AFOLU_GENERICO,sectoralScope~solo alcance sectorial
+verra,RESTORED PRODUCTIVE LANDSCAPES IN THE MAGDALENA RIVER MIDDLE BASIN IN COLOMBIA,Agriculture Forestry and Other Land Use | ,68190,2023.0,AFOLU_GENERICO,sectoralScope~solo alcance sectorial
+verra,Regenerating Colombian Coffee Ecosystems,Agriculture Forestry and Other Land Use | ,05670,2014.0,AFOLU_GENERICO,sectoralScope~solo alcance sectorial
+verra,Saving Colombia's Cloud Forest,Agriculture Forestry and Other Land Use | ,05034,2017.0,AFOLU_GENERICO,sectoralScope~solo alcance sectorial
+verra,Sembrando Futuro 2.0,Agriculture Forestry and Other Land Use | ,05679,2023.0,AFOLU_GENERICO,sectoralScope~solo alcance sectorial
+cercarbono,Bonos de Carbono Caracoli,"CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishment of Woody Crops | Land use (AFOLU) | PROTOCOL CVCC 3.1 | Removal",05142,,AFOLU_NO_REDD,Methodology~reforest
+cercarbono,Carbono Ganados y Bosques,CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands | Land use (AFOLU) | PROTOCOL CVCC V2.1 | Removal,05490,,AFOLU_NO_REDD,Methodology~afforest
+cercarbono,Carbono Paja Perdida,"CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands, CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishm",05659,,AFOLU_NO_REDD,Methodology~afforest
+cercarbono,Carbono Rancho Victoria,"CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishment of Woody Crops | Land use (AFOLU) | PROTOCOL CVCC 4.2 | Removal",50573,,AFOLU_NO_REDD,Methodology~reforest
+cercarbono,Proyecto Carbono CAS,"CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands, CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishm",19392,2008.0,AFOLU_NO_REDD,Methodology~afforest
+cercarbono,"Proyecto de mitigacion en el sector del uso del suelo cambio en el uso del suelo y silvicultura por remociones debidas al establecimiento de sistemas forestales de Hevea brasiliensis en el municipio de Barrancabermeja, Santander, Colombia.","CDM - AR-ACM0003: Afforestation and reforestation of lands except wetlands, CCB - M/UT/F-A01: Methodology To Implement GHG Removal Projects Through Reforestation, Forest Restoration and the Establishm",68081,,AFOLU_NO_REDD,Methodology~afforest
+gold_standard,"Conservation and reforestation of degraded areas in Barbosa, Colombia",Afforestation/Reforestation GHG Emissions Reduction & Sequestration Methodology,05079,2011.0,AFOLU_NO_REDD,nombre~reforest
+gold_standard,"Vegachi, ecological restoration of degraded lands",,05858,2015.0,AFOLU_NO_REDD,nombre~restorat
+gold_standard,Vichada Climate Reforestation Project (PAZ),,99773,2006.0,AFOLU_NO_REDD,nombre~reforest
+renare,Carbono Agroforestal La Argentina,"PDBC - Proyectos de Desarrollo Bajo en Carbono | PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': ",41378,2011.0,AFOLU_NO_REDD,nombre~agroforest
+renare,PROYECTO FORESTAL CO2CERO REFOCOSTA LA GLORIA,"PDBC - Proyectos de Desarrollo Bajo en Carbono | PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 746, 'contribucion_propia_1': ",20383,2010.0,AFOLU_NO_REDD,actividades~plantaci[oó]n
+renare,Proyecto CO2CERO COL LA GLORIA - Alouatta Carbon Forest,"PDBC - Proyectos de Desarrollo Bajo en Carbono | PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'fuente_relacionada_1': '{""value"":""Plantaciones forestales""}', 'tipo_actividad_1': 746, 'descripcion",20383,2020.0,AFOLU_NO_REDD,actividades~plantaci[oó]n
+renare,Proyecto Forestal Carbono Sombrilla Abejorral,"PDBC - Proyectos de Desarrollo Bajo en Carbono | PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 746, 'contribucion_propia_1': ",05002,2009.0,AFOLU_NO_REDD,actividades~plantaci[oó]n
+renare,"Proyecto de Captura de Carbono, y Conservacion Hidrica del Bosque Altoandino-Humedo en la Finca La Giovanna, Pamplona (Norte de Santander).","PDBC - Proyectos de Desarrollo Bajo en Carbono | PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'fuente_relacionada_1': '{""value"":""Remocion de CO2 por biomasa aerea y subterranea en bosque natural",54518,2025.0,AFOLU_NO_REDD,actividades~restauraci
+renare,Sustainable Agroforestry Cacao Meta,"PDBC - Proyectos de Desarrollo Bajo en Carbono | PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '$ 4.147', 'tipo_actividad_1': 712, 'contribucion_prop",50124,2017.0,AFOLU_NO_REDD,nombre~agroforest
+verra,"AFFORESTATION OF DEGRADED GRASSLANDS IN VICHADA, COLOMBIA",Agriculture Forestry and Other Land Use | ,99001,2016.0,AFOLU_NO_REDD,nombre~afforest
+verra,BLUE CARBON PROJECT GULF OF MORROSQUILLO “VIDA MANGLAR”,Agriculture Forestry and Other Land Use | ,23672,2015.0,AFOLU_NO_REDD,nombre~manglar
+verra,Bella Bosque Vichada Afforestation Project,Agriculture Forestry and Other Land Use | ,99524,2024.0,AFOLU_NO_REDD,nombre~afforest
+verra,Boomitra grassland Restoration in Colombia,Agriculture Forestry and Other Land Use | ,20295,2022.0,AFOLU_NO_REDD,nombre~restorat
+verra,"Grouped Project for restoration of degraded lands in Jaguar Corridors, Colombia",Agriculture Forestry and Other Land Use | ,68190,2015.0,AFOLU_NO_REDD,nombre~restorat
+verra,"MUSESI project for active restoration in areas of the Sierra Nevada Santa Marta, Colombia",Agriculture Forestry and Other Land Use | ,47189,2022.0,AFOLU_NO_REDD,nombre~restorat
+verra,NATURAL SILVOPASTORAL SYSTEMS IN THE COLOMBIAN ORINOQUIA REGION,Agriculture Forestry and Other Land Use | ,99524,2021.0,AFOLU_NO_REDD,nombre~silvopast
+verra,Protection of mangroves and community developmental activities in the biodiversity hotspot of Colombia,Agriculture Forestry and Other Land Use | ,27800,2018.0,AFOLU_NO_REDD,nombre~mangrove
+verra,"REFORESTATION OF GRAZING LANDS HACIENDA EL MANANTIAL IN PUERTO LOPEZ, COLOMBIA",Agriculture Forestry and Other Land Use | ,50573,2014.0,AFOLU_NO_REDD,nombre~reforest
+verra,Recovery of degraded areas with agroforestry systems in Colombia,Agriculture Forestry and Other Land Use | ,05837,2012.0,AFOLU_NO_REDD,nombre~agroforest
+verra,Reforestation with Rubber on degraded lands of Colombia,Agriculture Forestry and Other Land Use | ,99624,2011.0,AFOLU_NO_REDD,nombre~reforest
+verra,"Restoration of degraded areas and reforestation in Caceres and Cravo Norte, Colombia",Agriculture Forestry and Other Land Use | ,05120,2002.0,AFOLU_NO_REDD,nombre~reforest
+verra,Sembrando Futuro Restoration Project,Agriculture Forestry and Other Land Use | ,05364,2021.0,AFOLU_NO_REDD,nombre~restorat
+verra,"Sustainable Agroforestry Cacao Meta, Colombia",Agriculture Forestry and Other Land Use | ,50124,2017.0,AFOLU_NO_REDD,nombre~agroforest
+verra,THE FOREST CARBON PROJECT AGROREFORESTADORA RANCHO VICTORIA S. A,Agriculture Forestry and Other Land Use | ,50573,2018.0,AFOLU_NO_REDD,nombre~reforest
+verra,"Yagual - Carbon Sequestration Grouped Project for the Restoration, Conservation and Sustainable Production in the Guerrero, Sumapaz and Rabanal Paramo Systems",Agriculture Forestry and Other Land Use | ,25793,2018.0,AFOLU_NO_REDD,nombre~restorat
+cercarbono,Central Hidroelectrica de Santa Ana,CDM - AMS-I.D.: Grid connected renewable electricity generation | Energy industries | PROTOCOL CVCC 3.1 | Avoidance,47707,,NO_AFOLU,nombre~hidroel
+cercarbono,Ciclo Combinado Termoflores IV,CDM - ACM0007: Conversion from single cycle to combined cycle power generation | Energy industries | PROTOCOL CVCC V2.1 | Avoidance,08001,2017.0,NO_AFOLU,nombre~termo
+cercarbono,Granja Solar de Inirida,CDM - AMS-I.F.: Renewable electricity generation for captive use and mini-grid | Energy industries | PROTOCOL CVCC V2.1 | Avoidance,94001,,NO_AFOLU,nombre~solar
+cercarbono,Planta de Tratamiento de Aguas Residuales - PTAR Aguas Claras,ACM0014: Treatment of wastewater | Waste handling and disposal | PROTOCOL CVCC 4.4 | Avoidance,05001,2020.0,NO_AFOLU,nombre~aguas\s*residuales
+cercarbono,Proyecto Hidroelectrico Alejandria,CDM - ACM0002: Grid-connected electricity generation from renewable sources | Energy industries | PROTOCOL CVCC V2.1 | Avoidance,05021,2016.0,NO_AFOLU,nombre~hidroel
+cercarbono,Proyecto de Generacion de Energia Solar Fotovoltaica El Paso,CCB - M/E-ER01: Methodology for the realization of GHG emissions reduction projects by the use of renewable energy | Energy industries | PROTOCOL CVCC 4.1 | Avoidance,20250,2018.0,NO_AFOLU,nombre~solar
+cercarbono,Proyecto de Generacion de Energia Solar Fotovoltaica La Loma,M/EE-EG001 Implementation of GHG Emission Reduction Projects Through Renewable Energy Use for Electric Power Generation. | Energy industries | PROTOCOL CVCC 4.4 | Does not apply,20250,2023.0,NO_AFOLU,nombre~solar
+cercarbono,Rio Amoya Run-of-River Hydro Project,CDM - ACM0002: Grid-connected electricity generation from renewable sources | Energy industries | PROTOCOL CVCC 4.1 | Avoidance,73168,2008.0,NO_AFOLU,nombre~hydro
+cercarbono,Sogamoso Hydroelectric Project,CDM - ACM0002: Grid-connected electricity generation from renewable sources | Energy industries | PROTOCOL CVCC 4.3 | Avoidance,15759,2023.0,NO_AFOLU,nombre~hydro
+cercarbono,Veolia LFG PTA Manizales and Cucuta Landfill,CDM - ACM0001: Flaring or use of landfill gas | Energy industries; Waste handling and disposal | PROTOCOL CVCC 3.1 | Avoidance,17001,,NO_AFOLU,nombre~landfill
+gold_standard,Barroso 20MW hydroelectric project,,05642,2016.0,NO_AFOLU,nombre~hydro
+gold_standard,Caruquia 9.76 MW hydroelectric project,AMS-I.D. Grid connected renewable electricity generation,05686,2011.0,NO_AFOLU,nombre~hydro
+gold_standard,Caruquia 9.76 MW hydroelectric project Pre-CDM VERs,AMS-I.D. Grid connected renewable electricity generation,05686,2010.0,NO_AFOLU,nombre~hydro
+gold_standard,Fundacion Natura Cookstove POA,GS TPDDTEC v 1.,68745,2014.0,NO_AFOLU,nombre~cook\s*stove
+gold_standard,GEN+: Alejandria Small Hydropower (SHP) Run-of-the-River CDM Project Bundle,,05021,2014.0,NO_AFOLU,nombre~hydro
+gold_standard,GS3510 Fundacion Natura Cookstove PoA_Satander,GS TPDDTEC v 2.,68176,2014.0,NO_AFOLU,nombre~cook\s*stove
+gold_standard,Guanaquitas 9.74 MW hydroelectric project,AMS-I.D. Grid connected renewable electricity generation,05310,2014.0,NO_AFOLU,nombre~hydro
+gold_standard,Programme of Activities for the Development and Promotion of Renewable Energy,,05664,2012.0,NO_AFOLU,nombre~renewable\s*energ
+gold_standard,Santander and Las Tapias Renewable Energy Project,GS SS Ecologically Sound Fuel Switch to Biomass v1.,25754,2013.0,NO_AFOLU,nombre~renewable\s*energ
+renare,Plan VERDE: Valoracion de Energias Renovables y Disminucion de Emisiones,"MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | MDL PoA - Programas de Actividades del Mecanismo de Desarrollo Limpio | [{'fuente_relacionada_1': '{""value"":""Disminucion del con",47189,2025.0,NO_AFOLU,actividades~eficiencia\s*energetica
+renare,Proyecto Hidroelectrico Sogamoso,"MDL - Proyectos del Mecanismo de Desarrollo Limpio | MDL - Proyectos del Mecanismo de Desarrollo Limpio | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 564, 'contribucion_pro",15759,2016.0,NO_AFOLU,nombre~hidroel
+renare,Proyecto hidroelectrico Sogamoso,PDBC - Proyectos de Desarrollo Bajo en Carbono | PDBC - Proyectos de Desarrollo Bajo en Carbono | [],15759,,NO_AFOLU,nombre~hidroel
+renare,Proyectos hidroelectricos El Molino - San Matias,PDBC - Proyectos de Desarrollo Bajo en Carbono | PDBC - Proyectos de Desarrollo Bajo en Carbono | [],44110,,NO_AFOLU,nombre~hidroel
+verra,"Bionersis landfill project in Pasto, Colombia",Waste handling and disposal | ,52001,2020.0,NO_AFOLU,nombre~landfill
+verra,"Bionersis landfill project in Pasto, Colombia",Energy industries (renewable/non-renewable sources) | ,86757,,NO_AFOLU,nombre~landfill
+verra,Caruquia 9.76 MW Hydroelectric Project,Energy industries (renewable/non-renewable sources) | ,05686,2020.0,NO_AFOLU,nombre~hydro
+verra,Curva de Rodas and La Pradera landfill gas management project,Waste handling and disposal | ,05212,2022.0,NO_AFOLU,nombre~landfill
+verra,El Estero biogas recovery and utilization,"Energy industries (renewable/non-renewable sources), Waste handling and disposal | ",85139,2025.0,NO_AFOLU,nombre~biog[aá]s
+verra,El Molino-San Matias hydroelectric projects,Energy industries (renewable/non-renewable sources) | ,05197,2017.0,NO_AFOLU,nombre~hydro
+verra,Electric Mobility Program Colombia,Transport | ,50573,2026.0,NO_AFOLU,sectoralScope~transport
+verra,Escuela de Minas Hydroelectric Project,Energy industries (renewable/non-renewable sources) | ,05440,2019.0,NO_AFOLU,nombre~hydro
+verra,GUACHICONO SMALL HYDROELECTRIC PROJECT,Energy industries (renewable/non-renewable sources) | ,19392,2021.0,NO_AFOLU,nombre~hydro
+verra,Guanaquitas 9.74 MW Hydroelectric Project,Energy industries (renewable/non-renewable sources) | ,05686,2020.0,NO_AFOLU,nombre~hydro
+verra,HYDROELECTRIC PROJECT ITUANGO,Energy industries (renewable/non-renewable sources) | ,05107,2023.0,NO_AFOLU,nombre~hydro
+verra,Hydroelectric Project Aures Bajo,Energy industries (renewable/non-renewable sources) | ,05756,2018.0,NO_AFOLU,nombre~hydro
+verra,Hydroelectric Project Cantayus,Energy industries (renewable/non-renewable sources) | ,05690,2015.0,NO_AFOLU,nombre~hydro
+verra,Hydroelectric Project El Eden,Energy industries (renewable/non-renewable sources) | ,17541,2017.0,NO_AFOLU,nombre~hydro
+verra,Hydroelectric Project MULATOS II,Energy industries (renewable/non-renewable sources) | ,05792,2019.0,NO_AFOLU,nombre~hydro
+verra,Hydroelectric Project PCH Luzma,Energy industries (renewable/non-renewable sources) | ,05031,2017.0,NO_AFOLU,nombre~hydro
+verra,Hydroelectric projects at Oibita River,Energy industries (renewable/non-renewable sources) | ,68500,2023.0,NO_AFOLU,nombre~hydro
+verra,La Cascada 2.3 MW Hydroelectric Project,Energy industries (renewable/non-renewable sources) | ,05670,2007.0,NO_AFOLU,nombre~hydro
+verra,Montanitas Hydroelectric Project,Energy industries (renewable/non-renewable sources) | ,05237,2022.0,NO_AFOLU,nombre~hydro
+verra,Multimodal Transport on the Magdalena River by Impala Terminals,Transport | ,68081,2015.0,NO_AFOLU,nombre~transport
+verra,SOLAR GROUPED PROJECT BY EPSA-CELSIA,Energy industries (renewable/non-renewable sources) | ,11001,2017.0,NO_AFOLU,nombre~solar
+verra,San Andres Hydroelectric project,Energy industries (renewable/non-renewable sources) | ,05647,2013.0,NO_AFOLU,nombre~hydro
+verra,Santa Ana Hydroelectric Plant - CER Conversion,Energy industries (renewable/non-renewable sources) | ,25845,2012.0,NO_AFOLU,nombre~hydro
+verra,Santa Rosa - Altamira hydroelectric projects,Energy industries (renewable/non-renewable sources) | ,68770,2020.0,NO_AFOLU,nombre~hydro
+verra,Suba and Usaquen Hydroelectric Umbrella Project,Energy industries (renewable/non-renewable sources) | ,11001,2023.0,NO_AFOLU,nombre~hydro
+verra,WIND POWER GROUPED PROJECT BY CELSIA COLOMBIA - BEGONIA POWER,Energy industries (renewable/non-renewable sources) | ,44430,2021.0,NO_AFOLU,nombre~wind\s*(power|farm|energy)
+cercarbono,ORINOCO REDD+ PROJECT,CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 4.1 | Avoidance and removal,99773,,REDD_PLUS,nombre~\bREDD\b
+cercarbono,Proyecto de Conservacion UNU-MAI REDD+,"CCB - M/LU-REDD+: Methodology for the Implementation of REDD+ Projects Consistent with National Reference Levels | Land use (AFOLU) | PROTOCOL CVCC 4.2, PROTOCOL CVCC 4.4 | Avoidance and removal",94001,2017.0,REDD_PLUS,nombre~\bREDD\b
+renare,BAJO ATRATO REDD+ PROJECT,"Proyecto REDD+ | Proyecto REDD+ | [{'acciones_redd_mas_1': '1) Gestion comunitaria del bosque.\n', 'tasa_cambio_1': '', 'tipo_actividad_1': 713, 'contribucion_propia_1': '', 'costo_total_1': '', 'sect",27050,2019.0,REDD_PLUS,nombre~\bREDD\b
+renare,GROUPED PROJECT FOR REDUCING EMISSIONS FROM DEFORESTATION AND FOREST DEGRADATION REDD - IN THE REGIONAL NATURAL PARK: BIOLOGICAL CORRIDOR PNN PURACE PNN CUEVA DE LOS GUACHAROS,"Proyecto REDD+ | Proyecto REDD+ | [{'acciones_redd_mas_1': 'Implementacion de actividades para la disminucion de la deforestacion en la zona del proyecto, como sistemas de produccion sostenible a trav",19585,2014.0,REDD_PLUS,nombre~\bREDD\b
+renare,KUVAY MACARO VIDI REDD+ CARURU,"Proyecto REDD+ | Proyecto REDD+ | [{'acciones_redd_mas_1': 'Reduccion de las emisiones de GEI a causa de la degradacion forestal no planeada', 'tasa_cambio_1': '', 'tipo_actividad_1': 714, 'contribuci",97161,2019.0,REDD_PLUS,nombre~\bREDD\b
+renare,ORIGEN ATRATO-BAUDO REDD+ PROJECT,"Proyecto REDD+ | Proyecto REDD+ | [{'acciones_redd_mas_1': '1: Proteccion, conservacion y recuperacion de los bosques y la biodiversidad.\n2: Economias sostenibles\n3: Autonomia territorial\n4: Adapta",27050,2019.0,REDD_PLUS,nombre~\bREDD\b
+renare,PROYECTO REDD+ CUENCA ALTO BAUDO,"Proyecto REDD+ | Proyecto REDD+ | [{'acciones_redd_mas_1': 'Etno desarrollo foresal sostenible, Monitoreo forestal comunitario', 'tasa_cambio_1': '', 'tipo_actividad_1': 714, 'contribucion_propia_1': ",27025,2018.0,REDD_PLUS,nombre~\bREDD\b
+renare,"Project REDD+ Pacifico Norte-Sur, ACADESAN.","Proyecto REDD+ | Proyecto REDD+ | [{'fuente_relacionada_1': '{""value"":""CO2""}', 'tipo_actividad_1': 46, 'descripcion_actividad_1': 'La conservacion de los bosques de la region pacifica colombiana media",27077,2024.0,REDD_PLUS,nombre~\bREDD\b
+renare,Proyecto REDD+ Cabildo Mayor Indigena de Vigia del Fuerte,Proyecto REDD+ | Proyecto REDD+ | [],05873,,REDD_PLUS,nombre~\bREDD\b
+renare,Proyecto REDD+ Origen Atrato - Baudo_,Proyecto REDD+ | Proyecto REDD+ | [{'acciones_redd_mas_1': 'Fortalecimiento de la gobernanza y el control territorial\nfomento de actividades productivas basadas en el uso y conservacion de la biodive,27050,2018.0,REDD_PLUS,nombre~\bREDD\b
+renare,Proyecto REDD+ del Bajo Atrato,Proyecto REDD+ | Proyecto REDD+ | [{'acciones_redd_mas_1': 'Fortalecimiento de la gobernanza y el control territorial\nfomento de actividades productivas basadas en el uso y conservacion de la biodive,27050,2018.0,REDD_PLUS,nombre~\bREDD\b
+renare,Proyecto de Conservacion PALAMEKU KUWEI REDD+,"Proyecto REDD+ | Proyecto REDD+ | [{'acciones_redd_mas_1': 'Fortalecimiento de la gobernanza territorial, reforestacion participativa, procesos productivos agricolas sostenibles incorporacion del ecot",94888,2010.0,REDD_PLUS,nombre~\bREDD\b
+renare,REDD++ Manglares del Bajo Baudo,"Proyecto REDD+ | Proyecto REDD+ | [{'acciones_redd_mas_1': '1. Desarrollo sostenible \n2. Fortalecimeinto de capacidades \n3. Fortalecimiento de Gobernanza y cultura \n4. Conservacion y monitoreo \n',",27077,2021.0,REDD_PLUS,nombre~\bREDD\b
+verra,ACABA REDD+ Project,Agriculture Forestry and Other Land Use | ,27025,2019.0,REDD_PLUS,nombre~\bREDD\b
+verra,ASATIQ Vaupes Maloca REDD+ Project,Agriculture Forestry and Other Land Use | ,97001,2019.0,REDD_PLUS,nombre~\bREDD\b
+verra,ASATRIZY Vaupes Maloca REDD+ Project,Agriculture Forestry and Other Land Use | ,97001,2019.0,REDD_PLUS,nombre~\bREDD\b
+verra,Acapa -­ Bajo Mira Y Frontera REDD+ Project,Agriculture Forestry and Other Land Use | ,52835,2013.0,REDD_PLUS,nombre~\bREDD\b
+verra,Bajo Atrato REDD+ Project,Agriculture Forestry and Other Land Use | ,27615,2019.0,REDD_PLUS,nombre~\bREDD\b
+verra,Bajo Calima y Bahia Malaga (BCBM) REDD+ Project,Agriculture Forestry and Other Land Use | ,76109,2013.0,REDD_PLUS,nombre~\bREDD\b
+verra,CHONTA COROZO REDD+,Agriculture Forestry and Other Land Use | ,19318,2017.0,REDD_PLUS,nombre~\bREDD\b
+verra,"COCOMACIA COMMUNITY REDD+ PROGRAM, CHOCO/ANTIOQUIA COLOMBIA",Agriculture Forestry and Other Land Use | ,27001,2016.0,REDD_PLUS,nombre~\bREDD\b
+verra,CONDOTO REDD+,Agriculture Forestry and Other Land Use | ,27205,2019.0,REDD_PLUS,nombre~\bREDD\b
+verra,"CONSEJOS COMUNITARIOS DEL PACIFICO VALLE DEL CAUCA (CCPVC) PROGRAMA REDD+ VALLE DEL CAUCA, COLOMBIA",Agriculture Forestry and Other Land Use | ,76109,2018.0,REDD_PLUS,nombre~\bREDD\b
+verra,"CONSERVATION PROJECT REDD+ SUR DEL META BOSQUES DE PAZ, SUSTENTO DE VIDA",Agriculture Forestry and Other Land Use | ,50590,2019.0,REDD_PLUS,nombre~\bREDD\b
+verra,CRIMA PREDIO PUTUMAYO Y ANDOQUE DE ADUCHE REDD+ PROJECT,Agriculture Forestry and Other Land Use | ,18756,2018.0,REDD_PLUS,nombre~\bREDD\b
+verra,Cajambre REDD+ Project,Agriculture Forestry and Other Land Use | ,76109,2013.0,REDD_PLUS,nombre~\bREDD\b
+verra,Carmen del Darien (CDD) REDD+ Project,Agriculture Forestry and Other Land Use | ,27150,2014.0,REDD_PLUS,nombre~\bREDD\b
+verra,Concosta REDD+ Project,Agriculture Forestry and Other Land Use | ,27077,2013.0,REDD_PLUS,nombre~\bREDD\b
+verra,"Grouped Project REDD+ conservation of the Oak ecological corridor Guantiva – La Rusia – Iguaque, Colombia",Agriculture Forestry and Other Land Use | ,68464,2015.0,REDD_PLUS,nombre~\bREDD\b
+verra,Grouped Project for reducing emissions from deforestation and forest degradation-REDD-in the Regional Natural Park:Biological Corridor PNN Purace-PNN Cueva de los Guacharos,Agriculture Forestry and Other Land Use | ,41668,2014.0,REDD_PLUS,nombre~\bREDD\b
+verra,Kuvay Macaro Vidi REDD+ Caruru -KUMAVI REDD+,Agriculture Forestry and Other Land Use | ,97161,2017.0,REDD_PLUS,nombre~\bREDD\b
+verra,Mutata REDD+ Project,Agriculture Forestry and Other Land Use | ,05480,2013.0,REDD_PLUS,nombre~\bREDD\b
+verra,NAYA REDD+,Agriculture Forestry and Other Land Use | ,19418,2015.0,REDD_PLUS,nombre~\bREDD\b
+verra,Origen Atrato-Baudo REDD+ Project,Agriculture Forestry and Other Land Use | ,27600,2019.0,REDD_PLUS,nombre~\bREDD\b
+verra,PROJECT MATANI REDD+ DIOS MAYOR DE LOS PUEBLOS CABILLARI,Agriculture Forestry and Other Land Use | ,97511,2017.0,REDD_PLUS,nombre~\bREDD\b
+verra,"PROJECT URAMIA – COMMUNITY-LED FOREST CONSERVATION REDD+ PROJECT IN CHOCO, COLOMBIA",Agriculture Forestry and Other Land Use | ,27361,2024.0,REDD_PLUS,nombre~\bREDD\b
+verra,Project MATANI REDD+ DIOS MAYOR DE LOS PUEBLOS CABILLARI CONSERVACION ANCESTRAL,Agriculture Forestry and Other Land Use | ,97511,2020.0,REDD_PLUS,nombre~\bREDD\b
+verra,Proyecto REDD++ PANI,Agriculture Forestry and Other Land Use | ,91669,2022.0,REDD_PLUS,nombre~\bREDD\b
+verra,REDD + in the Forests of the Otun River Basin,Agriculture Forestry and Other Land Use | ,66682,2016.0,REDD_PLUS,nombre~\bREDD\b
+verra,REDD PROJECT OF THE INDIGENOUS PEOPLES OF VAUPES YUTUCU AND OTHERS,Agriculture Forestry and Other Land Use | ,97001,2017.0,REDD_PLUS,nombre~\bREDD\b
+verra,REDD+ CONSERVATION OF ETHNO SUSTAINABLE AFRO-COLOMBIAN COMMUNITY IN THE TROPICAL RAIN FOREST OF COLOMBIA,Agriculture Forestry and Other Land Use | ,27006,2018.0,REDD_PLUS,nombre~\bREDD\b
+verra,REDD+ Esteros y Manglares,Agriculture Forestry and Other Land Use | ,52490,2021.0,REDD_PLUS,nombre~\bREDD\b
+verra,REDD+ Project Magnolios de Yarumal,Agriculture Forestry and Other Land Use | ,05134,2016.0,REDD_PLUS,nombre~\bREDD\b
+verra,REDD+ Project Pueblos indigenas resguardando la selva,Agriculture Forestry and Other Land Use | ,91405,2016.0,REDD_PLUS,nombre~\bREDD\b
+verra,REDD+ Project Resguardo Indigena Unificado Selva de Mataven (RIU SM),Agriculture Forestry and Other Land Use | ,99773,2013.0,REDD_PLUS,nombre~\bREDD\b
+verra,REDD+ Project for the Conservation of Lowland Forest in the Magdalena Medio Region of Colombia,Agriculture Forestry and Other Land Use | ,05893,2018.0,REDD_PLUS,nombre~\bREDD\b
+verra,REDD+ Project in the Alto Predio Putumayo Indigenous Reservation in Colombia,Agriculture Forestry and Other Land Use | ,18150,2018.0,REDD_PLUS,nombre~\bREDD\b
+verra,REDD+ Yaguara Llanos del Yari,Agriculture Forestry and Other Land Use | ,95015,,REDD_PLUS,nombre~\bREDD\b
+verra,REDD++ Manglares del Bajo Baudo,Agriculture Forestry and Other Land Use | ,27077,2022.0,REDD_PLUS,nombre~\bREDD\b
+verra,Rio Pepe y ACABA REDD+ Project,Agriculture Forestry and Other Land Use | ,27430,2014.0,REDD_PLUS,nombre~\bREDD\b
+verra,Riscales REDD+ Project,Agriculture Forestry and Other Land Use | ,27495,2014.0,REDD_PLUS,nombre~\bREDD\b
+verra,SIVIRU-USARAGA-PIZARRO-PILIZA (SUPP) REDD+ Project,Agriculture Forestry and Other Land Use | ,27077,2013.0,REDD_PLUS,nombre~\bREDD\b
+verra,The Choco-Darien Conservation Corridor REDD Project,Agriculture Forestry and Other Land Use | ,27006,2010.0,REDD_PLUS,nombre~\bREDD\b
+renare,Despacho tecnico-economico de energia y vapor en la Refineria de Barrancabermeja-GRB,"PDBC - Proyectos de Desarrollo Bajo en Carbono | PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 295, 'contribucion_propia_1': ",68081,2013.0,REVISAR,sin coincidencia
+renare,Generacion de electricidad a partir de biomasa forestal para la Zona No Interconectada de Puerto Carreno - Vichada,PDBC - Proyectos de Desarrollo Bajo en Carbono | PDBC - Proyectos de Desarrollo Bajo en Carbono | [],99001,,REVISAR,sin coincidencia
+renare,Mas Bosques para Medellin,"PDBC - Proyectos de Desarrollo Bajo en Carbono | PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': ",05001,2010.0,REVISAR,sin coincidencia
+renare,Proyecto Carbono Sombrilla Abejorral,"PDBC - Proyectos de Desarrollo Bajo en Carbono | PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': ",05002,2009.0,REVISAR,sin coincidencia
+renare,"Proyecto Forestal Para La Cuenca del Rio Chinchina, una alternativa ambiental para la ciudad y La Region¿","PDBC - Proyectos de Desarrollo Bajo en Carbono | PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': ",17174,2002.0,REVISAR,sin coincidencia
+renare,"Proyecto de mitigacion en el sector del USCUSS por remociones debidas al establecimiento de sistemas forestales de Hevea brasiliensis en el municipio de Barrancabermeja, Santander, Colombia","PDBC - Proyectos de Desarrollo Bajo en Carbono | PDBC - Proyectos de Desarrollo Bajo en Carbono | [{'acciones_redd_mas_1': None, 'tasa_cambio_1': '', 'tipo_actividad_1': 500, 'contribucion_propia_1': ",68081,2013.0,REVISAR,sin coincidencia
+verra,AXIA Energia Cogeneration Project in Familia,Manufacturing industries | ,05001,2016.0,REVISAR,sin coincidencia
+verra,AXIA Energia Cogeneration Project in Unibol,Manufacturing industries | ,08758,2015.0,REVISAR,sin coincidencia
+verra,EPM Grouped Natural Gas Project,"Energy industries (renewable/non-renewable sources), Manufacturing industries | ",05615,2022.0,REVISAR,sin coincidencia

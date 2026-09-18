@@ -231,40 +231,65 @@ def _cargar_renare() -> pd.DataFrame:
     return out
 
 
+COLS_FECHA_INICIO_CERC = ["Duration start", "Start date first crediting period",
+                          "Crediting periord start"]
+COLS_FECHA_FIN_CERC = ["Duration end", "Crediting period end"]
+
+
+def _coalesce_anio(fila, columnas):
+    for c in columnas:
+        if c in fila.index:
+            anio = _parse_fecha(fila[c])
+            if anio is not None:
+                return anio, c
+    return None, "sin_fecha"
+
+
 def _cargar_cercarbono() -> pd.DataFrame:
     if not CERCARBONO_FILE.exists():
         print(f"Aviso: no encuentro {CERCARBONO_FILE}, se omite Cercarbono.")
         return pd.DataFrame()
 
-    matching = pd.read_csv(CERCARBONO_FILE, low_memory=False)
+    # dtype str: evita que 05142 llegue como 5142.0
+    matching = pd.read_csv(CERCARBONO_FILE, low_memory=False,
+                           dtype={"cod_dane": str, "Project ID": str})
     matching["n_matches"] = pd.to_numeric(matching["n_matches"], errors="coerce")
     unicos = matching[matching["n_matches"] == 1].copy()
-    print(f"Cercarbono: {len(unicos)} matches únicos de {len(matching)} totales.")
 
-    campo_fecha = next((c for c in ["Duration start"] if c in unicos.columns), None)
-    campo_fecha_fin = next((c for c in ["Duration end"] if c in unicos.columns), None)
+    if "Project ID" in unicos.columns:
+        n0 = len(unicos)
+        unicos = unicos.drop_duplicates(subset="Project ID")
+        if len(unicos) < n0:
+            print(f"  Aviso: {n0 - len(unicos)} filas repetidas por Project ID. "
+                  "Re-corre 19 con la version que colapsa el reporte.")
+    faltan = [c for c in COLS_FECHA_INICIO_CERC if c not in unicos.columns]
+    if faltan:
+        print(f"  Aviso: faltan columnas de fecha {faltan}. Amplia cols_base en 19 y re-corre.")
+    print(f"Cercarbono: {len(unicos)} matches unicos de {len(matching)} totales.")
+
+    inicio = [_coalesce_anio(r, COLS_FECHA_INICIO_CERC) for _, r in unicos.iterrows()]
+    fin = [_coalesce_anio(r, COLS_FECHA_FIN_CERC)[0] for _, r in unicos.iterrows()]
 
     out = pd.DataFrame({
-        "COD_DANE": unicos["cod_dane"].astype(str).str.zfill(5),
+        "COD_DANE": unicos["cod_dane"].astype(str).str.replace(r"\.0$", "", regex=True)
+                    .str.zfill(5).to_numpy(),
         "fuente": "cercarbono",
-        "nombre_proyecto": unicos.get("Project Name", ""),
-        "anio_inicio": unicos[campo_fecha].apply(_parse_fecha) if campo_fecha else None,
-        "anio_fin": unicos[campo_fecha_fin].apply(_parse_fecha) if campo_fecha_fin else None,
+        "nombre_proyecto": unicos["Project Name"].to_numpy(),
+        "id_registro": unicos["Project ID"].to_numpy() if "Project ID" in unicos else "",
+        "anio_inicio": [a for a, _ in inicio],
+        "anio_fin": fin,
+        "fecha_origen": [o for _, o in inicio],
         "confianza": "media",
         "metodo": "matching_texto",
     })
 
-    n_sin_fecha = out["anio_inicio"].isna().sum()
-    if n_sin_fecha > 0 and campo_fecha:
-        print(f"  Aviso: {n_sin_fecha} proyectos sin año de inicio extraído. Valores crudos de '{campo_fecha}' que fallaron:")
-        crudos_fallidos = unicos.loc[out["anio_inicio"].isna(), campo_fecha]
-        print(f"    {crudos_fallidos.value_counts(dropna=False).head(10).to_dict()}")
-        print(
-            "    (si salen todos como NaN/vacío: es un hueco real en los datos de Cercarbono, "
-            "no un problema del parser — esos proyectos entrarán sin año de inicio, y por lo "
-            "tanto no se les podrá asignar tratamiento por año hasta que se complete a mano)"
-        )
-    print(f"Cercarbono: {out['anio_inicio'].notna().sum()} / {len(out)} con año de inicio extraído.")
+    print("  Origen del año de inicio:")
+    print("    " + out["fecha_origen"].value_counts().to_string().replace("\n", "\n    "))
+    sin = out[out["anio_inicio"].isna()]
+    if len(sin):
+        print(f"  Aviso: {len(sin)} proyectos sin ninguna fecha; no recibiran tratamiento:")
+        print("    " + sin[["id_registro", "nombre_proyecto"]].to_string(index=False)
+              .replace("\n", "\n    "))
     return out
 
 
@@ -280,12 +305,14 @@ def _guardar_ambiguos() -> None:
             columns={"nombre_iniciativa": "nombre_proyecto", "municipio": "municipios_mencionados"}
         ))
     if CERCARBONO_FILE.exists():
-        m = pd.read_csv(CERCARBONO_FILE, low_memory=False)
-        amb = m[m["n_matches"] > 1].copy()
+        m = pd.read_csv(CERCARBONO_FILE, low_memory=False, dtype={"cod_dane": str, "Project ID": str})
+        m["n_matches"] = pd.to_numeric(m["n_matches"], errors="coerce")
+        amb = m[m["n_matches"] > 1].drop_duplicates("Project ID").copy()
         amb["fuente"] = "cercarbono"
-        partes.append(amb[["fuente", "Project Name", "municipio", "cod_dane"]].rename(
-            columns={"Project Name": "nombre_proyecto", "municipio": "municipios_mencionados"}
-        ))
+        cols = [c for c in ["fuente", "Project ID", "Project Name", "Sector", "municipio", "cod_dane"]
+                if c in amb.columns]
+        partes.append(amb[cols].rename(columns={
+            "Project Name": "nombre_proyecto", "municipio": "municipios_mencionados"}))
     if partes:
         pd.concat(partes, ignore_index=True).to_csv(OUT_REVISAR, index=False, encoding="utf-8-sig")
         print(f"\nAmbiguos guardados para revisión manual en: {OUT_REVISAR}")
@@ -349,20 +376,18 @@ def _construir_panel_tratamiento(eventos: pd.DataFrame) -> None:
     
     con_fecha["anio_inicio"] = con_fecha["anio_inicio"].astype(int)
 
-    combinaciones = [
-        (["alta"],          True,  "alta_confianza"),
-        (["alta", "media"], True,  "todas_fuentes"),
-        (["alta"],          False, "alta_confianza_sinfiltro"),
-        (["alta", "media"], False, "todas_fuentes_sinfiltro"),
-    ]
+    respaldo = con_fecha.get("fecha_origen", pd.Series(index=con_fecha.index, dtype=object)) \
+                    .isin(["Start date first crediting period", "Crediting periord start"])
+    especificaciones = {
+        "alta_confianza": con_fecha["confianza"].eq("alta"),
+        "todas_fuentes": con_fecha["confianza"].isin(["alta", "media"]),
+        "todas_sin_fecha_respaldo": con_fecha["confianza"].isin(["alta", "media"]) & ~respaldo,
+    }
     resultado = panel.copy()
-    for confianzas, solo_afolu, sufijo in combinaciones:
-        subset = con_fecha[con_fecha["confianza"].isin(confianzas)]
-        if solo_afolu:
-            subset = subset[subset["sector"] == "AFOLU"]
-        primero = subset.groupby("COD_DANE")["anio_inicio"].min().rename(
-            f"anio_inicio_tratamiento_{sufijo}"
-        )
+    for sufijo, mascara in especificaciones.items():
+        subset = con_fecha[mascara]
+        primero = subset.groupby("COD_DANE")["anio_inicio"].min() \
+                        .rename(f"anio_inicio_tratamiento_{sufijo}")
         resultado = resultado.merge(primero, on="COD_DANE", how="left")
         resultado[f"tratado_{sufijo}"] = (
             resultado["year"] >= resultado[f"anio_inicio_tratamiento_{sufijo}"]
@@ -378,13 +403,11 @@ def _construir_panel_tratamiento(eventos: pd.DataFrame) -> None:
     print(f"Municipios tratados (alta + media confianza — + RENARE + Cercarbono): {n_mun_todas}")
 
 
+from filtro_sectorial import anotar_sector
+from correcciones_municipio import aplicar_correcciones
+
+
 def main() -> None:
-    import os
-    from filtro_sectorial import RAIZ_PROYECTO, avisar_carpeta_sombra
-    os.chdir(RAIZ_PROYECTO)          # ancla todas las rutas relativas del script
-    print(f"Directorio de trabajo fijado en: {RAIZ_PROYECTO}")
-    avisar_carpeta_sombra()
-        
     print("=" * 70)
     print("Cargando y normalizando cada fuente...")
     print("=" * 70)
@@ -393,6 +416,9 @@ def main() -> None:
         [_cargar_verra(), _cargar_goldstandard(), _cargar_renare(), _cargar_cercarbono()],
         ignore_index=True,
     )
+    eventos = anotar_sector(eventos)            # anota; falla si hay pendientes
+    eventos = aplicar_correcciones(eventos)     # antes de filtrar, para no dejar huerfanas
+    eventos = eventos[eventos["sector"] == "AFOLU"].copy()
 
     OUT_EVENTOS.parent.mkdir(parents=True, exist_ok=True)
     eventos.to_csv(OUT_EVENTOS, index=False, encoding="utf-8-sig")

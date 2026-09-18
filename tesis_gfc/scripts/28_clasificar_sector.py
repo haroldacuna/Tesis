@@ -97,9 +97,10 @@ COLS_NOMBRE = [
 # evidencia quede a la vista de quien revisa.
 COLS_SECTOR = [
     "methodology", "programme_of_activities", "tipo", "actividades",
-    "fase", "sector", "scope", "sectoralScope", "sectoral_scope",
-    "project_type", "projectType", "Project Stage", "categoria",
-    "category", "protocol",
+    "sector", "scope", "sectoralScope", "project_type", "projectType",
+    "categoria", "category", "protocol",
+    # Cercarbono (Projects Report)
+    "Sector", "Methodology", "Mitigation type", "Protocol",
 ]
 
 # Identificacion del municipio, con los nombres que realmente usa cada fuente
