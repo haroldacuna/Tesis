@@ -1,0 +1,3 @@
+grupo,outcome,n_municipios,n_con_outcome,n_tratados,att,se,ic_inf,ic_sup
+IPM bajo (menos pobreza),tasa_deforestacion,557,557,39,3.09612959262698e-4,4.6536886629506093e-4,-6.025100186756215e-4,0.0012217359372010174
+IPM alto (más pobreza),tasa_deforestacion,556,556,48,-2.3987529831645953e-5,5.434973377178505e-4,-0.001089242311758633,0.001041267252095341

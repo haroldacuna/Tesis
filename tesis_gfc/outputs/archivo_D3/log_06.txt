@@ -1,0 +1,374 @@
+﻿Rscript : 
+En línea: 2 Carácter: 1
++ Rscript 06_verificar_hallazgos.R     2>&1 | Out-File -Encoding utf8 o ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Adjuntando el paquete: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Aviso:
+package 'dplyr' was built under R version 4.4.2 
+Aviso:
+package 'did' was built under R version 4.4.3 
+
+======================================================================
+A) DIAGNOSTICO COHORTE 2012 -- Confianza alta 
+====================================================================== 
+Municipios en la cohorte 2012 : 3 - 05664, 05837, 25845 
+
+Serie de tasa_deforestacion de estos municipios (revisar si son sospechosamente
+identicas/constantes entre si o en el tiempo -- eso explicaria un SE casi cero):
+# A tibble: 72 ├ù 5
+   COD_DANE  year tasa_deforestacion loss_area_ha baseline_forest_base
+   <chr>    <dbl>              <dbl>        <dbl>                <dbl>
+ 1 05664     2001           0.00606        110.                 18206.
+ 2 05664     2002           0.00419         76.3                18206.
+ 3 05664     2003           0.00308         56.2                18206.
+ 4 05664     2004           0.00290         52.7                18206.
+ 5 05664     2005           0.00327         59.6                18206.
+ 6 05664     2006           0.00532         96.9                18206.
+ 7 05664     2007           0.00324         59.0                18206.
+ 8 05664     2008           0.00286         52.1                18206.
+ 9 05664     2009           0.00470         85.5                18206.
+10 05664     2010           0.00437         79.6                18206.
+11 05664     2011           0.00226         41.2                18206.
+12 05664     2012           0.00291         53.0                18206.
+13 05664     2013           0.000855        15.6                18206.
+14 05664     2014           0.00267         48.7                18206.
+15 05664     2015           0.00163         29.7                18206.
+16 05664     2016           0.00669        122.                 18206.
+17 05664     2017           0.00211         38.3                18206.
+18 05664     2018           0.00120         21.9                18206.
+19 05664     2019           0.000460         8.37               18206.
+20 05664     2020           0.000648        11.8                18206.
+21 05664     2021           0.00101         18.4                18206.
+22 05664     2022           0.000148         2.7                18206.
+23 05664     2023           0.00175         31.9                18206.
+24 05664     2024           0.00157         28.5                18206.
+25 05837     2001           0.00503       1072.                213208.
+26 05837     2002           0.00182        387.                213208.
+27 05837     2003           0.00191        406.                213208.
+28 05837     2004           0.00764       1629.                213208.
+29 05837     2005           0.00625       1334.                213208.
+30 05837     2006           0.00276        589.                213208.
+31 05837     2007           0.00389        830.                213208.
+32 05837     2008           0.00427        910.                213208.
+33 05837     2009           0.00409        871.                213208.
+34 05837     2010           0.00723       1542.                213208.
+35 05837     2011           0.00222        473.                213208.
+36 05837     2012           0.0105        2236.                213208.
+37 05837     2013           0.00303        647.                213208.
+38 05837     2014           0.00319        680.                213208.
+39 05837     2015           0.00102        218.                213208.
+40 05837     2016           0.00642       1369.                213208.
+41 05837     2017           0.00807       1721.                213208.
+42 05837     2018           0.00390        832.                213208.
+43 05837     2019           0.00411        877.                213208.
+44 05837     2020           0.00325        693.                213208.
+45 05837     2021           0.00193        410.                213208.
+46 05837     2022           0.00193        411.                213208.
+47 05837     2023           0.00332        707.                213208.
+48 05837     2024           0.00443        945.                213208.
+49 25845     2001           0.00542         46.8                 8627.
+50 25845     2002           0.00199         17.2                 8627.
+51 25845     2003           0.00175         15.1                 8627.
+52 25845     2004           0.000709         6.12                8627.
+53 25845     2005           0.00158         13.6                 8627.
+54 25845     2006           0.00147         12.7                 8627.
+55 25845     2007           0.00241         20.8                 8627.
+56 25845     2008           0.00149         12.9                 8627.
+57 25845     2009           0.00370         32.0                 8627.
+58 25845     2010           0.00252         21.8                 8627.
+59 25845     2011           0.00189         16.3                 8627.
+60 25845     2012           0.00257         22.1                 8627.
+61 25845     2013           0.000469         4.05                8627.
+62 25845     2014           0.00146         12.6                 8627.
+63 25845     2015           0.000793         6.84                8627.
+64 25845     2016           0.000584         5.04                8627.
+65 25845     2017           0                0                   8627.
+66 25845     2018           0.00180         15.6                 8627.
+67 25845     2019           0.00121         10.4                 8627.
+68 25845     2020           0.00139         12.0                 8627.
+69 25845     2021           0.00115          9.9                 8627.
+70 25845     2022           0.000271         2.34                8627.
+71 25845     2023           0.000386         3.33                8627.
+72 25845     2024           0.00169         14.6                 8627.
+
+Varianza de tasa_deforestacion ENTRE los municipios de la cohorte, por a├▒o:
+(si sale ~0 en varios a├▒os, esa es la causa directa del SE chico)
+# A tibble: 24 ├ù 3
+    year     var_tasa n_validos
+   <dbl>        <dbl>     <int>
+ 1  2001 0.000000272          3
+ 2  2002 0.00000175           3
+ 3  2003 0.000000531          3
+ 4  2004 0.0000125            3
+ 5  2005 0.00000561           3
+ 6  2006 0.00000385           3
+ 7  2007 0.000000551          3
+ 8  2008 0.00000193           3
+ 9  2009 0.000000251          3
+10  2010 0.00000563           3
+11  2011 0.0000000423         3
+12  2012 0.0000200            3
+13  2013 0.00000191           3
+14  2014 0.000000786          3
+15  2015 0.000000188          3
+16  2016 0.0000119            3
+17  2017 0.0000175            3
+18  2018 0.00000201           3
+19  2019 0.00000372           3
+20  2020 0.00000180           3
+21  2021 0.000000244          3
+22  2022 0.000000988          3
+23  2023 0.00000215           3
+24  2024 0.00000262           3
+
+Celdas (grupo, tiempo) individuales de att_gt() para esta cohorte:
+ grupo tiempo           att           se
+  2012   2002 -2.052517e-04 0.0008553256
+  2012   2003  4.791062e-04 0.0004353030
+  2012   2004 -4.764083e-04 0.0015771970
+  2012   2005  7.072355e-04 0.0004054419
+  2012   2006 -8.868456e-04 0.0014272004
+  2012   2007 -1.161437e-03 0.0014305420
+  2012   2008  1.011714e-03 0.0018911320
+  2012   2009 -5.697471e-04 0.0008297957
+  2012   2010  2.095387e-03 0.0021466255
+  2012   2011 -2.276089e-03 0.0021573968
+  2012   2012  1.677625e-03 0.0025620733
+  2012   2013  5.323426e-04 0.0007777054
+  2012   2014  7.625051e-04 0.0001845424
+  2012   2015  8.841337e-04 0.0003469393
+  2012   2016  2.628348e-03 0.0008462145
+  2012   2017 -1.862693e-04 0.0007864678
+  2012   2018  6.538996e-04 0.0011040760
+  2012   2019  3.769475e-04 0.0008011636
+  2012   2020  5.978596e-04 0.0007455158
+  2012   2021  3.746055e-04 0.0010320434
+  2012   2022 -1.756179e-04 0.0010097421
+  2012   2023  2.972322e-05 0.0010200715
+  2012   2024  8.435010e-04 0.0006088782
+  Periodo 2002 -> unidades disponibles como 'no tratadas todavia': 1120 
+  Periodo 2003 -> unidades disponibles como 'no tratadas todavia': 1120 
+  Periodo 2004 -> unidades disponibles como 'no tratadas todavia': 1120 
+  Periodo 2005 -> unidades disponibles como 'no tratadas todavia': 1120 
+  Periodo 2006 -> unidades disponibles como 'no tratadas todavia': 1119 
+  Periodo 2007 -> unidades disponibles como 'no tratadas todavia': 1118 
+  Periodo 2008 -> unidades disponibles como 'no tratadas todavia': 1118 
+  Periodo 2009 -> unidades disponibles como 'no tratadas todavia': 1118 
+  Periodo 2010 -> unidades disponibles como 'no tratadas todavia': 1116 
+  Periodo 2011 -> unidades disponibles como 'no tratadas todavia': 1113 
+  Periodo 2012 -> unidades disponibles como 'no tratadas todavia': 1110 
+  Periodo 2013 -> unidades disponibles como 'no tratadas todavia': 1104 
+  Periodo 2014 -> unidades disponibles como 'no tratadas todavia': 1094 
+  Periodo 2015 -> unidades disponibles como 'no tratadas todavia': 1086 
+  Periodo 2016 -> unidades disponibles como 'no tratadas todavia': 1079 
+  Periodo 2017 -> unidades disponibles como 'no tratadas todavia': 1068 
+  Periodo 2018 -> unidades disponibles como 'no tratadas todavia': 1062 
+  Periodo 2019 -> unidades disponibles como 'no tratadas todavia': 1055 
+  Periodo 2020 -> unidades disponibles como 'no tratadas todavia': 1053 
+  Periodo 2021 -> unidades disponibles como 'no tratadas todavia': 1048 
+  Periodo 2022 -> unidades disponibles como 'no tratadas todavia': 1040 
+  Periodo 2023 -> unidades disponibles como 'no tratadas todavia': 1037 
+  Periodo 2024 -> unidades disponibles como 'no tratadas todavia': 1035 
+
+======================================================================
+A) DIAGNOSTICO COHORTE 2012 -- Todas las fuentes 
+====================================================================== 
+Municipios en la cohorte 2012 : 3 - 05664, 05837, 25845 
+
+Serie de tasa_deforestacion de estos municipios (revisar si son sospechosamente
+identicas/constantes entre si o en el tiempo -- eso explicaria un SE casi cero):
+# A tibble: 72 ├ù 5
+   COD_DANE  year tasa_deforestacion loss_area_ha baseline_forest_base
+   <chr>    <dbl>              <dbl>        <dbl>                <dbl>
+ 1 05664     2001           0.00606        110.                 18206.
+ 2 05664     2002           0.00419         76.3                18206.
+ 3 05664     2003           0.00308         56.2                18206.
+ 4 05664     2004           0.00290         52.7                18206.
+ 5 05664     2005           0.00327         59.6                18206.
+ 6 05664     2006           0.00532         96.9                18206.
+ 7 05664     2007           0.00324         59.0                18206.
+ 8 05664     2008           0.00286         52.1                18206.
+ 9 05664     2009           0.00470         85.5                18206.
+10 05664     2010           0.00437         79.6                18206.
+11 05664     2011           0.00226         41.2                18206.
+12 05664     2012           0.00291         53.0                18206.
+13 05664     2013           0.000855        15.6                18206.
+14 05664     2014           0.00267         48.7                18206.
+15 05664     2015           0.00163         29.7                18206.
+16 05664     2016           0.00669        122.                 18206.
+17 05664     2017           0.00211         38.3                18206.
+18 05664     2018           0.00120         21.9                18206.
+19 05664     2019           0.000460         8.37               18206.
+20 05664     2020           0.000648        11.8                18206.
+21 05664     2021           0.00101         18.4                18206.
+22 05664     2022           0.000148         2.7                18206.
+23 05664     2023           0.00175         31.9                18206.
+24 05664     2024           0.00157         28.5                18206.
+25 05837     2001           0.00503       1072.                213208.
+26 05837     2002           0.00182        387.                213208.
+27 05837     2003           0.00191        406.                213208.
+28 05837     2004           0.00764       1629.                213208.
+29 05837     2005           0.00625       1334.                213208.
+30 05837     2006           0.00276        589.                213208.
+31 05837     2007           0.00389        830.                213208.
+32 05837     2008           0.00427        910.                213208.
+33 05837     2009           0.00409        871.                213208.
+34 05837     2010           0.00723       1542.                213208.
+35 05837     2011           0.00222        473.                213208.
+36 05837     2012           0.0105        2236.                213208.
+37 05837     2013           0.00303        647.                213208.
+38 05837     2014           0.00319        680.                213208.
+39 05837     2015           0.00102        218.                213208.
+40 05837     2016           0.00642       1369.                213208.
+41 05837     2017           0.00807       1721.                213208.
+42 05837     2018           0.00390        832.                213208.
+43 05837     2019           0.00411        877.                213208.
+44 05837     2020           0.00325        693.                213208.
+45 05837     2021           0.00193        410.                213208.
+46 05837     2022           0.00193        411.                213208.
+47 05837     2023           0.00332        707.                213208.
+48 05837     2024           0.00443        945.                213208.
+49 25845     2001           0.00542         46.8                 8627.
+50 25845     2002           0.00199         17.2                 8627.
+51 25845     2003           0.00175         15.1                 8627.
+52 25845     2004           0.000709         6.12                8627.
+53 25845     2005           0.00158         13.6                 8627.
+54 25845     2006           0.00147         12.7                 8627.
+55 25845     2007           0.00241         20.8                 8627.
+56 25845     2008           0.00149         12.9                 8627.
+57 25845     2009           0.00370         32.0                 8627.
+58 25845     2010           0.00252         21.8                 8627.
+59 25845     2011           0.00189         16.3                 8627.
+60 25845     2012           0.00257         22.1                 8627.
+61 25845     2013           0.000469         4.05                8627.
+62 25845     2014           0.00146         12.6                 8627.
+63 25845     2015           0.000793         6.84                8627.
+64 25845     2016           0.000584         5.04                8627.
+65 25845     2017           0                0                   8627.
+66 25845     2018           0.00180         15.6                 8627.
+67 25845     2019           0.00121         10.4                 8627.
+68 25845     2020           0.00139         12.0                 8627.
+69 25845     2021           0.00115          9.9                 8627.
+70 25845     2022           0.000271         2.34                8627.
+71 25845     2023           0.000386         3.33                8627.
+72 25845     2024           0.00169         14.6                 8627.
+
+Varianza de tasa_deforestacion ENTRE los municipios de la cohorte, por a├▒o:
+(si sale ~0 en varios a├▒os, esa es la causa directa del SE chico)
+# A tibble: 24 ├ù 3
+    year     var_tasa n_validos
+   <dbl>        <dbl>     <int>
+ 1  2001 0.000000272          3
+ 2  2002 0.00000175           3
+ 3  2003 0.000000531          3
+ 4  2004 0.0000125            3
+ 5  2005 0.00000561           3
+ 6  2006 0.00000385           3
+ 7  2007 0.000000551          3
+ 8  2008 0.00000193           3
+ 9  2009 0.000000251          3
+10  2010 0.00000563           3
+11  2011 0.0000000423         3
+12  2012 0.0000200            3
+13  2013 0.00000191           3
+14  2014 0.000000786          3
+15  2015 0.000000188          3
+16  2016 0.0000119            3
+17  2017 0.0000175            3
+18  2018 0.00000201           3
+19  2019 0.00000372           3
+20  2020 0.00000180           3
+21  2021 0.000000244          3
+22  2022 0.000000988          3
+23  2023 0.00000215           3
+24  2024 0.00000262           3
+
+Celdas (grupo, tiempo) individuales de att_gt() para esta cohorte:
+ grupo tiempo           att           se
+  2012   2002 -1.994303e-04 0.0008595222
+  2012   2003  4.749272e-04 0.0004312688
+  2012   2004 -4.748858e-04 0.0015774544
+  2012   2005  6.984731e-04 0.0004079614
+  2012   2006 -8.829086e-04 0.0014312047
+  2012   2007 -1.164619e-03 0.0014326455
+  2012   2008  1.023645e-03 0.0019019830
+  2012   2009 -5.670489e-04 0.0008328705
+  2012   2010  2.084153e-03 0.0021565415
+  2012   2011 -2.249560e-03 0.0021526683
+  2012   2012  1.666656e-03 0.0025744940
+  2012   2013  5.100785e-04 0.0007805690
+  2012   2014  7.471067e-04 0.0001867374
+  2012   2015  8.662867e-04 0.0003428594
+  2012   2016  2.626668e-03 0.0008458192
+  2012   2017 -1.602221e-04 0.0008104363
+  2012   2018  6.663084e-04 0.0010283554
+  2012   2019  3.741696e-04 0.0007924346
+  2012   2020  5.799868e-04 0.0007539249
+  2012   2021  3.570876e-04 0.0010150312
+  2012   2022 -1.867049e-04 0.0010150553
+  2012   2023  3.031955e-05 0.0010109719
+  2012   2024  8.225303e-04 0.0005957050
+  Periodo 2002 -> unidades disponibles como 'no tratadas todavia': 1119 
+  Periodo 2003 -> unidades disponibles como 'no tratadas todavia': 1119 
+  Periodo 2004 -> unidades disponibles como 'no tratadas todavia': 1119 
+  Periodo 2005 -> unidades disponibles como 'no tratadas todavia': 1119 
+  Periodo 2006 -> unidades disponibles como 'no tratadas todavia': 1118 
+  Periodo 2007 -> unidades disponibles como 'no tratadas todavia': 1117 
+  Periodo 2008 -> unidades disponibles como 'no tratadas todavia': 1115 
+  Periodo 2009 -> unidades disponibles como 'no tratadas todavia': 1114 
+  Periodo 2010 -> unidades disponibles como 'no tratadas todavia': 1109 
+  Periodo 2011 -> unidades disponibles como 'no tratadas todavia': 1105 
+  Periodo 2012 -> unidades disponibles como 'no tratadas todavia': 1102 
+  Periodo 2013 -> unidades disponibles como 'no tratadas todavia': 1095 
+  Periodo 2014 -> unidades disponibles como 'no tratadas todavia': 1084 
+  Periodo 2015 -> unidades disponibles como 'no tratadas todavia': 1077 
+  Periodo 2016 -> unidades disponibles como 'no tratadas todavia': 1070 
+  Periodo 2017 -> unidades disponibles como 'no tratadas todavia': 1058 
+  Periodo 2018 -> unidades disponibles como 'no tratadas todavia': 1049 
+  Periodo 2019 -> unidades disponibles como 'no tratadas todavia': 1043 
+  Periodo 2020 -> unidades disponibles como 'no tratadas todavia': 1041 
+  Periodo 2021 -> unidades disponibles como 'no tratadas todavia': 1037 
+  Periodo 2022 -> unidades disponibles como 'no tratadas todavia': 1029 
+  Periodo 2023 -> unidades disponibles como 'no tratadas todavia': 1026 
+  Periodo 2024 -> unidades disponibles como 'no tratadas todavia': 1025 
+
+
+======================================================================
+B) COHORTES TEMPRANAS -- riesgo de covariables no pre-tratamiento
+====================================================================== 
+
+--- Confianza alta ---
+2 municipio(s) con cohorte <= 2003 :
+# A tibble: 2 ├ù 4
+  COD_DANE NOMBRE_MPI DPTO_CNMBR first_treat_alta
+  <chr>    <chr>      <chr>                 <dbl>
+1 05120    C├üCERES    ANTIOQUIA              2002
+2 73043    ANZO├üTEGUI TOLIMA                 2002
+
+Para estos municipios, homicidios_base/secuestros_base/acc_subversivas_base se midieron en 2003 -- si su tratamiento empezo ANTES de ese a├▒o, esas covariables ya podrian estar 'contaminadas' por el tratamiento (dejan de ser estrictamente pre-tratamiento). baseline_forest_base/temp_media_c_base/etc. (a├▒o base 2001) no tienen este problema salvo que la cohorte sea exactamente 2001.
+
+--- Todas las fuentes ---
+3 municipio(s) con cohorte <= 2003 :
+# A tibble: 3 ├ù 4
+  COD_DANE NOMBRE_MPI DPTO_CNMBR first_treat_todas
+  <chr>    <chr>      <chr>                  <dbl>
+1 05120    C├üCERES    ANTIOQUIA               2002
+2 17174    CHINCHIN├ü  CALDAS                  2002
+3 73043    ANZO├üTEGUI TOLIMA                  2002
+
+Para estos municipios, homicidios_base/secuestros_base/acc_subversivas_base se midieron en 2003 -- si su tratamiento empezo ANTES de ese a├▒o, esas covariables ya podrian estar 'contaminadas' por el tratamiento (dejan de ser estrictamente pre-tratamiento). baseline_forest_base/temp_media_c_base/etc. (a├▒o base 2001) no tienen este problema salvo que la cohorte sea exactamente 2001.
+
+
+*** Si aparecen municipios en la seccion B, una forma simple de sensibilidad: vuelve a correr 03/05 EXCLUYENDO esos municipios del todo (no como control, no como tratado) y compara si el ATT de la cohorte temprana cambia mucho -- si el resultado es parecido con y sin ellos, el problema no es grave en la practica. ***

@@ -1,0 +1,3 @@
+grupo,outcome,n_municipios,n_con_outcome,n_tratados,att,se,ic_inf,ic_sup
+Capacidad fiscal alta,loss_area_ha,500,500,49,-204.72122741164225,142.82005594137533,-484.6485370567379,75.2060822334534
+Capacidad fiscal baja,loss_area_ha,502,502,35,28.18462323855195,43.52061234280809,-57.11577695335191,113.48502343045581
