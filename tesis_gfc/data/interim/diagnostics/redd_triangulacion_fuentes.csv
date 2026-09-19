@@ -1,0 +1,102 @@
+﻿_id,nombre_verra,verra,status_registro,estado_registro,es_wrc,COD_DANE,NOMBRE_MPI,berkeley,creditos_berkeley,tipo_berkeley,offsetsdb,creditos_odb,protocol,status_odb,veredicto
+3475,ACABA REDD+ Project,REDD,Pipeline listing (under development) approved,S1,False,27025,ALTO BAUDÓ,REDD,0.0,REDD+,REDD,0.0,['vm0009'],listed,acuerdo
+1389,Acapa -­ Bajo Mira Y Frontera REDD+ Project,REDD,Registered,S3,False,52835,SAN ANDRÉS DE TUMACO,REDD,1019569.0,REDD+,REDD,1019569.0,['vm0006'],registered,acuerdo
+2512,"AFFORESTATION OF DEGRADED GRASSLANDS IN VICHADA, COLOMBIA",AFOLU_no_REDD,Registered,S3,False,99001,PUERTO CARREÑO,AFOLU_no_REDD,609543.0,Afforestation/Reforestation,AFOLU_no_REDD,609543.0,['ar-acm0003'],registered,acuerdo
+3215,ASATIQ Vaupés Maloca REDD+ Project,REDD,Inactive,S1,False,97001,MITÚ,REDD,0.0,REDD+,REDD,0.0,['vm0009'],listed,acuerdo
+3216,ASATRIZY Vaupés Maloca REDD+ Project,REDD,Registration and verification approval requested,S2,False,97001,MITÚ,REDD,0.0,REDD+,REDD,0.0,['vm0009'],listed,acuerdo
+1524,AXIA Energia Cogeneration Project in Familia,no_AFOLU,Pipeline listing (under development) approved,S1,False,5001,MEDELLÍN,no_AFOLU,0.0,Natural Gas Electricity Generation,no_AFOLU,0.0,['ams-ii-d'],listed,acuerdo
+1405,AXIA Energia Cogeneration Project in Unibol,no_AFOLU,Pipeline listing (under development) approved,S1,False,8758,SOLEDAD,no_AFOLU,0.0,Natural Gas Electricity Generation,no_AFOLU,0.0,['ams-ii-d'],listed,acuerdo
+3210,Bajo Atrato REDD+ Project,REDD,Registration and verification approval requested,S2,False,27615,RIOSUCIO,REDD,0.0,REDD+,REDD,0.0,['vm0009'],listed,acuerdo
+1395,Bajo Calima y Bahía Málaga (BCBM) REDD+ Project,REDD,Registered,S3,False,76109,BUENAVENTURA,REDD,2150996.0,REDD+,REDD,2150996.0,['vm0006'],registered,acuerdo
+5305,Bella Bosque Vichada Afforestation Project,AFOLU_no_REDD,Under validation (Public comment period closed),S1,False,99524,LA PRIMAVERA,AFOLU_no_REDD,0.0,Afforestation/Reforestation,AFOLU_no_REDD,0.0,['vm0047'],listed,acuerdo
+491,"Bionersis landfill  project in Pasto, Colombia",no_AFOLU,Late to Verify,S2,False,52001,PASTO,no_AFOLU,0.0,Landfill Methane,no_AFOLU,0.0,['ams-iii-g'],unknown,acuerdo
+1910,"Bionersis landfill project in Pasto, Colombia",no_AFOLU,Late to Verify,S2,False,86757,SAN MIGUEL,no_AFOLU,466.0,Landfill Methane,no_AFOLU,466.0,['acm0001'],unknown,acuerdo
+2290,BLUE CARBON PROJECT GULF OF MORROSQUILLO “VIDA MANGLAR”,REDD,Late to Verify,S2,False,23672,SAN ANTERO,REDD,59363.0,REDD+,REDD,59363.0,['vm0007'],unknown,acuerdo
+5335,Boomitra grassland Restoration in Colombia,AFOLU_no_REDD,Pipeline listing (under development) approved,S1,False,20295,GAMARRA,AFOLU_no_REDD,0.0,Sustainable Grassland Management,AFOLU_no_REDD,0.0,['vm0042'],listed,acuerdo
+1392,Cajambre REDD+ Project,REDD,Registered,S3,False,76109,BUENAVENTURA,REDD,694190.0,REDD+,REDD,694190.0,['vm0006'],registered,acuerdo
+3970,Carbon In Flavor and Arome Forests (C-BOSAR),AFOLU_no_REDD,Registered,S3,False,20570,PUEBLO BELLO,AFOLU_no_REDD,0.0,Afforestation/Reforestation,AFOLU_no_REDD,0.0,['ar-acm0003'],registered,acuerdo
+3927,CARBONO VIVO- A REGENERATIVE LIVESTOCK CARBON PROJECT WITH A PARTICIPATORY APPROACH IN COLOMBIA,AFOLU_no_REDD,Registration and verification approval requested,S2,False,50573,PUERTO LÓPEZ,AFOLU_no_REDD,0.0,Sustainable Grassland Management,AFOLU_no_REDD,0.0,['vm0042'],listed,acuerdo
+1390,Carmen del Darién (CDD) REDD+ Project,REDD,Registered,S3,False,27150,CARMEN DEL DARIÉN,REDD,681565.0,REDD+,REDD,681565.0,['vm0006'],registered,acuerdo
+1835,Caruquia 9.76 MW Hydroelectric Project,no_AFOLU,Late to Verify,S2,False,5686,SANTA ROSA DE OSOS,no_AFOLU,23636.0,Hydropower,no_AFOLU,23636.0,['ams-i-d'],unknown,acuerdo
+2969,CHONTA COROZO REDD+,REDD,Pipeline listing requested (under development),S1,False,19318,GUAPI,sin_dato,,,sin_dato,,,,sin_contraste
+5680,CO2ROZO,REDD,Pipeline listing (under development) approved,S1,True,8001,BARRANQUILLA,REDD,0.0,REDD+,REDD,0.0,"['vm0007', 'vm0042']",listed,acuerdo
+2071,"COCOMACIA COMMUNITY REDD+ PROGRAM, CHOCO/ANTIOQUIA COLOMBIA",REDD,Under validation (Public comment period closed),S1,False,27001,QUIBDÓ,REDD,0.0,REDD+,REDD,0.0,"['vm0006', 'vm0048']",listed,acuerdo
+1400,Concosta REDD+ Project,REDD,Registered,S3,False,27077,BAJO BAUDÓ,REDD,727518.0,REDD+,REDD,727518.0,['vm0006'],registered,acuerdo
+2723,CONDOTO REDD+,REDD,Verification approval requested,S2,False,27205,CONDOTO,REDD,397194.0,REDD+,REDD,397194.0,['vm0007'],unknown,acuerdo
+2298,"CONSEJOS COMUNITARIOS DEL PACIFICO VALLE DEL CAUCA (CCPVC) PROGRAMA REDD+ VALLE DEL CAUCA, COLOMBIA",REDD,Pipeline listing (under development) approved,S1,False,76109,BUENAVENTURA,REDD,0.0,REDD+,REDD,0.0,['vm0006'],listed,acuerdo
+1821,Conservación de los Ecosistemas y el Almacén de Carbono Región de Transición Guayano Amazónica 'Flor de Inírida',REDD,Withdrawn,S1,False,94001,INÍRIDA,REDD,0.0,REDD+,REDD,0.0,['vm0007'],completed,acuerdo
+2084,"CONSERVATION PROJECT REDD+ SUR DEL META BOSQUES DE PAZ, SUSTENTO DE VIDA",REDD,Registered,S3,False,50590,PUERTO RICO,REDD,0.0,REDD+,REDD,0.0,['vm0015'],registered,acuerdo
+2872,CRIMA PREDIO PUTUMAYO Y ANDOQUE DE ADUCHE REDD+  PROJECT,REDD,Withdrawn,S1,False,18756,SOLANO,REDD,0.0,REDD+,REDD,0.0,['vm0007'],completed,acuerdo
+2532,Cumare carbon project,AFOLU_no_REDD,Registered,S3,False,50689,SAN MARTÍN,AFOLU_no_REDD,1220754.0,Afforestation/Reforestation,AFOLU_no_REDD,1220754.0,['ar-acm0003'],registered,acuerdo
+479,Curva de Rodas and La Pradera landfill gas management project,no_AFOLU,Late to Verify,S2,False,5212,COPACABANA,no_AFOLU,19722.0,Landfill Methane,no_AFOLU,19722.0,['acm0001'],unknown,acuerdo
+5756,El Estero biogas recovery and utilization,no_AFOLU,Under validation (Public comment period open),S1,False,85139,MANÍ,sin_dato,,,sin_dato,0.0,['ams-iii-h'],listed,sin_contraste
+1797,El Molino-San Matias hydroelectric projects,no_AFOLU,Verification approval requested,S2,False,5197,COCORNÁ,no_AFOLU,455910.0,Hydropower,no_AFOLU,455910.0,['acm0002'],unknown,acuerdo
+5908,Electric Mobility Program Colombia,no_AFOLU,Registration requested,S1,False,50573,PUERTO LÓPEZ,no_AFOLU,0.0,Electric Vehicles & Charging,sin_dato,0.0,['vm0038'],listed,acuerdo
+1169,EPM Grouped Natural Gas Project,no_AFOLU,Under validation (Public comment period closed),S1,False,5615,RIONEGRO,no_AFOLU,0.0,Fuel Switching,no_AFOLU,0.0,['acm0009'],listed,acuerdo
+1723,Escuela de Minas Hydroelectric Project,no_AFOLU,Registered,S3,False,5440,MARINILLA,no_AFOLU,195205.0,Hydropower,no_AFOLU,437200.0,['acm0002'],registered,acuerdo
+3594,Finca la Paz II,AFOLU_no_REDD,Registration and verification approval requested,S2,False,99001,PUERTO CARREÑO,AFOLU_no_REDD,0.0,Afforestation/Reforestation,AFOLU_no_REDD,0.0,['vm0047'],listed,acuerdo
+1378,"Forestry Project for the Basin of the Chinchina River, an Environmental and Productive Alternative for the City and the Region",AFOLU_no_REDD,Late to Verify,S2,False,73043,ANZOÁTEGUI,AFOLU_no_REDD,242990.0,Afforestation/Reforestation,AFOLU_no_REDD,242990.0,['ar-acm0003'],unknown,acuerdo
+1434,Forestry Project “More Forests for Medellin”,AFOLU_no_REDD,Withdrawn,S1,False,5001,MEDELLÍN,AFOLU_no_REDD,0.0,Afforestation/Reforestation,AFOLU_no_REDD,0.0,['ar-acm0003'],completed,acuerdo
+5632,Green and Carbon Capture project,AFOLU_no_REDD,Under validation (Public comment period closed),S1,False,47551,PIVIJAY,sin_dato,,,AFOLU_no_REDD,0.0,['vm0047'],listed,acuerdo
+1530,Grouped Project for Commercial Forest Plantations Initiatives in the Department of Vichada,AFOLU_no_REDD,Registered,S3,False,99001,PUERTO CARREÑO,AFOLU_no_REDD,297261.0,Afforestation/Reforestation,AFOLU_no_REDD,297261.0,['ar-acm0003'],registered,acuerdo
+1765,Grouped Project for reducing emissions from deforestation and forest degradation-REDD-in the Regional Natural Park:Biological Corridor PNN Purace-PNN Cueva de los Guacharos,REDD,Verification approval requested,S2,False,41668,SAN AGUSTÍN,REDD,0.0,REDD+,REDD,0.0,['vm0015'],unknown,acuerdo
+1769,"Grouped Project for restoration of degraded lands in Jaguar Corridors, Colombia",AFOLU_no_REDD,Late to Verify,S2,False,68190,CIMITARRA,AFOLU_no_REDD,12891.0,Afforestation/Reforestation,AFOLU_no_REDD,12891.0,"['ar-acm0003', 'vm0005']",unknown,acuerdo
+1657,"Grouped Project REDD+ conservation of the Oak ecological corridor Guantiva – La Rusia – Iguaque, Colombia",REDD,Under validation (Public comment period closed),S1,False,68464,MOGOTES,REDD,0.0,REDD+,REDD,0.0,['vm0015'],listed,acuerdo
+1868,GUACHICONO SMALL HYDROELECTRIC PROJECT,no_AFOLU,Late to Verify,S2,False,19392,LA SIERRA,no_AFOLU,0.0,Hydropower,no_AFOLU,0.0,['ams-i-d'],unknown,acuerdo
+1836,Guanaquitas 9.74 MW Hydroelectric Project,no_AFOLU,Late to Verify,S2,False,5686,SANTA ROSA DE OSOS,no_AFOLU,77183.0,Hydropower,no_AFOLU,77183.0,['ams-i-d'],unknown,acuerdo
+1562,Hydroelectric Project Aures Bajo,no_AFOLU,Pipeline listing (under development) approved,S1,False,5756,SONSÓN,no_AFOLU,0.0,Hydropower,no_AFOLU,0.0,['acm0002'],listed,acuerdo
+1235,Hydroelectric Project Cantayus,no_AFOLU,Pipeline listing (under development) approved,S1,False,5690,SANTO DOMINGO,no_AFOLU,0.0,Hydropower,no_AFOLU,0.0,['acm0002'],listed,acuerdo
+1068,Hydroelectric Project El Edén,no_AFOLU,Registered,S3,False,17541,PENSILVANIA,no_AFOLU,73110.0,Hydropower,no_AFOLU,73110.0,['acm0002'],registered,acuerdo
+1065,HYDROELECTRIC PROJECT ITUANGO,no_AFOLU,Registered,S3,False,5107,BRICEÑO,no_AFOLU,0.0,Hydropower,no_AFOLU,0.0,['acm0002'],registered,acuerdo
+1473,Hydroelectric Project MULATOS II,no_AFOLU,Registered,S3,False,5792,TARSO,no_AFOLU,39577.0,Hydropower,no_AFOLU,39577.0,['acm0002'],registered,acuerdo
+1364,Hydroelectric Project PCH Luzma,no_AFOLU,Registered,S3,False,5031,AMALFI,no_AFOLU,494445.0,Hydropower,no_AFOLU,494445.0,['acm0002'],registered,acuerdo
+1798,Hydroelectric projects at Oibita River,no_AFOLU,Registered,S3,False,68500,OIBA,no_AFOLU,0.0,Hydropower,no_AFOLU,0.0,['acm0002'],registered,acuerdo
+3646,Kúvay Macärö Vidi REDD+ Carurú -KUMAVI REDD+,REDD,Inactive,S1,False,97161,CARURÚ,REDD,0.0,REDD+,REDD,0.0,"['vm0015', 'vm0037']",completed,acuerdo
+386,La Cascada 2.3 MW Hydroelectric Project,no_AFOLU,Late to Verify,S2,False,5670,SAN ROQUE,no_AFOLU,3689.0,Hydropower,no_AFOLU,3689.0,['acm0002'],unknown,acuerdo
+1206,Montanitas Hydroelectric Project,no_AFOLU,Registered,S3,False,5237,DONMATÍAS,no_AFOLU,257975.0,Hydropower,no_AFOLU,257975.0,['acm0002'],registered,acuerdo
+2869,Multimodal Transport on the Magdalena River by Impala Terminals,no_AFOLU,Pipeline listing requested (under development),S1,False,68081,BARRANCABERMEJA,sin_dato,,,sin_dato,,,,sin_contraste
+1399,Mutatá REDD+ Project,REDD,Registered,S3,False,5480,MUTATÁ,REDD,555178.0,REDD+,REDD,555178.0,['vm0006'],registered,acuerdo
+4894,"MÜSESI project for active restoration in areas of the Sierra Nevada Santa Marta, Colombia",AFOLU_no_REDD,Pipeline listing (under development) approved,S1,False,47189,CIÉNAGA,AFOLU_no_REDD,0.0,Afforestation/Reforestation,AFOLU_no_REDD,0.0,['vm0047'],listed,acuerdo
+4777,NATURAL SILVOPASTORAL SYSTEMS IN THE COLOMBIAN ORINOQUIA REGION,AFOLU_no_REDD,Under validation (Public comment period closed),S1,False,99524,LA PRIMAVERA,AFOLU_no_REDD,0.0,Sustainable Agriculture,AFOLU_no_REDD,0.0,['vm0042'],listed,acuerdo
+4732,"NatureRe assisted natural regeneration project in degraded lands in Antioquia, Colombia",AFOLU_no_REDD,Verification approval requested,S2,False,5579,PUERTO BERRÍO,AFOLU_no_REDD,0.0,Afforestation/Reforestation,AFOLU_no_REDD,0.0,['ar-acm0003'],registered,acuerdo
+2459,NAYA REDD+,REDD,Rejected by Administrator,S1,True,19418,LÓPEZ DE MICAY,REDD,0.0,REDD+,REDD,0.0,['vm0007'],completed,acuerdo
+3218,Origen Atrato-Baudó REDD+ Project,REDD,Registration and verification approval requested,S2,False,27600,RÍO QUITO,REDD,0.0,REDD+,REDD,0.0,['vm0009'],listed,acuerdo
+1695,PAYMENT FOR ENVIRONMENTAL SERVICES SCHEME FOR FOREST MANAGEMENT AND CONSERVATION OF WATER SOURCES IN THE JURISDICTION OF CORPOCHIVOR,REDD,Registered,S3,False,15236,CHIVOR,REDD,5276.0,REDD+,REDD,5276.0,['vm0015'],registered,acuerdo
+3690,PROJECT MATANI REDD+ DIOS MAYOR DE LOS PUEBLOS CABILLARI,REDD,Rejected by Administrator,S1,False,97511,PACOA,REDD,0.0,REDD+,REDD,0.0,['vm0015'],completed,acuerdo
+4419,Project MATANI REDD+ DIOS MAYOR DE LOS PUEBLOS CABILLARI CONSERVACION ANCESTRAL,REDD,Withdrawn,S1,False,97511,PACOA,REDD,0.0,REDD+,REDD,0.0,['vm0015'],completed,acuerdo
+5901,"PROJECT URAMIA – COMMUNITY-LED FOREST CONSERVATION REDD+ PROJECT IN CHOCÓ, COLOMBIA",REDD,Under validation (Public comment period closed),S1,False,27361,ISTMINA,sin_dato,,,REDD,0.0,['vm0048'],listed,acuerdo
+2330,Protection of mangroves and community developmental activities in the biodiversity hotspot of Colombia,REDD,Registration requested,S1,False,27800,UNGUÍA,no_AFOLU,0.0,Wetland Restoration,REDD,0.0,['vm0015'],listed,DESACUERDO
+3145,Proyecto REDD++ PANI,REDD,Registration and verification approval requested,S2,False,91669,PUERTO SANTANDER,REDD,0.0,REDD+,REDD,0.0,['vm0007'],listed,acuerdo
+1429,Recovery of degraded areas with agroforestry systems in Colombia,AFOLU_no_REDD,Late to Verify,S2,False,5837,TURBO,AFOLU_no_REDD,0.0,Afforestation/Reforestation,AFOLU_no_REDD,0.0,['ar-acm0003'],unknown,acuerdo
+2392,REDD + in the Forests of the Otún River Basin,REDD,Withdrawn,S1,False,66682,SANTA ROSA DE CABAL,REDD,0.0,REDD+,REDD,0.0,['vm0015'],completed,acuerdo
+2251,REDD PROJECT OF THE INDIGENOUS PEOPLES OF VAUPÉS YUTUCU AND  OTHERS,REDD,Withdrawn,S1,False,97001,MITÚ,REDD,0.0,REDD+,REDD,0.0,['vm0015'],completed,acuerdo
+2356,REDD+ CONSERVATION OF ETHNO SUSTAINABLE AFRO-COLOMBIAN COMMUNITY IN THE TROPICAL RAIN FOREST OF COLOMBIA,REDD,Under validation (Public comment period closed),S1,False,27006,ACANDÍ,REDD,0.0,REDD+,REDD,0.0,['vm0015'],listed,acuerdo
+4536,REDD+ Esteros y Manglares,REDD,Inactive,S1,True,52490,OLAYA HERRERA,REDD,0.0,REDD+,REDD,0.0,['vm0007'],completed,acuerdo
+3564,REDD+ Project for the Conservation of Lowland Forest in the  Magdalena Medio Region of Colombia,REDD,Withdrawn,S1,False,5893,YONDÓ,REDD,0.0,REDD+,REDD,0.0,['vm0015'],completed,acuerdo
+3217,REDD+ Project in the Alto Predio Putumayo Indigenous Reservation in Colombia,REDD,Pipeline listing (under development) approved,S1,False,18150,CARTAGENA DEL CHAIRÁ,REDD,0.0,REDD+,REDD,0.0,['vm0009'],listed,acuerdo
+2317,REDD+ Project Magnolios de Yarumal,REDD,Registered,S3,False,5134,CAMPAMENTO,REDD,15431.0,REDD+,REDD,15431.0,['vm0015'],registered,acuerdo
+2297,REDD+ Project Pueblos indígenas resguardando la selva,REDD,Registered,S3,False,91405,LA CHORRERA,REDD,3929705.0,REDD+,REDD,3929705.0,['vm0015'],registered,acuerdo
+1566,REDD+ Project Resguardo Indigena Unificado Selva de Mataven (RIU SM),REDD,Verification approval requested,S2,False,99773,CUMARIBO,REDD,27094417.0,REDD+,REDD,27094417.0,['vm0007'],unknown,acuerdo
+2262,REDD+ Yaguara Llanos del Yari,REDD,Withdrawn,S1,False,95015,CALAMAR,REDD,0.0,REDD+,REDD,0.0,['vm0015'],completed,acuerdo
+4480,REDD++ Manglares del Bajo Baudo,REDD,Under validation (Public comment period closed),S1,True,27077,BAJO BAUDÓ,REDD,0.0,REDD+,REDD,0.0,['vm0007'],listed,acuerdo
+6047,"REFORESTATION OF GRAZING LANDS HACIENDA EL MANANTIAL IN PUERTO LÓPEZ, COLOMBIA",AFOLU_no_REDD,Under validation (Public comment period closed),S1,False,50573,PUERTO LÓPEZ,sin_dato,,,sin_dato,,,,sin_contraste
+1233,Reforestation with Rubber on degraded lands of Colombia,AFOLU_no_REDD,Withdrawn,S1,False,99624,SANTA ROSALÍA,AFOLU_no_REDD,211765.0,Afforestation/Reforestation,AFOLU_no_REDD,211765.0,['ar-acm0003'],completed,acuerdo
+1682,Regenerating Colombian Coffee Ecosystems,AFOLU_no_REDD,Registered,S3,False,5670,SAN ROQUE,AFOLU_no_REDD,40623.0,Afforestation/Reforestation,AFOLU_no_REDD,40623.0,['ar-ams0007'],registered,acuerdo
+576,"Restoration of degraded areas and reforestation in Cáceres and Cravo Norte, Colombia",AFOLU_no_REDD,Registered,S3,False,5120,CÁCERES,AFOLU_no_REDD,406850.0,Afforestation/Reforestation,AFOLU_no_REDD,406850.0,"['ar-acm0003', 'ar-am0005']",registered,acuerdo
+4748,RESTORED PRODUCTIVE LANDSCAPES IN THE MAGDALENA RIVER MIDDLE BASIN IN COLOMBIA,AFOLU_no_REDD,Registration requested,S1,False,68190,CIMITARRA,AFOLU_no_REDD,0.0,Afforestation/Reforestation,AFOLU_no_REDD,0.0,['ar-acm0003'],listed,acuerdo
+1396,Rio Pepe y ACABA REDD+ Project,REDD,Registered,S3,False,27430,MEDIO BAUDÓ,REDD,567286.0,REDD+,REDD,567286.0,['vm0006'],registered,acuerdo
+1806,Riscales REDD+ Project,REDD,Registered,S3,False,27495,NUQUÍ,REDD,0.0,REDD+,REDD,255609.0,['vm0007'],registered,acuerdo
+1173,San Andres Hydroelectric project,no_AFOLU,Withdrawn,S1,False,5647,SAN ANDRÉS DE CUERQUÍA,no_AFOLU,0.0,Hydropower,no_AFOLU,0.0,['acm0002'],completed,acuerdo
+1909,Santa Ana Hydroelectric Plant - CER Conversion,no_AFOLU,Units transferred from approved GHG program,S2,False,25845,UNE,no_AFOLU,44.0,Hydropower,no_AFOLU,44.0,['ams-i-d'],unknown,acuerdo
+1796,Santa Rosa - Altamira hydroelectric projects,no_AFOLU,Late to Verify,S2,False,68770,SUAITA,no_AFOLU,0.0,Hydropower,no_AFOLU,0.0,['acm0002'],unknown,acuerdo
+2750,Saving Colombia's Cloud Forest,AFOLU_no_REDD,Registered,S3,False,5034,ANDES,AFOLU_no_REDD,2598.0,Afforestation/Reforestation,AFOLU_no_REDD,2598.0,['ar-acm0003'],registered,acuerdo
+5169,Sembrando Futuro 2.0,AFOLU_no_REDD,Registration requested,S1,False,5679,SANTA BÁRBARA,AFOLU_no_REDD,0.0,Afforestation/Reforestation,AFOLU_no_REDD,0.0,['vm0047'],listed,acuerdo
+5324,Sembrando Futuro Restoration Project,AFOLU_no_REDD,Withdrawn,S1,False,5364,JARDÍN,AFOLU_no_REDD,0.0,Afforestation/Reforestation,AFOLU_no_REDD,0.0,['vm0047'],completed,acuerdo
+1391,SIVIRÚ-USARAGÁ-PIZARRO-PILIZÁ (SUPP) REDD+ Project,REDD,Registered,S3,False,27077,BAJO BAUDÓ,REDD,1349813.0,REDD+,REDD,1349813.0,['vm0006'],registered,acuerdo
+1892,SOLAR GROUPED PROJECT BY EPSA-CELSIA,no_AFOLU,Verification approval requested,S2,False,11001,"BOGOTÁ, D.C.",no_AFOLU,0.0,Solar - Centralized,no_AFOLU,0.0,"['acm0002', 'ams-i-d']",unknown,acuerdo
+2060,Suba and Usaquen Hydroelectric Umbrella Project,no_AFOLU,Registered,S3,False,11001,"BOGOTÁ, D.C.",no_AFOLU,22334.0,Hydropower,no_AFOLU,22334.0,['ams-i-d'],registered,acuerdo
+3450,"Sustainable Agroforestry Cacao Meta, Colombia",AFOLU_no_REDD,Registered,S3,False,50124,CABUYARO,AFOLU_no_REDD,0.0,Afforestation/Reforestation,AFOLU_no_REDD,19871.0,['ar-acm0003'],registered,acuerdo
+856,The Chocó-Darién Conservation Corridor REDD Project,REDD,Late to Verify,S2,False,27006,ACANDÍ,REDD,435287.0,REDD+,REDD,435287.0,['vm0009'],unknown,acuerdo
+3849,THE FOREST CARBON PROJECT AGROREFORESTADORA RANCHO VICTORIA S. A,AFOLU_no_REDD,Rejected by Administrator,S1,False,50573,PUERTO LÓPEZ,AFOLU_no_REDD,0.0,Afforestation/Reforestation,AFOLU_no_REDD,0.0,['ar-acm0003'],completed,acuerdo
+1936,WIND POWER GROUPED PROJECT BY CELSIA COLOMBIA - BEGONIA POWER,no_AFOLU,Late to Verify,S2,False,44430,MAICAO,no_AFOLU,0.0,Wind,no_AFOLU,0.0,"['acm0002', 'ams-i-d']",unknown,acuerdo
+1869,"Yagual - Carbon Sequestration Grouped Project for the Restoration, Conservation and Sustainable Production in the Guerrero, Sumapaz and Rabanal Paramo Systems",AFOLU_no_REDD,Late to Verify,S2,False,25793,TAUSA,AFOLU_no_REDD,0.0,Afforestation/Reforestation,AFOLU_no_REDD,0.0,['ar-acm0003'],unknown,acuerdo
