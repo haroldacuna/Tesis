@@ -1,209 +1,0 @@
-Diagnóstico de fuentes de carbono — salidas en data\interim\diagnostics/
-
-
-======================================================================
-A1) ECOREGISTRY (registro voluntario colombiano, Bolsa Mercantil de Colombia)
-======================================================================
-
---- ecoregistry_ecoregistry.io ---
-URL: https://ecoregistry.io
-ERROR de red/DNS: HTTPSConnectionPool(host='ecoregistry.io', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:1035)')))
-
---- ecoregistry_ecoregistry.io_projects ---
-URL: https://ecoregistry.io/projects
-ERROR de red/DNS: HTTPSConnectionPool(host='ecoregistry.io', port=443): Max retries exceeded with url: /projects (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:1035)')))
-
---- ecoregistry_ecoregistry.io_api_projects ---
-URL: https://ecoregistry.io/api/projects
-ERROR de red/DNS: HTTPSConnectionPool(host='ecoregistry.io', port=443): Max retries exceeded with url: /api/projects (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:1035)')))
-
---- ecoregistry_ecoregistry.io_api_v1_projects ---
-URL: https://ecoregistry.io/api/v1/projects
-ERROR de red/DNS: HTTPSConnectionPool(host='ecoregistry.io', port=443): Max retries exceeded with url: /api/v1/projects (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:1035)')))
-
---- ecoregistry_ecoregistry.co ---
-URL: https://ecoregistry.co
-ERROR de red/DNS: HTTPSConnectionPool(host='ecoregistry.co', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001F1F079ED50>: Failed to resolve 'ecoregistry.co' ([Errno 11001] getaddrinfo failed)"))
-
---- ecoregistry_registry.ecoregistry.io ---
-URL: https://registry.ecoregistry.io
-ERROR de red/DNS: HTTPSConnectionPool(host='registry.ecoregistry.io', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001F1F079F250>: Failed to resolve 'registry.ecoregistry.io' ([Errno 11001] getaddrinfo failed)"))
-
-======================================================================
-A2) GOLD STANDARD (registry.goldstandard.org)
-======================================================================
-
---- goldstandard_registry.goldstandard.org ---
-URL: https://registry.goldstandard.org
-Status: 200  |  Content-Type: text/html; charset=utf-8
-Primeros 500 chars: <!DOCTYPE html> <html lang="en">   <head>     <meta charset="utf-8">     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">     <meta name="theme-color" content="#000000">      <link rel="manifest" href="/manifest.json">     <link rel="shortcut icon" href="/favicon.png" type="image/png">     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">          <title>GSF Registry</title>     <script type="module" crossorigin src="/ass
-(cuerpo completo guardado en data\interim\diagnostics\goldstandard_registry.goldstandard.org_raw_response.txt)
-
---- goldstandard_registry.goldstandard.org_projects_q_colombia ---
-URL: https://registry.goldstandard.org/projects?q=colombia
-Status: 200  |  Content-Type: text/html; charset=utf-8
-Primeros 500 chars: <!DOCTYPE html> <html lang="en">   <head>     <meta charset="utf-8">     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">     <meta name="theme-color" content="#000000">      <link rel="manifest" href="/manifest.json">     <link rel="shortcut icon" href="/favicon.png" type="image/png">     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">          <title>GSF Registry</title>     <script type="module" crossorigin src="/ass
-(cuerpo completo guardado en data\interim\diagnostics\goldstandard_registry.goldstandard.org_projects_q_colombia_raw_response.txt)
-
---- goldstandard_registry.goldstandard.org_projects_country_CO ---
-URL: https://registry.goldstandard.org/projects?country=CO
-Status: 200  |  Content-Type: text/html; charset=utf-8
-Primeros 500 chars: <!DOCTYPE html> <html lang="en">   <head>     <meta charset="utf-8">     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">     <meta name="theme-color" content="#000000">      <link rel="manifest" href="/manifest.json">     <link rel="shortcut icon" href="/favicon.png" type="image/png">     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">          <title>GSF Registry</title>     <script type="module" crossorigin src="/ass
-(cuerpo completo guardado en data\interim\diagnostics\goldstandard_registry.goldstandard.org_projects_country_CO_raw_response.txt)
-
---- goldstandard_api.goldstandard.org_projects_country_CO ---
-URL: https://api.goldstandard.org/projects?country=CO
-Status: 403  |  Content-Type: application/json
-Primeros 500 chars: {"message":"Can only accept requests of type: authenticated"}
-(cuerpo completo guardado en data\interim\diagnostics\goldstandard_api.goldstandard.org_projects_country_CO_raw_response.txt)
-
---- goldstandard_public.goldstandard.org_api_projects ---
-URL: https://public.goldstandard.org/api/projects
-ERROR de red/DNS: HTTPSConnectionPool(host='public.goldstandard.org', port=443): Max retries exceeded with url: /api/projects (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001F1F079FB10>: Failed to resolve 'public.goldstandard.org' ([Errno 11001] getaddrinfo failed)"))
-
-======================================================================
-A3) ACR - American Carbon Registry (plataforma APX, acr2.apx.com)
-======================================================================
-Nota: las plataformas APX (ACR, Climate Action Reserve) suelen tener
-reportes públicos exportables como CSV sin login, bajo /mymodule/reg/.
-
---- acr_acr2.apx.com ---
-URL: https://acr2.apx.com
-ERROR de red/DNS: HTTPSConnectionPool(host='acr2.apx.com', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001F1F079F9D0>: Failed to resolve 'acr2.apx.com' ([Errno 11001] getaddrinfo failed)"))
-
---- acr_acr2.apx.com_mymodule_reg_prjView.asp ---
-URL: https://acr2.apx.com/mymodule/reg/prjView.asp
-Status: 404  |  Content-Type: text/html
-Primeros 500 chars: <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> <html xmlns="http://www.w3.org/1999/xhtml"> <head> <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/> <title>404 - File or directory not found.</title> <style type="text/css"> <!-- body{margin:0;font-size:.7em;font-family:Verdana, Arial, Helvetica, sans-serif;background:#EEEEEE;} fieldset{padding:0 15px 10px 15px;}  h1{font-size:2.4em;margin:0;color:#FFF;}
-(cuerpo completo guardado en data\interim\diagnostics\acr_acr2.apx.com_mymodule_reg_prjView.asp_raw_response.txt)
-
---- acr_acr2.apx.com_mymodule_reg_tabs_ProjectTab.asp_r_111_at_1 ---
-URL: https://acr2.apx.com/mymodule/reg/tabs/ProjectTab.asp?r=111&at=1
-Status: 404  |  Content-Type: text/html
-Primeros 500 chars: <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> <html xmlns="http://www.w3.org/1999/xhtml"> <head> <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/> <title>404 - File or directory not found.</title> <style type="text/css"> <!-- body{margin:0;font-size:.7em;font-family:Verdana, Arial, Helvetica, sans-serif;background:#EEEEEE;} fieldset{padding:0 15px 10px 15px;}  h1{font-size:2.4em;margin:0;color:#FFF;}
-(cuerpo completo guardado en data\interim\diagnostics\acr_acr2.apx.com_mymodule_reg_tabs_ProjectTab.asp_r_111_at_1_raw_response.txt)
-
---- acr_americancarbonregistry.org_carbon-accounting_project-databas ---
-URL: https://americancarbonregistry.org/carbon-accounting/project-database
-Status: 404  |  Content-Type: text/html; charset=UTF-8
-Primeros 500 chars: <!doctype html> <html lang="en-US"> <head>     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XGN2SFVY3L"></script> 	<meta charset="utf-8"> 	<meta charset="UTF-8"> 	<meta name="viewport" content="width=device-width, initial-scale=1.0"> 	<meta name='robots' content='noindex, follow' />  	<!-- This site is optimized with the Yoast SEO plugin v24.0 - https://yoast.com/wordpress/plugins/seo/ --> 	<title>Page not found - ACR</title> 	<meta property="og:locale" content="en_US" /> 	<m
-(cuerpo completo guardado en data\interim\diagnostics\acr_americancarbonregistry.org_carbon-accounting_project-databas_raw_response.txt)
-
-======================================================================
-A4) CLIMATE ACTION DATA TRUST (agregador multi-registro: Verra, GS, ACR, CDM...)
-======================================================================
-Si esta fuente responde con datos estructurados, podría cubrir Verra,
-Gold Standard, ACR y CDM en una sola llamada armonizada.
-
---- cadtrust_climateactiondata.org ---
-URL: https://climateactiondata.org
-Status: 200  |  Content-Type: text/html; charset=UTF-8
-Primeros 500 chars: <!DOCTYPE html> <html lang="en-GB">  	<head> 		<meta charset="UTF-8"> <script type="text/javascript"> /* <![CDATA[ */ var gform;gform||(document.addEventListener("gform_main_scripts_loaded",function(){gform.scriptsLoaded=!0}),document.addEventListener("gform/theme/scripts_loaded",function(){gform.themeScriptsLoaded=!0}),window.addEventListener("DOMContentLoaded",function(){gform.domLoaded=!0}),gform={domLoaded:!1,scriptsLoaded:!1,themeScriptsLoaded:!1,isFormEditor:()=>"function"==typeof Initiali
-(cuerpo completo guardado en data\interim\diagnostics\cadtrust_climateactiondata.org_raw_response.txt)
-
---- cadtrust_api.climateactiondata.org ---
-URL: https://api.climateactiondata.org
-ERROR de red/DNS: HTTPSConnectionPool(host='api.climateactiondata.org', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1035)')))
-
---- cadtrust_api.climateactiondata.org_metadata_search_country_CO ---
-URL: https://api.climateactiondata.org/metadata/search?country=CO
-ERROR de red/DNS: HTTPSConnectionPool(host='api.climateactiondata.org', port=443): Max retries exceeded with url: /metadata/search?country=CO (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1035)')))
-
---- cadtrust_explorer.climateactiondata.org ---
-URL: https://explorer.climateactiondata.org
-ERROR de red/DNS: HTTPSConnectionPool(host='explorer.climateactiondata.org', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001F1F0804690>: Failed to resolve 'explorer.climateactiondata.org' ([Errno 11001] getaddrinfo failed)"))
-
-======================================================================
-B) RENARE (fuente oficial citada en la propuesta, ausente del pipeline)
-======================================================================
-
--- B1) Búsqueda en catálogo Socrata de datos.gov.co --
-
---- renare_catalog_RENARE ---
-URL: https://www.datos.gov.co/api/catalog/v1
-Status: 200  |  Content-Type: application/json;charset=utf-8
-Primeros 500 chars: {   "results" : [],   "resultSetSize" : 0,   "timings" : { "serviceMillis" : 88, "searchMillis" : [ 6, 5 ] },   "warnings" : [] }
-(cuerpo completo guardado en data\interim\diagnostics\renare_catalog_RENARE_raw_response.txt)
-  -> 0 datasets encontrados para 'RENARE':
-
---- renare_catalog_reduccion_de_emisiones ---
-URL: https://www.datos.gov.co/api/catalog/v1
-Status: 200  |  Content-Type: application/json;charset=utf-8
-Primeros 500 chars: {   "results" :     [       {         "resource" :           {             "name" : "AMBIENTE CUNDINAMARCA",             "id" : "emnv-yxv2",             "resource_name" : null,             "parent_fxf" : [],             "description" : "<div style='background-color:rgb(255, 255, 255); border:0px solid currentcolor; box-sizing:border-box; color:rgb(74, 74, 74); font-family:&quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px; font-style:normal; font-variant-caps
-(cuerpo completo guardado en data\interim\diagnostics\renare_catalog_reduccion_de_emisiones_raw_response.txt)
-  -> 10 datasets encontrados para 'reduccion de emisiones':
-     * AMBIENTE CUNDINAMARCA | id=emnv-yxv2 | actualizado=2026-05-20T19:25:34.000Z
-     * DNP - Seguimiento al Plan Nacional de Desarrollo | id=erzn-xnx6 | actualizado=2026-05-18T18:05:26.000Z
-     * Data Set Disposición Final Junio_2018 | id=hiz3-94jj | actualizado=2026-08-21T20:15:07.000Z
-     * Data Set Disposición Final Noviembre_2018 | id=mm8c-i8c2 | actualizado=2026-08-21T20:15:06.000Z
-     * Subdireccion Disposicion Final  RSDJ Planta Biogas | id=i8sg-jtvz | actualizado=2026-08-21T20:15:35.000Z
-     * Disposición Final Noviembre_2018 | id=3s93-hw4c | actualizado=2026-08-21T20:15:07.000Z
-
---- renare_catalog_bonos_de_carbono ---
-URL: https://www.datos.gov.co/api/catalog/v1
-Status: 200  |  Content-Type: application/json;charset=utf-8
-Primeros 500 chars: {   "results" : [],   "resultSetSize" : 0,   "timings" : { "serviceMillis" : 32, "searchMillis" : [ 6, 6 ] },   "warnings" : [] }
-(cuerpo completo guardado en data\interim\diagnostics\renare_catalog_bonos_de_carbono_raw_response.txt)
-  -> 0 datasets encontrados para 'bonos de carbono':
-
---- renare_catalog_proyectos_REDD ---
-URL: https://www.datos.gov.co/api/catalog/v1
-Status: 200  |  Content-Type: application/json;charset=utf-8
-Primeros 500 chars: {   "results" : [],   "resultSetSize" : 0,   "timings" : { "serviceMillis" : 33, "searchMillis" : [ 5, 5 ] },   "warnings" : [] }
-(cuerpo completo guardado en data\interim\diagnostics\renare_catalog_proyectos_REDD_raw_response.txt)
-  -> 0 datasets encontrados para 'proyectos REDD':
-
---- renare_catalog_carbono_forestal ---
-URL: https://www.datos.gov.co/api/catalog/v1
-Status: 200  |  Content-Type: application/json;charset=utf-8
-Primeros 500 chars: {   "results" :     [       {         "resource" :           {             "name" : "ANALISIS DE LAS EMISIONES DE GASES DE EFECTO INVERNADERO (GEI) PRODUCTO DE LA ACTIVIDAD AGROPECUARIA EN LA REGION CENTRAL",             "id" : "25nw-b8kq",             "resource_name" : null,             "parent_fxf" : [],             "description" : "El conjunto de datos describe el tipo información que se analiza en la Región Administrativa y de Planeación Especial sobre la actividad ganadera municipio a munic
-(cuerpo completo guardado en data\interim\diagnostics\renare_catalog_carbono_forestal_raw_response.txt)
-  -> 1 datasets encontrados para 'carbono forestal':
-     * ANALISIS DE LAS EMISIONES DE GASES DE EFECTO INVERNADERO (GEI) PRODUCTO DE LA ACTIVIDAD AGROPECUARIA EN LA REGION CENTRAL | id=25nw-b8kq | actualizado=2026-05-18T16:57:31.000Z
-
--- B2) URLs directas plausibles de MinAmbiente --
-
---- renare_direct_renare.minambiente.gov.co ---
-URL: https://renare.minambiente.gov.co
-Status: 200  |  Content-Type: text/html
-Primeros 500 chars: <!doctype html> <html lang="en" data-critters-container> <head>   <meta charset="utf-8">   <title>Renare UI</title>   <base href="/">   <meta name="viewport" content="width=device-width, initial-scale=1">   <link rel="icon" type="image/x-icon" href="favicon.ico">   <!-- css BDC -->   <!-- <link href="https://cdn.www.gov.co/layout/v4/all.css" rel="stylesheet"> -->   <link href="https://cdn.minambiente.gov.co/transversales/v1/web-components-transversales.css" rel="stylesheet">   <link href="https:
-(cuerpo completo guardado en data\interim\diagnostics\renare_direct_renare.minambiente.gov.co_raw_response.txt)
-
---- renare_direct_renare.minambiente.gov.co ---
-URL: http://renare.minambiente.gov.co
-Status: 200  |  Content-Type: text/html
-Primeros 500 chars: <!doctype html> <html lang="en" data-critters-container> <head>   <meta charset="utf-8">   <title>Renare UI</title>   <base href="/">   <meta name="viewport" content="width=device-width, initial-scale=1">   <link rel="icon" type="image/x-icon" href="favicon.ico">   <!-- css BDC -->   <!-- <link href="https://cdn.www.gov.co/layout/v4/all.css" rel="stylesheet"> -->   <link href="https://cdn.minambiente.gov.co/transversales/v1/web-components-transversales.css" rel="stylesheet">   <link href="https:
-(cuerpo completo guardado en data\interim\diagnostics\renare_direct_renare.minambiente.gov.co_raw_response.txt)
-
---- renare_direct_www.minambiente.gov.co_negocios-verdes-y-sostenibles_renare ---
-URL: https://www.minambiente.gov.co/negocios-verdes-y-sostenibles/renare/
-Status: 200  |  Content-Type: text/html; charset=UTF-8
-Primeros 500 chars: <!DOCTYPE html> <html lang="es"> <head>     <meta charset="UTF-8">     <meta name="viewport" content="width=device-width, initial-scale=1">     <meta http-equiv="X-UA-Compatible" content="IE=edge">     <link rel="profile" href="http://gmpg.org/xfn/11">     <meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />  	<!-- This site is optimized with the Yoast SEO Premium plugin v17.2 (Yoast SEO v18.7) - https://yoast.com/wordpress/plugins/seo/ --
-(cuerpo completo guardado en data\interim\diagnostics\renare_direct_www.minambiente.gov.co_negocios-verdes-y-sostenibles_renare_raw_response.txt)
-
---- renare_direct_www.minambiente.gov.co_cambio-climatico_renare ---
-URL: https://www.minambiente.gov.co/cambio-climatico/renare/
-Status: 200  |  Content-Type: text/html; charset=UTF-8
-Primeros 500 chars: <!DOCTYPE html> <html lang="es"> <head>     <meta charset="UTF-8">     <meta name="viewport" content="width=device-width, initial-scale=1">     <meta http-equiv="X-UA-Compatible" content="IE=edge">     <link rel="profile" href="http://gmpg.org/xfn/11">     <meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />  	<!-- This site is optimized with the Yoast SEO Premium plugin v17.2 (Yoast SEO v18.7) - https://yoast.com/wordpress/plugins/seo/ --
-(cuerpo completo guardado en data\interim\diagnostics\renare_direct_www.minambiente.gov.co_cambio-climatico_renare_raw_response.txt)
-
---- renare_direct_www.minambiente.gov.co_registro-nacional-de-reduccion-de-las ---
-URL: https://www.minambiente.gov.co/registro-nacional-de-reduccion-de-las-emisiones-de-gei-renare/
-Status: 404  |  Content-Type: text/html; charset=utf-8
-Primeros 500 chars: <html> <head><title>404 Not Found</title></head> <body> <center><h1>404 Not Found</h1></center> <hr><center>nginx</center> </body> </html> <!-- a padding to disable MSIE and Chrome friendly error page --> <!-- a padding to disable MSIE and Chrome friendly error page --> <!-- a padding to disable MSIE and Chrome friendly error page --> <!-- a padding to disable MSIE and Chrome friendly error page --> <!-- a padding to disable MSIE and Chrome friendly error page --> <!-- a padding to d
-(cuerpo completo guardado en data\interim\diagnostics\renare_direct_www.minambiente.gov.co_registro-nacional-de-reduccion-de-las_raw_response.txt)
-
-Si ninguna de estas responde 200 con datos útiles: busca manualmente 'RENARE' en https://www.datos.gov.co y pégame el resource id (el código tipo 'xxxx-xxxx' en la URL del dataset) — con eso escribo el extractor Socrata real, igual que ya hacen con población DANE.
-
-======================================================================
-C) AUDITORÍA DE MATCHING MUNICIPIO<->PROYECTO (Verra, Berkeley, OffsetsDB)
-======================================================================
-
--- Verra (caché: data\interim\verra_projects_colombia.csv) --
-  No existe el caché local. Corre primero la extracción de Verra (o revisa por qué data\interim\verra_projects_colombia.csv nunca se creó).
-
--- Berkeley (caché: data\interim\berkeley_vrod_projects_colombia.csv) --
-  No existe el caché local. Corre primero la extracción de Berkeley (o revisa por qué data\interim\berkeley_vrod_projects_colombia.csv nunca se creó).
-
--- OffsetsDB (caché: data\interim\offsetsdb_projects_colombia.csv) --
-  No existe el caché local. Corre primero la extracción de OffsetsDB (o revisa por qué data\interim\offsetsdb_projects_colombia.csv nunca se creó).
