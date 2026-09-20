@@ -56,9 +56,95 @@ from pathlib import Path
 
 import pandas as pd
 
-# Ruta de la tabla de decision. Se construye con 28_clasificar_sector.py
-# y se edita a mano.
-CLASIFICACION_FILE = Path("data/interim/clasificacion_sectorial.csv")
+# ---------------------------------------------------------------------------
+# Raiz canonica del proyecto
+#
+# 26_consolidar_fuentes_carbono.py importa RAIZ_PROYECTO y hace os.chdir()
+# con ella para anclar sus rutas relativas, asi que este modulo tiene que
+# exponerla. Se resuelve con el mismo centinela que usan los scripts 34 y 35:
+# un archivo vacio data/.raiz_canonica que marca cual de los arboles de datos
+# es el bueno. En este repo llegaron a coexistir cuatro (el real, la sombra
+# scripts/data, dos dentro del worktree de git), y cualquier heuristica del
+# tipo "el primer directorio que tenga data/" elige mal la mitad de las veces
+# y en silencio.
+#
+# Crear el centinela una sola vez:
+#     New-Item -ItemType File <...>\tesis_gfc\data\.raiz_canonica -Force
+# ---------------------------------------------------------------------------
+CENTINELA = "data/.raiz_canonica"
+_SCRIPT_DIR = Path(__file__).resolve().parent
+
+
+def _resolver_raiz() -> Path:
+    """Sube directorios desde el script y desde el cwd buscando el centinela.
+
+    No lanza excepcion al importar: si no lo encuentra, cae al padre del
+    directorio de scripts y avisa. Un ImportError al arrancar seria peor que
+    una advertencia, porque deja sin diagnostico al que corre el script.
+    """
+    candidatas = []
+    for base in (_SCRIPT_DIR, Path.cwd().resolve()):
+        d = base
+        while True:
+            if (d / CENTINELA).exists():
+                candidatas.append(str(d))
+                break
+            if d.parent == d:
+                break
+            d = d.parent
+
+    unicas = sorted(set(candidatas))
+    if len(unicas) == 1:
+        return Path(unicas[0])
+    if len(unicas) > 1:
+        print("[!] filtro_sectorial: hay DOS raices canonicas distintas segun "
+              "desde donde se mire:\n    " + "\n    ".join(unicas)
+              + "\n    Sobra un centinela. Se usa la primera.")
+        return Path(unicas[0])
+
+    respaldo = _SCRIPT_DIR.parent
+    print(f"[!] filtro_sectorial: no encuentro {CENTINELA} subiendo desde\n"
+          f"      script: {_SCRIPT_DIR}\n"
+          f"      cwd:    {Path.cwd().resolve()}\n"
+          f"    Uso {respaldo} como respaldo. Crea el centinela para fijarlo:\n"
+          f"      New-Item -ItemType File {respaldo}\\data\\.raiz_canonica -Force")
+    return respaldo
+
+
+RAIZ_PROYECTO = _resolver_raiz()
+
+# Absoluta a proposito: asi la tabla se encuentra aunque el script que
+# importa este modulo no haya hecho chdir todavia.
+CLASIFICACION_FILE = RAIZ_PROYECTO / "data/interim/clasificacion_sectorial.csv"
+
+
+def avisar_carpeta_sombra() -> None:
+    """Informa si existen otros arboles data/interim bajo el mismo repo.
+
+    Solo informa: la decision de consolidar o borrar es del usuario, nunca
+    del script. Se conserva el nombre que ya usaba 26_consolidar_fuentes_
+    carbono.py para no romper su import.
+    """
+    tope = RAIZ_PROYECTO.parent
+    otros = []
+    try:
+        for d in tope.rglob("data/interim"):
+            if d.is_dir() and d.resolve() != (RAIZ_PROYECTO / "data/interim").resolve():
+                otros.append(d)
+    except OSError:
+        return
+
+    if not otros:
+        return
+    print("\n[!] Existen otros arboles de datos bajo el mismo repo:")
+    for d in otros:
+        try:
+            n = sum(1 for f in d.rglob("*") if f.is_file())
+        except OSError:
+            n = -1
+        print(f"      {d}   ({n} archivos)")
+    print(f"    Este script escribe SOLO en {RAIZ_PROYECTO / 'data'}.\n")
+
 
 ETIQUETAS_VALIDAS = {"AFOLU", "NO_AFOLU"}
 ETIQUETAS_REDD_VALIDAS = {"REDD", "NO_REDD"}

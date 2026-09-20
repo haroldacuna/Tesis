@@ -1,67 +1,78 @@
 """
 26_consolidar_fuentes_carbono.py
 
-Une las 4 fuentes de proyectos de carbono trabajadas en esta sesión en una
-sola tabla de eventos (un renglón por proyecto con su municipio y año de
-inicio), y de ahí arma las columnas de tratamiento a nivel municipio-año
-para el panel final.
+Une las 4 fuentes de proyectos de carbono en una sola tabla de eventos (un
+renglon por proyecto con su municipio y anio de inicio), y de ahi arma las
+columnas de tratamiento a nivel municipio-anio para el panel final.
+
+CAMBIOS DE ESTA VERSION (19/09/2026)
+------------------------------------
+1. EJE REDD. La tabla de decision ahora tiene dos ejes ortogonales:
+       clasificacion_final  AFOLU / NO_AFOLU   -> define D3
+       clase_redd_final     REDD  / NO_REDD    -> define D1
+   Se anotan los dos y se generan columnas de tratamiento para ambos. Antes
+   solo se llamaba anotar_sector, asi que el eje REDD no llegaba al panel.
+
+2. DEDUPLICACION VIVA. El drop_duplicates estaba escrito pero muerto: la
+   linea siguiente reasignaba con_fecha desde eventos y lo descartaba. Ahora
+   se aplica y se reporta cuantas filas quita. La llave es
+   (COD_DANE, fuente, nombre_proyecto): se deduplica DENTRO de cada fuente,
+   nunca entre fuentes, porque dos registros del mismo municipio en
+   plataformas distintas suelen ser proyectos distintos y no duplicados.
+
+3. SIN PRELACION POR FUENTE. Se evaluo y se descarto con datos: de los 9
+   municipios donde min(anio) y una regla de prelacion discreparian, 8 los
+   descarta el filtro sectorial (hidroelectricas, cogeneracion, rellenos).
+   El unico que sobrevive es 27025 Alto Baudo, y ahi ACABA REDD+ (Verra,
+   2019) y PROYECTO REDD+ CUENCA ALTO BAUDO (RENARE, 2018) se verificaron
+   como proyectos DISTINTOS, no como un doble registro. Con cero duplicados
+   cruzados reales, min(anio) identifica la primera intervencion y la
+   prelacion seria una complicacion sin caso de uso.
+
+4. FECHA DE INICIO. Se mantiene projectStartDate para Verra. Se verifico
+   que coincide con creditPeriodStartDate en los 44 proyectos REDD+
+   comparables (cero discrepancias de anio), asi que la eleccion no afecta
+   la asignacion de cohortes. El unico sin ninguna de las dos fechas es
+   REDD+ Yaguara Llanos del Yari, retirado, que nunca tuvo periodo de
+   acreditacion.
+
+5. DIFF CONTRA EL PANEL PREVIO. Si existe el respaldo
+   panel_con_tratamiento_PRE_REDD_88_99.csv, al final se reporta cuantos
+   municipios entran, salen y cambian de cohorte. Ese diff es la forma
+   reproducible de cuantificar el efecto de la reclasificacion, y sustituye
+   al contraste contra la clasificacion por titulo, que nunca se persistio
+   como artefacto.
 
 FUENTES Y NIVEL DE CONFIANZA
 ----------------------------
-- Verra (Platts API): municipio por PUNTO-EN-POLÍGONO (geometría exacta).
-  Confianza ALTA. Excluye por defecto 2 proyectos marcados como
-  sospechosos en la revisión manual (ver SOSPECHOSOS_VERRA abajo) —
-  ajusta esa lista si decides incluirlos o excluir más.
-- Gold Standard: municipio por PUNTO-EN-POLÍGONO (geometría exacta,
-  incluyendo los 2 corregidos por signo/orden de coordenadas).
+- Verra (Platts API): municipio por PUNTO-EN-POLIGONO. Confianza ALTA.
+- Gold Standard: punto-en-poligono, incluidos los 2 corregidos por signo.
   Confianza ALTA.
-- RENARE: municipio por *matching* de texto libre (nombre_iniciativa +
-  actividades) contra nombres de municipio, con lista negra de palabras
-  problemáticas. Solo se usan los matches ÚNICOS (n_matches == 1).
-  Confianza MEDIA — recomendado revisar a mano antes de publicar
-  resultados basados en esta fuente.
-- Cercarbono: mismo método de matching por texto que RENARE. Solo se usan
-  los matches ÚNICOS. Confianza MEDIA, mismo caveat.
+- RENARE: matching de texto libre, solo matches UNICOS. Confianza MEDIA.
+- Cercarbono: mismo metodo de texto, solo unicos. Confianza MEDIA.
 
-Los proyectos AMBIGUOS (más de un municipio mencionado) de RENARE y
-Cercarbono NO se incluyen automáticamente — quedan en un archivo aparte
-para que decidas caso por caso.
-
-SALIDAS
--------
-data/interim/eventos_carbono_consolidado.csv
-    Un renglón por proyecto: COD_DANE, fuente, nombre, año_inicio,
-    año_fin, confianza. Esta es la tabla para AUDITAR antes de confiar en
-    el panel final — revísala.
-
-data/interim/eventos_carbono_para_revisar_manualmente.csv
-    Los ambiguos de RENARE/Cercarbono, para decidir caso por caso si
-    entran o no.
-
-data/final/panel_con_tratamiento_actualizado.csv
-    El panel original + columnas nuevas de tratamiento. NO sobreescribe
-    el panel original — es un archivo nuevo, para que compares antes de
-    reemplazar.
+Los AMBIGUOS de RENARE y Cercarbono quedan en un archivo aparte.
 
 USO
 ---
     python 26_consolidar_fuentes_carbono.py
+    python 26_consolidar_fuentes_carbono.py --no-estricto   # solo explorar
 """
 
 from __future__ import annotations
 
+import argparse
 import ast
 import re
 from pathlib import Path
-from filtro_sectorial import anotar_sector
+
 import pandas as pd
 
+from filtro_sectorial import anotar_sector, anotar_redd, cargar_tabla
+
 # ---------------------------------------------------------------------------
-# Rutas de entrada (ajusta si moviste algo)
+# Rutas de entrada
 # ---------------------------------------------------------------------------
-
-
-
 VERRA_FILE = Path("data/interim/verra_platts_colombia_con_municipio.csv")
 GOLDSTANDARD_FILE_1 = Path("data/interim/goldstandard_projects_colombia_con_municipio.csv")
 GOLDSTANDARD_FILE_2 = Path("data/interim/goldstandard_coords_corregidas.csv")
@@ -70,25 +81,36 @@ RENARE_RAW_FILE = Path("data/interim/renare_solicitudes_colombia.csv")
 CERCARBONO_FILE = Path("data/interim/diagnostics/cercarbono_municipio_matching.csv")
 
 PANEL_FILE = Path("data/final/panel_municipio_year.csv")
-# Si tu panel final se llama distinto, ajusta esta ruta. También se intenta
-# con dataset_consolidado_completo.csv como respaldo.
 PANEL_FILE_ALT = Path("data/final/dataset_consolidado_completo.csv")
 
 OUT_EVENTOS = Path("data/interim/eventos_carbono_consolidado.csv")
 OUT_REVISAR = Path("data/interim/eventos_carbono_para_revisar_manualmente.csv")
 OUT_PANEL = Path("data/final/panel_con_tratamiento_actualizado.csv")
 
-# Proyectos de Verra identificados como sospechosos en la revisión manual
-# de esta sesión (coordenada no coincide con el 'city' declarado). Ajusta
-# esta lista si revisas y decides que sí son confiables, o si encuentras
-# más casos raros.
+# Respaldo del panel anterior a la reclasificacion REDD+, para el diff final.
+PANEL_PREVIO = Path("data/final/panel_con_tratamiento_PRE_REDD_88_99.csv")
+
+# Proyectos excluidos porque la UBICACION DE LA INTERVENCION no es
+# determinable a partir del punto registrado. Criterio replicable: area
+# declarada mas de 3 veces el area del municipio anfitrion Y coordenada que
+# no corresponde al area del proyecto (sede del proponente, o 'Various
+# locations'). Ninguno de los tres esta registrado ni ha emitido creditos,
+# asi que tampoco entrarian en S2/S3.
+#   CO2ROZO: 400.000 ha, VM0007, punto en el casco urbano de Barranquilla
+#            (ratio 26). Pipeline listing.
+#   Oak ecological corridor: 1.075.348 ha, city='Various locations', punto
+#            caido en Mogotes, Santander (ratio 22). Under validation.
+# Son patrones (regex, sin distinguir mayusculas), no nombres exactos: el
+# nombre del segundo lleva guiones largos que se corrompen al copiarse.
 SOSPECHOSOS_VERRA = [
-    "Boomitra grassland Restoration in Colombia",
+    r"^Boomitra grassland Restoration in Colombia",
+    r"^CO2ROZO",
+    r"Oak ecological corridor Guantiva",
 ]
 
 
 def _parse_fecha(valor) -> int | None:
-    """Extrae el año de un valor de fecha en cualquiera de los formatos que
+    """Extrae el anio de un valor de fecha en cualquiera de los formatos que
     aparecen en las distintas fuentes (ISO 'YYYY-MM-DD...', o 'DD/MM/YYYY')."""
     if pd.isna(valor):
         return None
@@ -115,11 +137,17 @@ def _cargar_verra() -> pd.DataFrame:
 
     n_antes = len(df)
     if "projectName" in df.columns:
-        df = df[~df["projectName"].isin(SOSPECHOSOS_VERRA)].copy()
+        patron = "|".join(SOSPECHOSOS_VERRA)
+        marcados = df["projectName"].str.contains(patron, case=False, na=False, regex=True)
+        for nombre in df.loc[marcados, "projectName"]:
+            print(f"  excluido: {nombre[:70]}")
+        df = df[~marcados].copy()
     n_excluidos = n_antes - len(df)
     if n_excluidos > 0:
         print(f"Verra: excluidos {n_excluidos} proyecto(s) marcados como sospechosos.")
 
+    # projectStartDate primero: se verifico que coincide con
+    # creditPeriodStartDate en los 44 REDD+ comparables.
     campo_fecha = next(
         (c for c in ["projectStartDate", "creditPeriodStartDate", "startDate"] if c in df.columns),
         None,
@@ -135,7 +163,7 @@ def _cargar_verra() -> pd.DataFrame:
         "confianza": "alta",
         "metodo": "punto_en_poligono",
     })
-    print(f"Verra: {len(out)} eventos cargados ({out['anio_inicio'].notna().sum()} con año de inicio válido).")
+    print(f"Verra: {len(out)} eventos cargados ({out['anio_inicio'].notna().sum()} con anio de inicio valido).")
     return out
 
 
@@ -171,12 +199,12 @@ def _cargar_goldstandard() -> pd.DataFrame:
         "confianza": "alta",
         "metodo": "punto_en_poligono",
     })
-    print(f"Gold Standard: {len(out)} eventos cargados ({out['anio_inicio'].notna().sum()} con año de inicio válido).")
+    print(f"Gold Standard: {len(out)} eventos cargados ({out['anio_inicio'].notna().sum()} con anio de inicio valido).")
     return out
 
 
 def _extraer_fecha_actividades(valor) -> tuple[int | None, int | None]:
-    """RENARE no trae fecha estructurada a nivel de proyecto — está anidada
+    """RENARE no trae fecha estructurada a nivel de proyecto: esta anidada
     dentro del JSON de 'actividades' (fecha_inicial_1 / fecha_final_1)."""
     if pd.isna(valor):
         return (None, None)
@@ -197,15 +225,12 @@ def _cargar_renare() -> pd.DataFrame:
         return pd.DataFrame()
 
     matching = pd.read_csv(RENARE_MATCHING_FILE, low_memory=False)
-    # 'n_matches' se fuerza a numérico explícitamente: si por cualquier motivo
-    # quedó guardado como texto en el CSV (ej. "1" en vez de 1), la
-    # comparación '== 1' de más abajo fallaría en silencio para TODAS las
-    # filas sin dar ningún error — como pasó en una corrida real de esta
-    # sesión (mostró 0 matches cuando debían ser ~27).
+    # 'n_matches' se fuerza a numerico explicitamente: si quedo guardado como
+    # texto, la comparacion '== 1' falla en silencio para TODAS las filas.
     matching["n_matches"] = pd.to_numeric(matching["n_matches"], errors="coerce")
-    print(f"  Diagnóstico n_matches en RENARE: {matching['n_matches'].value_counts(dropna=False).to_dict()}")
+    print(f"  Diagnostico n_matches en RENARE: {matching['n_matches'].value_counts(dropna=False).to_dict()}")
     unicos = matching[matching["n_matches"] == 1].copy()
-    print(f"RENARE: {len(unicos)} matches únicos de {len(matching)} totales (el resto: ambiguos o sin match, no se incluyen aquí).")
+    print(f"RENARE: {len(unicos)} matches unicos de {len(matching)} totales.")
 
     if RENARE_RAW_FILE.exists() and "actividades" in pd.read_csv(RENARE_RAW_FILE, nrows=1).columns:
         raw = pd.read_csv(RENARE_RAW_FILE, low_memory=False)[["_id", "actividades"]]
@@ -227,7 +252,7 @@ def _cargar_renare() -> pd.DataFrame:
         "confianza": "media",
         "metodo": "matching_texto",
     })
-    print(f"RENARE: {out['anio_inicio'].notna().sum()} / {len(out)} con año de inicio extraído.")
+    print(f"RENARE: {out['anio_inicio'].notna().sum()} / {len(out)} con anio de inicio extraido.")
     return out
 
 
@@ -239,7 +264,7 @@ def _cargar_cercarbono() -> pd.DataFrame:
     matching = pd.read_csv(CERCARBONO_FILE, low_memory=False)
     matching["n_matches"] = pd.to_numeric(matching["n_matches"], errors="coerce")
     unicos = matching[matching["n_matches"] == 1].copy()
-    print(f"Cercarbono: {len(unicos)} matches únicos de {len(matching)} totales.")
+    print(f"Cercarbono: {len(unicos)} matches unicos de {len(matching)} totales.")
 
     campo_fecha = next((c for c in ["Duration start"] if c in unicos.columns), None)
     campo_fecha_fin = next((c for c in ["Duration end"] if c in unicos.columns), None)
@@ -256,24 +281,20 @@ def _cargar_cercarbono() -> pd.DataFrame:
 
     n_sin_fecha = out["anio_inicio"].isna().sum()
     if n_sin_fecha > 0 and campo_fecha:
-        print(f"  Aviso: {n_sin_fecha} proyectos sin año de inicio extraído. Valores crudos de '{campo_fecha}' que fallaron:")
-        crudos_fallidos = unicos.loc[out["anio_inicio"].isna(), campo_fecha]
-        print(f"    {crudos_fallidos.value_counts(dropna=False).head(10).to_dict()}")
-        print(
-            "    (si salen todos como NaN/vacío: es un hueco real en los datos de Cercarbono, "
-            "no un problema del parser — esos proyectos entrarán sin año de inicio, y por lo "
-            "tanto no se les podrá asignar tratamiento por año hasta que se complete a mano)"
-        )
-    print(f"Cercarbono: {out['anio_inicio'].notna().sum()} / {len(out)} con año de inicio extraído.")
+        print(f"  Aviso: {n_sin_fecha} proyectos sin anio de inicio extraido.")
+        crudos = unicos.loc[out["anio_inicio"].isna(), campo_fecha]
+        print(f"    Valores crudos que fallaron: {crudos.value_counts(dropna=False).head(10).to_dict()}")
+        print("    (si salen todos NaN es un hueco real de Cercarbono, no del parser)")
+    print(f"Cercarbono: {out['anio_inicio'].notna().sum()} / {len(out)} con anio de inicio extraido.")
     return out
 
 
 def _guardar_ambiguos() -> None:
-    """Junta los ambiguos de RENARE y Cercarbono en un solo archivo para
-    revisión manual — no entran al panel automáticamente."""
+    """Junta los ambiguos de RENARE y Cercarbono para revision manual."""
     partes = []
     if RENARE_MATCHING_FILE.exists():
         m = pd.read_csv(RENARE_MATCHING_FILE, low_memory=False)
+        m["n_matches"] = pd.to_numeric(m["n_matches"], errors="coerce")
         amb = m[m["n_matches"] > 1].copy()
         amb["fuente"] = "renare"
         partes.append(amb[["fuente", "nombre_iniciativa", "municipio", "cod_dane"]].rename(
@@ -281,6 +302,7 @@ def _guardar_ambiguos() -> None:
         ))
     if CERCARBONO_FILE.exists():
         m = pd.read_csv(CERCARBONO_FILE, low_memory=False)
+        m["n_matches"] = pd.to_numeric(m["n_matches"], errors="coerce")
         amb = m[m["n_matches"] > 1].copy()
         amb["fuente"] = "cercarbono"
         partes.append(amb[["fuente", "Project Name", "municipio", "cod_dane"]].rename(
@@ -288,17 +310,52 @@ def _guardar_ambiguos() -> None:
         ))
     if partes:
         pd.concat(partes, ignore_index=True).to_csv(OUT_REVISAR, index=False, encoding="utf-8-sig")
-        print(f"\nAmbiguos guardados para revisión manual en: {OUT_REVISAR}")
+        print(f"\nAmbiguos guardados para revision manual en: {OUT_REVISAR}")
+
+
+def _preflight(eventos: pd.DataFrame) -> bool:
+    """Lista SOLO los proyectos que llegan a los eventos consolidados y aun
+    no tienen decision en alguno de los dos ejes.
+
+    La tabla completa tiene cientos de pendientes, pero la mayoria no entra
+    nunca al panel (sin municipio o sin fecha). Revisar los 236 seria
+    trabajo perdido; estos son los que de verdad bloquean.
+    """
+    from filtro_sectorial import clave_proyecto
+
+    try:
+        tabla = cargar_tabla()
+    except (FileNotFoundError, ValueError) as exc:
+        print(f"\n[X] {exc}")
+        return False
+
+    ok = True
+    for col, etiqueta in [("clasificacion_final", "sectorial"), ("clase_redd_final", "REDD")]:
+        if col not in tabla.columns:
+            print(f"\n[X] La tabla de decision no tiene '{col}'.")
+            print("    Corre 28_clasificar_sector.py con la version que incluye el eje REDD.")
+            ok = False
+            continue
+        pendientes = set(tabla.loc[tabla[col].str.strip() == "", "clave"])
+        claves_ev = {clave_proyecto(f, n) for f, n in zip(eventos["fuente"], eventos["nombre_proyecto"])}
+        bloquean = sorted(pendientes & claves_ev)
+        if bloquean:
+            ok = False
+            print(f"\n[X] {len(bloquean)} proyecto(s) llegan al panel sin decision en el eje {etiqueta} "
+                  f"('{col}'):")
+            vista = tabla[tabla["clave"].isin(bloquean)][["fuente", "nombre_proyecto"]]
+            for _, r in vista.iterrows():
+                print(f"      [{r['fuente']}] {str(r['nombre_proyecto'])[:80]}")
+            print(f"    Son los unicos que bloquean: el resto de pendientes de la tabla no entra al panel.")
+    return ok
 
 
 def _elegir_panel_base() -> Path | None:
-    """Elige el panel base más completo disponible, en vez de asumir por
-    nombre de archivo cuál es el 'real'. Se detectó en esta sesión que
-    data/final/panel_municipio_year.csv puede existir como un artefacto
-    intermedio del pipeline (mismas columnas que el panel final, pero
-    poblacion_dane/temp_media_c/prec_anual_mm sin poblar todavía) — si se
-    usa ese por accidente, el resultado 'se ve' bien (mismas columnas) pero
-    pierde en silencio los covariables ya calculados.
+    """Elige el panel base mas completo disponible.
+
+    panel_municipio_year.csv puede existir como artefacto intermedio (mismas
+    columnas que el final pero covariables sin poblar); si se usa por
+    accidente el resultado 'se ve' bien y pierde covariables en silencio.
     """
     candidatos = [p for p in [PANEL_FILE, PANEL_FILE_ALT] if p.exists()]
     if not candidatos:
@@ -306,60 +363,108 @@ def _elegir_panel_base() -> Path | None:
     if len(candidatos) == 1:
         return candidatos[0]
 
-    # Si hay más de un candidato: preferir el que tenga MENOS nulos en
-    # columnas de covariables clave (evidencia de ser el panel realmente
-    # completo), no el primero que exista.
-    print(f"\nAviso: encontré más de un panel candidato ({[str(c) for c in candidatos]}).")
+    print(f"\nAviso: hay mas de un panel candidato ({[str(c) for c in candidatos]}).")
     mejor, mejor_score = None, -1
     for c in candidatos:
-        df_probe = pd.read_csv(c, low_memory=False, nrows=None)
+        df_probe = pd.read_csv(c, low_memory=False)
         cols_clave = [col for col in ["poblacion_dane", "temp_media_c", "loss_area_ha"] if col in df_probe.columns]
-        if not cols_clave:
-            score = 0
-        else:
-            score = sum(df_probe[col].notna().mean() for col in cols_clave) / len(cols_clave)
+        score = 0 if not cols_clave else sum(df_probe[col].notna().mean() for col in cols_clave) / len(cols_clave)
         print(f"  {c}: {len(df_probe)} filas, completitud de covariables clave = {score:.1%}")
         if score > mejor_score:
             mejor, mejor_score = c, score
 
-    print(f"  -> Usando {mejor} (el más completo).")
+    print(f"  -> Usando {mejor} (el mas completo).")
     if mejor_score < 0.5:
-        print(
-            "  *** AVISO: incluso el mejor candidato tiene menos del 50% de covariables "
-            "clave pobladas. Revisa manualmente cuál es tu panel final real antes de "
-            "confiar en este resultado. ***"
-        )
+        print("  *** AVISO: el mejor candidato tiene menos del 50% de covariables clave "
+              "pobladas. Revisa cual es tu panel final real. ***")
     return mejor
 
 
-def _construir_panel_tratamiento(eventos: pd.DataFrame) -> None:
+def _diff_contra_previo(resultado: pd.DataFrame) -> None:
+    """Compara el tratamiento nuevo contra el respaldo previo a la
+    reclasificacion REDD+. Cuantifica el efecto del cambio de definicion."""
+    if not PANEL_PREVIO.exists():
+        print(f"\n(no hay {PANEL_PREVIO}; se omite el diff contra el panel previo)")
+        return
+
+    previo = pd.read_csv(PANEL_PREVIO, low_memory=False)
+    previo["COD_DANE"] = previo["COD_DANE"].astype(str).str.zfill(5)
+
+    print("\n" + "=" * 70)
+    print("DIFF CONTRA EL PANEL PREVIO A LA RECLASIFICACION")
+    print("=" * 70)
+
+    for col_prev, col_new in [
+        ("anio_inicio_tratamiento_alta_confianza", "anio_inicio_tratamiento_alta_confianza"),
+        ("anio_inicio_tratamiento_todas_fuentes", "anio_inicio_tratamiento_todas_fuentes"),
+        ("anio_inicio_tratamiento_todas_fuentes", "anio_inicio_tratamiento_todas_fuentes_redd"),
+    ]:
+        if col_prev not in previo.columns or col_new not in resultado.columns:
+            continue
+        a = previo.groupby("COD_DANE")[col_prev].first().dropna()
+        b = resultado.groupby("COD_DANE")[col_new].first().dropna()
+        entran = sorted(set(b.index) - set(a.index))
+        salen = sorted(set(a.index) - set(b.index))
+        comunes = set(a.index) & set(b.index)
+        cambian = sorted(c for c in comunes if a[c] != b[c])
+
+        print(f"\n  {col_prev}  ->  {col_new}")
+        print(f"    antes: {len(a)} municipios | ahora: {len(b)}")
+        print(f"    entran: {len(entran)} | salen: {len(salen)} | cambian de cohorte: {len(cambian)}")
+        if entran[:10]:
+            print(f"      entran (primeros 10): {entran[:10]}")
+        if salen[:10]:
+            print(f"      salen  (primeros 10): {salen[:10]}")
+        for c in cambian[:10]:
+            print(f"      {c}: {int(a[c])} -> {int(b[c])}")
+
+
+def _construir_panel_tratamiento(eventos: pd.DataFrame, estricto: bool) -> None:
     panel_path = _elegir_panel_base()
     if panel_path is None:
-        print(f"\nAviso: no encuentro el panel final ({PANEL_FILE} ni {PANEL_FILE_ALT}). "
-              f"No se puede fusionar — pero {OUT_EVENTOS} ya quedó listo si quieres hacerlo a mano.")
+        print(f"\nAviso: no encuentro el panel final. No se puede fusionar, "
+              f"pero {OUT_EVENTOS} ya quedo listo.")
         return
 
     panel = pd.read_csv(panel_path, low_memory=False)
     panel["COD_DANE"] = panel["COD_DANE"].astype(str).str.zfill(5)
 
-    eventos = anotar_sector(eventos, estricto=True)
+    # Los dos ejes, en el mismo dataframe.
+    eventos = anotar_sector(eventos, estricto=estricto)
+    eventos = anotar_redd(eventos, estricto=estricto)
+
     con_fecha = eventos[eventos["anio_inicio"].notna()].copy()
-    con_fecha = con_fecha.drop_duplicates(subset=["COD_DANE", "nombre_proyecto"]) 
-    con_fecha = eventos[eventos["anio_inicio"].notna()].copy()
-    
+
+    # Deduplicacion DENTRO de cada fuente. Antes esta linea estaba escrita
+    # pero la siguiente la pisaba, asi que nunca se aplico.
+    n_antes = len(con_fecha)
+    con_fecha = con_fecha.drop_duplicates(subset=["COD_DANE", "fuente", "nombre_proyecto"])
+    if n_antes != len(con_fecha):
+        print(f"\nDeduplicacion: {n_antes - len(con_fecha)} fila(s) repetidas eliminadas "
+              f"(misma fuente, mismo municipio, mismo nombre).")
+
     con_fecha["anio_inicio"] = con_fecha["anio_inicio"].astype(int)
 
+    # (confianzas, filtro, sufijo). filtro: None | "AFOLU" | "REDD"
     combinaciones = [
-        (["alta"],          True,  "alta_confianza"),
-        (["alta", "media"], True,  "todas_fuentes"),
-        (["alta"],          False, "alta_confianza_sinfiltro"),
-        (["alta", "media"], False, "todas_fuentes_sinfiltro"),
+        (["alta"],          "AFOLU", "alta_confianza"),
+        (["alta", "media"], "AFOLU", "todas_fuentes"),
+        (["alta"],          None,    "alta_confianza_sinfiltro"),
+        (["alta", "media"], None,    "todas_fuentes_sinfiltro"),
+        # D1: mecanismo REDD+ estricto, que es la definicion nueva
+        (["alta"],          "REDD",  "alta_confianza_redd"),
+        (["alta", "media"], "REDD",  "todas_fuentes_redd"),
     ]
+
     resultado = panel.copy()
-    for confianzas, solo_afolu, sufijo in combinaciones:
+    print("\nMunicipios tratados por definicion:")
+    for confianzas, filtro, sufijo in combinaciones:
         subset = con_fecha[con_fecha["confianza"].isin(confianzas)]
-        if solo_afolu:
+        if filtro == "AFOLU":
             subset = subset[subset["sector"] == "AFOLU"]
+        elif filtro == "REDD":
+            subset = subset[subset["clase_redd"] == "REDD"]
+
         primero = subset.groupby("COD_DANE")["anio_inicio"].min().rename(
             f"anio_inicio_tratamiento_{sufijo}"
         )
@@ -368,23 +473,32 @@ def _construir_panel_tratamiento(eventos: pd.DataFrame) -> None:
             resultado["year"] >= resultado[f"anio_inicio_tratamiento_{sufijo}"]
         ).fillna(False).astype(int)
 
-    resultado.to_csv(OUT_PANEL, index=False, encoding="utf-8-sig")
-    print(f"\nPanel con tratamiento actualizado guardado en: {OUT_PANEL}")
-    print(f"(NO se sobreescribió {panel_path} — compara antes de reemplazarlo)")
+        n_coh = subset.groupby("COD_DANE")["anio_inicio"].min().nunique()
+        print(f"  {sufijo:32s} {len(primero):3d} municipios en {n_coh} cohortes")
 
-    n_mun_alta = con_fecha[con_fecha["confianza"] == "alta"]["COD_DANE"].nunique()
-    n_mun_todas = con_fecha["COD_DANE"].nunique()
-    print(f"\nMunicipios tratados (solo alta confianza — Verra + Gold Standard): {n_mun_alta}")
-    print(f"Municipios tratados (alta + media confianza — + RENARE + Cercarbono): {n_mun_todas}")
+    resultado.to_csv(OUT_PANEL, index=False, encoding="utf-8-sig")
+    print(f"\nPanel con tratamiento guardado en: {OUT_PANEL}")
+    print(f"(NO se sobreescribio {panel_path})")
+
+    _diff_contra_previo(resultado)
 
 
 def main() -> None:
     import os
     from filtro_sectorial import RAIZ_PROYECTO, avisar_carpeta_sombra
-    os.chdir(RAIZ_PROYECTO)          # ancla todas las rutas relativas del script
+
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--no-estricto", action="store_true",
+                    help="no abortar ante proyectos sin clasificar (solo para explorar; "
+                         "lo no resuelto NO entra al tratamiento)")
+    args = ap.parse_args()
+    estricto = not args.no_estricto
+
+    os.chdir(RAIZ_PROYECTO)
     print(f"Directorio de trabajo fijado en: {RAIZ_PROYECTO}")
     avisar_carpeta_sombra()
-        
+
     print("=" * 70)
     print("Cargando y normalizando cada fuente...")
     print("=" * 70)
@@ -394,20 +508,33 @@ def main() -> None:
         ignore_index=True,
     )
 
+    if eventos.empty or "COD_DANE" not in eventos.columns:
+        print("\n[X] Ninguna fuente aporto eventos. Revisa los avisos de arriba:\n"
+              "    lo mas probable es que estes corriendo desde el directorio\n"
+              "    equivocado, o que falten los interinos de data/interim/.")
+        raise SystemExit(1)
+
     OUT_EVENTOS.parent.mkdir(parents=True, exist_ok=True)
     eventos.to_csv(OUT_EVENTOS, index=False, encoding="utf-8-sig")
     print(f"\n{'=' * 70}")
     print(f"Total eventos consolidados: {len(eventos)}")
-    print(f"Municipios distintos (todas las fuentes, todas las confianzas): {eventos['COD_DANE'].nunique()}")
+    print(f"Municipios distintos: {eventos['COD_DANE'].nunique()}")
     print(f"Guardado en: {OUT_EVENTOS}")
-    print("*** Revisa este archivo antes de confiar en el panel final. ***")
 
     _guardar_ambiguos()
+
+    if estricto and not _preflight(eventos):
+        print("\n" + "=" * 70)
+        print("ABORTADO. Resuelve los proyectos listados arriba en")
+        print("data/interim/clasificacion_sectorial.csv y vuelve a correr.")
+        print("Para explorar sin resolverlos: --no-estricto")
+        print("=" * 70)
+        raise SystemExit(1)
 
     print(f"\n{'=' * 70}")
     print("Construyendo columnas de tratamiento en el panel...")
     print("=" * 70)
-    _construir_panel_tratamiento(eventos)
+    _construir_panel_tratamiento(eventos, estricto)
 
 
 if __name__ == "__main__":
