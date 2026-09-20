@@ -79,6 +79,10 @@ GOLDSTANDARD_FILE_2 = Path("data/interim/goldstandard_coords_corregidas.csv")
 RENARE_MATCHING_FILE = Path("data/interim/diagnostics/renare_municipio_matching.csv")
 RENARE_RAW_FILE = Path("data/interim/renare_solicitudes_colombia.csv")
 CERCARBONO_FILE = Path("data/interim/diagnostics/cercarbono_municipio_matching.csv")
+# Ubicacion recuperada a mano de las fichas del registro, via
+# 37_resolver_ubicacion_cercarbono.py. Fuente separada a proposito: permite
+# correr la especificacion CON y SIN ella.
+CERCARBONO_MANUAL_FILE = Path("data/interim/cercarbono_ubicacion_manual.csv")
 
 PANEL_FILE = Path("data/final/panel_municipio_year.csv")
 PANEL_FILE_ALT = Path("data/final/dataset_consolidado_completo.csv")
@@ -90,22 +94,8 @@ OUT_PANEL = Path("data/final/panel_con_tratamiento_actualizado.csv")
 # Respaldo del panel anterior a la reclasificacion REDD+, para el diff final.
 PANEL_PREVIO = Path("data/final/panel_con_tratamiento_PRE_REDD_88_99.csv")
 
-# Proyectos excluidos porque la UBICACION DE LA INTERVENCION no es
-# determinable a partir del punto registrado. Criterio replicable: area
-# declarada mas de 3 veces el area del municipio anfitrion Y coordenada que
-# no corresponde al area del proyecto (sede del proponente, o 'Various
-# locations'). Ninguno de los tres esta registrado ni ha emitido creditos,
-# asi que tampoco entrarian en S2/S3.
-#   CO2ROZO: 400.000 ha, VM0007, punto en el casco urbano de Barranquilla
-#            (ratio 26). Pipeline listing.
-#   Oak ecological corridor: 1.075.348 ha, city='Various locations', punto
-#            caido en Mogotes, Santander (ratio 22). Under validation.
-# Son patrones (regex, sin distinguir mayusculas), no nombres exactos: el
-# nombre del segundo lleva guiones largos que se corrompen al copiarse.
 SOSPECHOSOS_VERRA = [
-    r"^Boomitra grassland Restoration in Colombia",
-    r"^CO2ROZO",
-    r"Oak ecological corridor Guantiva",
+    "Boomitra grassland Restoration in Colombia",
 ]
 
 
@@ -137,11 +127,7 @@ def _cargar_verra() -> pd.DataFrame:
 
     n_antes = len(df)
     if "projectName" in df.columns:
-        patron = "|".join(SOSPECHOSOS_VERRA)
-        marcados = df["projectName"].str.contains(patron, case=False, na=False, regex=True)
-        for nombre in df.loc[marcados, "projectName"]:
-            print(f"  excluido: {nombre[:70]}")
-        df = df[~marcados].copy()
+        df = df[~df["projectName"].isin(SOSPECHOSOS_VERRA)].copy()
     n_excluidos = n_antes - len(df)
     if n_excluidos > 0:
         print(f"Verra: excluidos {n_excluidos} proyecto(s) marcados como sospechosos.")
@@ -289,6 +275,49 @@ def _cargar_cercarbono() -> pd.DataFrame:
     return out
 
 
+def _cargar_cercarbono_manual() -> pd.DataFrame:
+    """Proyectos REDD+ de Cercarbono cuya ubicacion se recupero a mano.
+
+    Estos proyectos no los alcanza ninguna via automatica: OffsetsDB trae
+    cod_dane vacio y el matching por texto falla porque los nombres son
+    toponimos en lenguas indigenas, no nombres de municipio. La ubicacion
+    sale de la ficha publica del registro, con la frase que la sustenta
+    guardada en la columna 'evidencia' del CSV.
+
+    Se marca con metodo='ficha_registro_manual' para poder aislarla despues:
+    la comparacion con y sin esta fuente es la prueba de robustez frente al
+    error de cobertura documentado en el Capitulo 5.
+
+    Un proyecto puede aportar VARIOS municipios (una fila por par), que es
+    justamente lo que el matching por texto no podia representar.
+    """
+    if not CERCARBONO_MANUAL_FILE.exists():
+        print(f"Aviso: no encuentro {CERCARBONO_MANUAL_FILE}; se omite la ubicacion manual de Cercarbono.")
+        return pd.DataFrame()
+
+    df = pd.read_csv(CERCARBONO_MANUAL_FILE, low_memory=False)
+    if df.empty:
+        print("Aviso: cercarbono_ubicacion_manual.csv esta vacio.")
+        return pd.DataFrame()
+
+    out = pd.DataFrame({
+        "COD_DANE": df["COD_DANE"].astype(str).str.replace(r"\.0$", "", regex=True).str.zfill(5),
+        "fuente": "cercarbono",
+        "nombre_proyecto": df["nombre_proyecto"],
+        "anio_inicio": pd.to_numeric(df["anio_inicio"], errors="coerce"),
+        "anio_fin": pd.to_numeric(df.get("anio_fin"), errors="coerce"),
+        # La confianza viene calibrada por evidencia en la plantilla: alta si
+        # la ficha nombra municipios explicitamente, media si hubo inferencia.
+        "confianza": df["confianza"].astype(str).str.strip().str.lower(),
+        "metodo": "ficha_registro_manual",
+    })
+    n_proy = out["nombre_proyecto"].nunique()
+    print(f"Cercarbono (ficha manual): {len(out)} eventos, {n_proy} proyectos, "
+          f"{out['COD_DANE'].nunique()} municipios.")
+    print("  " + out.groupby("confianza")["COD_DANE"].nunique().to_string().replace("\n", "\n  "))
+    return out
+
+
 def _guardar_ambiguos() -> None:
     """Junta los ambiguos de RENARE y Cercarbono para revision manual."""
     partes = []
@@ -398,6 +427,7 @@ def _diff_contra_previo(resultado: pd.DataFrame) -> None:
         ("anio_inicio_tratamiento_alta_confianza", "anio_inicio_tratamiento_alta_confianza"),
         ("anio_inicio_tratamiento_todas_fuentes", "anio_inicio_tratamiento_todas_fuentes"),
         ("anio_inicio_tratamiento_todas_fuentes", "anio_inicio_tratamiento_todas_fuentes_redd"),
+        ("anio_inicio_tratamiento_todas_fuentes", "anio_inicio_tratamiento_todas_fuentes_redd_sinmanual"),
     ]:
         if col_prev not in previo.columns or col_new not in resultado.columns:
             continue
@@ -456,6 +486,11 @@ def _construir_panel_tratamiento(eventos: pd.DataFrame, estricto: bool) -> None:
         (["alta", "media"], "REDD",  "todas_fuentes_redd"),
     ]
 
+    # D1 excluyendo la ubicacion recuperada a mano. La diferencia entre esta
+    # columna y todas_fuentes_redd mide cuanto del tratamiento depende de la
+    # recuperacion manual: es la robustez frente al error de cobertura.
+    sin_manual = con_fecha[con_fecha["metodo"] != "ficha_registro_manual"]
+
     resultado = panel.copy()
     print("\nMunicipios tratados por definicion:")
     for confianzas, filtro, sufijo in combinaciones:
@@ -475,6 +510,36 @@ def _construir_panel_tratamiento(eventos: pd.DataFrame, estricto: bool) -> None:
 
         n_coh = subset.groupby("COD_DANE")["anio_inicio"].min().nunique()
         print(f"  {sufijo:32s} {len(primero):3d} municipios en {n_coh} cohortes")
+
+    # La columna de contraste, fuera del bucle porque filtra por metodo
+    primero_sm = sin_manual[
+        (sin_manual["confianza"].isin(["alta", "media"])) & (sin_manual["clase_redd"] == "REDD")
+    ].groupby("COD_DANE")["anio_inicio"].min().rename("anio_inicio_tratamiento_todas_fuentes_redd_sinmanual")
+    resultado = resultado.merge(primero_sm, on="COD_DANE", how="left")
+    resultado["tratado_todas_fuentes_redd_sinmanual"] = (
+        resultado["year"] >= resultado["anio_inicio_tratamiento_todas_fuentes_redd_sinmanual"]
+    ).fillna(False).astype(int)
+    print(f"  {'todas_fuentes_redd_sinmanual':32s} {len(primero_sm):3d} municipios "
+          f"en {primero_sm.nunique()} cohortes")
+    # Aporte de la recuperacion manual: municipios que SOLO existen gracias a
+    # ella. Se cuenta sobre municipios unicos, no sobre filas del panel.
+    # Se computa sobre los EVENTOS y no sobre el panel: un municipio tratado
+    # que no exista en el panel base desapareceria del conteo sin avisar.
+    d1_con = con_fecha[
+        con_fecha["confianza"].isin(["alta", "media"]) & (con_fecha["clase_redd"] == "REDD")
+    ].groupby("COD_DANE")["anio_inicio"].min()
+    con_m, sin_m = set(d1_con.index), set(primero_sm.index)
+    solo_manual = sorted(con_m - sin_m)
+    print(f"\n  Aporte de la recuperacion manual: {len(solo_manual)} municipios "
+          f"que no entrarian sin ella")
+    if solo_manual:
+        print(f"    {solo_manual}")
+    adelantan = sorted(
+        c for c in (con_m & sin_m)
+        if d1_con[c] != primero_sm[c]
+    )
+    if adelantan:
+        print(f"    Ademas adelanta la cohorte de {len(adelantan)} municipio(s): {adelantan}")
 
     resultado.to_csv(OUT_PANEL, index=False, encoding="utf-8-sig")
     print(f"\nPanel con tratamiento guardado en: {OUT_PANEL}")
@@ -504,7 +569,8 @@ def main() -> None:
     print("=" * 70)
 
     eventos = pd.concat(
-        [_cargar_verra(), _cargar_goldstandard(), _cargar_renare(), _cargar_cercarbono()],
+        [_cargar_verra(), _cargar_goldstandard(), _cargar_renare(),
+         _cargar_cercarbono_manual(), _cargar_cercarbono()],
         ignore_index=True,
     )
 

@@ -18,6 +18,7 @@
 27150,verra,Carmen del Darién (CDD) REDD+ Project,2014.0,2044.0,alta,punto_en_poligono
 05686,verra,Caruquia 9.76 MW Hydroelectric Project,2020.0,2030.0,alta,punto_en_poligono
 19318,verra,CHONTA COROZO REDD+,2017.0,2037.0,alta,punto_en_poligono
+08001,verra,CO2ROZO,2024.0,2064.0,alta,punto_en_poligono
 27001,verra,"COCOMACIA COMMUNITY REDD+ PROGRAM, CHOCO/ANTIOQUIA COLOMBIA",2016.0,2046.0,alta,punto_en_poligono
 27077,verra,Concosta REDD+ Project,2013.0,2043.0,alta,punto_en_poligono
 27205,verra,CONDOTO REDD+,2019.0,2049.0,alta,punto_en_poligono
@@ -39,6 +40,7 @@
 99001,verra,Grouped Project for Commercial Forest Plantations Initiatives in the Department of Vichada,2011.0,2041.0,alta,punto_en_poligono
 41668,verra,Grouped Project for reducing emissions from deforestation and forest degradation-REDD-in the Regional Natural Park:Biological Corridor PNN Purace-PNN Cueva de los Guacharos,2014.0,2044.0,alta,punto_en_poligono
 68190,verra,"Grouped Project for restoration of degraded lands in Jaguar Corridors, Colombia",2015.0,2055.0,alta,punto_en_poligono
+68464,verra,"Grouped Project REDD+ conservation of the Oak ecological corridor Guantiva – La Rusia – Iguaque, Colombia",2015.0,2045.0,alta,punto_en_poligono
 19392,verra,GUACHICONO SMALL HYDROELECTRIC PROJECT,2021.0,2031.0,alta,punto_en_poligono
 05686,verra,Guanaquitas 9.74 MW Hydroelectric Project,2020.0,2030.0,alta,punto_en_poligono
 05756,verra,Hydroelectric Project Aures Bajo,2018.0,2024.0,alta,punto_en_poligono
@@ -137,6 +139,30 @@
 41378,renare,Carbono Agroforestal La Argentina,2011.0,2030.0,media,matching_texto
 68081,renare,Despacho técnico-económico de energía y vapor en la Refinería de Barrancabermeja-GRB,2013.0,2021.0,media,matching_texto
 05002,renare,Proyecto Carbono Sombrilla Abejorral,2009.0,2028.0,media,matching_texto
+27135,cercarbono,Proyecto Conservación ARLEQUÍN REDD+,2015.0,,alta,ficha_registro_manual
+27413,cercarbono,Proyecto Conservación ARLEQUÍN REDD+,2015.0,,alta,ficha_registro_manual
+27160,cercarbono,Proyecto Conservación ARLEQUÍN REDD+,2015.0,,alta,ficha_registro_manual
+97001,cercarbono,Makaro Ap+ro,2018.0,,alta,ficha_registro_manual
+94001,cercarbono,Awakadaa Matsiadali,2018.0,,alta,ficha_registro_manual
+99773,cercarbono,BANAKALE - ISIMALI REDD+,2016.0,,media,ficha_registro_manual
+27372,cercarbono,COCOMAN FRONTERA REDD+,2016.0,,alta,ficha_registro_manual
+27491,cercarbono,COCOMAN FRONTERA REDD+,2016.0,,alta,ficha_registro_manual
+94001,cercarbono,Planeta agradecido con el Resguardo Indígena Bajo R...,2018.0,,alta,ficha_registro_manual
+05756,cercarbono,Manejo Sostenible de los Bosques Aplicado al Predio,2014.0,,alta,ficha_registro_manual
+97001,cercarbono,Proyecto REDD+ Zona Isana y Surubi,2018.0,,media,ficha_registro_manual
+52250,cercarbono,REDD+ PAZCÍFICO,2015.0,,media,ficha_registro_manual
+27615,cercarbono,Pedeguita y Mancilla REDD+,2020.0,,alta,ficha_registro_manual
+27150,cercarbono,Pedeguita y Mancilla REDD+,2020.0,,alta,ficha_registro_manual
+27493,cercarbono,Pedeguita y Mancilla REDD+,2020.0,,alta,ficha_registro_manual
+97001,cercarbono,PITUGUCAJUDE,2018.0,,alta,ficha_registro_manual
+95025,cercarbono,Proyecto Agrupado YAAWI IIPANA REDD+,2016.0,,alta,ficha_registro_manual
+52250,cercarbono,PROYECTO REDD+ PAZCÍFICO SUR,2017.0,,media,ficha_registro_manual
+19318,cercarbono,CHONTA COROZO REDD+ Project,2017.0,,alta,ficha_registro_manual
+95001,cercarbono,"Cavadacavᵾ Coreivᵾ Jocᵾ Bᵾcᵾro Rẽ, N̄ᵾjẽ N̄ecᵾvã",2018.0,,alta,ficha_registro_manual
+94001,cercarbono,Planeta Agradecido con el Resguardo indígena Bajo Río,2022.0,,alta,ficha_registro_manual
+94001,cercarbono,Proyecto de Conservación UNU-MAI REDD+,2017.0,,alta,ficha_registro_manual
+94001,cercarbono,GUAINIA REDD+ PROJECT,2018.0,,media,ficha_registro_manual
+94001,cercarbono,Awakadaa Jiduaa,2018.0,,alta,ficha_registro_manual
 05001,cercarbono,Planta de Tratamiento de Aguas Residuales - PTAR Aguas Claras,2020.0,2060.0,media,matching_texto
 19392,cercarbono,Proyecto Carbono CAS,2008.0,2038.0,media,matching_texto
 19392,cercarbono,Proyecto Carbono CAS,2008.0,2038.0,media,matching_texto
