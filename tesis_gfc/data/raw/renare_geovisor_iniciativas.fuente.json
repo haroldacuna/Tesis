@@ -1,0 +1,9 @@
+{
+  "url": "https://visualizador.ideam.gov.co/gisserver/rest/services/Capas_Ideam/FeatureServer/1/query",
+  "capa": "Iniciativas de Mitigacion de GEI - Fase de Implementacion en RENARE",
+  "servicio": "visualizador.ideam.gov.co/gisserver Capas_Ideam (FeatureServer), capa 1",
+  "fecha_descarga_utc": "2026-09-20 02:01:15 UTC",
+  "n_features": 30,
+  "crs": "EPSG:4686",
+  "nota": "Solo fase de implementacion; factibilidad y formulacion no estan en la capa"
+}
