@@ -83,6 +83,12 @@ CERCARBONO_FILE = Path("data/interim/diagnostics/cercarbono_municipio_matching.c
 # 37_resolver_ubicacion_cercarbono.py. Fuente separada a proposito: permite
 # correr la especificacion CON y SIN ella.
 CERCARBONO_MANUAL_FILE = Path("data/interim/cercarbono_ubicacion_manual.csv")
+SOSPECHOSOS_VERRA = [
+    "Boomitra grassland Restoration in Colombia",
+    # Punto sobre Barranquilla, sede del proponente: 400.000 ha declaradas en
+    # un municipio urbano de 15.413 ha. Ubicacion real desconocida.
+    "CO2ROZO",
+]
 
 PANEL_FILE = Path("data/final/panel_municipio_year.csv")
 PANEL_FILE_ALT = Path("data/final/dataset_consolidado_completo.csv")
@@ -94,9 +100,9 @@ OUT_PANEL = Path("data/final/panel_con_tratamiento_actualizado.csv")
 # Respaldo del panel anterior a la reclasificacion REDD+, para el diff final.
 PANEL_PREVIO = Path("data/final/panel_con_tratamiento_PRE_REDD_88_99.csv")
 
-SOSPECHOSOS_VERRA = [
-    "Boomitra grassland Restoration in Colombia",
-]
+# Estados de registro de Verra que indican que el proyecto NO llego a ser
+# proyecto. Ver la seccion "D1 depurada" en _construir_panel_tratamiento.
+ESTADOS_FALLIDOS = {"withdrawn", "rejected by administrator"}
 
 
 def _parse_fecha(valor) -> int | None:
@@ -127,7 +133,11 @@ def _cargar_verra() -> pd.DataFrame:
 
     n_antes = len(df)
     if "projectName" in df.columns:
-        df = df[~df["projectName"].isin(SOSPECHOSOS_VERRA)].copy()
+        # Comparacion normalizada: un espacio final o una mayuscula distinta
+        # no deben dejar pasar un proyecto que se decidio excluir.
+        sospechosos = {x.strip().casefold() for x in SOSPECHOSOS_VERRA}
+        nombres = df["projectName"].astype(str).str.strip().str.casefold()
+        df = df[~nombres.isin(sospechosos)].copy()
     n_excluidos = n_antes - len(df)
     if n_excluidos > 0:
         print(f"Verra: excluidos {n_excluidos} proyecto(s) marcados como sospechosos.")
@@ -148,6 +158,9 @@ def _cargar_verra() -> pd.DataFrame:
         "anio_fin": df[campo_fecha_fin].apply(_parse_fecha) if campo_fecha_fin else None,
         "confianza": "alta",
         "metodo": "punto_en_poligono",
+        # Solo Verra publica estado de registro. Se arrastra para poder
+        # distinguir proyectos vivos de retirados o rechazados.
+        "estado_registro": df["status"].values if "status" in df.columns else None,
     })
     print(f"Verra: {len(out)} eventos cargados ({out['anio_inicio'].notna().sum()} con anio de inicio valido).")
     return out
@@ -540,6 +553,79 @@ def _construir_panel_tratamiento(eventos: pd.DataFrame, estricto: bool) -> None:
     )
     if adelantan:
         print(f"    Ademas adelanta la cohorte de {len(adelantan)} municipio(s): {adelantan}")
+
+    # ------------------------------------------------------------------
+    # D1 DEPURADA POR ESTADO DE REGISTRO
+    # Un proyecto Verra retirado (Withdrawn) o rechazado (Rejected by
+    # Administrator) no llego a ser proyecto. Pudo haber ejecutado algo en el
+    # territorio antes de salir -acuerdos, guardabosques, linea base- o nada,
+    # asi que el tratamiento de su municipio es AMBIGUO. Dos decisiones:
+    #
+    #   1. La cohorte depurada se calcula sin esos eventos. Si un municipio
+    #      tiene un proyecto vivo y uno retirado, la fecha la pone el vivo.
+    #   2. Los municipios cuyo UNICO vinculo REDD+ es un proyecto fallido se
+    #      marcan muestra_redd_depurada = 0 para EXCLUIRLOS de la estimacion.
+    #      No se pasan a control: un tratamiento ambiguo contamina igual en
+    #      cualquiera de los dos grupos.
+    #
+    # El conjunto ambiguo se calcula sobre TODOS los eventos REDD+, con y sin
+    # fecha. Un proyecto retirado sin fecha (Yaguara, en Calamar) no activa
+    # tratamiento, pero su municipio tampoco es un control limpio.
+    #
+    # Asimetria a declarar: solo Verra publica estado. En Cercarbono, RENARE
+    # y Gold Standard la regla no se puede aplicar.
+    # ------------------------------------------------------------------
+    def _es_fallido(df_):
+        if "estado_registro" not in df_.columns:
+            return pd.Series(False, index=df_.index)
+        return df_["estado_registro"].astype(str).str.strip().str.casefold().isin(ESTADOS_FALLIDOS)
+
+    redd_todos = eventos[
+        eventos["confianza"].isin(["alta", "media"]) & (eventos["clase_redd"] == "REDD")
+    ].copy()
+    redd_todos["_fallido"] = _es_fallido(redd_todos)
+    por_mpio = redd_todos.groupby("COD_DANE")["_fallido"].all()
+    ambiguos = sorted(por_mpio[por_mpio].index)
+
+    vivos = con_fecha[
+        con_fecha["confianza"].isin(["alta", "media"])
+        & (con_fecha["clase_redd"] == "REDD")
+        & ~_es_fallido(con_fecha)
+    ]
+    primero_dep = vivos.groupby("COD_DANE")["anio_inicio"].min().rename(
+        "anio_inicio_tratamiento_todas_fuentes_redd_depurada"
+    )
+    resultado = resultado.merge(primero_dep, on="COD_DANE", how="left")
+    resultado["tratado_todas_fuentes_redd_depurada"] = (
+        resultado["year"] >= resultado["anio_inicio_tratamiento_todas_fuentes_redd_depurada"]
+    ).fillna(False).astype(int)
+    resultado["muestra_redd_depurada"] = (~resultado["COD_DANE"].isin(ambiguos)).astype(int)
+
+    print(f"\n  {'todas_fuentes_redd_depurada':32s} {len(primero_dep):3d} municipios "
+          f"en {primero_dep.nunique()} cohortes")
+
+    nombre_mpio = redd_todos.groupby("COD_DANE")["nombre_proyecto"].first()
+    estado_mpio = redd_todos.groupby("COD_DANE")["estado_registro"].apply(
+        lambda x: sorted(set(x.dropna().astype(str))))
+    print(f"\n  Tratamiento ambiguo -- unico vinculo REDD+ retirado o rechazado: "
+          f"{len(ambiguos)} municipios")
+    for c in ambiguos:
+        print(f"    {c}  {estado_mpio.get(c, [])}  {str(nombre_mpio.get(c, ''))[:60]}")
+    print("    -> muestra_redd_depurada = 0: se EXCLUYEN de la estimacion, no pasan a control.")
+
+    mueven = [
+        (c, int(d1_con[c]), int(primero_dep[c]))
+        for c in sorted(set(d1_con.index) & set(primero_dep.index))
+        if d1_con[c] != primero_dep[c]
+    ]
+    if mueven:
+        print(f"\n  Cambian de cohorte al quitar los proyectos fallidos: {len(mueven)}")
+        for c, a, b in mueven:
+            print(f"    {c}: {a} -> {b}")
+
+    fuera_d1 = sorted(set(ambiguos) - set(d1_con.index))
+    if fuera_d1:
+        print(f"\n  Ambiguos que hoy estaban en el grupo de CONTROL: {fuera_d1}")
 
     resultado.to_csv(OUT_PANEL, index=False, encoding="utf-8-sig")
     print(f"\nPanel con tratamiento guardado en: {OUT_PANEL}")

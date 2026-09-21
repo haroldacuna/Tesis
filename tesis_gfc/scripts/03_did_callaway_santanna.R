@@ -34,12 +34,30 @@ library(dplyr)
 library(did)
 library(ggplot2)
 
-PANEL_ANALISIS <- "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/panel_analisis_did.rds"
+## --- Raíz canónica (mismo centinela que 01, 02 y los scripts de Python) -----
+RAIZ_PROYECTO <- local({
+  d <- normalizePath(getwd(), winslash = "/", mustWork = FALSE)
+  while (!file.exists(file.path(d, "data/.raiz_canonica"))) {
+    p <- dirname(d)
+    if (identical(p, d)) stop("No encuentro data/.raiz_canonica subiendo desde ", getwd())
+    d <- p
+  }
+  d
+})
+DIR_OUT <- paste0(RAIZ_PROYECTO, "/outputs")
+
+## Definiciones a estimar. att_gt() con bootstrap es caro, asi que por defecto
+## se corren solo las tres REDD+: la principal, la de alta confianza y la que
+## excluye la ubicacion recuperada a mano. Agregar "todas" o "alta" aqui para
+## comparar contra la definicion AFOLU previa.
+DEFS_A_CORRER <- c("todas_redd", "alta_redd", "todas_redd_sinmanual")
+
+PANEL_ANALISIS <- paste0(DIR_OUT, "/panel_analisis_did.rds")
 SEMILLA <- 20260824
 
-dir.create("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs", showWarnings = FALSE, recursive = TRUE)
-dir.create("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/figuras", showWarnings = FALSE, recursive = TRUE)
-dir.create("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas", showWarnings = FALSE, recursive = TRUE)
+dir.create(DIR_OUT, showWarnings = FALSE, recursive = TRUE)
+dir.create(paste0(DIR_OUT, "/figuras"), showWarnings = FALSE, recursive = TRUE)
+dir.create(paste0(DIR_OUT, "/tablas"), showWarnings = FALSE, recursive = TRUE)
 
 panel <- readRDS(PANEL_ANALISIS)
 
@@ -58,8 +76,22 @@ panel <- readRDS(PANEL_ANALISIS)
 ##   - agrupar cohortes adyacentes con muy pocos municipios,
 ##   - o apoyarte más en las especificaciones (a) y (c), que no dependen de
 ##     ajustar por tantas covariables a la vez.
-COVARIABLES_XFORMLA <- ~ baseline_forest_base + temp_media_c_base +
-  disbogota_base + H_coca_base + homicidios_base
+## Se añaden las covariables que 02_matching_psm.R reporta como aún
+## desbalanceadas tras emparejar bajo la definición REDD+ (|SMD| > 0,1):
+## log_defor_pre_media, defor_pre_tendencia, disbogota_base y
+## distancia_mercado_base. El emparejamiento se degrada al restringir a REDD+
+## porque el pool de controles comparables se reduce —los municipios REDD+ son
+## amazónicos y del Pacífico, remotos y muy boscosos, con puntajes muy por
+## encima del control típico—, de modo que el ajuste doblemente robusto pasa a
+## cargar el peso de la corrección y estas variables tienen que estar en él.
+##
+## Las dos de deforestación previa las construye 02 a nivel municipio; se unen
+## al panel más abajo para que estén disponibles en xformla.
+##
+## Decisión tomada ANTES de estimar los ATT.
+COVARIABLES_XFORMLA <- ~ log_baseline_forest + temp_media_c_base +
+  prec_anual_mm_base + discapital_base + disbogota_base + distancia_mercado_base +
+  H_coca_base + homicidios_base + log_defor_pre_media + defor_pre_tendencia
 
 ## =============================================================================
 ## Función auxiliar: corre att_gt() + las 4 agregaciones, para una combinación
@@ -177,17 +209,83 @@ cargar_submuestra_emparejada <- function(panel, ruta_matching) {
 }
 
 ## =============================================================================
-## Ejecutar las 6 combinaciones (2 definiciones x 3 especificaciones)
+## Ejecutar las combinaciones (DEFS_A_CORRER x 3 especificaciones)
 ## outcome principal: loss_area_ha. (tasa_deforestacion queda preparada como
 ## robustez adicional - descomentar para correrla también.)
 ## =============================================================================
 
+## --- Covariables de deforestación previa -------------------------------------
+## log_defor_pre_media, defor_pre_tendencia y log_baseline_forest las construye
+## 02_matching_psm.R a nivel municipio y las exporta a CSV. Aquí se unen al
+## panel porque xformla las necesita dentro del data.frame que recibe att_gt().
+COLS_PRE <- c("log_defor_pre_media", "defor_pre_tendencia", "log_baseline_forest")
+
+if (!all(COLS_PRE %in% names(panel))) {
+  ruta_cov <- paste0(DIR_OUT, "/tablas/covariables_pre_municipio.csv")
+  if (!file.exists(ruta_cov)) {
+    stop("Falta ", ruta_cov, ".\n",
+         "  Corre antes 02_matching_psm.R con la version que exporta las\n",
+         "  covariables de deforestacion previa.")
+  }
+  cov_pre <- read_csv(ruta_cov, col_types = cols(COD_DANE = col_character()),
+                      show_col_types = FALSE)
+  cols_unir <- intersect(c("COD_DANE", COLS_PRE), names(cov_pre))
+  panel <- panel %>% left_join(cov_pre[, cols_unir], by = "COD_DANE")
+  cat("Covariables de deforestacion previa unidas al panel:",
+      paste(setdiff(cols_unir, "COD_DANE"), collapse = ", "), "\n")
+}
+
+faltan_cov <- setdiff(all.vars(COVARIABLES_XFORMLA), names(panel))
+if (length(faltan_cov) > 0) {
+  stop("xformla pide covariables que no estan en el panel: ",
+       paste(faltan_cov, collapse = ", "))
+}
+na_cov <- sapply(all.vars(COVARIABLES_XFORMLA), function(x) sum(is.na(panel[[x]])))
+if (any(na_cov > 0)) {
+  cat("Aviso: NA en covariables de xformla ->",
+      paste(names(na_cov)[na_cov > 0], na_cov[na_cov > 0], collapse = " | "), "\n")
+  cat("  att_gt() descarta esas unidades; revisa que no sean sistematicas.\n")
+}
+
 resultados <- list()
 
-definiciones <- list(
-  alta = list(col = "first_treat_alta", ruta_matching = "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/matching_alta_confianza.rds", nombre = "Confianza alta"),
-  todas = list(col = "first_treat_todas", ruta_matching = "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/matching_todas_fuentes.rds", nombre = "Todas las fuentes")
+## Las definiciones se leen del panel, no se nombran a mano: 01 genera una
+## columna first_treat_<alias> por cada una y declara la principal en un
+## atributo. El .rds de emparejamiento lo produce 02 con el mismo alias, de
+## modo que los tres scripts quedan acoplados por el alias y no por rutas.
+NOMBRES_DEF <- c(
+  alta                 = "AFOLU, confianza alta",
+  todas                = "AFOLU, todas las fuentes",
+  alta_redd            = "REDD+ estricto, confianza alta",
+  todas_redd           = "REDD+ estricto, todas las fuentes",
+  todas_redd_sinmanual = "REDD+ estricto, sin ubicacion recuperada a mano"
 )
+
+alias_en_panel  <- setdiff(sub("^first_treat_", "", grep("^first_treat_", names(panel), value = TRUE)), "")
+alias_principal <- attr(panel, "definicion_principal")
+faltan <- setdiff(DEFS_A_CORRER, alias_en_panel)
+if (length(faltan) > 0) {
+  stop("Estas definiciones no estan en el panel: ", paste(faltan, collapse = ", "),
+       "
+  Disponibles: ", paste(alias_en_panel, collapse = ", "),
+       "
+  Vuelve a correr 01_preparar_datos_did.R.")
+}
+
+definiciones <- setNames(lapply(DEFS_A_CORRER, function(a) {
+  list(col = paste0("first_treat_", a),
+       ruta_matching = paste0(DIR_OUT, "/matching_", a, ".rds"),
+       nombre = if (a %in% names(NOMBRES_DEF)) unname(NOMBRES_DEF[a]) else a)
+}), DEFS_A_CORRER)
+
+cat("
+Definiciones a estimar:
+")
+for (a in DEFS_A_CORRER) {
+  cat(sprintf("  %-22s %s%s
+", a, definiciones[[a]]$nombre,
+              if (identical(a, alias_principal)) "   <- PRINCIPAL" else ""))
+}
 
 for (def in names(definiciones)) {
   info <- definiciones[[def]]
@@ -235,7 +333,7 @@ cat("TABLA RESUMEN DE ROBUSTEZ - ATT simple por especificacion\n")
 cat(strrep("=", 70), "\n")
 print(tabla_resumen, row.names = FALSE)
 
-write_csv(tabla_resumen, "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas/resumen_robustez_att.csv")
+write_csv(tabla_resumen, paste0(DIR_OUT, "/tablas/resumen_robustez_att.csv"))
 
 ## =============================================================================
 ## Grafico de estudio de eventos - especificacion principal (b): doblemente
@@ -254,7 +352,7 @@ for (def in names(definiciones)) {
     ) +
     theme_minimal()
 
-  ruta <- paste0("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/figuras/event_study_", def, ".png")
+  ruta <- paste0(paste0(DIR_OUT, "/figuras/event_study_"), def, ".png")
   ggsave(ruta, p, width = 9, height = 5.5, dpi = 150)
   cat("\nGrafico guardado:", ruta, "\n")
 }
@@ -263,6 +361,6 @@ for (def in names(definiciones)) {
 ## Guardar todos los resultados para inspeccion posterior
 ## =============================================================================
 
-saveRDS(resultados, "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/resultados_did_completos.rds")
-cat("\nGuardado: output/resultados_did_completos.rds (todos los att_gt/aggte de las 6 especificaciones)\n")
+saveRDS(resultados, paste0(DIR_OUT, "/resultados_did_completos.rds"))
+cat("\nGuardado: outputs/resultados_did_completos.rds\n")
 cat("Guardado: output/tablas/resumen_robustez_att.csv\n")
