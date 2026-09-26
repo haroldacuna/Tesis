@@ -1,0 +1,40 @@
+
+Overall ATT:  
+ ATT    Std. Error     [ 95%  Conf. Int.] 
+ NaN            NA        NaN         NaN 
+
+
+Dynamic Effects:
+ Event Time Estimate Std. Error [95% Simult.  Conf. Band] 
+        -17      NaN         NA           NaN          NA 
+        -16      NaN         NA           NaN          NA 
+        -15      NaN         NA           NaN          NA 
+        -14      NaN         NA           NaN          NA 
+        -13      NaN         NA           NaN          NA 
+        -12      NaN         NA           NaN          NA 
+        -11      NaN         NA           NaN          NA 
+        -10      NaN         NA           NaN          NA 
+         -9      NaN         NA           NaN          NA 
+         -8      NaN         NA           NaN          NA 
+         -7      NaN         NA           NaN          NA 
+         -6      NaN         NA           NaN          NA 
+         -5      NaN         NA           NaN          NA 
+         -4      NaN         NA           NaN          NA 
+         -3      NaN         NA           NaN          NA 
+         -2      NaN         NA           NaN          NA 
+         -1      NaN         NA           NaN          NA 
+          0      NaN         NA           NaN          NA 
+          1      NaN         NA           NaN          NA 
+          2      NaN         NA           NaN          NA 
+          3      NaN         NA           NaN          NA 
+          4      NaN         NA           NaN          NA 
+          5      NaN         NA           NaN          NA 
+          6      NaN         NA           NaN          NA 
+          7      NaN         NA           NaN          NA 
+          8      NaN         NA           NaN          NA 
+          9      NaN         NA           NaN          NA 
+         10      NaN         NA           NaN          NA 
+         11      NaN         NA           NaN          NA 
+---
+Signif. codes: `*' confidence band does not cover 0
+

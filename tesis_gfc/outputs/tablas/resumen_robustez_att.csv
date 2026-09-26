@@ -1,0 +1,10 @@
+especificacion,att,se,ic_inf,ic_sup
+"REDD+ estricto, todas las fuentes - sin covariables",-192.9516693858083,215.32363743681677,-614.9859987619692,229.0826599903526
+"REDD+ estricto, todas las fuentes - doblemente robusto (con covariables)",-347.4624298232773,190.85878930728194,-721.54565686555,26.62079721899528
+"REDD+ estricto, todas las fuentes - muestra reponderada (PSM)",-512.7176209336143,266.14478115819145,-1034.3613920036696,8.926150136440924
+"REDD+ estricto, confianza alta - sin covariables",-225.28066168729518,239.29076357858017,-694.2905583013123,243.72923492672194
+"REDD+ estricto, confianza alta - doblemente robusto (con covariables)",-237.13761791124588,185.15475894300525,-600.0409454395361,125.7657096170444
+"REDD+ estricto, confianza alta - muestra reponderada (PSM)",-470.2338600373315,249.8458187105148,-959.9316647099406,19.463944635277528
+"REDD+ estricto, sin ubicacion recuperada a mano - sin covariables",-227.08796504788918,185.5872591103509,-590.838992904177,136.66306280839862
+"REDD+ estricto, sin ubicacion recuperada a mano - doblemente robusto (con covariables)",-360.81618318853475,186.18443128958296,-725.7376685161173,4.105302139047865
+"REDD+ estricto, sin ubicacion recuperada a mano - muestra reponderada (PSM)",-347.9161152052346,230.84805473404228,-800.3783024839574,104.54607207348829

@@ -56,10 +56,21 @@ library(tidyr)
 library(MatchIt)
 library(ggplot2)
 
-PANEL_ANALISIS <- "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/panel_analisis_did.rds"
-dir.create("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs", showWarnings = FALSE, recursive = TRUE)
-dir.create("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/figuras", showWarnings = FALSE, recursive = TRUE)
-dir.create("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas", showWarnings = FALSE, recursive = TRUE)
+## --- Raíz canónica (mismo centinela que 01 y los scripts de Python) ---------
+RAIZ_PROYECTO <- local({
+  d <- normalizePath(getwd(), winslash = "/", mustWork = FALSE)
+  while (!file.exists(file.path(d, "data/.raiz_canonica"))) {
+    p <- dirname(d)
+    if (identical(p, d)) stop("No encuentro data/.raiz_canonica subiendo desde ", getwd())
+    d <- p
+  }
+  d
+})
+DIR_OUT        <- paste0(RAIZ_PROYECTO, "/outputs")
+PANEL_ANALISIS <- paste0(DIR_OUT, "/panel_analisis_did.rds")
+for (sub in c("", "/figuras", "/tablas")) {
+  dir.create(paste0(DIR_OUT, sub), showWarnings = FALSE, recursive = TRUE)
+}
 
 ## =============================================================================
 ## CONFIGURACIÓN
@@ -72,14 +83,25 @@ dir.create("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas",
 ##     (mínimo ~5 años),
 ##   - terminar antes de la primera cohorte de tratamiento relevante.
 ##
-## La cohorte más temprana observada es 2002 (Cáceres, Anzoátegui y, solo en
-## "todas las fuentes", Chinchiná), confirmado por
-## 08_sensibilidad_excluir_cohortes_tempranas.R. No existe ventana que sea
-## simultáneamente larga y limpia para esa cohorte: por eso la ventana se fija
-## en 2001-2005 y esos municipios se excluyen en la especificación de
-## sensibilidad (ver EJECUCIÓN, más abajo).
+## Bajo las definiciones AFOLU la cohorte más temprana es 2002 (Cáceres,
+## Anzoátegui y, solo en "todas las fuentes", Chinchiná), lo que obligaba a una
+## ventana corta de 2001-2005 y a excluir esos municipios en la especificación
+## de sensibilidad.
+##
+## Con la definición REDD+ estricta la cohorte más temprana pasa a ser 2010, de
+## modo que 2001-2005 dejaba cuatro años de información sin usar. La ventana se
+## extiende a 2001-2009: el nivel medio y la pendiente de la deforestación
+## previa se estiman sobre nueve años en vez de cinco, lo que importa porque son
+## las dos covariables que peor balance alcanzaban tras emparejar.
+##
+## Consecuencia para las definiciones AFOLU: sus cohortes 2002-2009 caen DENTRO
+## de la ventana, así que para ellas la especificación "sin cohortes tempranas"
+## excluye más municipios que antes. Es el precio de calibrar la ventana a la
+## definición principal, y queda declarado aquí.
+##
+## Decisión tomada ANTES de estimar los ATT.
 VENTANA_PRE_INICIO <- 2001L
-VENTANA_PRE_FIN    <- 2005L
+VENTANA_PRE_FIN    <- 2009L
 
 ## Mínimo de años con dato dentro de la ventana para estimar la pendiente.
 MIN_ANIOS_TENDENCIA <- 3L
@@ -209,7 +231,7 @@ datos_mun_base <- panel %>%
   distinct(COD_DANE, .keep_all = TRUE) %>%
   select(
     COD_DANE, NOMBRE_MPI, DPTO_CNMBR,
-    first_treat_alta, first_treat_todas,
+    starts_with("first_treat"),
     any_of(c(
       "baseline_forest_base", "temp_media_c_base", "prec_anual_mm_base",
       "discapital_base", "disbogota_base", "altura_base",
@@ -323,7 +345,7 @@ diagnosticar_soporte_comun <- function(ps, tratado, etiqueta, sufijo) {
     ) +
     theme_minimal()
 
-  ggsave(paste0("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/figuras/soporte_comun_", sufijo, ".png"), p,
+  ggsave(paste0(paste0(DIR_OUT, "/figuras/soporte_comun_"), sufijo, ".png"), p,
          width = 8, height = 4.5, dpi = 150)
 
   list(lim_inf = lim_inf, lim_sup = lim_sup, n_fuera = fuera,
@@ -445,7 +467,7 @@ correr_matching <- function(datos, col_first_treat, etiqueta, sufijo,
     ) %>%
     select(COD_DANE, NOMBRE_MPI, DPTO_CNMBR, tratado, ps, fuera_soporte, ps_extremo) %>%
     arrange(desc(tratado), ps)
-  write_csv(tabla_soporte, paste0("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas/soporte_comun_", sufijo, ".csv"))
+  write_csv(tabla_soporte, paste0(paste0(DIR_OUT, "/tablas/soporte_comun_"), sufijo, ".csv"))
 
   ## --- Balance completo antes/después ----------------------------------------
   s <- summary(m_out, un = TRUE, interactions = FALSE)
@@ -506,7 +528,7 @@ correr_matching <- function(datos, col_first_treat, etiqueta, sufijo,
     cat("\n  Todas las covariables cumplen |dif. estandarizada| < 0,1 tras emparejar.\n")
   }
 
-  write_csv(tabla_balance, paste0("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas/balance_psm_", sufijo, ".csv"))
+  write_csv(tabla_balance, paste0(paste0(DIR_OUT, "/tablas/balance_psm_"), sufijo, ".csv"))
 
   ## --- Love plot -------------------------------------------------------------
   df_love <- tabla_balance %>%
@@ -533,7 +555,7 @@ correr_matching <- function(datos, col_first_treat, etiqueta, sufijo,
     theme_minimal() +
     theme(legend.position = "bottom")
 
-  ruta_plot <- paste0("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/figuras/love_plot_", sufijo, ".png")
+  ruta_plot <- paste0(paste0(DIR_OUT, "/figuras/love_plot_"), sufijo, ".png")
   ggsave(ruta_plot, p_love, width = 8, height = 5.5, dpi = 150)
   cat("\nFiguras: ", ruta_plot, " y output/figuras/soporte_comun_", sufijo, ".png\n", sep = "")
 
@@ -544,7 +566,7 @@ correr_matching <- function(datos, col_first_treat, etiqueta, sufijo,
       sum(matched_data$tratado == 0), "controles )\n")
 
   pesos <- matched_data %>% select(COD_DANE, peso_psm = weights, subclase = subclass)
-  write_csv(pesos, paste0("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas/pesos_psm_", sufijo, ".csv"))
+  write_csv(pesos, paste0(paste0(DIR_OUT, "/tablas/pesos_psm_"), sufijo, ".csv"))
   if (any(abs(pesos$peso_psm - 1) > 1e-8)) {
     cat("\n  *** ATENCIÓN: los pesos NO son uniformes. 03_did_callaway_santanna.R\n")
     cat("      filtra por COD_DANE sin usar pesos, lo que sería INCORRECTO aquí.\n")
@@ -563,36 +585,73 @@ correr_matching <- function(datos, col_first_treat, etiqueta, sufijo,
   )
 }
 
+## --- Exportar las covariables construidas aquí -------------------------------
+## log_defor_pre_media, defor_pre_tendencia y log_baseline_forest se construyen
+## en ESTE script, no en 01, pero 03_did_callaway_santanna.R las necesita en
+## xformla para el ajuste doblemente robusto. Se escriben a CSV en vez de
+## dejarlas dentro del objeto de MatchIt: el data.frame del glm no siempre se
+## conserva, y una dependencia implícita es justo lo que falla en silencio.
+cols_exportar <- intersect(
+  c("COD_DANE", "log_defor_pre_media", "defor_pre_tendencia", "log_baseline_forest",
+    "defor_pre_media", "n_anios_pre"),
+  names(datos_mun_base)
+)
+write_csv(datos_mun_base[, cols_exportar],
+          paste0(DIR_OUT, "/tablas/covariables_pre_municipio.csv"))
+cat("\nEscrito:", paste0(DIR_OUT, "/tablas/covariables_pre_municipio.csv"),
+    "(", length(cols_exportar) - 1, "covariables,", nrow(datos_mun_base), "municipios )\n")
+
+## =============================================================================
 ## =============================================================================
 ## 5. EJECUCIÓN
 ## =============================================================================
 
-etiqueta_alta  <- "Confianza alta (Verra + Gold Standard)"
-etiqueta_todas <- "Todas las fuentes (+ RENARE + Cercarbono)"
+## Las definiciones no se nombran a mano: se leen del panel. 01 genera una
+## columna first_treat_<alias> por definición y deja en un atributo cuál es la
+## principal, de modo que cambiarla allí se propaga hasta aquí sin tocar este
+## archivo, y una definición nueva entra sola.
+alias_disponibles <- sub("^first_treat_", "",
+                         grep("^first_treat_", names(datos_mun_base), value = TRUE))
+alias_disponibles <- setdiff(alias_disponibles, "")   # descarta el alias vacío de `first_treat`
+alias_principal <- attr(panel, "definicion_principal")
+if (is.null(alias_principal) || !alias_principal %in% alias_disponibles) {
+  alias_principal <- if ("todas_redd" %in% alias_disponibles) "todas_redd" else alias_disponibles[1]
+  cat("Aviso: el panel no declara definición principal; se usa '", alias_principal, "'.\n", sep = "")
+}
 
-## --- Especificación principal ------------------------------------------------
-resultado_alta <- correr_matching(
-  datos_mun_base, "first_treat_alta", etiqueta_alta, "alta_confianza"
+ETIQUETAS <- c(
+  alta                 = "AFOLU, confianza alta (Verra + Gold Standard)",
+  todas                = "AFOLU, todas las fuentes (+ RENARE + Cercarbono)",
+  alta_redd            = "REDD+ estricto, confianza alta",
+  todas_redd           = "REDD+ estricto, todas las fuentes",
+  todas_redd_sinmanual = "REDD+ estricto, sin ubicación recuperada a mano"
 )
-resultado_todas <- correr_matching(
-  datos_mun_base, "first_treat_todas", etiqueta_todas, "todas_fuentes"
-)
+etq_de <- function(a) if (a %in% names(ETIQUETAS)) unname(ETIQUETAS[a]) else a
 
-saveRDS(resultado_alta, "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/matching_alta_confianza.rds")
-saveRDS(resultado_todas, "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/matching_todas_fuentes.rds")
+cat("\n\nDefiniciones a emparejar:\n")
+for (a in alias_disponibles) {
+  cat(sprintf("  %-22s %s%s\n", a, etq_de(a),
+              if (identical(a, alias_principal)) "   <- PRINCIPAL" else ""))
+}
 
-## --- Sensibilidad: sin cohortes tempranas ------------------------------------
-resultado_alta_sc <- correr_matching(
-  datos_mun_base, "first_treat_alta", etiqueta_alta, "alta_confianza_sin_tempranas",
-  excluir_cohortes_tempranas = TRUE
-)
-resultado_todas_sc <- correr_matching(
-  datos_mun_base, "first_treat_todas", etiqueta_todas, "todas_fuentes_sin_tempranas",
-  excluir_cohortes_tempranas = TRUE
-)
+resultados_matching <- list()
 
-saveRDS(resultado_alta_sc,  "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/matching_alta_confianza_sin_tempranas.rds")
-saveRDS(resultado_todas_sc, "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/matching_todas_fuentes_sin_tempranas.rds")
+for (a in alias_disponibles) {
+  col <- paste0("first_treat_", a)
+
+  r <- correr_matching(datos_mun_base, col, etq_de(a), a)
+  resultados_matching[[a]] <- r
+  saveRDS(r, paste0(DIR_OUT, "/matching_", a, ".rds"))
+
+  ## Sensibilidad sin cohortes tempranas. Para las definiciones REDD+ no hay
+  ## cohortes <= VENTANA_PRE_FIN (la más temprana es 2010), así que la corrida
+  ## resulta idéntica a la principal; se hace igual para que la comparación del
+  ## Capítulo 5 sea simétrica entre definiciones.
+  r_sc <- correr_matching(datos_mun_base, col, etq_de(a), paste0(a, "_sin_tempranas"),
+                          excluir_cohortes_tempranas = TRUE)
+  resultados_matching[[paste0(a, "_sin_tempranas")]] <- r_sc
+  saveRDS(r_sc, paste0(DIR_OUT, "/matching_", a, "_sin_tempranas.rds"))
+}
 
 ## --- Comparación del balance entre ambas especificaciones --------------------
 comparar_balance <- function(r_base, r_sc, etiqueta) {
@@ -610,16 +669,19 @@ comparar_balance <- function(r_base, r_sc, etiqueta) {
   comp
 }
 
-comp_alta  <- comparar_balance(resultado_alta,  resultado_alta_sc,  etiqueta_alta)
-comp_todas <- comparar_balance(resultado_todas, resultado_todas_sc, etiqueta_todas)
-
-if (!is.null(comp_alta))  write_csv(comp_alta,  "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas/comparacion_balance_alta.csv")
-if (!is.null(comp_todas)) write_csv(comp_todas, "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas/comparacion_balance_todas.csv")
+for (a in alias_disponibles) {
+  comp <- comparar_balance(resultados_matching[[a]],
+                           resultados_matching[[paste0(a, "_sin_tempranas")]],
+                           etq_de(a))
+  if (!is.null(comp)) {
+    write_csv(comp, paste0(DIR_OUT, "/tablas/comparacion_balance_", a, ".csv"))
+  }
+}
 
 cat("\n\n", strrep("=", 78), "\n", sep = "")
 cat("SALIDAS GENERADAS\n")
 cat(strrep("=", 78), "\n")
-cat("  output/matching_{alta_confianza,todas_fuentes}.rds            <- usados por el script 03\n")
+cat("  outputs/matching_<definicion>.rds                              <- usados por el script 03\n")
 cat("  output/matching_*_sin_tempranas.rds                           <- sensibilidad\n")
 cat("  output/tablas/balance_psm_*.csv                               <- tabla de balance completa\n")
 cat("  output/tablas/soporte_comun_*.csv                             <- puntajes y banderas por municipio\n")
