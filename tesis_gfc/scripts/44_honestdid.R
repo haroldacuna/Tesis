@@ -1,9 +1,14 @@
 ## =============================================================================
 ## 44_honestdid.R
 ##
-## Sensibilidad de Rambachan y Roth (2023) sobre la ESPECIFICACION PRINCIPAL:
-## D1 depurada, doblemente robusto con covariables, notyettreated, cohortes
-## 2013-2019. Cierra el campo [• Rambachan y Roth: Mbar] del poster.
+## Tarea A.3 (OE2). Sensibilidad de Rambachan y Roth (2023) sobre la
+## especificacion principal (D1 depurada, DR, notyettreated, cohortes
+## 2013-2019, controles limpios) y sobre su version sin covariables, que es la
+## referencia del script 59.
+##
+## Version oct-2026: misma muestra que 58 y 59 (40_muestra_A.rds + controles
+## limpios: 36 tratados, 986 controles). La version anterior construia su
+## propia muestra SIN controles limpios.
 ##
 ## Dos familias de restricciones:
 ##
@@ -32,6 +37,19 @@
 ## Ventana previa: e = -5..-1. Con 18 periodos previos, la "mayor violacion
 ## observada" la fijaria el anio mas ruidoso de hace dos decadas; cinco anios
 ## es la ventana relevante para la dinamica cercana a la adopcion.
+##
+## Referencia empirica para M (suavidad): M_obs = mayor |segunda diferencia|
+## de los coeficientes previos (e = -5..-1). Es la mayor curvatura que la
+## tendencia diferencial ya mostro antes de la adopcion.
+##
+## Interpretacion fijada ANTES de correr (D13):
+##   - Magnitudes relativas: valor de ruptura Mbar < 0,5 -> interpretacion
+##     causal fragil.
+##   - Suavidad: si el intervalo con M = M_obs incluye el cero, el efecto no
+##     sobrevive a una curvatura como la ya observada -> fragil. Si solo excluye
+##     el cero con M cercano a 0, el resultado depende de extrapolar en linea
+##     recta la aceleracion previa a la adopcion; con un perfil de pico (A.2),
+##     esa extrapolacion no es creible y no se lee como efecto.
 ##
 ## USO:  Rscript scripts/44_honestdid.R
 ## =============================================================================
@@ -70,7 +88,10 @@ VENTANA   <- 2013:2019
 E_PRE     <- 5
 E_POST    <- 5
 BITERS    <- 999
-REFERENCIA_BAL <- -464.89      # ATT balanceado de la principal (40 y 43)
+## ATT balanceado e = 0..5 del 40 (corrida sin Mogotes, oct-2026). El script
+## verifica que el promedio post con base universal los reproduzca.
+REFERENCIA_BAL <- c(dr = -235.31, sincov = -247.35)
+ESPECIFICACIONES <- list(dr = "DR con covariables (principal)", sincov = "sin covariables (referencia del 59)")
 
 ## Grillas: Mbar adimensional; M en hectareas por periodo al cuadrado.
 MBAR_GRID <- seq(0, 2, by = 0.25)
@@ -90,73 +111,63 @@ cat("HonestDiD", as.character(packageVersion("HonestDiD")),
 ## =============================================================================
 ## 1. Muestra principal (igual que 40 y 43)
 ## =============================================================================
-panel <- readRDS(file.path(DIR_OUT, "panel_analisis_did.rds"))
-panel$COD_DANE <- pad5(panel$COD_DANE)
+ruta_m <- file.path(DIR_OUT, "40_muestra_A.rds")
+if (!file.exists(ruta_m)) stop("Falta ", ruta_m, ": corre el 40 con el saveRDS(muestra_A, ...).")
+muestra <- readRDS(ruta_m)
+muestra$COD_DANE <- pad5(muestra$COD_DANE)
 
-COLS_PRE <- c("log_defor_pre_media", "defor_pre_tendencia", "log_baseline_forest")
-if (!all(COLS_PRE %in% names(panel))) {
-  cov_pre <- read_csv(file.path(DIR_TAB, "covariables_pre_municipio.csv"),
-                      col_types = cols(COD_DANE = col_character()), show_col_types = FALSE)
-  cov_pre$COD_DANE <- pad5(cov_pre$COD_DANE)
-  cols_unir <- intersect(c("COD_DANE", COLS_PRE), names(cov_pre))
-  panel <- panel %>% select(-any_of(setdiff(cols_unir, "COD_DANE"))) %>%
-    left_join(cov_pre[, cols_unir], by = "COD_DANE")
-}
+## Controles limpios con la misma funcion comun que 40, 58 y 59 (idempotente).
+source(file.path(RAIZ, "scripts/comun_controles_limpios.R"))
+cont <- municipios_con_proyecto(file.path(RAIZ, "data/final/panel_con_tratamiento_actualizado.csv"))
+muestra <- aplicar_controles_limpios(muestra, cont, col_g = "G_dep")
 
-trat <- read_csv(file.path(RAIZ, "data/final/panel_con_tratamiento_actualizado.csv"),
-                 col_select = c(COD_DANE, anio_inicio_tratamiento_todas_fuentes_redd_depurada,
-                                muestra_redd_depurada),
-                 col_types = cols(COD_DANE = col_character(), .default = col_double()),
-                 show_col_types = FALSE) %>%
-  mutate(COD_DANE = pad5(COD_DANE)) %>%
-  group_by(COD_DANE) %>%
-  summarise(G_dep = coalesce(min_na(anio_inicio_tratamiento_todas_fuentes_redd_depurada), 0),
-            muestra_dep = min(muestra_redd_depurada), .groups = "drop")
-
-panel <- panel %>% select(-any_of(c("G_dep", "muestra_dep"))) %>% inner_join(trat, by = "COD_DANE")
-n_anios <- n_distinct(panel$year)
-incompletos <- panel %>% group_by(COD_DANE) %>%
-  summarise(ok = n() == n_anios && all(!is.na(.data[[OUTCOME]])), .groups = "drop") %>%
-  filter(!ok) %>% pull(COD_DANE)
-muestra <- panel %>%
-  filter(!COD_DANE %in% incompletos, muestra_dep == 1, G_dep == 0 | G_dep %in% VENTANA)
-cat(sprintf("Muestra: %d municipios | %d tratados\n", n_distinct(muestra$COD_DANE),
-            n_distinct(muestra$COD_DANE[muestra$G_dep > 0])))
+faltan <- setdiff(c(OUTCOME, "year", "id_num", "G_dep", all.vars(COVARIABLES_XFORMLA)), names(muestra))
+if (length(faltan)) stop("La muestra no trae: ", paste(faltan, collapse = ", "))
+mun <- muestra %>% distinct(COD_DANE, G_dep)
+cat(sprintf("Muestra: %d municipios | %d tratados | %d controles\n",
+            nrow(mun), sum(mun$G_dep > 0), sum(mun$G_dep == 0)))
+if (sum(mun$G_dep == 0) != 986 || sum(mun$G_dep > 0) != 36)
+  stop("La muestra no coincide con la principal (36 tratados, 986 controles).")
 
 ## =============================================================================
 ## 2. Estimacion con base universal
 ## =============================================================================
-titulo("1. ESPECIFICACION PRINCIPAL CON base_period = 'universal'")
-set.seed(SEMILLA)
-cs <- suppressWarnings(att_gt(
-  yname = OUTCOME, tname = "year", idname = "id_num", gname = "G_dep",
-  xformla = COVARIABLES_XFORMLA, data = muestra,
-  control_group = "notyettreated", est_method = "dr", base_period = "universal",
-  bstrap = TRUE, biters = BITERS, cband = TRUE, clustervars = "id_num"))
+estimar <- function(spec) {
+  xf <- if (spec == "dr") COVARIABLES_XFORMLA else ~1
+  titulo(paste0("1. ", toupper(ESPECIFICACIONES[[spec]]), ", base_period = 'universal'"))
+  set.seed(SEMILLA)
+  cs <- suppressWarnings(att_gt(
+    yname = OUTCOME, tname = "year", idname = "id_num", gname = "G_dep",
+    xformla = xf, data = muestra,
+    control_group = "notyettreated", est_method = "dr",   # con ~1, dr = reg = ipw
+    base_period = "universal",
+    bstrap = TRUE, biters = BITERS, cband = TRUE, clustervars = "id_num"))
+  es <- aggte(cs, type = "dynamic", min_e = -E_PRE, max_e = E_POST,
+              balance_e = E_POST, na.rm = TRUE)
 
-es <- aggte(cs, type = "dynamic", min_e = -E_PRE, max_e = E_POST,
-            balance_e = E_POST, na.rm = TRUE)
+  ## Validacion: el promedio de e = 0..5 debe ser el ATT balanceado del 40.
+  att_bal <- mean(es$att.egt[es$egt >= 0])
+  ok <- abs(att_bal - REFERENCIA_BAL[[spec]]) < 0.5
+  cat(sprintf("Promedio e = 0..%d con base universal: %.2f | 40: %.2f -> %s\n",
+              E_POST, att_bal, REFERENCIA_BAL[[spec]],
+              if (ok) "COINCIDE" else "NO COINCIDE: la muestra o la especificacion difieren"))
+  if (!ok) stop("Detenido: sin coincidencia con el 40 los intervalos robustos no son comparables.")
 
-## Validacion: el promedio de e = 0..5 debe ser el ATT balanceado de la principal.
-post <- es$egt >= 0
-att_bal <- mean(es$att.egt[post])
-cat(sprintf("Promedio e = 0..%d con base universal: %.2f | principal: %.2f -> %s\n",
-            E_POST, att_bal, REFERENCIA_BAL,
-            if (abs(att_bal - REFERENCIA_BAL) < 0.5) "COINCIDE"
-            else "NO COINCIDE: la muestra o la especificacion difieren"))
+  coef_es <- data.frame(e = es$egt, att = es$att.egt, ee = es$se.egt) %>%
+    mutate(ic_inf = att - 1.96 * ee, ic_sup = att + 1.96 * ee)
+  cat("\nEstudio de eventos, base universal (e = -1 normalizado a cero):\n")
+  print(coef_es %>% mutate(across(where(is.numeric), ~ round(.x, 1))), row.names = FALSE)
+  write_csv(coef_es, file.path(DIR_TAB, paste0("44_event_study_base_universal_", spec, ".csv")))
 
-coef_es <- data.frame(e = es$egt, att = es$att.egt, ee = es$se.egt) %>%
-  mutate(ic_inf = att - 1.96 * ee, ic_sup = att + 1.96 * ee)
-cat("\nEstudio de eventos, base universal (e = -1 normalizado a cero):\n")
-print(coef_es %>% mutate(across(where(is.numeric), ~ round(.x, 1))), row.names = FALSE)
-write_csv(coef_es, file.path(DIR_TAB, "44_event_study_base_universal.csv"))
-
-p <- ggdid(es) +
-  labs(title = "Estudio de eventos de la especificacion principal, base universal (g-1)",
-       subtitle = "Todos los coeficientes medidos contra el anio previo a la adopcion",
-       x = "Anios desde la adopcion", y = "ATT (hectareas deforestadas)") +
-  theme_minimal()
-ggsave(file.path(DIR_FIG, "44_event_study_base_universal.png"), p, width = 9, height = 5.5, dpi = 150)
+  p <- ggdid(es) +
+    labs(title = paste("Estudio de eventos, base universal (g-1) -", ESPECIFICACIONES[[spec]]),
+         subtitle = "Todos los coeficientes medidos contra el anio previo a la adopcion",
+         x = "Anios desde la adopcion", y = "ATT (hectareas deforestadas)") +
+    theme_minimal()
+  ggsave(file.path(DIR_FIG, paste0("44_event_study_base_universal_", spec, ".png")), p,
+         width = 9, height = 5.5, dpi = 150)
+  list(cs = cs, es = es)
+}
 
 ## =============================================================================
 ## 3. Puente did -> HonestDiD
@@ -174,92 +185,137 @@ preparar <- function(es) {
   list(beta = es$att.egt[-ref], sigma = V[-ref, -ref, drop = FALSE],
        npre = sum(es$egt < -1), npost = sum(es$egt >= 0))
 }
-h <- preparar(es)
-cat(sprintf("\nPeriodos previos usados: %d | posteriores: %d\n", h$npre, h$npost))
+sensibilidad <- function(es, spec) {
+  h <- preparar(es)
+  cat(sprintf("\nPeriodos previos usados: %d | posteriores: %d\n", h$npre, h$npost))
 
-vectores_l <- list(
-  e0          = basisVector(index = 1, size = h$npost),
-  promedio_0_5 = matrix(rep(1 / h$npost, h$npost), ncol = 1)
-)
+  ## Referencia empirica para M: mayor curvatura observada antes de la adopcion.
+  ## Se agrega el cero de e = -1 para que la ultima segunda diferencia lo incluya.
+  pre <- c(h$beta[seq_len(h$npre)], 0)
+  M_obs <- if (length(pre) >= 3) max(abs(diff(pre, differences = 2))) else NA_real_
+  cat(sprintf("M_obs (mayor |segunda diferencia| previa): %.1f ha\n", M_obs))
+  m_grid <- sort(unique(c(M_GRID, if (is.finite(M_obs)) round(M_obs) else NULL)))
 
-ruptura <- function(tab, par) {
-  sig <- tab$ub < 0 | tab$lb > 0
-  if (!any(sig)) return(0)
-  ## El mayor valor de la grilla con intervalo que excluye el cero
-  max(tab[[par]][sig])
-}
+  vectores_l <- list(
+    e0          = basisVector(index = 1, size = h$npost),
+    promedio_0_5 = matrix(rep(1 / h$npost, h$npost), ncol = 1)
+  )
 
-resultados <- list()
-titulo("2. SENSIBILIDAD")
-for (nm in names(vectores_l)) {
-  l <- vectores_l[[nm]]
-  cat("\n---- Parametro:", if (nm == "e0") "efecto en e = 0" else "promedio de e = 0..5", "----\n")
-
-  orig <- constructOriginalCS(betahat = h$beta, sigma = h$sigma,
-                              numPrePeriods = h$npre, numPostPeriods = h$npost, l_vec = l)
-  cat(sprintf("Intervalo convencional: [%.1f ; %.1f]\n", orig$lb, orig$ub))
-
-  rm <- tryCatch(
-    createSensitivityResults_relativeMagnitudes(
-      betahat = h$beta, sigma = h$sigma, numPrePeriods = h$npre, numPostPeriods = h$npost,
-      l_vec = l, Mbarvec = MBAR_GRID),
-    error = function(e) { cat("ERROR magnitudes relativas:", conditionMessage(e), "\n"); NULL })
-  sd <- tryCatch(
-    createSensitivityResults(
-      betahat = h$beta, sigma = h$sigma, numPrePeriods = h$npre, numPostPeriods = h$npost,
-      l_vec = l, Mvec = M_GRID),
-    error = function(e) { cat("ERROR suavidad:", conditionMessage(e), "\n"); NULL })
-
-  if (!is.null(rm)) {
-    cat("\nMagnitudes relativas:\n")
-    print(as.data.frame(rm) %>% mutate(across(where(is.numeric), ~ round(.x, 1))), row.names = FALSE)
-    cat(sprintf("Valor de ruptura Mbar: %s\n", format(ruptura(rm, "Mbar"))))
-    g <- tryCatch(createSensitivityPlot_relativeMagnitudes(rm, orig) +
-                    labs(title = paste("Magnitudes relativas -", nm),
-                         y = "IC robusto (hectareas)") + theme_minimal(),
-                  error = function(e) NULL)
-    if (!is.null(g)) ggsave(file.path(DIR_FIG, paste0("44_honestdid_rm_", nm, ".png")),
-                            g, width = 8, height = 5, dpi = 150)
+  ruptura <- function(tab, par) {
+    sig <- tab$ub < 0 | tab$lb > 0
+    if (!any(sig)) return(0)
+    ## El mayor valor de la grilla con intervalo que excluye el cero
+    max(tab[[par]][sig])
   }
-  if (!is.null(sd)) {
-    cat("\nSuavidad:\n")
-    print(as.data.frame(sd) %>% mutate(across(where(is.numeric), ~ round(.x, 1))), row.names = FALSE)
-    cat(sprintf("Valor de ruptura M: %s\n", format(ruptura(sd, "M"))))
-    g <- tryCatch(createSensitivityPlot(sd, orig) +
-                    labs(title = paste("Suavidad -", nm), y = "IC robusto (hectareas)") +
-                    theme_minimal(),
-                  error = function(e) NULL)
-    if (!is.null(g)) ggsave(file.path(DIR_FIG, paste0("44_honestdid_sd_", nm, ".png")),
-                            g, width = 8, height = 5, dpi = 150)
+
+  resultados <- list()
+  titulo(paste("2. SENSIBILIDAD -", ESPECIFICACIONES[[spec]]))
+  for (nm in names(vectores_l)) {
+    l <- vectores_l[[nm]]
+    cat("\n---- Parametro:", if (nm == "e0") "efecto en e = 0" else "promedio de e = 0..5", "----\n")
+
+    orig <- constructOriginalCS(betahat = h$beta, sigma = h$sigma,
+                                numPrePeriods = h$npre, numPostPeriods = h$npost, l_vec = l)
+    cat(sprintf("Intervalo convencional: [%.1f ; %.1f]\n", orig$lb, orig$ub))
+
+    rm <- tryCatch(
+      createSensitivityResults_relativeMagnitudes(
+        betahat = h$beta, sigma = h$sigma, numPrePeriods = h$npre, numPostPeriods = h$npost,
+        l_vec = l, Mbarvec = MBAR_GRID),
+      error = function(e) { cat("ERROR magnitudes relativas:", conditionMessage(e), "\n"); NULL })
+    ## Suavidad: el metodo por defecto (FLCI) usa CVXR, y HonestDiD 0.2.8 es
+    ## incompatible con las versiones recientes de CVXR. Si falla, se usa el
+    ## metodo condicional hibrido (C-LF), el mismo de magnitudes relativas: es
+    ## valido para Delta^SD aunque puede dar intervalos algo mas anchos.
+    sd <- tryCatch(
+      createSensitivityResults(
+        betahat = h$beta, sigma = h$sigma, numPrePeriods = h$npre, numPostPeriods = h$npost,
+        l_vec = l, Mvec = m_grid),
+      error = function(e) {
+        cat("Aviso: FLCI fallo (", conditionMessage(e), "); se reintenta con method = 'C-LF'\n")
+        tryCatch(
+          createSensitivityResults(
+            betahat = h$beta, sigma = h$sigma, numPrePeriods = h$npre, numPostPeriods = h$npost,
+            l_vec = l, Mvec = m_grid, method = "C-LF"),
+          error = function(e2) { cat("ERROR suavidad (C-LF):", conditionMessage(e2), "\n"); NULL })
+      })
+
+    if (!is.null(rm)) {
+      cat("\nMagnitudes relativas:\n")
+      print(as.data.frame(rm) %>% mutate(across(where(is.numeric), ~ round(.x, 1))), row.names = FALSE)
+      cat(sprintf("Valor de ruptura Mbar: %s\n", format(ruptura(rm, "Mbar"))))
+      g <- tryCatch(createSensitivityPlot_relativeMagnitudes(rm, orig) +
+                      labs(title = paste("Magnitudes relativas -", spec, "-", nm),
+                           y = "IC robusto (hectareas)") + theme_minimal(),
+                    error = function(e) NULL)
+      if (!is.null(g)) ggsave(file.path(DIR_FIG, paste0("44_honestdid_rm_", spec, "_", nm, ".png")),
+                              g, width = 8, height = 5, dpi = 150)
+    }
+    if (!is.null(sd)) {
+      cat("\nSuavidad:\n")
+      print(as.data.frame(sd) %>% mutate(across(where(is.numeric), ~ round(.x, 1))), row.names = FALSE)
+      cat(sprintf("Valor de ruptura M: %s\n", format(ruptura(sd, "M"))))
+      r_obs <- sd[abs(sd$M - round(M_obs)) < 1e-9, ]
+      if (nrow(r_obs)) cat(sprintf("Con M = M_obs (%.0f): IC [%.1f ; %.1f] -> %s\n", round(M_obs), r_obs$lb, r_obs$ub,
+          if (r_obs$lb > 0 | r_obs$ub < 0) "excluye el cero" else "incluye el cero: FRAGIL segun D13"))
+      g <- tryCatch(createSensitivityPlot(sd, orig) +
+                      labs(title = paste("Suavidad -", spec, "-", nm), y = "IC robusto (hectareas)") +
+                      theme_minimal(),
+                    error = function(e) NULL)
+      if (!is.null(g)) ggsave(file.path(DIR_FIG, paste0("44_honestdid_sd_", spec, "_", nm, ".png")),
+                              g, width = 8, height = 5, dpi = 150)
+    }
+    resultados[[nm]] <- list(original = orig, magnitudes_relativas = rm, suavidad = sd,
+                             ruptura_Mbar = if (is.null(rm)) NA else ruptura(rm, "Mbar"),
+                             ruptura_M = if (is.null(sd)) NA else ruptura(sd, "M"),
+                             M_obs = M_obs)
   }
-  resultados[[nm]] <- list(original = orig, magnitudes_relativas = rm, suavidad = sd,
-                           ruptura_Mbar = if (is.null(rm)) NA else ruptura(rm, "Mbar"),
-                           ruptura_M = if (is.null(sd)) NA else ruptura(sd, "M"))
+  resultados
 }
 
 ## =============================================================================
-## 4. Tabla resumen para el poster y el capitulo
+## 4. Correr ambas especificaciones y resumir
 ## =============================================================================
-titulo("3. RESUMEN")
-fila_rm <- function(nm, mb) {
+fila_rm <- function(resultados, nm, mb) {
   rm <- resultados[[nm]]$magnitudes_relativas
   if (is.null(rm)) return(c(NA, NA))
   r <- rm[abs(rm$Mbar - mb) < 1e-9, ]
   if (!nrow(r)) c(NA, NA) else c(r$lb, r$ub)
 }
-resumen <- do.call(rbind, lapply(names(resultados), function(nm) {
-  o <- resultados[[nm]]$original
-  data.frame(parametro = nm,
-             ic_convencional = sprintf("[%.1f ; %.1f]", o$lb, o$ub),
-             ic_rm_Mbar_0.5  = do.call(sprintf, c("[%.1f ; %.1f]", as.list(fila_rm(nm, 0.5)))),
-             ic_rm_Mbar_1    = do.call(sprintf, c("[%.1f ; %.1f]", as.list(fila_rm(nm, 1)))),
-             ruptura_Mbar = resultados[[nm]]$ruptura_Mbar,
-             ruptura_M    = resultados[[nm]]$ruptura_M)
-}))
+fila_sd <- function(resultados, nm, m) {
+  sd <- resultados[[nm]]$suavidad
+  if (is.null(sd) || !is.finite(m)) return(c(NA, NA))
+  r <- sd[abs(sd$M - m) < 1e-9, ]
+  if (!nrow(r)) c(NA, NA) else c(r$lb, r$ub)
+}
+ic <- function(v) do.call(sprintf, c("[%.1f ; %.1f]", as.list(v)))
+
+todo <- list(); resumen <- list()
+for (spec in names(ESPECIFICACIONES)) {
+  est <- estimar(spec)
+  res <- sensibilidad(est$es, spec)
+  todo[[spec]] <- list(att_gt = est$cs, event_study = est$es, honestdid = res)
+  for (nm in names(res)) {
+    o <- res[[nm]]$original; mo <- round(res[[nm]]$M_obs)
+    resumen[[length(resumen) + 1]] <- data.frame(
+      especificacion = spec, parametro = nm,
+      ic_convencional = sprintf("[%.1f ; %.1f]", o$lb, o$ub),
+      ic_rm_Mbar_0.5  = ic(fila_rm(res, nm, 0.5)),
+      ic_rm_Mbar_1    = ic(fila_rm(res, nm, 1)),
+      ic_sd_M_0       = ic(fila_sd(res, nm, 0)),
+      M_obs           = mo,
+      ic_sd_M_obs     = ic(fila_sd(res, nm, mo)),
+      ruptura_Mbar = res[[nm]]$ruptura_Mbar,
+      ruptura_M    = res[[nm]]$ruptura_M)
+  }
+}
+
+titulo("3. RESUMEN")
+resumen <- do.call(rbind, resumen)
 print(resumen, row.names = FALSE)
 write_csv(resumen, file.path(DIR_TAB, "44_honestdid_resumen.csv"))
 
-saveRDS(list(att_gt = cs, event_study = es, honestdid = resultados,
+saveRDS(list(resultados = todo,
              parametros = list(e_pre = E_PRE, e_post = E_POST, mbar = MBAR_GRID, m = M_GRID)),
         file.path(DIR_OUT, "44_honestdid.rds"))
 cat("\nGuardado: outputs/44_honestdid.rds, tablas/44_*.csv, figuras/44_*.png\n")

@@ -48,6 +48,12 @@ REF_40    <- -183.29          # CS sin covariables del 40: la referencia debe re
 E_PRE     <- 5
 E_POST    <- 5
 
+## Especificacion principal (DR con covariables): misma lista que el 40.
+COVARIABLES_XFORMLA <- ~ log_baseline_forest + temp_media_c_base +
+  prec_anual_mm_base + discapital_base + disbogota_base + distancia_mercado_base +
+  H_coca_base + homicidios_base + log_defor_pre_media + defor_pre_tendencia
+REF_40_DR <- -213.73        # ATT simple de la principal (DR) en el 40
+
 pad5   <- function(x) formatC(as.integer(x), width = 5, flag = "0")
 titulo <- function(t) cat("\n", strrep("=", 76), "\n", t, "\n", strrep("=", 76), "\n", sep = "")
 fila   <- function(est, base, att, ee, nota = "") data.frame(
@@ -97,6 +103,34 @@ for (k in 0:4) {
     stop(sprintf("La referencia (%.2f) no reproduce el 40 (%.2f): la muestra difiere.", s$overall.att, REF_40))
 }
 REF <- tab[[1]]$att
+
+## -- Misma secuencia g-1 ... g-5 con la ESPECIFICACION PRINCIPAL (DR) --------
+## La imputacion y ETWFE no tienen ajuste doblemente robusto; la anticipacion
+## con covariables es el contraste del periodo base sobre la principal.
+cat("\n-- Misma secuencia con la ESPECIFICACION PRINCIPAL (DR con covariables) --\n")
+faltan_cov <- setdiff(all.vars(COVARIABLES_XFORMLA), names(muestra))
+if (length(faltan_cov)) stop("La muestra no trae: ", paste(faltan_cov, collapse = ", "))
+d_dr <- muestra %>% select(id_num, COD_DANE, year, G_dep, all_of(OUTCOME),
+                           all_of(all.vars(COVARIABLES_XFORMLA))) %>%
+  mutate(id_num = as.integer(id_num), year = as.integer(year), G_dep = as.integer(G_dep))
+for (k in 0:4) {
+  set.seed(SEMILLA)
+  out <- tryCatch(suppressWarnings(att_gt(
+    yname = OUTCOME, tname = "year", idname = "id_num", gname = "G_dep",
+    xformla = COVARIABLES_XFORMLA, data = d_dr, control_group = "notyettreated",
+    est_method = "dr", anticipation = k,
+    bstrap = TRUE, biters = BITERS, cband = TRUE, clustervars = "id_num")),
+    error = function(e) { cat("ERROR CS-DR (antic", k, "):", conditionMessage(e), "\n"); NULL })
+  if (is.null(out)) next
+  s <- aggte(out, type = "simple", na.rm = TRUE)
+  cat(sprintf("  base g-%d  ATT %8.2f (EE %7.2f) | NA en att_gt: %d de %d\n",
+              k + 1, s$overall.att, s$overall.se, sum(is.na(out$att)), length(out$att)))
+  if (k == 0 && abs(s$overall.att - REF_40_DR) > 0.5)
+    stop(sprintf("DR con base g-1 (%.2f) no reproduce el 40 (%.2f).", s$overall.att, REF_40_DR))
+  tab[[length(tab) + 1]] <- fila("CS doblemente robusto (principal)", sprintf("g-%d", k + 1),
+                                 s$overall.att, s$overall.se, if (k == 0) "referencia" else "")
+}
+REF_DR <- REF_40_DR
 
 ## Estudio de eventos CS con base universal (g-1), para la figura
 cs_u <- cs(0, base_period = "universal")
@@ -167,9 +201,12 @@ if (!is.null(w_poi)) {
 ## =============================================================================
 titulo("5. REGLA D13: ¿EL EFECTO DEPENDE DE LA LINEA BASE?")
 res <- do.call(rbind, tab) %>%
-  mutate(cambio_vs_ref_pct = 100 * (att - REF) / abs(REF),
-         cambia_signo = sign(att) != sign(REF),
-         reduce_mas_mitad = abs(att) < 0.5 * abs(REF),
+  ## Cada familia se compara con SU referencia: las filas DR con la DR del 40
+  ## (g-1), el resto con CS sin covariables (g-1).
+  mutate(ref = ifelse(grepl("doblemente", estimador), REF_DR, REF),
+         cambio_vs_ref_pct = 100 * (att - ref) / abs(ref),
+         cambia_signo = sign(att) != sign(ref),
+         reduce_mas_mitad = abs(att) < 0.5 * abs(ref),
          dispara_regla = (cambia_signo | reduce_mas_mitad) & nota != "referencia" &
            !grepl("Poisson", estimador))
 print(res %>% mutate(across(where(is.numeric), ~ round(.x, 2))), row.names = FALSE)
@@ -179,6 +216,13 @@ cat(sprintf("\nEstimadores con todo el periodo previo que disparan la regla: %d 
 cat(if (any(alt$dispara_regla))
   "-> Segun D13: el efecto DEPENDE de la linea base.\n" else
     "-> Segun D13: el efecto NO depende de la linea base.\n")
+
+alt_dr <- res %>% filter(grepl("doblemente", estimador), nota != "referencia")
+cat(sprintf("\nPRINCIPAL (DR): bases g-2...g-5 que disparan la regla: %d de %d\n",
+            sum(alt_dr$dispara_regla), nrow(alt_dr)))
+cat(if (any(alt_dr$dispara_regla))
+  "-> Segun D13: en la especificacion principal el efecto DEPENDE de la linea base.\n" else
+  "-> Segun D13: en la especificacion principal el efecto NO depende de la linea base.\n")
 
 write_csv(res, file.path(DIR_TAB, "59_periodo_base_y_poisson.csv"))
 es <- bind_rows(es_cs, es_imp)
