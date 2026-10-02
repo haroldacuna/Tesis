@@ -254,6 +254,7 @@ resultados <- list()
 titulo("A. ATT BINARIO: D1 DEPURADA vs D1 ORIGINAL (ventana 2013-2019)")
 
 muestra_A  <- panel %>% filter(muestra_dep == 1) %>% en_ventana("G_dep")
+saveRDS(muestra_A, file.path(DIR_OUT, "40_muestra_A.rds"))   # la usa 58 (contraste del mecanismo)
 muestra_A0 <- panel %>% en_ventana("G_orig")
 
 ## Controles limpios (regla del 27/09/2026, comun_controles_limpios.R): un
