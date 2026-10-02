@@ -60,6 +60,7 @@ suppressPackageStartupMessages({
   library(did)
   library(ggplot2)
 })
+source("scripts/00_config_did.R")   # B.1: parametros comunes (no redefinir aqui)
 
 if (!requireNamespace("HonestDiD", quietly = TRUE)) {
   stop("Falta HonestDiD. Instala con:\n",
@@ -82,12 +83,8 @@ DIR_FIG <- file.path(DIR_OUT, "figuras")
 for (x in c(DIR_TAB, DIR_FIG)) dir.create(x, showWarnings = FALSE, recursive = TRUE)
 
 ## --- Parametros (identicos a la principal) -----------------------------------
-SEMILLA   <- 20260824
-OUTCOME   <- "loss_area_ha"
-VENTANA   <- 2013:2019
 E_PRE     <- 5
 E_POST    <- 5
-BITERS    <- 999
 ## ATT balanceado e = 0..5 del 40 (corrida sin Mogotes, oct-2026). El script
 ## verifica que el promedio post con base universal los reproduzca.
 REFERENCIA_BAL <- c(dr = -235.31, sincov = -247.35)
@@ -97,9 +94,6 @@ ESPECIFICACIONES <- list(dr = "DR con covariables (principal)", sincov = "sin co
 MBAR_GRID <- seq(0, 2, by = 0.25)
 M_GRID    <- c(0, 10, 25, 50, 100, 200)
 
-COVARIABLES_XFORMLA <- ~ log_baseline_forest + temp_media_c_base +
-  prec_anual_mm_base + discapital_base + disbogota_base + distancia_mercado_base +
-  H_coca_base + homicidios_base + log_defor_pre_media + defor_pre_tendencia
 
 pad5   <- function(x) formatC(as.integer(x), width = 5, flag = "0")
 min_na <- function(x) if (all(is.na(x))) NA_real_ else min(x, na.rm = TRUE)

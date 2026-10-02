@@ -35,6 +35,7 @@
 suppressPackageStartupMessages({
   library(dplyr); library(readr); library(did)
 })
+source("scripts/00_config_did.R")   # B.1: parametros comunes (no redefinir aqui)
 
 ## --- Raiz canonica -----------------------------------------------------------
 RAIZ <- local({
@@ -49,15 +50,7 @@ DIR_OUT <- file.path(RAIZ, "outputs"); DIR_TAB <- file.path(DIR_OUT, "tablas")
 dir.create(DIR_TAB, showWarnings = FALSE, recursive = TRUE)
 
 ## --- Parametros (iguales al 40) ---------------------------------------------
-OUTCOME   <- "loss_area_ha"
-VENTANA   <- 2013:2019
-SEMILLA   <- 20260824      # debe coincidir con SEMILLA del 40
-BITERS    <- 999
-BALANCE_E <- 5
 MIN_COH   <- 3
-COVARIABLES_XFORMLA <- ~ log_baseline_forest + temp_media_c_base +
-  prec_anual_mm_base + discapital_base + disbogota_base + distancia_mercado_base +
-  H_coca_base + homicidios_base + log_defor_pre_media + defor_pre_tendencia
 
 METODOLOGIAS_REDD <- "VM0006|VM0007|VM0009|VM0015"
 ## Patrones de estado (minusculas). Un estado que no case con ninguno DETIENE

@@ -32,6 +32,7 @@
 suppressPackageStartupMessages({
   library(readr); library(dplyr); library(ggplot2); library(did)
 })
+source("scripts/00_config_did.R")   # B.1: parametros comunes (no redefinir aqui)
 for (pkg in c("fixest", "etwfe")) {
   if (!requireNamespace(pkg, quietly = TRUE)) {
     stop("Falta el paquete '", pkg, "'. Instala con install.packages('", pkg, "').")
@@ -59,9 +60,7 @@ VENTANA   <- 2013:2019
 E_MIN     <- -5          # ventana previa de la figura 44 (ajustar si 44 usa otra)
 E_MAX     <- 5           # BALANCE_E: 2019 + 5 = 2024
 BITERS    <- 999
-COVS <- c("log_baseline_forest", "temp_media_c_base", "prec_anual_mm_base",
-          "discapital_base", "disbogota_base", "distancia_mercado_base",
-          "H_coca_base", "homicidios_base", "log_defor_pre_media", "defor_pre_tendencia")
+COVS <- all.vars(COVARIABLES_XFORMLA)   # B.1: lista oficial de 00_config_did.R
 CS_REF_BALANCEADO <- -464.89   # valor de la franja del poster: control de reproduccion
 
 pad5   <- function(x) formatC(as.integer(x), width = 5, flag = "0")

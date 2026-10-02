@@ -40,6 +40,7 @@ suppressPackageStartupMessages({
   library(did)
   library(ggplot2)
 })
+source("scripts/00_config_did.R")   # B.1: parametros comunes (no redefinir aqui)
 
 RAIZ_PROYECTO <- local({
   d <- normalizePath(getwd(), winslash = "/", mustWork = FALSE)
@@ -58,17 +59,11 @@ source(file.path(RAIZ_PROYECTO, "scripts/comun_controles_limpios.R"))
 source(file.path(RAIZ_PROYECTO, "scripts/comun_covariables_pre.R"))
 
 ## --- Parametros (fijados antes de correr) ------------------------------------
-SEMILLA   <- 20260824
-VENTANA   <- 2013:2019
-BITERS    <- 999
 BAL_E     <- 5
-OUTCOME   <- "loss_area_ha"
 RECORTES  <- list(completa = c(0, 1), R1 = c(0.01, 0.99), R2 = c(0.10, 0.90))
 METODOS   <- c("dr", "reg", "ipw")
 PRINCIPAL_ESPERADA <- -207.9            # 40 / 47 V1 x limpios
-X <- ~ log_baseline_forest + temp_media_c_base + prec_anual_mm_base +
-  discapital_base + disbogota_base + distancia_mercado_base + H_coca_base +
-  homicidios_base + log_defor_pre_media + defor_pre_tendencia
+X <- COVARIABLES_XFORMLA   # B.1: lista oficial de 00_config_did.R
 
 pad5   <- function(x) formatC(as.integer(x), width = 5, flag = "0")
 min_na <- function(x) if (all(is.na(x))) NA_real_ else min(x, na.rm = TRUE)

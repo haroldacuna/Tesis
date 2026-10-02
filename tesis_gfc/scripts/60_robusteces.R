@@ -32,6 +32,7 @@
 ## =============================================================================
 
 suppressPackageStartupMessages({ library(dplyr); library(readr); library(did) })
+source("scripts/00_config_did.R")   # B.1: parametros comunes (no redefinir aqui)
 
 RAIZ <- local({
   d <- normalizePath(getwd(), winslash = "/")
@@ -51,17 +52,12 @@ if (!length(BLOQUES)) stop("Bloques validos: ", paste(TODOS, collapse = ", "))
 cat("Bloques a correr:", paste(BLOQUES, collapse = ", "), "\n")
 
 ## --- Parametros --------------------------------------------------------------
-OUTCOME <- "loss_area_ha"; VENTANA <- 2013:2019
-SEMILLA <- 20260824; BITERS <- 999
 REF_40_DR <- -213.73
 UMBRAL_PCT <- 5                       # % del municipio cubierto (igual que P1 del 53)
 RUTA_VA <- file.path(RAIZ, "data/raw/renare_geovisor_iniciativas.geojson")
 FILTRO_VA <- "amazonia"               # sin tilde: la capa del geovisor trae las tildes danadas
 DPTOS_VA_PROXY <- c(18, 86, 91, 94, 95, 97)   # aproximacion si no hay poligono: Caqueta,
                                               # Putumayo, Amazonas, Guainia, Guaviare, Vaupes
-COVARIABLES_XFORMLA <- ~ log_baseline_forest + temp_media_c_base +
-  prec_anual_mm_base + discapital_base + disbogota_base + distancia_mercado_base +
-  H_coca_base + homicidios_base + log_defor_pre_media + defor_pre_tendencia
 
 pad5   <- function(x) formatC(as.integer(x), width = 5, flag = "0")
 min_na <- function(x) if (all(is.na(x))) NA_real_ else min(x, na.rm = TRUE)

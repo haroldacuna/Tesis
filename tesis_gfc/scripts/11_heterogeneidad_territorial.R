@@ -34,6 +34,7 @@ library(dplyr)
 library(haven)
 library(did)
 library(readr)
+source("scripts/00_config_did.R")   # B.1: parametros comunes (no redefinir aqui)
 
 DATA_ROOT <- "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/data"
 OUTPUT_ROOT <- "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs"
@@ -43,7 +44,6 @@ CEDE_BUENGOBIERNO <- "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/data/r
 ANIO_BASE <- 2001L
 dir.create(file.path(OUTPUT_ROOT, "tablas"), showWarnings = FALSE, recursive = TRUE)
 
-COVARIABLES_XFORMLA <- ~ baseline_forest_base + temp_media_c_base + disbogota_base + H_coca_base + homicidios_base
 
 ## =============================================================================
 ## 1. Cargar region (territorial) e IPM (proxy institucional/socioeconomico)

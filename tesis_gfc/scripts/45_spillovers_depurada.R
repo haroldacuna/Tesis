@@ -49,6 +49,7 @@ suppressPackageStartupMessages({
   library(fixest)
   library(ggplot2)
 })
+source("scripts/00_config_did.R")   # B.1: parametros comunes (no redefinir aqui)
 
 RAIZ <- local({
   d <- normalizePath(getwd(), winslash = "/", mustWork = FALSE)
@@ -62,15 +63,7 @@ DIR_TAB <- file.path(DIR_OUT, "tablas")
 DIR_FIG <- file.path(DIR_OUT, "figuras")
 for (x in c(DIR_TAB, DIR_FIG)) dir.create(x, showWarnings = FALSE, recursive = TRUE)
 
-SEMILLA   <- 20260824
-OUTCOME   <- "loss_area_ha"
-VENTANA   <- 2013:2019
-BALANCE_E <- 5
-BITERS    <- 999
 
-COVARIABLES_XFORMLA <- ~ log_baseline_forest + temp_media_c_base +
-  prec_anual_mm_base + discapital_base + disbogota_base + distancia_mercado_base +
-  H_coca_base + homicidios_base + log_defor_pre_media + defor_pre_tendencia
 
 pad5   <- function(x) formatC(as.integer(x), width = 5, flag = "0")
 min_na <- function(x) if (all(is.na(x))) NA_real_ else min(x, na.rm = TRUE)

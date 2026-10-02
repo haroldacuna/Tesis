@@ -52,6 +52,7 @@ suppressPackageStartupMessages({
   library(did)
   library(ggplot2)
 })
+source("scripts/00_config_did.R")   # B.1: parametros comunes (no redefinir aqui)
 if (!requireNamespace("MASS", quietly = TRUE)) install.packages("MASS")
 
 ## --- Raiz canonica ------------------------------------------------------------
@@ -71,9 +72,6 @@ DIR_MB  <- file.path(RAIZ_PROYECTO, "data/interim/mapbiomas")
 for (d in c(DIR_OUT, DIR_TAB, DIR_FIG)) dir.create(d, showWarnings = FALSE, recursive = TRUE)
 
 ## --- Parametros (decididos ANTES de ver resultados) --------------------------
-SEMILLA  <- 20260824          # la misma del 40
-VENTANA  <- 2013:2019
-BITERS   <- 999
 PRE_COV  <- 2001:2012         # anterior a la primera cohorte: comun a todas
 MIN_E    <- -8                # coeficientes previos del event study
 ALFA_PRE <- 0.05
@@ -99,9 +97,7 @@ OUTCOMES <- list(
 COV_COMUNES <- c("temp_media_c_base", "prec_anual_mm_base", "discapital_base",
                  "disbogota_base", "distancia_mercado_base", "H_coca_base",
                  "homicidios_base")
-X_40 <- ~ log_baseline_forest + temp_media_c_base + prec_anual_mm_base +
-  discapital_base + disbogota_base + distancia_mercado_base + H_coca_base +
-  homicidios_base + log_defor_pre_media + defor_pre_tendencia
+X_40 <- COVARIABLES_XFORMLA   # B.1: lista oficial de 00_config_did.R
 X_PROPIAS <- as.formula(paste("~ cov_lbosque +", paste(COV_COMUNES, collapse = " + "),
                               "+ cov_nivel_pre + cov_tend_pre"))
 

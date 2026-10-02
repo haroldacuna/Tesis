@@ -25,6 +25,7 @@
 suppressPackageStartupMessages({
   library(dplyr); library(readr); library(ggplot2); library(did)
 })
+source("scripts/00_config_did.R")   # B.1: parametros comunes (no redefinir aqui)
 for (p in c("didimputation", "etwfe", "fixest", "marginaleffects"))
   if (!requireNamespace(p, quietly = TRUE)) stop("Falta el paquete ", p, ": install.packages('", p, "')")
 
@@ -41,17 +42,11 @@ DIR_OUT <- file.path(RAIZ, "outputs"); DIR_TAB <- file.path(DIR_OUT, "tablas"); 
 for (d in c(DIR_TAB, DIR_FIG)) dir.create(d, showWarnings = FALSE, recursive = TRUE)
 
 ## --- Parametros (iguales al 40) ---------------------------------------------
-OUTCOME   <- "loss_area_ha"
-SEMILLA   <- 20260824
-BITERS    <- 999
 REF_40    <- -183.29          # CS sin covariables del 40: la referencia debe reproducirlo
 E_PRE     <- 5
 E_POST    <- 5
 
 ## Especificacion principal (DR con covariables): misma lista que el 40.
-COVARIABLES_XFORMLA <- ~ log_baseline_forest + temp_media_c_base +
-  prec_anual_mm_base + discapital_base + disbogota_base + distancia_mercado_base +
-  H_coca_base + homicidios_base + log_defor_pre_media + defor_pre_tendencia
 REF_40_DR <- -213.73        # ATT simple de la principal (DR) en el 40
 
 pad5   <- function(x) formatC(as.integer(x), width = 5, flag = "0")

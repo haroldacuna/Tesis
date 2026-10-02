@@ -27,13 +27,12 @@ library(dplyr)
 library(did)
 library(fixest)
 library(modelsummary)
+source("scripts/00_config_did.R")   # B.1: parametros comunes (no redefinir aqui)
 
 OUTPUT_ROOT <- "C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs"
 panel <- readRDS(file.path(OUTPUT_ROOT, "panel_analisis_did.rds"))
 dir.create(file.path(OUTPUT_ROOT, "tablas"), showWarnings = FALSE, recursive = TRUE)
 
-COVARIABLES_XFORMLA <- ~ baseline_forest_base + temp_media_c_base +
-  disbogota_base + H_coca_base + homicidios_base
 
 ## =============================================================================
 ## 1. Tabla de regresion: las 6 especificaciones de att_gt(), ATT simple

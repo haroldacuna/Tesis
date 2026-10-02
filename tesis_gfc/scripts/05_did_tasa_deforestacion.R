@@ -20,13 +20,12 @@ library(readr)
 library(dplyr)
 library(did)
 library(ggplot2)
+source("scripts/00_config_did.R")   # B.1: parametros comunes (no redefinir aqui)
 
 panel <- readRDS("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/panel_analisis_did.rds")
 dir.create("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/tablas", showWarnings = FALSE, recursive = TRUE)
 dir.create("C:/Users/USUARIO/Documents/Maestria/Tesis/tesis_gfc/outputs/figuras", showWarnings = FALSE, recursive = TRUE)
 
-COVARIABLES_XFORMLA <- ~ baseline_forest_base + temp_media_c_base +
-  disbogota_base + H_coca_base + homicidios_base
 
 n_sin_tasa <- sum(is.na(panel$tasa_deforestacion) & !is.na(panel$loss_area_ha))
 cat("Municipios-año sin tasa_deforestacion calculable (baseline_forest_base = 0):", n_sin_tasa, "\n")
