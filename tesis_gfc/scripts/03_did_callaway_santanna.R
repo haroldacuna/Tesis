@@ -55,7 +55,7 @@ DEFS_A_CORRER <- c("todas_redd", "alta_redd", "todas_redd_sinmanual")
 PANEL_ANALISIS <- paste0(DIR_OUT, "/panel_analisis_did.rds")
 SEMILLA <- 20260824
 
-dir.create(DIR_OUT, showWarnings = FALSE, recursive = TRUE)
+dir.create("/outputs", showWarnings = FALSE, recursive = TRUE)
 dir.create(paste0(DIR_OUT, "/figuras"), showWarnings = FALSE, recursive = TRUE)
 dir.create(paste0(DIR_OUT, "/tablas"), showWarnings = FALSE, recursive = TRUE)
 
@@ -90,8 +90,8 @@ panel <- readRDS(PANEL_ANALISIS)
 ##
 ## Decisión tomada ANTES de estimar los ATT.
 COVARIABLES_XFORMLA <- ~ log_baseline_forest + temp_media_c_base +
-  prec_anual_mm_base + discapital_base + disbogota_base + distancia_mercado_base +
-  H_coca_base + homicidios_base + log_defor_pre_media + defor_pre_tendencia
+  disbogota_base + distancia_mercado_base + H_coca_base + homicidios_base +
+  log_defor_pre_media + defor_pre_tendencia
 
 ## =============================================================================
 ## Función auxiliar: corre att_gt() + las 4 agregaciones, para una combinación

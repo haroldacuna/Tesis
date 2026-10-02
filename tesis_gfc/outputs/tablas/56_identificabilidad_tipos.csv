@@ -1,0 +1,13 @@
+resultado,celda_anios_pos,proyectos,identificable
+def_p1_tierra_firme,68082,25,TRUE
+def_p1_inundable,17840,21,TRUE
+def_p1_manglar,129,7,FALSE
+def_p1_arena,0,0,FALSE
+def_p1_rastrojo,46474,25,TRUE
+def_p1_agropecuario,70834,25,TRUE
+def_p1_mineria,2031,9,TRUE
+def_p1_otros_antropicos,5250,25,TRUE
+def_p1_palma,32,2,FALSE
+def_p1_silvicultura,0,0,FALSE
+def_p1_platano,0,0,FALSE
+def_p1_infraestructura,59,12,FALSE

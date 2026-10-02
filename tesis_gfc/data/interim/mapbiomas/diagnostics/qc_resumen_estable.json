@@ -1,0 +1,12 @@
+{
+  "municipio_anio_faltantes": 0,
+  "est5_pct_de_bruta": 71.65,
+  "violaciones_inclusion": {
+    "est10_mayor_que_est5": 0,
+    "p1_mayor_que_est5": 0,
+    "est5_mayor_que_bruta": 0,
+    "stock_estable_mayor_que_stock": 0
+  },
+  "reversion_pct_de_est5": 4.49,
+  "bosque_est5_2000_nacional_Mha": 66.948
+}

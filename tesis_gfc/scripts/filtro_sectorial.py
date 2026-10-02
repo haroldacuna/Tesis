@@ -40,6 +40,21 @@ Incluirlos no es solo ruido -- es sesgo. Sus municipios anfitriones
 radicalmente distintas a las de un municipio de frontera agricola, y entran
 al estimador fijando cohortes de tratamiento espurias.
 
+EXCLUSIONES DE PROYECTOS (decision D2)
+--------------------------------------
+Un tercer filtro, independiente de los dos ejes: proyectos que se retiran por
+un criterio replicable (area declarada > 3x la del municipio anfitrion Y
+coordenada que no corresponde al area). Viven SOLO aqui, en EXCLUSIONES, y
+se identifican por (fuente, proyecto_id), no por nombre. Antes estaban en
+dos listas (SOSPECHOSOS_VERRA en 26 y otra en 38) y Mogotes quedo tratado
+por un proyecto que la dosis si excluia.
+
+Excluir del tratamiento NO es lo mismo que borrar el evento: el municipio
+anfitrion sigue teniendo un vinculo con un proyecto de carbono, y por la
+regla de controles limpios (D3) tampoco puede ser control. Por eso
+marcar_exclusiones() anota en vez de borrar, y filtrar_d1() es quien quita
+los marcados del tratamiento.
+
 FALLA EN RUIDOSO
 ----------------
 Si un proyecto no esta en la tabla de decision, o esta marcado REVISAR, el
@@ -149,6 +164,62 @@ def avisar_carpeta_sombra() -> None:
 ETIQUETAS_VALIDAS = {"AFOLU", "NO_AFOLU"}
 ETIQUETAS_REDD_VALIDAS = {"REDD", "NO_REDD"}
 ETIQUETA_PENDIENTE = "REVISAR"
+
+
+# ---------------------------------------------------------------------------
+# Exclusiones por decision D2
+#
+# Unica fuente. La importan 26 (tratamiento binario, via filtrar_d1) y 38
+# (dosis, via marcar_exclusiones). Para agregar una, se agrega aqui con su
+# motivo; ningun script debe tener su propia lista.
+# ---------------------------------------------------------------------------
+EXCLUSIONES = [
+    {"fuente": "verra", "proyecto_id": "1657",
+     "nombre": "Corredor de robles Guantiva-La Rusia-Iguaque (Mogotes)",
+     "motivo": "D2: area 1.075.348 ha > 3x municipio; coordenada no corresponde"},
+    {"fuente": "verra", "proyecto_id": "COMPLETAR",
+     "nombre": "CO2ROZO",
+     "motivo": "D2: area 400.000 ha > 3x municipio; coordenada en sede del proponente"},
+]
+COLS_ID = ["proyecto_id", "resourceIdentifier", "id", "ID"]
+
+
+def _norm_id(x) -> str:
+    return re.sub(r"\.0$", "", str(x).strip()) if not pd.isna(x) else ""
+
+
+def marcar_exclusiones(eventos: pd.DataFrame) -> pd.DataFrame:
+    """Anade 'excluido_d2' (bool) y 'motivo_exclusion'. No borra filas.
+
+    Requiere una columna de ID de proyecto: sin ella no hay forma segura de
+    aplicar la regla y se detiene, igual que los otros dos filtros.
+    """
+    pendientes = [e for e in EXCLUSIONES if not e["proyecto_id"].isdigit()]
+    if pendientes:
+        raise ValueError("EXCLUSIONES tiene IDs sin completar: "
+                         + ", ".join(e["nombre"] for e in pendientes))
+
+    col = next((c for c in COLS_ID if c in eventos.columns), None)
+    if col is None:
+        raise KeyError("Los eventos no tienen columna de ID de proyecto "
+                       f"({COLS_ID}); no se pueden aplicar las exclusiones D2.")
+
+    ev = eventos.copy()
+    clave_ev = [f"{normalizar(f)}|{_norm_id(i)}" for f, i in zip(ev["fuente"], ev[col])]
+    motivos = {f"{normalizar(e['fuente'])}|{e['proyecto_id']}": e["motivo"] for e in EXCLUSIONES}
+    ev["motivo_exclusion"] = [motivos.get(k, "") for k in clave_ev]
+    ev["excluido_d2"] = ev["motivo_exclusion"] != ""
+
+    encontrados = {k for k in clave_ev if k in motivos}
+    for k in sorted(set(motivos) - encontrados):
+        print(f"[!] Exclusion D2 sin coincidencia en estos eventos: {k} "
+              "(ID mal copiado, o el proyecto no esta en esta fuente)")
+    if ev["excluido_d2"].any():
+        print("\nExclusiones D2 marcadas:")
+        for _, r in ev[ev["excluido_d2"]][["COD_DANE", "fuente", col, "motivo_exclusion"]] \
+                .drop_duplicates().iterrows():
+            print(f"    {r['COD_DANE']}  [{r['fuente']} {r[col]}]  {r['motivo_exclusion']}")
+    return ev
 
 
 # ---------------------------------------------------------------------------
@@ -477,13 +548,17 @@ def filtrar_d1(
     ruta: Path = CLASIFICACION_FILE,
     estricto: bool = True,
 ) -> pd.DataFrame:
-    """Atajo para D1: aplica los dos ejes y devuelve solo AFOLU + REDD.
+    """Atajo para D1: quita las exclusiones D2, aplica los dos ejes y
+    devuelve solo AFOLU + REDD. Para la regla de controles limpios usa los
+    eventos SIN pasar por aqui: un proyecto excluido sigue siendo un vinculo.
 
     La interseccion deberia ser redundante (todo REDD es AFOLU), pero se
     aplica igual: si algun proyecto sale REDD y NO_AFOLU, hay una
     inconsistencia entre los dos ejes que conviene ver y no esconder.
     """
-    ev = anotar_sector(eventos, ruta, estricto)
+    ev = marcar_exclusiones(eventos)
+    ev = ev[~ev["excluido_d2"]].copy()
+    ev = anotar_sector(ev, ruta, estricto)
     ev = anotar_redd(ev, ruta, estricto)
 
     incoherentes = ev[(ev["clase_redd"] == "REDD") & (ev["sector"] == "NO_AFOLU")]

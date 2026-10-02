@@ -1,0 +1,19 @@
+{
+  "proyectos_poligono": 55,
+  "proyectos_solo_punto": [
+    "ER31",
+    "VCS2330",
+    "VCS2356"
+  ],
+  "proyectos_ad": 32,
+  "ad_en_mas_de_un_municipio": 29,
+  "tratados_ventana": 37,
+  "tratados_ventana_con_poligono": 27,
+  "tratados_con_cohorte_distinta": 10,
+  "controles_con_cobertura_ad_ge_1pct": 33,
+  "controles_con_cobertura_ad_ge_5pct": 21,
+  "controles_con_cobertura_ad_ge_10pct": 16,
+  "peso_att_controles_cubiertos_ge_5pct": 11.84,
+  "reestimar_sin_controles_cubiertos": true,
+  "proyectos_ad_mayoria_en_no_tratados": 12
+}

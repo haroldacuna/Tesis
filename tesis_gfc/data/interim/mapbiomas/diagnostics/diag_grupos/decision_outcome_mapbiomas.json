@@ -1,0 +1,34 @@
+{
+  "fecha_utc": "2026-09-27T02:13:58.120035+00:00",
+  "grupos": {
+    "T": 37,
+    "C": 1073,
+    "filtro_muestra": true
+  },
+  "R1": {
+    "regen_bruta_T": 0.6484026605516201,
+    "regen_bruta_C": 0.801418059418353,
+    "diferencia": -0.15301539886673288,
+    "umbral": 0.1,
+    "cumple": true
+  },
+  "R2": {
+    "did_reversion_pp": 4.064733256977931,
+    "ic95": [
+      1.666559202687831,
+      6.667228809829144
+    ],
+    "cumple": true
+  },
+  "R3": {
+    "b_pp_por_anio": -0.15650574070171522,
+    "ee": 0.05354271299514743,
+    "z": -2.923007295425977,
+    "p": 0.0034666839379462466,
+    "municipios": 1110,
+    "anios": 12,
+    "umbral_p": 0.05,
+    "cumple": true
+  },
+  "decision_outcome_principal": "DEF_est"
+}

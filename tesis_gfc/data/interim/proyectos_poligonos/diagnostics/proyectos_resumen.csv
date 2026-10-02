@@ -1,0 +1,56 @@
+ProjectID,nombre,registro,tipo,anio_inicio,ha_proyecto,n_municipios,municipio_principal,pct_en_principal
+BCR14-002,Proyecto de Conservacion Delfines Cupica REDD+,BioCarbon Registry,AD,2010.0,113629.4391382602,5,27075,50.62951164583784
+ER100,Pitugucajude,EcoRegistry,AD,2018.0,344297.42450466024,1,97889,99.99991280534469
+ER102,Yaawi Iipana REDD+ Project,EcoRegistry,AD,2016.0,663507.8232713925,3,95025,98.26791521569834
+ER114,Proyecto REDD+ Pazcifico Sur,EcoRegistry,AD,2017.0,370363.59431059763,9,52621,36.89566632726634
+ER117,Chonta Corozo REDD+ Project,EcoRegistry,AD,2017.0,93246.79202039646,3,19318,99.91950877324128
+ER118,"Cavadacavu Coreivu Jocu Bucuro Re, Nuje Necuva Aiye Baquepe",EcoRegistry,AD,2018.0,246469.26755012956,3,97777,93.4538070603624
+ER13,Reforestacion de Suelos Degradados en Antioquia,EcoRegistry,ARR,2009.0,334.67389381956656,4,05686,40.13245696987653
+ER148,Proyecto de Conservacion UNU-MAI REDD+,EcoRegistry,AD,2017.0,140597.95082030116,2,94001,99.994475244406
+ER15,Bonos Verdes Colombia Grupo Custodiar,EcoRegistry,ARR,2008.0,1588.7925973968163,3,23068,75.43251512952453
+ER19,Carbono Oxigeno Para Todos,EcoRegistry,ARR,2009.0,844.711840842487,4,05607,81.91781766553653
+ER22,Proyecto Conservacion Arlequin REDD+,EcoRegistry,AD,2015.0,82661.0321452765,11,27135,37.006176916427165
+ER29,Proyecto Asociativo Programatico Zona Andina y Costa Atlantica,EcoRegistry,ARR,2011.0,1286.0640906582246,26,05686,20.126065427580734
+ER30,Carbono Ganados Y Bosques,EcoRegistry,ARR,2010.0,303.1393363248705,1,05490,100.00000000000011
+ER43,Carbono Nueva Esperanza,EcoRegistry,ARR,2010.0,115.98991196797078,2,05659,82.09048540102208
+ER46,SKCarbon,EcoRegistry,ARR,2010.0,1696.1542525474556,23,17614,11.266957645391216
+ER49,Carbono Reforestadora El Guásimo,EcoRegistry,ARR,2007.0,2616.8758189273535,4,05038,89.92993500665835
+ER53,Baka Rokarire REDD+ Project,EcoRegistry,AD,2018.0,713096.2692983211,3,97511,82.87029387179614
+ER55,Awakadaa Matsiadali REDD+ Project,EcoRegistry,AD,2018.0,503437.9514210266,4,94884,74.28990369539412
+ER59,Rincco Carbon,EcoRegistry,ARR,2008.0,1320.507699538038,2,05368,98.85582003140095
+ER64,Planeta Agradecido con Resguardo Indígena el Bajo Río Guainía and Río Negro,EcoRegistry,AD,2018.0,469174.3858515996,3,94883,59.351449633027364
+ER67,Proyecto REDD+ Zona Isana y Surubi,EcoRegistry,AD,2018.0,133806.43381529103,2,97777,57.37336668097944
+ER68,Carvida Duratex,EcoRegistry,ARR,2007.0,5764.311836430229,13,05887,27.708312148278694
+ER73,Compañía Agrícola de la Sierra,EcoRegistry,ARR,2008.0,7827.583145375557,7,05890,35.03201595315385
+ER75,Programa de Compensación de Emisiones Cipreses de Colombia S.A.,EcoRegistry,ARR,2008.0,1861.3560075808234,8,05890,38.71047575465634
+ER89,REDD+ Pazcifico,EcoRegistry,AD,2015.0,287779.27609147446,5,52250,38.665642911629426
+ER97,Santa Ines Carbon,EcoRegistry,ARR,2013.0,294.57835501792135,2,13654,80.38022610670095
+ER99,Pedeguita Jiguamiandó REDD+,EcoRegistry,AD,2020.0,49773.468804105825,3,27615,69.65010817922814
+GS3025,"Conservation and Reforestation of Degraded Areas in Barbosa, Colombia",Gold Standard,ARR,2011.0,473.457444348402,1,05079,100.00000000000011
+VCS1233,Reforestation with Rubber on Degraded Lands of Colombia,Verra,ARR,2011.0,7282.6647169216885,1,99624,100.0
+VCS1378,"Forestry Project for the Basin of the Chinchina River, an Environment and Productive Alternative for the City and the Region",Verra,ARR,2002.0,3230.061824786441,7,17486,39.0885946612782
+VCS1389,Acapa - Bajo Mira Y Frontera REDD+ Project,Verra,AD,2013.0,112392.99623838064,3,52835,68.2984400864524
+VCS1390,Carmen del Darien (CDD) REDD+ Project,Verra,AD,2014.0,140744.40168755676,4,27150,90.21660363470824
+VCS1391,Siviru-Usaraga-Pizarro-Piliza (SUPP) REDD+ Project,Verra,AD,2013.0,59938.154049238015,2,27077,99.59469162006478
+VCS1392,Cajambre REDD+ Project,Verra,AD,2013.0,74906.92197389212,1,76109,99.02928444348858
+VCS1395,Bajo Calima y Bahía Málaga (BCBM) REDD+ Project,Verra,AD,2013.0,104835.5294161349,3,76109,86.10135086197837
+VCS1396,Rio Pepe Y ACABA REDD+ Project,Verra,AD,2014.0,84856.82820472559,5,27430,81.23603426198923
+VCS1399,Mutatá REDD+ Project,Verra,AD,2013.0,42449.40522215126,6,05480,88.66858613075912
+VCS1400,Concosta REDD+ Project,Verra,AD,2013.0,73092.5112705939,4,27077,91.79962835488136
+VCS1429,Recovery of Degraded Areas with Agroforestry Systems in Colombia,Verra,ARR,2012.0,169.10106363763384,1,05607,100.00000000000003
+VCS1530,Grouped Project for Commercial Forest Plantations Initiative in the Department of Vichada,Verra,ARR,2011.0,3118.4209131374514,1,99001,100.0
+VCS1566,REDD+ Project Resguardo Indigena Unificado Selva de Mataven (RIU SM),Verra,AD,2013.0,1357222.399149705,1,99773,99.99999999999973
+VCS1657,"Grouped Project REDD+ Conservation of the Oak Ecological Corridor Guantiva - La Rusia - Iguaque, Colombia",Verra,AD,2015.0,7748.0559333496885,6,68217,57.97684937086817
+VCS1682,Regenerating Colombian Coffee Ecosystems,Verra,ARR,2014.0,7764.1295575455,43,19397,10.765345602701512
+VCS1695,Payment for Environmental Services Scheme for Forest Management and Conservation of Water Sources in the Jurisdiction of Corpochivor,Verra,AD,2014.0,2434.504520443269,14,15667,31.064963891965984
+VCS1765,Regional Natural Park:Biological Corridor PNN Purace-PNN Cueva de Los Guacharos,Verra,AD,2014.0,30246.82788224088,5,41668,65.62009862471236
+VCS1769,"Grouped Project for Restoration of Degraded Lands in Jaguar Corridors, Colombia",Verra,IFM,2015.0,4315.465040767752,2,68190,84.3591191508831
+VCS1806,Riscales REDD+ Project,Verra,AD,2014.0,36877.83275465817,3,27495,98.36791559961878
+VCS1869,"Yagual - Carbon Sequestration Grouped Project for the Restoration, Conservation and Sustainable Production in the Guerrero, Sumapaz and Rabanal Paramo Systems",Verra,ARR,2018.0,259746.43867152138,52,11001,18.033932519681848
+VCS2290,"Blue Carbon Project Gulf of Morrosquillo ""Vida Manglar""",Verra,AD,2015.0,27850.349215163715,3,23675,45.991885212322565
+VCS2317,REDD+ Project Magnolios de Yarumal,Verra,AD,2016.0,7454.471726616201,7,05887,51.11651951914839
+VCS2532,Cumare Carbon Project,Verra,ARR,2016.0,17350.60800219142,2,50689,99.90722835975998
+VCS2723,Condoto REDD+,Verra,AD,2019.0,73745.76764493927,7,27205,55.45679843213387
+VCS2872,Crima Predio Putumayo Y Andoque De Aduche REDD+ Project,Verra,AD,2018.0,1569743.2249492211,7,91669,53.337364632599765
+VCS576,"Restoration of Degraded Areas and Reforestation in Caceres and Cravo Norte, Colombia",Verra,ARR,2002.0,12664.39871094264,2,81220,89.30274074102226
+VCS856,The Choco-Darien Conservation Corridor REDD Project,Verra,AD,2010.0,12761.285737659702,2,27006,95.74784843770313

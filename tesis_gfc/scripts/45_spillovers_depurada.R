@@ -34,6 +34,9 @@
 ##   - Ventana de cohortes 2013-2019 tambien para la exposicion.
 ##   - Rutas ancladas a la raiz canonica.
 ##
+## CAMBIOS 27/09/2026: covariables pre siempre desde el CSV del 02 corregido
+## (comun_covariables_pre.R) y controles limpios (comun_controles_limpios.R).
+##
 ## USO:  Rscript scripts/45_spillovers_depurada.R
 ## =============================================================================
 
@@ -98,15 +101,10 @@ aristas <- data.frame(
 panel <- readRDS(file.path(DIR_OUT, "panel_analisis_did.rds"))
 panel$COD_DANE <- pad5(panel$COD_DANE)
 
-COLS_PRE <- c("log_defor_pre_media", "defor_pre_tendencia", "log_baseline_forest")
-if (!all(COLS_PRE %in% names(panel))) {
-  cov_pre <- read_csv(file.path(DIR_TAB, "covariables_pre_municipio.csv"),
-                      col_types = cols(COD_DANE = col_character()), show_col_types = FALSE)
-  cov_pre$COD_DANE <- pad5(cov_pre$COD_DANE)
-  cols_unir <- intersect(c("COD_DANE", COLS_PRE), names(cov_pre))
-  panel <- panel %>% select(-any_of(setdiff(cols_unir, "COD_DANE"))) %>%
-    left_join(cov_pre[, cols_unir], by = "COD_DANE")
-}
+## CORRECCION 27/09/2026: el CSV del 02 SIEMPRE reemplaza lo que traiga el panel
+## (antes solo se leia si faltaban columnas y se usaba la tendencia vieja).
+source(file.path(RAIZ, "scripts/comun_covariables_pre.R"))
+panel <- unir_covariables_pre(panel, file.path(DIR_TAB, "covariables_pre_municipio.csv"))
 
 trat <- read_csv(file.path(RAIZ, "data/final/panel_con_tratamiento_actualizado.csv"),
                  col_select = c(COD_DANE, anio_inicio_tratamiento_todas_fuentes_redd_depurada,
@@ -152,6 +150,15 @@ base_spill <- panel %>%
   filter(G_dep == 0, muestra_dep == 1) %>%
   left_join(expo, by = "COD_DANE") %>%
   mutate(G_vec = coalesce(G_vec, 0), exposicion_ambigua = coalesce(exposicion_ambigua, FALSE))
+
+## Controles limpios (regla del 27/09/2026): aqui todos son nunca tratados
+## directamente, asi que salen de la muestra (expuestos y no expuestos) los que
+## tienen cualquier vinculo con proyectos de carbono no usados en la D1.
+source(file.path(RAIZ, "scripts/comun_controles_limpios.R"))
+base_spill <- aplicar_controles_limpios(
+  as.data.frame(base_spill),
+  municipios_con_proyecto(file.path(RAIZ, "data/final/panel_con_tratamiento_actualizado.csv")),
+  "G_dep")
 
 amb <- base_spill %>% filter(exposicion_ambigua) %>% distinct(COD_DANE) %>% pull(COD_DANE)
 fuera_ventana <- base_spill %>% filter(G_vec > 0, !G_vec %in% VENTANA) %>% distinct(COD_DANE) %>% pull(COD_DANE)

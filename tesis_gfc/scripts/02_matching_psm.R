@@ -45,6 +45,10 @@
 ##     municipios cuya cohorte de tratamiento cae dentro de la ventana usada
 ##     para construir las covariables de línea base.
 ##
+## (6) CORRECCION 27/09/2026 de defor_pre_tendencia: ahora es la pendiente
+##     OLS documentada (antes, cambio log entre extremos de la ventana; se
+##     conserva como defor_pre_cambio_log). Ver 47_auditoria_covariables.R.
+##
 ## USO
 ## ---
 ##   Rscript 02_matching_psm.R
@@ -214,13 +218,25 @@ defor_pre <- panel %>%
     n_anios_pre        = sum(!is.na(loss_area_ha)),
     defor_pre_media_ha = mean(loss_area_ha, na.rm = TRUE),
     defor_pre_sd_ha    = sd(loss_area_ha, na.rm = TRUE),
+    ## CORRECCION 27/09/2026. La especificacion documentada arriba (y en la
+    ## lista COVARIABLES_DEFORESTACION) es la pendiente OLS Cov(t, L)/Var(t)
+    ## sobre TODA la ventana. El codigo anterior calculaba otra cosa: el
+    ## cambio log entre los extremos, log1p(media 2008-09) - log1p(media
+    ## 2001-02), que usa 4 de 9 anios y esta en otra escala. Se corrige la
+    ## implementacion para que coincida con lo especificado; la version
+    ## anterior se conserva como defor_pre_cambio_log para reportar ambas.
     defor_pre_tendencia = {
+      ok <- !is.na(loss_area_ha)
+      if (sum(ok) >= MIN_ANIOS_TENDENCIA && stats::var(year[ok]) > 0)
+        stats::cov(year[ok], loss_area_ha[ok]) / stats::var(year[ok]) else NA_real_
+    },
+    defor_pre_cambio_log = {
       ini <- mean(loss_area_ha[year %in% c(VENTANA_PRE_INICIO, VENTANA_PRE_INICIO + 1L)],
                   na.rm = TRUE)
       fin <- mean(loss_area_ha[year %in% c(VENTANA_PRE_FIN - 1L, VENTANA_PRE_FIN)],
                   na.rm = TRUE)
       if (is.finite(ini) && is.finite(fin)) log1p(fin) - log1p(ini) else NA_real_
-    },
+    }
   )
 
 cat("Municipios con al menos", MIN_ANIOS_TENDENCIA, "años en la ventana:",
@@ -568,9 +584,11 @@ correr_matching <- function(datos, col_first_treat, etiqueta, sufijo,
   pesos <- matched_data %>% select(COD_DANE, peso_psm = weights, subclase = subclass)
   write_csv(pesos, paste0(paste0(DIR_OUT, "/tablas/pesos_psm_"), sufijo, ".csv"))
   if (any(abs(pesos$peso_psm - 1) > 1e-8)) {
-    cat("\n  *** ATENCIÓN: los pesos NO son uniformes. 03_did_callaway_santanna.R\n")
-    cat("      filtra por COD_DANE sin usar pesos, lo que sería INCORRECTO aquí.\n")
-    cat("      Pasa `weightsname` a did::att_gt() usando pesos_psm_", sufijo, ".csv ***\n", sep = "")
+    ## (Aviso actualizado 27/09/2026: 03 y 51 ya pasan estos pesos a
+    ## did::att_gt() con weightsname = "peso_psm"; el aviso anterior decia que
+    ## el 03 filtraba sin pesos, lo que dejo de ser cierto en la version 3.)
+    cat("\n  Pesos NO uniformes (emparejamiento completo): se usan en did::att_gt()\n")
+    cat("  con weightsname = \"peso_psm\" (03, especificacion c; 51 para la principal).\n")
   }
 
   list(
@@ -592,8 +610,8 @@ correr_matching <- function(datos, col_first_treat, etiqueta, sufijo,
 ## dejarlas dentro del objeto de MatchIt: el data.frame del glm no siempre se
 ## conserva, y una dependencia implícita es justo lo que falla en silencio.
 cols_exportar <- intersect(
-  c("COD_DANE", "log_defor_pre_media", "defor_pre_tendencia", "log_baseline_forest",
-    "defor_pre_media", "n_anios_pre"),
+  c("COD_DANE", "log_defor_pre_media", "defor_pre_tendencia", "defor_pre_cambio_log",
+    "log_baseline_forest", "defor_pre_media_ha", "n_anios_pre"),
   names(datos_mun_base)
 )
 write_csv(datos_mun_base[, cols_exportar],
@@ -631,8 +649,11 @@ etq_de <- function(a) if (a %in% names(ETIQUETAS)) unname(ETIQUETAS[a]) else a
 cat("\n\nDefiniciones a emparejar:\n")
 for (a in alias_disponibles) {
   cat(sprintf("  %-22s %s%s\n", a, etq_de(a),
-              if (identical(a, alias_principal)) "   <- PRINCIPAL" else ""))
+              if (identical(a, alias_principal)) "   <- principal ANTERIOR (hoy sensibilidad)" else ""))
 }
+
+cat("  (La especificacion principal ACTUAL -D1 depurada, cohortes 2013-2019, controles\n")
+cat("   limpios- se empareja en la seccion 5b, al final.)\n")
 
 resultados_matching <- list()
 
@@ -652,6 +673,72 @@ for (a in alias_disponibles) {
   resultados_matching[[paste0(a, "_sin_tempranas")]] <- r_sc
   saveRDS(r_sc, paste0(DIR_OUT, "/matching_", a, "_sin_tempranas.rds"))
 }
+
+## =============================================================================
+## 5b. ESPECIFICACION PRINCIPAL ACTUAL (27/09/2026)
+##     D1 depurada, cohortes 2013-2019, controles limpios: la misma muestra que
+##     40/47/48/50, emparejada con correr_matching() y los MISMOS parametros que
+##     las demas definiciones. La estimacion ponderada la hace 51_psm_principal.R.
+## =============================================================================
+cat("\n\n", strrep("=", 78), "\n", sep = "")
+cat("5b. EMPAREJAMIENTO DE LA ESPECIFICACION PRINCIPAL ACTUAL\n")
+cat(strrep("=", 78), "\n")
+source(file.path(RAIZ_PROYECTO, "scripts/comun_controles_limpios.R"))
+RUTA_TRAT    <- file.path(RAIZ_PROYECTO, "data/final/panel_con_tratamiento_actualizado.csv")
+VENTANA_PPAL <- 2013:2019
+COL_DEP <- "anio_inicio_tratamiento_todas_fuentes_redd_depurada"
+COL_MUE <- "muestra_redd_depurada"
+trat_dep <- read_csv(RUTA_TRAT, col_select = all_of(c("COD_DANE", COL_DEP, COL_MUE)),
+                     col_types = cols(COD_DANE = col_character(), .default = col_double()),
+                     show_col_types = FALSE) %>%
+  mutate(COD_DANE = formatC(as.integer(COD_DANE), width = 5, flag = "0")) %>%
+  group_by(COD_DANE) %>%
+  summarise(G_dep = { v <- .data[[COL_DEP]]; if (all(is.na(v))) 0 else min(v, na.rm = TRUE) },
+            muestra_dep = min(.data[[COL_MUE]]), .groups = "drop")
+cont_proy <- municipios_con_proyecto(RUTA_TRAT)
+
+d_ppal <- datos_mun_base %>%
+  mutate(COD_DANE = formatC(as.integer(COD_DANE), width = 5, flag = "0")) %>%
+  select(-any_of(c("G_dep", "muestra_dep"))) %>%
+  inner_join(trat_dep, by = "COD_DANE") %>%
+  filter(muestra_dep == 1, G_dep == 0 | G_dep %in% VENTANA_PPAL)
+d_ppal <- aplicar_controles_limpios(as.data.frame(d_ppal), cont_proy, "G_dep")
+d_ppal$first_treat_d1_depurada <- d_ppal$G_dep
+
+## --- Nuevo Belen de Bajira (27493): donde esta y por que ---------------------
+## Municipio de creacion reciente: no tiene las covariables del CEDE de linea
+## base (el territorio pertenecia a otro municipio), por lo que la eliminacion
+## por lista lo saca de todo emparejamiento donde participa. Se documenta su
+## estado en la especificacion principal en vez de imputar: las covariables son
+## caracteristicas de linea base de una unidad que entonces no existia, y las
+## extensivas (hectareas de coca, conteos) no se pueden copiar del municipio
+## de origen.
+COD_BAJIRA <- "27493"
+cat("\nNuevo Belen de Bajira (", COD_BAJIRA, "):\n", sep = "")
+fila_b <- trat_dep[trat_dep$COD_DANE == COD_BAJIRA, ]
+if (nrow(fila_b)) {
+  cat(sprintf("  D1 depurada: cohorte = %s | muestra_redd_depurada = %s\n",
+              ifelse(fila_b$G_dep > 0, fila_b$G_dep, "nunca tratado"), fila_b$muestra_dep))
+  cat(sprintf("  vinculo con algun proyecto de carbono (regla de controles limpios): %s\n",
+              cont_proy$contaminado[cont_proy$COD_DANE == COD_BAJIRA]))
+} else cat("  no aparece en el panel de tratamiento\n")
+bb <- datos_mun_base[formatC(as.integer(datos_mun_base$COD_DANE), width = 5, flag = "0") == COD_BAJIRA, ]
+if (nrow(bb)) {
+  faltan_b <- COVARIABLES_PSM[vapply(COVARIABLES_PSM, function(v) is.na(bb[[v]][1]), logical(1))]
+  cat("  covariables del PSM faltantes:", if (length(faltan_b)) paste(faltan_b, collapse = ", ") else "ninguna", "\n")
+}
+cat(sprintf("  en la muestra principal (D1 depurada, ventana, controles limpios): %s\n",
+            COD_BAJIRA %in% d_ppal$COD_DANE))
+cat("  -> Si no esta en la muestra principal, su falta de covariables solo afecta a los\n")
+cat("     emparejamientos de las definiciones de sensibilidad, donde se excluye por lista\n")
+cat("     (se documenta; no se imputa).\n")
+
+r_ppal <- correr_matching(d_ppal, "first_treat_d1_depurada",
+                          "REDD+ D1 depurada, cohortes 2013-2019, controles limpios (PRINCIPAL ACTUAL)",
+                          "d1_depurada")
+resultados_matching[["d1_depurada"]] <- r_ppal
+saveRDS(r_ppal, paste0(DIR_OUT, "/matching_d1_depurada.rds"))
+cat("Escrito:", paste0(DIR_OUT, "/matching_d1_depurada.rds"), "(lo usa 51_psm_principal.R)\n")
 
 ## --- Comparación del balance entre ambas especificaciones --------------------
 comparar_balance <- function(r_base, r_sc, etiqueta) {
@@ -682,6 +769,7 @@ cat("\n\n", strrep("=", 78), "\n", sep = "")
 cat("SALIDAS GENERADAS\n")
 cat(strrep("=", 78), "\n")
 cat("  outputs/matching_<definicion>.rds                              <- usados por el script 03\n")
+cat("  outputs/matching_d1_depurada.rds                               <- principal actual (script 51)\n")
 cat("  output/matching_*_sin_tempranas.rds                           <- sensibilidad\n")
 cat("  output/tablas/balance_psm_*.csv                               <- tabla de balance completa\n")
 cat("  output/tablas/soporte_comun_*.csv                             <- puntajes y banderas por municipio\n")

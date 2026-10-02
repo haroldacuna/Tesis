@@ -83,12 +83,6 @@ CERCARBONO_FILE = Path("data/interim/diagnostics/cercarbono_municipio_matching.c
 # 37_resolver_ubicacion_cercarbono.py. Fuente separada a proposito: permite
 # correr la especificacion CON y SIN ella.
 CERCARBONO_MANUAL_FILE = Path("data/interim/cercarbono_ubicacion_manual.csv")
-SOSPECHOSOS_VERRA = [
-    "Boomitra grassland Restoration in Colombia",
-    # Punto sobre Barranquilla, sede del proponente: 400.000 ha declaradas en
-    # un municipio urbano de 15.413 ha. Ubicacion real desconocida.
-    "CO2ROZO",
-]
 
 PANEL_FILE = Path("data/final/panel_municipio_year.csv")
 PANEL_FILE_ALT = Path("data/final/dataset_consolidado_completo.csv")
@@ -131,16 +125,15 @@ def _cargar_verra() -> pd.DataFrame:
     df = pd.read_csv(VERRA_FILE, low_memory=False)
     df = df[df["COD_DANE"].notna()].copy()
 
-    n_antes = len(df)
-    if "projectName" in df.columns:
-        # Comparacion normalizada: un espacio final o una mayuscula distinta
-        # no deben dejar pasar un proyecto que se decidio excluir.
-        sospechosos = {x.strip().casefold() for x in SOSPECHOSOS_VERRA}
-        nombres = df["projectName"].astype(str).str.strip().str.casefold()
-        df = df[~nombres.isin(sospechosos)].copy()
-    n_excluidos = n_antes - len(df)
-    if n_excluidos > 0:
-        print(f"Verra: excluidos {n_excluidos} proyecto(s) marcados como sospechosos.")
+    # El ID es la llave de las exclusiones D2 (filtro_sectorial.EXCLUSIONES).
+    col_id = next((c for c in ["resourceIdentifier", "id", "ID"] if c in df.columns), None)
+    if col_id is None:
+        raise KeyError(f"Verra sin columna de ID; columnas: {list(df.columns)[:20]}")
+    print(f"Verra: columna de ID: {col_id}")
+
+    # Las exclusiones ya NO se aplican aqui: las marca filtro_sectorial
+    # (marcar_exclusiones) y las quita filtrar_d1. Los eventos excluidos
+    # se conservan para la regla de controles limpios (D3).
 
     # projectStartDate primero: se verifico que coincide con
     # creditPeriodStartDate en los 44 REDD+ comparables.
@@ -153,6 +146,8 @@ def _cargar_verra() -> pd.DataFrame:
     out = pd.DataFrame({
         "COD_DANE": df["COD_DANE"].astype(str).str.zfill(5),
         "fuente": "verra",
+        # "1657.0" -> "1657": pandas lee el ID como float si hay vacios
+        "proyecto_id": df[col_id].astype(str).str.strip().str.replace(r"\.0$", "", regex=True),
         "nombre_proyecto": df.get("projectName", ""),
         "anio_inicio": df[campo_fecha].apply(_parse_fecha) if campo_fecha else None,
         "anio_fin": df[campo_fecha_fin].apply(_parse_fecha) if campo_fecha_fin else None,
@@ -163,8 +158,8 @@ def _cargar_verra() -> pd.DataFrame:
         "estado_registro": df["status"].values if "status" in df.columns else None,
     })
     print(f"Verra: {len(out)} eventos cargados ({out['anio_inicio'].notna().sum()} con anio de inicio valido).")
+    
     return out
-
 
 def _cargar_goldstandard() -> pd.DataFrame:
     partes = []

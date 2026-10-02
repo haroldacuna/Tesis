@@ -30,6 +30,11 @@
 ## puede estar desactualizado (por ejemplo, con Barranquilla aun tratada).
 ## Del .rds se toman el outcome, id_num y las covariables.
 ##
+## CAMBIOS 27/09/2026 (auditoria del 47):
+##   - Las covariables pre se toman SIEMPRE del CSV del 02 (tendencia OLS
+##     corregida), via scripts/comun_covariables_pre.R.
+##   - Controles limpios por defecto, via scripts/comun_controles_limpios.R.
+##
 ## USO
 ##   Rscript scripts/40_did_depurada_y_dosis.R
 ##
@@ -99,17 +104,12 @@ titulo <- function(txt) cat("\n", strrep("=", 74), "\n", txt, "\n", strrep("=", 
 panel <- readRDS(file.path(DIR_OUT, "panel_analisis_did.rds"))
 panel$COD_DANE <- pad5(panel$COD_DANE)
 
-## Covariables de deforestacion previa (mismo mecanismo que 03)
-COLS_PRE <- c("log_defor_pre_media", "defor_pre_tendencia", "log_baseline_forest")
-if (!all(COLS_PRE %in% names(panel))) {
-  ruta_cov <- file.path(DIR_TAB, "covariables_pre_municipio.csv")
-  if (!file.exists(ruta_cov)) stop("Falta ", ruta_cov, ". Corre antes 02_matching_psm.R.")
-  cov_pre <- read_csv(ruta_cov, col_types = cols(COD_DANE = col_character()), show_col_types = FALSE)
-  cov_pre$COD_DANE <- pad5(cov_pre$COD_DANE)
-  cols_unir <- intersect(c("COD_DANE", COLS_PRE), names(cov_pre))
-  panel <- panel %>% select(-any_of(setdiff(cols_unir, "COD_DANE"))) %>%
-    left_join(cov_pre[, cols_unir], by = "COD_DANE")
-}
+## Covariables de deforestacion previa: el CSV del 02 SIEMPRE reemplaza lo que
+## traiga el panel. CORRECCION 27/09/2026: antes solo se leia si faltaban las
+## columnas, y el .rds del 01 ya traia la version vieja de defor_pre_tendencia
+## (cambio log entre extremos en vez de la pendiente OLS documentada).
+source(file.path(RAIZ_PROYECTO, "scripts/comun_covariables_pre.R"))
+panel <- unir_covariables_pre(panel, file.path(DIR_TAB, "covariables_pre_municipio.csv"))
 faltan_cov <- setdiff(all.vars(COVARIABLES_XFORMLA), names(panel))
 if (length(faltan_cov)) stop("Faltan covariables en el panel: ", paste(faltan_cov, collapse = ", "))
 
@@ -255,6 +255,19 @@ titulo("A. ATT BINARIO: D1 DEPURADA vs D1 ORIGINAL (ventana 2013-2019)")
 
 muestra_A  <- panel %>% filter(muestra_dep == 1) %>% en_ventana("G_dep")
 muestra_A0 <- panel %>% en_ventana("G_orig")
+
+## Controles limpios (regla del 27/09/2026, comun_controles_limpios.R): un
+## control no puede tener NINGUN vinculo con proyectos de carbono. Se aplica a
+## las dos definiciones para que la comparacion depurada/original sea pareja.
+## Los bloques B y C se construyen desde muestra_A y heredan la restriccion.
+## CONTROLES_LIMPIOS <- FALSE reproduce las corridas anteriores.
+CONTROLES_LIMPIOS <- TRUE
+if (CONTROLES_LIMPIOS) {
+  source(file.path(RAIZ_PROYECTO, "scripts/comun_controles_limpios.R"))
+  cont_proy  <- municipios_con_proyecto(ruta_trat)
+  muestra_A  <- aplicar_controles_limpios(as.data.frame(muestra_A),  cont_proy, "G_dep")
+  muestra_A0 <- aplicar_controles_limpios(as.data.frame(muestra_A0), cont_proy, "G_orig")
+}
 describir(muestra_A,  "G_dep",  "D1 depurada, muestra depurada")
 describir(muestra_A0, "G_orig", "D1 original, muestra completa")
 
