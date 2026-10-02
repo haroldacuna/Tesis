@@ -1,7 +1,7 @@
 
 Overall ATT:  
     ATT    Std. Error     [ 95%  Conf. Int.] 
- 0.0738        0.1763    -0.2718      0.4195 
+ 0.0744        0.1832    -0.2847      0.4334 
 
 
 Overall ACRT:  

@@ -45,7 +45,8 @@ EXCLUSIONES DE PROYECTOS (decision D2)
 Un tercer filtro, independiente de los dos ejes: proyectos que se retiran por
 un criterio replicable (area declarada > 3x la del municipio anfitrion Y
 coordenada que no corresponde al area). Viven SOLO aqui, en EXCLUSIONES, y
-se identifican por (fuente, proyecto_id), no por nombre. Antes estaban en
+se identifican por (fuente, ID), no por nombre; cada proyecto lleva todos
+sus IDs porque el 26 (API de Platts) y el 38 (VCS) usan IDs distintos. Antes estaban en
 dos listas (SOSPECHOSOS_VERRA en 26 y otra en 38) y Mogotes quedo tratado
 por un proyecto que la dosis si excluia.
 
@@ -174,12 +175,19 @@ ETIQUETA_PENDIENTE = "REVISAR"
 # motivo; ningun script debe tener su propia lista.
 # ---------------------------------------------------------------------------
 EXCLUSIONES = [
-    {"fuente": "verra", "proyecto_id": "1657",
-     "nombre": "Corredor de robles Guantiva-La Rusia-Iguaque (Mogotes)",
-     "motivo": "D2: area 1.075.348 ha > 3x municipio; coordenada no corresponde"},
-    {"fuente": "verra", "proyecto_id": "COMPLETAR",
-     "nombre": "CO2ROZO",
-     "motivo": "D2: area 400.000 ha > 3x municipio; coordenada en sede del proponente"},
+    # 'ids' lleva TODOS los identificadores del proyecto, porque cada script
+    # lee una fuente distinta: el 26 usa el id de la API de Platts/Markit
+    # (110200000...) y el 38 el ID de la VCS Project Database (p. ej. 1657).
+    # Una exclusion se aplica si cualquiera de sus ids coincide.
+    {"fuente": "verra", "ids": ["110200000676568", "1657"],
+     "nombre": "Corredor de robles Guantiva-La Rusia-Iguaque (Mogotes, 68464)",
+     "motivo": "D2: 1.075.348 ha declaradas vs 48.301 ha del municipio (22x); coordenada no corresponde"},
+    {"fuente": "verra", "ids": ["110200000675201", "5680"],
+     "nombre": "CO2ROZO (Barranquilla, 08001)",
+     "motivo": "D2: 400.000 ha declaradas vs 15.413 ha del municipio (26x); coordenada en sede del proponente"},
+    {"fuente": "verra", "ids": ["110200000672002", "5335"],
+     "nombre": "Boomitra grassland Restoration in Colombia (20295)",
+     "motivo": "D2: 700.000 ha declaradas vs 32.639 ha del municipio (21x); coordenada no corresponde"},
 ]
 COLS_ID = ["proyecto_id", "resourceIdentifier", "id", "ID"]
 
@@ -194,10 +202,10 @@ def marcar_exclusiones(eventos: pd.DataFrame) -> pd.DataFrame:
     Requiere una columna de ID de proyecto: sin ella no hay forma segura de
     aplicar la regla y se detiene, igual que los otros dos filtros.
     """
-    pendientes = [e for e in EXCLUSIONES if not e["proyecto_id"].isdigit()]
-    if pendientes:
-        raise ValueError("EXCLUSIONES tiene IDs sin completar: "
-                         + ", ".join(e["nombre"] for e in pendientes))
+    malos = [e["nombre"] for e in EXCLUSIONES
+             if not e["ids"] or not all(str(i).isdigit() for i in e["ids"])]
+    if malos:
+        raise ValueError("EXCLUSIONES tiene IDs vacios o no numericos: " + ", ".join(malos))
 
     col = next((c for c in COLS_ID if c in eventos.columns), None)
     if col is None:
@@ -206,14 +214,17 @@ def marcar_exclusiones(eventos: pd.DataFrame) -> pd.DataFrame:
 
     ev = eventos.copy()
     clave_ev = [f"{normalizar(f)}|{_norm_id(i)}" for f, i in zip(ev["fuente"], ev[col])]
-    motivos = {f"{normalizar(e['fuente'])}|{e['proyecto_id']}": e["motivo"] for e in EXCLUSIONES}
+    motivos = {f"{normalizar(e['fuente'])}|{i}": e["motivo"]
+               for e in EXCLUSIONES for i in e["ids"]}
     ev["motivo_exclusion"] = [motivos.get(k, "") for k in clave_ev]
     ev["excluido_d2"] = ev["motivo_exclusion"] != ""
 
-    encontrados = {k for k in clave_ev if k in motivos}
-    for k in sorted(set(motivos) - encontrados):
-        print(f"[!] Exclusion D2 sin coincidencia en estos eventos: {k} "
-              "(ID mal copiado, o el proyecto no esta en esta fuente)")
+    presentes = set(clave_ev)
+    for e in EXCLUSIONES:
+        if not any(f"{normalizar(e['fuente'])}|{i}" in presentes for i in e["ids"]):
+            print(f"[!] Exclusion D2 sin coincidencia en estos eventos: {e['nombre']} "
+                  f"(ids {e['ids']}). Normal si el proyecto no esta en esta fuente "
+                  "(p. ej. un no-REDD en la dosis); si deberia estar, revisa el ID.")
     if ev["excluido_d2"].any():
         print("\nExclusiones D2 marcadas:")
         for _, r in ev[ev["excluido_d2"]][["COD_DANE", "fuente", col, "motivo_exclusion"]] \

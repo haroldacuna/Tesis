@@ -32,6 +32,15 @@ LIMITACIONES QUE EL SCRIPT NO PUEDE RESOLVER (documentarlas, no esconderlas)
 3. DENOMINADOR FIJO EN 2000. Esto es deliberado y correcto: un denominador
    contemporaneo seria funcion del outcome.
 
+EXCLUSIONES (decision D2)
+-------------------------
+Los proyectos excluidos por el criterio D2 (area declarada > 3x la del
+municipio y coordenada que no corresponde) se quitan ANTES de calcular la
+dosis, con la misma lista que usa el 26: filtro_sectorial.EXCLUSIONES. Este
+script no tiene lista propia. Si alguna exclusion no se encuentra en el
+archivo de Verra, se detiene: el archivo es el mismo que lee el 26, asi que
+todas deben aparecer.
+
 Uso:
     python scripts/38_construir_dosis_tratamiento.py
     python scripts/38_construir_dosis_tratamiento.py --umbral-dosel 75
@@ -49,6 +58,12 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
+# filtro_sectorial vive en la misma carpeta que este script. Python ya la pone
+# en sys.path al correr "python scripts/38_...", pero se agrega explicita por
+# si el script se importa o se lanza desde otro directorio.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from filtro_sectorial import EXCLUSIONES, marcar_exclusiones  # noqa: E402
 
 CENTINELA = Path("data/.raiz_canonica")
 
@@ -187,6 +202,31 @@ def cargar_verra(raiz: Path) -> tuple[pd.DataFrame, dict]:
     )
 
 
+def aplicar_exclusiones_d2(df: pd.DataFrame) -> pd.DataFrame:
+    """Quita los proyectos excluidos por D2 antes de construir la dosis.
+
+    marcar_exclusiones identifica por (fuente, ID): aqui la fuente es siempre
+    Verra y el ID es la columna 'id' de Platts, la misma que usa el 26.
+    """
+    ev = df.copy()
+    ev["fuente"] = "verra"
+    ev = marcar_exclusiones(ev)
+
+    esperadas = sum(1 for e in EXCLUSIONES if e["fuente"].lower() == "verra")
+    encontradas = int(ev["excluido_d2"].sum())
+    if encontradas < esperadas:
+        raise SystemExit(
+            f"ERROR: se esperaban {esperadas} exclusiones D2 de Verra y se "
+            f"encontraron {encontradas} en este archivo. Es el mismo archivo que "
+            "lee el 26, asi que deberian estar todas: revisa los IDs en "
+            "filtro_sectorial.EXCLUSIONES."
+        )
+    out = ev[~ev["excluido_d2"]].drop(columns=["fuente", "excluido_d2", "motivo_exclusion"])
+    print(f"[ok] exclusiones D2: {encontradas} proyecto(s) fuera de la dosis "
+          f"({len(df)} -> {len(out)} filas)")
+    return out
+
+
 def marcar_redd_curada(raiz: Path, df: pd.DataFrame, cols: dict) -> pd.Series | None:
     """Marca REDD+ usando la clasificacion curada, si existe.
 
@@ -268,6 +308,10 @@ def construir_dosis(raiz: Path, umbral: int, truncar: bool) -> tuple[pd.DataFram
 
     verra["COD_DANE"] = verra["COD_DANE"].astype(str).str.extract(r"(\d+)")[0].str.zfill(5)
     verra = verra[verra["COD_DANE"].notna() & (verra["COD_DANE"] != "0000n")]
+
+    # D2 antes de clasificar: un proyecto excluido no entra ni a la dosis ni
+    # al conteo de desbordes.
+    verra = aplicar_exclusiones_d2(verra)
 
     marca = marcar_redd_curada(raiz, verra, cols)
     if marca is None:

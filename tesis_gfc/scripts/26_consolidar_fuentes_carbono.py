@@ -69,6 +69,7 @@ from pathlib import Path
 import pandas as pd
 
 from filtro_sectorial import anotar_sector, anotar_redd, cargar_tabla
+from filtro_sectorial import marcar_exclusiones
 
 # ---------------------------------------------------------------------------
 # Rutas de entrada
@@ -132,8 +133,8 @@ def _cargar_verra() -> pd.DataFrame:
     print(f"Verra: columna de ID: {col_id}")
 
     # Las exclusiones ya NO se aplican aqui: las marca filtro_sectorial
-    # (marcar_exclusiones) y las quita filtrar_d1. Los eventos excluidos
-    # se conservan para la regla de controles limpios (D3).
+    # (marcar_exclusiones, en main). Los eventos excluidos se conservan en el
+    # consolidado para la regla de controles limpios (D3).
 
     # projectStartDate primero: se verifico que coincide con
     # creditPeriodStartDate en los 44 REDD+ comparables.
@@ -158,8 +159,8 @@ def _cargar_verra() -> pd.DataFrame:
         "estado_registro": df["status"].values if "status" in df.columns else None,
     })
     print(f"Verra: {len(out)} eventos cargados ({out['anio_inicio'].notna().sum()} con anio de inicio valido).")
-    
     return out
+
 
 def _cargar_goldstandard() -> pd.DataFrame:
     partes = []
@@ -661,6 +662,11 @@ def main() -> None:
               "    equivocado, o que falten los interinos de data/interim/.")
         raise SystemExit(1)
 
+    # Exclusiones D2: se MARCAN sobre todos los eventos. El consolidado se
+    # guarda completo (con excluido_d2) porque un proyecto excluido sigue
+    # siendo un vinculo para la regla de controles limpios (D3).
+    eventos = marcar_exclusiones(eventos)
+
     OUT_EVENTOS.parent.mkdir(parents=True, exist_ok=True)
     eventos.to_csv(OUT_EVENTOS, index=False, encoding="utf-8-sig")
     print(f"\n{'=' * 70}")
@@ -681,8 +687,21 @@ def main() -> None:
     print(f"\n{'=' * 70}")
     print("Construyendo columnas de tratamiento en el panel...")
     print("=" * 70)
-    _construir_panel_tratamiento(eventos, estricto)
-
+    eventos_tratamiento = eventos[~eventos["excluido_d2"]].copy()
+    print(f"\nEventos para tratamiento: {len(eventos_tratamiento)} "
+          f"({eventos['excluido_d2'].sum()} excluidos por D2)")
+    _construir_panel_tratamiento(eventos_tratamiento, estricto)
+    # D3: el municipio de un proyecto excluido sigue teniendo un vinculo con
+    # carbono. comun_controles_limpios.R lee toda columna proyectos_* del
+    # panel, asi que este marcador lo saca del grupo de control sin tocar el R.
+    excluidos = (eventos.loc[eventos["excluido_d2"], "COD_DANE"]
+                 .astype(str).str.zfill(5).unique())
+    if len(excluidos) and OUT_PANEL.exists():
+        panel = pd.read_csv(OUT_PANEL, dtype={"COD_DANE": str}, low_memory=False)
+        panel["COD_DANE"] = panel["COD_DANE"].str.zfill(5)
+        panel["proyectos_excluidos_d2"] = panel["COD_DANE"].isin(excluidos).astype(int)
+        panel.to_csv(OUT_PANEL, index=False, encoding="utf-8-sig")
+        print(f"\nproyectos_excluidos_d2 = 1 en {len(excluidos)} municipio(s): {sorted(excluidos)}")
 
 if __name__ == "__main__":
     main()
