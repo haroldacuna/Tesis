@@ -239,12 +239,61 @@ covariables_base_tardia <- panel %>%
 covariables_base <- covariables_base_normal %>%
   left_join(covariables_base_tardia, by = "COD_DANE")
 
+## --- Clima de linea base recalculado (tarea 1.1, script 61) ------------------
+## Reemplaza temp_media_c_base y prec_anual_mm_base por el calculo homogeneo
+## desde la geometria DANE (ERA5-Land + CHIRPS, anio 2001). Corrige 128
+## colisiones del cruce por nombre y el cambio de fuente ERA5 / ERA5-Land.
+## San Andres y Providencia (88001, 88564) conservan el valor anterior: las
+## islas quedan fuera de las grillas terrestres de ERA5-Land y CHIRPS.
+RUTA_CLIMA_61 <- file.path(if (exists("RAIZ_PROYECTO")) RAIZ_PROYECTO else ".",
+                           "data/interim/clima_linea_base_municipio.csv")
+if (!file.exists(RUTA_CLIMA_61)) stop("Falta ", RUTA_CLIMA_61, ": corre scripts/61_clima_linea_base.py")
+clima61 <- readr::read_csv(RUTA_CLIMA_61, show_col_types = FALSE,
+                           col_types = readr::cols(.default = readr::col_double(),
+                                                   COD_DANE = readr::col_character(),
+                                                   fuente = readr::col_character())) %>%
+  transmute(COD_DANE = formatC(as.integer(COD_DANE), width = 5, flag = "0"),
+            temp61 = temp_2001_c, prec61 = prec_2001_mm)
+covariables_base <- covariables_base %>%
+  mutate(COD_DANE = formatC(as.integer(COD_DANE), width = 5, flag = "0")) %>%
+  left_join(clima61, by = "COD_DANE") %>%
+  mutate(clima_61 = !is.na(temp61) & !is.na(prec61),
+         temp_media_c_base  = if_else(clima_61, temp61, temp_media_c_base),
+         prec_anual_mm_base = if_else(clima_61, prec61, prec_anual_mm_base)) %>%
+  select(-temp61, -prec61)
+cat(sprintf("Clima de linea base (61): %d municipios con el valor recalculado | valor anterior en: %s\n",
+            sum(covariables_base$clima_61),
+            paste(covariables_base$COD_DANE[!covariables_base$clima_61], collapse = ", ")))
+
+
+
 cat("\nCobertura de covariables en su año base respectivo (", ANIO_BASE, " para la mayoría, ",
     ANIO_BASE_CONFLICTO_TARDIO, " para ", paste(VARS_BASE_TARDIA, collapse = "/"), "):\n", sep = "")
 for (col in names(covariables_base)[-1]) {
   pct <- mean(!is.na(covariables_base[[col]]))
   cat(sprintf("  %-30s %.1f%%\n", col, pct * 100))
 }
+
+
+## --- Areas protegidas publicas a 2012 (tarea 1.2, script 62) ----------------
+## Proporcion del municipio en el SINAP publico inscrito hasta 2012 (RUNAP,
+## condiciones REGISTRADA e INSCRITA). Corte 2012 y no 2009: el RUNAP solo trae
+## fecha de inscripcion y empezo en 2011 (ver D4). Las RNSC no entran.
+RUTA_AP_62 <- file.path(if (exists("RAIZ_PROYECTO")) RAIZ_PROYECTO else ".",
+                        "data/interim/areas_protegidas_municipio.csv")
+if (!file.exists(RUTA_AP_62)) stop("Falta ", RUTA_AP_62, ": corre scripts/62_areas_protegidas.py")
+ap62 <- readr::read_csv(RUTA_AP_62, show_col_types = FALSE,
+                        col_types = readr::cols(.default = readr::col_double(),
+                                                COD_DANE = readr::col_character())) %>%
+  transmute(COD_DANE = formatC(as.integer(COD_DANE), width = 5, flag = "0"),
+            pct_sinap_pub_base = pct_sinap_pub_2012)
+covariables_base <- covariables_base %>%
+  select(-any_of("pct_sinap_pub_base")) %>%
+  left_join(ap62, by = "COD_DANE") %>%
+  mutate(pct_sinap_pub_base = coalesce(pct_sinap_pub_base, 0))
+cat(sprintf("Areas protegidas (62): %d municipios con SINAP publico a 2012 > 0 | media %.2f %%\n",
+            sum(covariables_base$pct_sinap_pub_base > 0), mean(covariables_base$pct_sinap_pub_base)))
+            
 
 # Diagnóstico: ¿cuántos municipios tienen cohorte de tratamiento tan temprana
 # (2001-2003) que el año base "tardío" (2003) para homicidios/secuestros/
