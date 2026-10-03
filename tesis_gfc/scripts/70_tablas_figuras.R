@@ -1,0 +1,625 @@
+## =============================================================================
+## 70_tablas_figuras.R
+##
+## Tablas y figuras de la tesis a partir de las salidas de resultados-v1.
+## No estima nada: solo lee outputs/tablas/*.csv y outputs/*.rds.
+##
+## TABLAS (estilo AER): cada tabla sale en dos formatos
+##   outputs/tesis/tablas/tabla_X_Y.tex   booktabs + threeparttable, sin lineas
+##                                        verticales, errores estandar entre
+##                                        parentesis debajo del estimado y sin
+##                                        asteriscos de significancia (politica
+##                                        de la AER desde 2016).
+##   outputs/tesis/tablas/tabla_X_Y.png   la misma tabla como imagen (300 dpi).
+##   Numeros en convencion espanola: coma decimal y punto de miles (1.009,5).
+##   Preambulo LaTeX necesario: outputs/tesis/tablas/preambulo.tex
+##
+## FIGURAS: outputs/tesis/figuras/figura_X_Y.png (300 dpi) y .pdf (cairo,
+##   para que las tildes salgan bien). Escala de grises, fuente con serifas,
+##   sin titulo dentro de la figura (el titulo va en el documento).
+##
+## Cada producto se genera por separado: si uno falla (falta un insumo), el
+## script avisa y sigue con los demas. Al final imprime un resumen.
+##
+## Paquetes: dplyr, ggplot2, gridExtra, gtable, scales; sf (solo el mapa);
+##           ragg (opcional, mejor calidad de PNG).
+## USO:  Rscript scripts/70_tablas_figuras.R
+## =============================================================================
+source("scripts/00_config_did.R")   # B.1: parametros comunes (no redefinir aqui)
+for (p in c("dplyr", "ggplot2", "gridExtra", "gtable", "scales"))
+  if (!requireNamespace(p, quietly = TRUE)) stop("Falta el paquete ", p, ": install.packages('", p, "')")
+suppressPackageStartupMessages({ library(dplyr); library(ggplot2); library(grid) })
+
+DIR_T <- file.path(DIR_OUT, "tesis", "tablas"); DIR_F <- file.path(DIR_OUT, "tesis", "figuras")
+for (d in c(DIR_T, DIR_F)) dir.create(d, showWarnings = FALSE, recursive = TRUE)
+FUENTE <- "serif"
+MENOS <- "\u2212"                      # signo menos tipografico
+TAB <- function(f) file.path(DIR_TAB, f)
+leer <- function(f) {
+  r <- TAB(f); if (!file.exists(r)) stop("falta ", r)
+  read.csv(r, stringsAsFactors = FALSE, check.names = FALSE, encoding = "UTF-8")
+}
+N_CONTROLES_D1_ORIGINAL <- REF_N_CONTROLES + 1L   # Calamar (95015): unico ambiguo que era control
+
+## -----------------------------------------------------------------------------
+## 1. Formato numerico en espanol
+## -----------------------------------------------------------------------------
+num <- function(x, d = 1) {
+  x <- suppressWarnings(as.numeric(x))
+  s <- formatC(abs(x), format = "f", digits = d, big.mark = ".", decimal.mark = ",")
+  neg <- !is.na(x) & round(x, d) < 0
+  s[neg] <- paste0(MENOS, s[neg]); s[is.na(x)] <- ""; s
+}
+ee  <- function(x, d = 1) ifelse(is.na(suppressWarnings(as.numeric(x))), "", paste0("(", num(x, d), ")"))
+ic  <- function(a, b, d = 0) ifelse(is.na(a) | is.na(b), "", paste0("[", num(a, d), "; ", num(b, d), "]"))
+ent <- function(x) { x <- suppressWarnings(as.numeric(x)); ifelse(is.na(x), "", formatC(x, format = "d", big.mark = ".", decimal.mark = ",")) }
+pct <- function(x, d = 1) ifelse(is.na(suppressWarnings(as.numeric(x))), "", paste0(num(x, d), " %"))
+## Intervalos que vienen como texto "[-331.0 ; 226.0]" (HonestDiD)
+ic_txt <- function(s, d = 0) {
+  v <- regmatches(s, gregexpr("-?[0-9]+(\\.[0-9]+)?", s))
+  vapply(v, function(z) if (length(z) == 2) ic(as.numeric(z[1]), as.numeric(z[2]), d) else "", "")
+}
+
+## -----------------------------------------------------------------------------
+## 2. Motor de tablas: una estructura, dos salidas (LaTeX y PNG)
+##    filas: data.frame con 'etq', columnas de valores y 'tipo' en
+##           dato | ee | panel | sep (linea intermedia antes de la fila)
+## -----------------------------------------------------------------------------
+fila <- function(etq, valores, tipo = "dato") {
+  data.frame(etq = etq, t(setNames(as.character(valores), paste0("v", seq_along(valores)))),
+             tipo = tipo, stringsAsFactors = FALSE, check.names = FALSE)
+}
+panel <- function(texto, k) fila(texto, rep("", k), "panel")
+apilar <- function(...) do.call(rbind, list(...))
+
+lx <- function(s) {
+  s <- gsub("&", "\\&", s, fixed = TRUE); s <- gsub("%", "\\%", s, fixed = TRUE)
+  s <- gsub("_", "\\_", s, fixed = TRUE); s <- gsub("#", "\\#", s, fixed = TRUE)
+  s <- gsub("M\u0304", "$\\bar{M}$", s, fixed = TRUE)
+  s <- gsub(MENOS, "$-$", s, fixed = TRUE); s <- gsub("\u2265", "$\\geq$", s, fixed = TRUE)
+  s <- gsub("\u2013", "--", s, fixed = TRUE); s <- gsub("\u2026", "\\ldots{}", s, fixed = TRUE)
+  s
+}
+
+escribir_latex <- function(t) {
+  k <- length(t$cab[[1]])
+  L <- c("% Generado por scripts/70_tablas_figuras.R a partir de resultados-v1. No editar a mano.",
+         "\\begin{table}[htbp]", "\\centering", "\\small",
+         sprintf("\\caption{%s}", lx(t$titulo)), sprintf("\\label{tab:%s}", t$id),
+         "\\begin{threeparttable}",
+         sprintf("\\begin{tabular}{@{}l%s@{}}", paste(rep(if (is.null(t$alin)) "c" else t$alin, length.out = k), collapse = "")),
+         "\\toprule")
+  for (h in t$cab) L <- c(L, paste0(paste(c("", lx(h)), collapse = " & "), " \\\\"))
+  L <- c(L, "\\midrule")
+  for (i in seq_len(nrow(t$filas))) {
+    f <- t$filas[i, ]; v <- unlist(f[grep("^v[0-9]+$", names(f))])
+    if (f$tipo == "sep") L <- c(L, "\\midrule")
+    if (f$tipo == "panel") {
+      if (i > 1) L <- c(L, "\\addlinespace")
+      L <- c(L, sprintf("\\multicolumn{%d}{@{}l}{\\textit{%s}} \\\\", k + 1, lx(f$etq)))
+    } else {
+      L <- c(L, paste0(paste(c(lx(f$etq), lx(v)), collapse = " & "), " \\\\"))
+    }
+  }
+  L <- c(L, "\\bottomrule", "\\end{tabular}",
+         "\\begin{tablenotes}[flushleft]", "\\footnotesize",
+         sprintf("\\item \\textit{Notas:} %s", lx(t$notas)))
+  if (!is.null(t$fuente)) L <- c(L, sprintf("\\item \\textit{Fuente:} %s", lx(t$fuente)))
+  L <- c(L, "\\end{tablenotes}", "\\end{threeparttable}", "\\end{table}")
+  writeLines(enc2utf8(L), file.path(DIR_T, paste0(t$id, ".tex")), useBytes = TRUE)
+}
+
+escribir_png <- function(t) {
+  k <- length(t$cab[[1]]); f <- t$filas
+  ## En PNG la barra combinada (U+0304) no se dibuja bien con Times: se usa
+  ## la sobrelinea combinada (U+0305), que si queda sobre la M.
+  barra <- function(x) gsub("M\u0304", "M\u0305", x, fixed = TRUE)
+  f[] <- lapply(f, barra); t$cab <- lapply(t$cab, barra); t$notas <- barra(t$notas)
+  cuerpo <- as.matrix(f[, c("etq", paste0("v", seq_len(k)))])
+  m <- rbind(do.call(rbind, lapply(t$cab, function(h) c("", h))), cuerpo)
+  nh <- length(t$cab); n <- nrow(m)
+  cara <- matrix("plain", n, k + 1); cara[nh + which(f$tipo == "panel"), 1] <- "italic"
+  hj <- matrix(rep(c(0, rep(0.5, k)), each = n), n, k + 1)
+  tema <- gridExtra::ttheme_minimal(base_size = 10, base_family = FUENTE,
+    core = list(fg_params = list(hjust = as.vector(hj), x = as.vector(ifelse(hj == 0, 0.02, 0.5)),
+                                 fontface = as.vector(cara)),
+                bg_params = list(fill = NA), padding = unit(c(5, 2.2), "mm")))
+  g <- gridExtra::tableGrob(m, rows = NULL, cols = NULL, theme = tema)
+  linea <- function(g, fila, arriba = TRUE, lwd = 0.8)
+    gtable::gtable_add_grob(g, segmentsGrob(0, as.numeric(arriba), 1, as.numeric(arriba),
+                            gp = gpar(lwd = lwd)), t = fila, b = fila, l = 1, r = k + 1, z = Inf,
+                            name = paste0("regla", fila, arriba, runif(1)))
+  g <- linea(g, 1, TRUE, 1.2); g <- linea(g, nh, FALSE); g <- linea(g, n, FALSE, 1.2)
+  for (i in which(f$tipo == "sep")) g <- linea(g, nh + i, TRUE)
+  ancho <- convertWidth(sum(g$widths), "in", valueOnly = TRUE)
+  alto  <- convertHeight(sum(g$heights), "in", valueOnly = TRUE)
+  envolver <- function(s, ancho_in) paste(strwrap(s, width = max(40, floor(ancho_in * 17.5))), collapse = "\n")
+  txt_notas <- envolver(paste0("Notas: ", t$notas), ancho)
+  if (!is.null(t$fuente)) txt_notas <- paste0(txt_notas, "\n", envolver(paste0("Fuente: ", t$fuente), ancho))
+  notas <- textGrob(txt_notas, x = 0, hjust = 0, gp = gpar(fontsize = 8, fontfamily = FUENTE, lineheight = 1.15))
+  titulo <- textGrob(t$titulo, gp = gpar(fontsize = 11, fontfamily = FUENTE))
+  h_notas <- convertHeight(grobHeight(notas), "in", valueOnly = TRUE) + 0.15
+  todo <- gridExtra::arrangeGrob(titulo, g, notas, ncol = 1,
+                                 heights = unit(c(0.4, alto, h_notas), "in"))
+  ruta <- file.path(DIR_T, paste0(t$id, ".png"))
+  if (requireNamespace("ragg", quietly = TRUE))
+    ragg::agg_png(ruta, width = ancho + 0.4, height = alto + h_notas + 0.6, units = "in", res = 300)
+  else png(ruta, width = ancho + 0.4, height = alto + h_notas + 0.6, units = "in", res = 300, type = "cairo")
+  grid.newpage(); pushViewport(viewport(width = unit(ancho, "in"))); grid.draw(todo); dev.off()
+}
+
+productos <- list()
+hacer <- function(id, expr) {
+  r <- tryCatch({ expr; "ok" }, error = function(e) paste("ERROR:", conditionMessage(e)))
+  productos[[id]] <<- r
+  cat(sprintf("  %-22s %s\n", id, r))
+}
+tabla <- function(t) { escribir_latex(t); escribir_png(t) }
+
+## -----------------------------------------------------------------------------
+## 3. Tema de figuras (AER: sobrio, escala de grises, serifas)
+## -----------------------------------------------------------------------------
+tema_aer <- theme_classic(base_size = 10, base_family = FUENTE) +
+  theme(axis.line = element_line(linewidth = 0.3), axis.ticks = element_line(linewidth = 0.3),
+        legend.position = "bottom", legend.title = element_blank(),
+        strip.background = element_blank(), strip.text = element_text(face = "italic"),
+        plot.title = element_blank(), plot.margin = margin(6, 8, 6, 6))
+## Paleta: "color" usa Okabe-Ito (distinguible con daltonismo y legible al
+## imprimir en grises); "grises" reproduce el estilo AER de impresion.
+PALETA <- "color"
+COL <- if (PALETA == "color") list(
+  a = "#0072B2", b = "#D55E00", banda = "#DCEAF5", ventana = c("#0072B2", "grey75"),
+  escalera = c("#D55E00", "#E69F00", "#009E73", "grey88"), borde = "#08306B") else list(
+  a = "black", b = "grey55", banda = "grey90", ventana = c("grey20", "grey75"),
+  escalera = c("grey15", "grey55", "grey85", "white"), borde = "black")
+guardar_fig <- function(p, id, ancho = 6.5, alto = 4) {
+  png_dev <- if (requireNamespace("ragg", quietly = TRUE)) ragg::agg_png else "png"
+  ggsave(file.path(DIR_F, paste0(id, ".png")), p, width = ancho, height = alto, dpi = 300, device = png_dev)
+  tryCatch(ggsave(file.path(DIR_F, paste0(id, ".pdf")), p, width = ancho, height = alto, device = cairo_pdf),
+           error = function(e) cat("    (sin PDF: cairo no disponible)\n"))
+}
+lab_e <- "A\u00f1os desde la adopci\u00f3n"
+lab_ha <- "Efecto sobre la deforestaci\u00f3n (ha por a\u00f1o)"
+
+titulo("TABLAS")
+
+## =============================================================================
+## Tabla 4.4 - Caracteristicas de linea base: tratados y controles
+## =============================================================================
+hacer("tabla_4_4", {
+  m <- cargar_muestra_principal()
+  pre <- m %>% filter(year >= 2001, year <= 2009) %>% group_by(COD_DANE) %>%
+    summarise(defor_pre = mean(.data[[OUTCOME]], na.rm = TRUE), .groups = "drop")
+  mun <- m %>% group_by(COD_DANE) %>% slice(1) %>% ungroup() %>% left_join(pre, by = "COD_DANE") %>%
+    mutate(tratado = G_dep > 0)
+  vars <- list(
+    c("defor_pre", "P\u00e9rdida de bosque, promedio 2001\u20132009 (ha/a\u00f1o)", 1),
+    c("defor_pre_tendencia", "Tendencia de la p\u00e9rdida 2001\u20132009 (pendiente, ha por a\u00f1o)", 1),
+    c("baseline_forest_base", "Bosque en 2000 (miles de ha)", 1),
+    c("temp_media_c_base", "Temperatura media, 2001 (\u00b0C)", 1),
+    c("prec_anual_mm_base", "Precipitaci\u00f3n anual, 2001 (mm)", 0),
+    c("pct_sinap_pub_base", "\u00c1rea en el SINAP p\u00fablico, 2012 (%)", 1),
+    c("discapital_base", "Distancia a la capital departamental", 1),
+    c("disbogota_base", "Distancia a Bogot\u00e1", 1),
+    c("distancia_mercado_base", "Distancia al mercado mayorista", 1),
+    c("H_coca_base", "Cultivos de coca (ha)", 1),
+    c("homicidios_base", "Homicidios, 2003", 1))
+  vars <- Filter(function(v) v[1] %in% names(mun), vars)
+  filas <- NULL
+  for (v in vars) {
+    x <- as.numeric(mun[[v[1]]]); if (v[1] == "baseline_forest_base") x <- x / 1000
+    d <- as.integer(v[3]); a <- x[mun$tratado]; b <- x[!mun$tratado]
+    smd <- (mean(a, na.rm = TRUE) - mean(b, na.rm = TRUE)) / sqrt((var(a, na.rm = TRUE) + var(b, na.rm = TRUE)) / 2)
+    filas <- rbind(filas, fila(v[2], c(num(mean(a, na.rm = TRUE), d), num(mean(b, na.rm = TRUE), d), num(smd, 2))),
+                   fila("", c(ee(sd(a, na.rm = TRUE), d), ee(sd(b, na.rm = TRUE), d), ""), "ee"))
+  }
+  filas <- rbind(filas, fila("Municipios", c(ent(sum(mun$tratado)), ent(sum(!mun$tratado)), ""), "sep"))
+  tabla(list(id = "tabla_4_4",
+    titulo = "Tabla 4.4\u2014Caracter\u00edsticas de l\u00ednea base de los municipios tratados y de control",
+    cab = list(c("Tratados", "Controles", "Diferencia")), filas = filas,
+    notas = paste0("Medias por grupo; desviaci\u00f3n est\u00e1ndar entre par\u00e9ntesis. La diferencia es estandarizada: ",
+      "diferencia de medias dividida por la ra\u00edz del promedio de las varianzas. Muestra principal: municipios tratados ",
+      "de la D1 depurada con adopci\u00f3n entre 2013 y 2019 y controles limpios, sin ning\u00fan v\u00ednculo con proyectos de carbono. ",
+      "Las distancias y la tasa de homicidios est\u00e1n en las unidades del panel municipal del CEDE."),
+    fuente = "Global Forest Change v1.12; ERA5-Land y CHIRPS; RUNAP; panel municipal del CEDE."))
+})
+
+## =============================================================================
+## Tabla 4.6 - Territorio y tipo de proponente de los proyectos
+## =============================================================================
+hacer("tabla_4_6", {
+  r <- file.path(RAIZ_PROYECTO, "data/interim/diagnostics/65_tabla_4_6.csv")
+  if (!file.exists(r)) stop("falta ", r)
+  t46 <- read.csv(r, stringsAsFactors = FALSE, encoding = "UTF-8")
+  nom_t <- c("resguardo indigena" = "Resguardos ind\u00edgenas", "consejo comunitario" = "Consejos comunitarios", "otro" = "Otros territorios")
+  nom_p <- c("comunitario" = "Comunitario", "empresa" = "Empresa", "ong" = "ONG", "publico" = "P\u00fablico",
+             "multiples (sin detalle)" = "M\u00faltiples (sin detalle en el registro)", "sin clasificar" = "Sin clasificar")
+  filas <- NULL
+  for (terr in intersect(names(nom_t), unique(t46$territorio))) {
+    s <- t46[t46$territorio == terr, ]
+    filas <- rbind(filas, panel(nom_t[[terr]], 5))
+    for (i in seq_len(nrow(s)))
+      filas <- rbind(filas, fila(paste0("  ", ifelse(s$tipo_proponente[i] %in% names(nom_p), nom_p[s$tipo_proponente[i]], s$tipo_proponente[i])),
+        c(ent(s$proyectos[i]), ent(s$municipios[i]), num(s$area_mha[i], 2), ent(s$con_creditos[i]), num(s$creditos_millones[i], 2))))
+  }
+  filas <- rbind(filas, fila("Total", c(ent(sum(t46$proyectos)), "", num(sum(t46$area_mha), 2),
+                                         ent(sum(t46$con_creditos)), num(sum(t46$creditos_millones), 2)), "sep"))
+  tabla(list(id = "tabla_4_6",
+    titulo = "Tabla 4.6\u2014Proyectos REDD+ seg\u00fan tipo de territorio y de proponente",
+    cab = list(c("Proyectos", "Municipios", "\u00c1rea (Mha)", "Con cr\u00e9ditos", "Cr\u00e9ditos (millones)")),
+    filas = filas,
+    notas = paste0("Proyectos REDD+ de Verra sin las exclusiones D2 y pol\u00edgonos de deforestaci\u00f3n evitada de Karnik et al. (2025) ",
+      "en Colombia. El territorio es el que contiene al menos el 50 % del \u00e1rea del proyecto (o su punto, si no tiene pol\u00edgono); ",
+      "\u00abotros territorios\u00bb incluye proyectos sin mayor\u00eda en un solo tipo. El proponente se clasific\u00f3 por su nombre ",
+      "y se revis\u00f3 a mano; cuando el registro solo informa \u00abMultiple Project Proponents\u00bb se deja como categor\u00eda propia. ",
+      "Los municipios no suman entre filas porque un municipio puede tener proyectos de varios tipos. Cr\u00e9ditos: total emitido. ",
+      "Descriptivo, sin estimaci\u00f3n."),
+    fuente = "Verra (API de Platts y exportaci\u00f3n del registro); Karnik et al. (2025); Agencia Nacional de Tierras; Berkeley VROD."))
+})
+
+## =============================================================================
+## Tabla 6.1 - Efecto principal
+## =============================================================================
+hacer("tabla_6_1", {
+  r40 <- leer("40_resumen_depurada_y_dosis.csv")
+  g <- function(patron) r40[grepl(patron, r40$especificacion), ][1, ]
+  dr <- g("PRINCIPAL"); sc <- g("^D1 depurada - sin covariables"); og <- g("^D1 original - DR")
+  s66 <- tryCatch(leer("66_regla_sinap.csv"), error = function(e) NULL)
+  s10 <- if (!is.null(s66)) s66[grepl("^Sin SINAP", s66$especificacion), ][1, ] else NULL
+  col <- function(att, se, lo, hi, bal = NA, sebal = NA, rel = NA, media = NA)
+    list(att = att, se = se, lo = lo, hi = hi, bal = bal, sebal = sebal, rel = rel, media = media)
+  c1 <- col(dr$att_simple, dr$ee_simple, dr$ic_inf, dr$ic_sup, dr$att_balanceado, dr$ee_balanceado, dr$att_rel_pct, dr$media_pre_tratados)
+  c2 <- if (!is.null(s10)) col(s10$att, s10$ee, s10$att - 1.96 * s10$ee, s10$att + 1.96 * s10$ee,
+                               rel = 100 * s10$att / dr$media_pre_tratados, media = dr$media_pre_tratados) else col(NA, NA, NA, NA)
+  c3 <- col(sc$att_simple, sc$ee_simple, sc$ic_inf, sc$ic_sup, sc$att_balanceado, sc$ee_balanceado, sc$att_rel_pct, sc$media_pre_tratados)
+  c4 <- col(og$att_simple, og$ee_simple, og$ic_inf, og$ic_sup, og$att_balanceado, og$ee_balanceado, og$att_rel_pct, og$media_pre_tratados)
+  cs <- list(c1, c2, c3, c4); x <- function(campo, f) sapply(cs, function(z) f(z[[campo]]))
+  filas <- apilar(
+    fila("ATT agregado", x("att", num)),
+    fila("", x("se", ee), "ee"),
+    fila("", mapply(function(z) ic(z$lo, z$hi), cs)),
+    fila("ATT balanceado, e = 0\u20135", x("bal", num), "sep"),
+    fila("", x("sebal", ee), "ee"),
+    fila("Efecto relativo a la media previa", x("rel", pct)),
+    fila("Media previa de los tratados (ha/a\u00f1o)", x("media", num)),
+    fila("Covariables", c("11", "10", "No", "11"), "sep"),
+    fila("Muestra de tratados", c("D1 depurada", "D1 depurada", "D1 depurada", "D1 original")),
+    fila("Municipios tratados", c(ent(dr$n_tratados), ent(dr$n_tratados), ent(sc$n_tratados), ent(og$n_tratados))),
+    fila("Municipios de control", c(ent(REF_N_CONTROLES), ent(REF_N_CONTROLES), ent(REF_N_CONTROLES), ent(N_CONTROLES_D1_ORIGINAL))))
+  filas$v2[4] <- "\u2014"   # la regla de SINAP (66) no reporta el ATT balanceado
+  tabla(list(id = "tabla_6_1",
+    titulo = "Tabla 6.1\u2014Efecto de los proyectos REDD+ sobre la deforestaci\u00f3n municipal",
+    cab = list(c("(1)", "(2)", "(3)", "(4)"), c("Principal", "Sin SINAP", "Sin covariables", "D1 original")),
+    filas = filas,
+    notas = paste0("Estimador de Callaway y Sant\u2019Anna (2021) doblemente robusto, con grupo de comparaci\u00f3n de municipios a\u00fan no tratados ",
+      "y cohortes de adopci\u00f3n 2013\u20132019. Variable dependiente: p\u00e9rdida anual de cobertura arb\u00f3rea (ha). Errores est\u00e1ndar ",
+      "entre par\u00e9ntesis, por bootstrap multiplicador agrupado por municipio (", BITERS, " repeticiones); intervalos de confianza ",
+      "al 95 % entre corchetes. La columna (1) usa las 11 covariables de l\u00ednea base (D4); la (2) excluye el \u00e1rea en el SINAP. ",
+      "La D1 depurada excluye seis municipios cuyo \u00fanico proyecto REDD+ fue retirado o rechazado. Controles limpios: municipios sin ",
+      "ning\u00fan v\u00ednculo con proyectos de carbono. El efecto relativo divide el ATT agregado por la media previa de los tratados."),
+    fuente = "C\u00e1lculos propios con Global Forest Change v1.12 y los registros Verra, RENARE y Cercarbono."))
+})
+
+## =============================================================================
+## Tabla 6.2 - Sensibilidad al periodo de referencia
+## =============================================================================
+hacer("tabla_6_2", {
+  p59 <- leer("59_periodo_base_y_poisson.csv")
+  sel <- function(est, base) p59[p59$estimador == est & p59$periodo_base == base, ][1, ]
+  filas <- panel("Panel A. Callaway y Sant\u2019Anna con distinto a\u00f1o de referencia", 2)
+  for (k in 1:5) {
+    b <- paste0("g-", k); d <- sel("CS doblemente robusto (principal)", b); s <- sel("Callaway y Sant'Anna", b)
+    filas <- rbind(filas, fila(paste0("Referencia g ", MENOS, " ", k, if (k == 1) " (principal)" else ""), c(num(d$att), num(s$att))),
+                   fila("", c(ee(d$ee), ee(s$ee)), "ee"))
+  }
+  filas <- rbind(filas, panel("Panel B. Todo el periodo previo como referencia", 2))
+  for (e in list(c("Imputacion (BJS)", "Imputaci\u00f3n (Borusyak, Jaravel y Spiess)"),
+                 c("ETWFE lineal (Wooldridge)", "Efectos fijos extendidos (Wooldridge), lineal"),
+                 c("ETWFE Poisson (A.4)", "Efectos fijos extendidos (Wooldridge), Poisson"))) {
+    s <- p59[p59$estimador == e[1], ][1, ]
+    filas <- rbind(filas, fila(e[2], c("\u2014", num(s$att))), fila("", c("", ee(s$ee)), "ee"))
+  }
+  tabla(list(id = "tabla_6_2",
+    titulo = "Tabla 6.2\u2014Sensibilidad del efecto al periodo de referencia",
+    cab = list(c("(1)", "(2)"), c("Con covariables", "Sin covariables")), filas = filas,
+    notas = paste0("ATT agregado en hect\u00e1reas por a\u00f1o; errores est\u00e1ndar entre par\u00e9ntesis, agrupados por municipio. Panel A: estimador ",
+      "de Callaway y Sant\u2019Anna con referencia en el a\u00f1o g \u2212 k, donde g es el a\u00f1o de adopci\u00f3n (equivale a permitir k \u2212 1 a\u00f1os de ",
+      "anticipaci\u00f3n). Panel B: estimadores que usan todos los a\u00f1os previos a la adopci\u00f3n; sin covariables, la imputaci\u00f3n y los efectos ",
+      "fijos extendidos lineales coinciden por construcci\u00f3n. La columna (1) del panel B no se estima porque estos estimadores no tienen ",
+      "ajuste doblemente robusto. Muestra principal (36 tratados, 986 controles)."),
+    fuente = "C\u00e1lculos propios."))
+})
+
+## =============================================================================
+## Tabla 6.3 - Cohortes tempranas y tardias, y el ano base
+## =============================================================================
+hacer("tabla_6_3", {
+  b50 <- leer("50_cohortes_y_base.csv"); c50 <- leer("50_por_cohorte.csv")
+  g <- function(base, grupo) b50[b50$base == base & b50$grupo == grupo, ][1, ]
+  filas <- panel("Panel A. Efecto por grupo de cohortes", 2)
+  for (gr in list(c("todas", "Todas las cohortes"), c("tempranas 2013-2016", "Cohortes tempranas, 2013\u20132016"),
+                  c("tardias 2017-2019", "Cohortes tard\u00edas, 2017\u20132019"))) {
+    a <- g("g-1", gr[1]); b <- g("promedio g-5..g-1", gr[1])
+    filas <- rbind(filas, fila(gr[2], c(num(a$att), num(b$att))),
+                   fila("", c(ee(a$ee_boot), ee(b$ee_boot)), "ee"),
+                   fila("", c(ic(a$ic_inf, a$ic_sup), ic(b$ic_inf, b$ic_sup))))
+  }
+  filas2 <- panel("Panel B. Por cohorte", 2)
+  for (i in seq_len(nrow(c50))) {
+    z <- c50[i, ]
+    filas2 <- rbind(filas2, fila(sprintf("%d (%d municipios)", z$g, z$n_municipios), c(num(z$att_base_g1), num(z$att_base_prom))))
+  }
+  tabla(list(id = "tabla_6_3",
+    titulo = "Tabla 6.3\u2014El efecto por cohorte y seg\u00fan el a\u00f1o de referencia",
+    cab = list(c("(1)", "(2)"), c(paste0("Referencia g ", MENOS, " 1"), "Referencia promedio")),
+    filas = rbind(filas, filas2),
+    notas = paste0("ATT en hect\u00e1reas por a\u00f1o, especificaci\u00f3n principal. Columna (1): referencia en el a\u00f1o previo a la adopci\u00f3n. ",
+      "Columna (2): referencia igual al promedio de los cinco a\u00f1os previos (g \u2212 5 a g \u2212 1). Panel A: errores est\u00e1ndar entre ",
+      "par\u00e9ntesis e intervalos al 95 % entre corchetes, por bootstrap de 199 r\u00e9plicas estratificado por cohorte. Panel B: estimados ",
+      "puntuales por cohorte; con tan pocos municipios por cohorte no se reportan intervalos."),
+    fuente = "C\u00e1lculos propios."))
+})
+
+## =============================================================================
+## Tabla 6.4 - Composicion de las cohortes por nivel de la escalera
+## Tabla 6.5 - Efecto por nivel de la escalera
+## =============================================================================
+hacer("tabla_6_4", {
+  c58 <- leer("58_composicion_por_cohorte.csv")
+  filas <- NULL
+  for (i in seq_len(nrow(c58))) {
+    z <- c58[i, ]
+    filas <- rbind(filas, fila(as.character(z$G_dep), c(ent(z$n), ent(z$solo_S1), ent(z$S2 - z$E), ent(z$E), ent(z$sin_estado))))
+  }
+  tot <- colSums(c58[, c("n", "solo_S1", "S2", "E", "sin_estado")])
+  filas <- rbind(filas, fila("Total", c(ent(tot["n"]), ent(tot["solo_S1"]), ent(tot["S2"] - tot["E"]), ent(tot["E"]), ent(tot["sin_estado"])), "sep"))
+  tabla(list(id = "tabla_6_4",
+    titulo = "Tabla 6.4\u2014Municipios tratados por cohorte y estado de sus proyectos en el registro",
+    cab = list(c("Tratados", "Nunca operaron", "Registrados sin cr\u00e9ditos", "Con cr\u00e9ditos", "Sin estado")),
+    filas = filas,
+    notas = paste0("Cada municipio se clasifica por el mejor estado entre sus proyectos REDD+ de Verra. Nunca operaron: proyectos que no ",
+      "pasaron de solicitud, validaci\u00f3n o lista de espera (nivel S1). Registrados sin cr\u00e9ditos: alcanzaron registro efectivo pero no ",
+      "emitieron cr\u00e9ditos. Con cr\u00e9ditos: emitieron cr\u00e9ditos seg\u00fan Berkeley VROD. Sin estado: municipios tratados solo por RENARE ",
+      "o Cercarbono, que no publican estado de registro."),
+    fuente = "Verra (API de Platts); Berkeley VROD; c\u00e1lculos propios."))
+})
+hacer("tabla_6_5", {
+  r58 <- leer("58_contraste_mecanismo.csv")
+  sel <- list(c("^solo_S1 \\(", "Nunca operaron (solo S1)"), c("^S2 \\(", "Registro efectivo (S2)"),
+              c("^E \\(", "Con cr\u00e9ditos emitidos (E)"), c("^S3 \\(", "Registrado hoy (S3)"))
+  filas <- NULL
+  for (s in sel) {
+    z <- r58[grepl(s[1], r58$especificacion), ][1, ]
+    filas <- rbind(filas, fila(s[2], c(num(z$att), ent(z$n_tratados), ent(z$cohortes_ok))),
+                   fila("", c(ee(z$ee), "", ""), "ee"))
+  }
+  tabla(list(id = "tabla_6_5",
+    titulo = "Tabla 6.5\u2014El efecto seg\u00fan el estado de los proyectos en el registro",
+    cab = list(c("(1)", "(2)", "(3)"), c("ATT", "Tratados", "Cohortes con 3 o m\u00e1s")), filas = filas,
+    notas = paste0("ATT en hect\u00e1reas por a\u00f1o, sin covariables, contra los mismos 986 controles limpios (grupo de comparaci\u00f3n: nunca ",
+      "tratados); errores est\u00e1ndar entre par\u00e9ntesis. Los grupos E y S3 est\u00e1n contenidos en S2. Ning\u00fan grupo alcanza tres o m\u00e1s ",
+      "municipios en la mayor\u00eda de sus cohortes, por lo que el contraste se lee como descriptivo (decisi\u00f3n D13). E y S3 dependen en ",
+      "parte del resultado: un proyecto emite cr\u00e9ditos o se mantiene registrado cuando verifica reducciones."),
+    fuente = "C\u00e1lculos propios."))
+})
+
+## =============================================================================
+## Tabla 6.6 - Analisis de sensibilidad de Rambachan y Roth
+## =============================================================================
+hacer("tabla_6_6", {
+  h <- leer("44_honestdid_resumen.csv")
+  nom <- c(dr = "Con covariables", sincov = "Sin covariables"); par <- c(e0 = "e = 0", promedio_0_5 = "Promedio e = 0\u20135")
+  filas <- NULL
+  for (sp in c("dr", "sincov")) {
+    filas <- rbind(filas, panel(paste0("Panel ", if (sp == "dr") "A" else "B", ". ", nom[[sp]]), 5))
+    for (pp in c("e0", "promedio_0_5")) {
+      z <- h[h$especificacion == sp & h$parametro == pp, ][1, ]
+      filas <- rbind(filas, fila(par[[pp]], c(ic_txt(z$ic_convencional), ic_txt(z$ic_rm_Mbar_0.5), ic_txt(z$ic_rm_Mbar_1),
+                                                ic_txt(z$ic_sd_M_0), ic_txt(z$ic_sd_M_obs))))
+    }
+    mo <- h$M_obs[h$especificacion == sp][1]
+    filas <- rbind(filas, fila(paste0("  M observado = ", num(mo, 0), " ha"), rep("", 5), "ee"))
+  }
+  tabla(list(id = "tabla_6_6",
+    titulo = "Tabla 6.6\u2014Intervalos robustos a violaciones de tendencias paralelas",
+    cab = list(c("(1)", "(2)", "(3)", "(4)", "(5)"),
+               c("Convencional", "M\u0304 = 0,5", "M\u0304 = 1", "M = 0", "M = M obs.")),
+    filas = filas,
+    notas = paste0("Intervalos de confianza al 95 % (ha por a\u00f1o) seg\u00fan Rambachan y Roth (2023). Columnas (2) y (3): magnitudes relativas, ",
+      "la violaci\u00f3n posterior puede ser hasta M\u0304 veces la mayor violaci\u00f3n previa. Columnas (4) y (5): suavidad, la pendiente de la ",
+      "tendencia diferencial puede cambiar hasta M ha por a\u00f1o; M = 0 extrapola linealmente la tendencia previa y M observado es la mayor ",
+      "curvatura previa a la adopci\u00f3n. Estudio de eventos con referencia universal en g \u2212 1. Intervalos de suavidad calculados con el ",
+      "m\u00e9todo condicional h\u00edbrido (C-LF), porque el m\u00e9todo FLCI no pudo ejecutarse por una incompatibilidad de software. El valor de ",
+      "ruptura es cero en todos los casos: el intervalo convencional ya incluye el cero."),
+    fuente = "C\u00e1lculos propios."))
+})
+
+## =============================================================================
+## Tabla 6.7 - Pruebas de robustez
+## =============================================================================
+hacer("tabla_6_7", {
+  gv <- function(df, cands) { c <- intersect(cands, names(df))[1]; if (is.na(c)) NA else df[[c]][1] }
+  fila_r <- function(df, etq, misma_muestra = TRUE) {
+    if (is.null(df) || !nrow(df) || all(is.na(df[1, ]))) { cat("    (sin fila para: ", etq, ")\n", sep = ""); return(NULL) }
+    nt <- gv(df, "n_tratados"); nc <- gv(df, "n_controles"); na <- gv(df, "gt_na")
+    if (misma_muestra) { if (is.na(nt)) nt <- REF_N_TRATADOS; if (is.na(nc)) nc <- REF_N_CONTROLES }
+    raya <- function(v) if (v == "") "\u2014" else v
+    fila(etq, c(num(gv(df, c("att", "coef"))), ee(gv(df, "ee")), raya(ent(nt)), raya(ent(nc)), raya(ent(na))))
+  }
+  lee <- function(f) tryCatch(leer(f), error = function(e) { cat("    (sin ", f, ")\n", sep = ""); NULL })
+  r60 <- lee("60_robusteces.csv"); r48 <- lee("48_soporte_comun_estimaciones.csv"); r49 <- lee("49_controles_no_contiguos.csv")
+  r51 <- lee("51_psm_principal.csv"); r53 <- lee("53_controles_sin_poligonos.csv"); r46 <- lee("46_resumen_mapbiomas.csv")
+  r45 <- lee("45_spillover_resumen.csv")
+  q <- function(df, cond) {
+    if (is.null(df)) return(NULL)
+    i <- tryCatch(which(cond(df)), error = function(e) integer(0))
+    if (!length(i)) NULL else df[i[1], , drop = FALSE]
+  }
+  princ <- data.frame(att = REF_ATT_DR, ee = REF_EE_DR, n_tratados = REF_N_TRATADOS, n_controles = REF_N_CONTROLES, gt_na = 0, gt_total = 161)
+  filas <- apilar(
+    fila_r(princ, "Especificaci\u00f3n principal"),
+    panel("Panel A. Inferencia", 5),
+    fila_r(q(r60, function(d) grepl("^Principal, cluster departamento", d$especificacion)), "Errores agrupados por departamento"),
+    panel("Panel B. Definici\u00f3n del tratamiento", 5),
+    fila_r(q(r60, function(d) grepl("^alta_redd .* - DR", d$especificacion)), "Solo registros de Verra"),
+    fila_r(q(r60, function(d) grepl("^todas_redd_sinmanual - DR", d$especificacion)), "Sin ubicaci\u00f3n recuperada a mano"),
+    fila_r(q(r60, function(d) grepl("^Cobertura de poligonos .* - DR", d$especificacion)), "Cobertura de pol\u00edgonos \u2265 5 %"),
+    panel("Panel C. Grupo de control y soporte com\u00fan", 5),
+    fila_r(q(r48, function(d) d$recorte == "R1" & d$metodo == "dr"), "Soporte com\u00fan, propensi\u00f3n en [0,01; 0,99]"),
+    fila_r(q(r51, function(d) grepl("^\\(c'\\)", d$especificacion)), "Emparejamiento por propensi\u00f3n, con covariables"),
+    fila_r(q(r51, function(d) grepl("^\\(c\\)", d$especificacion)), "Emparejamiento por propensi\u00f3n, sin covariables"),
+    fila_r(q(r53, function(d) d$muestra == "P1" & d$especificacion == "dr"), "Sin controles cubiertos por pol\u00edgonos"),
+    fila_r(q(r49, function(d) d$muestra == "C1" & d$especificacion == "dr"), "Sin controles contiguos a tratados"),
+    panel("Panel D. Fuente del dato de deforestaci\u00f3n", 5),
+    fila_r(q(r46, function(d) d$outcome == "MB_est5_p1" & d$especificacion == "propias"), "MapBiomas, bosque estable con persistencia"),
+    panel("Panel E. Placebo, desplazamiento y heterogeneidad", 5),
+    fila_r(q(r60, function(d) grepl("^Placebo AFOLU no-REDD\\+ - sin covariables", d$especificacion)), "Placebo: proyectos forestales sin REDD+"),
+    fila_r(q(r45, function(d) grepl("^A", d$enfoque) & grepl("Doblemente", d$especificacion)), "Desplazamiento hacia municipios vecinos", misma_muestra = FALSE),
+    fila_r(q(r60, function(d) grepl("^Fuera de VA .* - sin covariables", d$especificacion)), "Fuera del \u00e1rea de Visi\u00f3n Amazon\u00eda"),
+    fila_r(q(r60, function(d) grepl("^Solo VA .* - sin covariables", d$especificacion)), "Solo el \u00e1rea de Visi\u00f3n Amazon\u00eda"))
+  tabla(list(id = "tabla_6_7",
+    titulo = "Tabla 6.7\u2014Pruebas de robustez",
+    cab = list(c("(1)", "(2)", "(3)", "(4)", "(5)"), c("ATT", "Error est\u00e1ndar", "Tratados", "Controles", "Pares sin estimar")),
+    filas = filas,
+    notas = paste0("ATT agregado en hect\u00e1reas por a\u00f1o. Salvo indicaci\u00f3n, estimador doblemente robusto con las 11 covariables de la ",
+      "especificaci\u00f3n principal y errores agrupados por municipio. El placebo, el \u00e1rea de Visi\u00f3n Amazon\u00eda y el emparejamiento sin ",
+      "covariables se reportan sin covariables porque la versi\u00f3n doblemente robusta pierde muchos pares cohorte-a\u00f1o. Pares sin estimar: ",
+      "pares cohorte-a\u00f1o que no pudieron estimarse (161 en la muestra principal). Desplazamiento: efecto sobre municipios no ",
+      "tratados con al menos un vecino tratado, frente a no tratados sin vecinos tratados; usa otra muestra, por eso no se reportan sus tama\u00f1os. Sin controles contiguos: el cambio de signo se explica por la composici\u00f3n de los pares cohorte-a\u00f1o que pueden estimarse, no por desplazamiento."),
+    fuente = "C\u00e1lculos propios."))
+})
+
+## =============================================================================
+## FIGURAS
+## =============================================================================
+titulo("FIGURAS")
+
+hacer("figura_4_1", {
+  if (!requireNamespace("sf", quietly = TRUE)) stop("falta el paquete sf")
+  mun <- sf::st_read(RUTA_MUNICIPIOS, quiet = TRUE)
+  cc <- intersect(c("COD_DANE", "MPIO_CDPMP", "CODIGO"), names(mun))[1]
+  mun$COD_DANE <- pad5(mun[[cc]])
+  mun <- sf::st_simplify(sf::st_transform(mun, 9377), dTolerance = 800)
+  pan <- readRDS(RUTA_PANEL_DID); pan$COD_DANE <- pad5(pan$COD_DANE)
+  acum <- pan %>% group_by(COD_DANE) %>% summarise(perdida = sum(.data[[OUTCOME]], na.rm = TRUE) / 1000, .groups = "drop")
+  tr <- read.csv(RUTA_PANEL_TRAT, colClasses = c(COD_DANE = "character"))
+  tr <- tr %>% mutate(COD_DANE = pad5(COD_DANE)) %>% group_by(COD_DANE) %>%
+    summarise(G = suppressWarnings(max(anio_inicio_tratamiento_todas_fuentes_redd_depurada, na.rm = TRUE)), .groups = "drop") %>%
+    mutate(tratado = is.finite(G) & G > 0)
+  mun <- mun %>% left_join(acum, by = "COD_DANE") %>% left_join(tr, by = "COD_DANE")
+  p <- ggplot(mun) +
+    geom_sf(aes(fill = perdida), color = NA) +
+    geom_sf(data = mun[mun$tratado %in% TRUE, ], fill = NA, color = COL$borde, linewidth = 0.5) +
+    (if (PALETA == "color")
+       scale_fill_distiller(palette = "YlOrRd", direction = 1, trans = "sqrt", na.value = "white",
+                            name = "P\u00e9rdida de bosque\n2001\u20132024 (miles de ha)")
+     else scale_fill_gradient(low = "grey95", high = "grey15", trans = "sqrt", na.value = "white",
+                              name = "P\u00e9rdida de bosque\n2001\u20132024 (miles de ha)")) +
+    theme_void(base_family = FUENTE, base_size = 9) +
+    theme(legend.position = "right", legend.title = element_text(size = 8))
+  guardar_fig(p, "figura_4_1", ancho = 6, alto = 7)
+})
+
+hacer("figura_4_2", {
+  tr <- read.csv(RUTA_PANEL_TRAT, colClasses = c(COD_DANE = "character"))
+  g <- tr %>% mutate(COD_DANE = pad5(COD_DANE)) %>% group_by(COD_DANE) %>%
+    summarise(G = suppressWarnings(max(anio_inicio_tratamiento_todas_fuentes_redd_depurada, na.rm = TRUE)), .groups = "drop") %>%
+    filter(is.finite(G), G > 0) %>% count(G) %>%
+    mutate(ventana = ifelse(G %in% VENTANA, "Cohortes reportadas (2013\u20132019)", "Fuera de la ventana"))
+  p <- ggplot(g, aes(factor(G), n, fill = ventana)) + geom_col(width = 0.7) +
+    scale_fill_manual(values = COL$ventana) +
+    labs(x = "A\u00f1o de adopci\u00f3n", y = "Municipios tratados") + tema_aer
+  guardar_fig(p, "figura_4_2", alto = 3.5)
+})
+
+hacer("figura_6_1", {
+  a <- read.csv(TAB("44_event_study_base_universal_dr.csv")); a$esp <- "Con covariables (principal)"
+  b <- read.csv(TAB("44_event_study_base_universal_sincov.csv")); b$esp <- "Sin covariables"
+  d <- rbind(a, b); d$esp <- factor(d$esp, levels = c("Con covariables (principal)", "Sin covariables"))
+  p <- ggplot(d, aes(e, att, shape = esp, color = esp)) +
+    geom_hline(yintercept = 0, linewidth = 0.3) + geom_vline(xintercept = -0.5, linetype = 2, linewidth = 0.3) +
+    geom_pointrange(aes(ymin = ic_inf, ymax = ic_sup), position = position_dodge(0.45), size = 0.3, linewidth = 0.4, na.rm = TRUE) +
+    scale_color_manual(values = c(COL$a, COL$b)) + scale_x_continuous(breaks = -5:5, labels = function(x) num(x, 0)) +
+    scale_y_continuous(labels = function(x) num(x, 0)) +
+    labs(x = lab_e, y = lab_ha) + tema_aer
+  guardar_fig(p, "figura_6_1")
+})
+
+hacer("figura_6_2", {
+  d <- read.csv(TAB("59_estudio_eventos_cs_vs_imputacion.csv"), stringsAsFactors = FALSE)
+  d$est <- ifelse(grepl("Callaway", d$estimador), paste0("Callaway y Sant\u2019Anna (referencia g ", MENOS, " 1)"),
+                  "Imputaci\u00f3n (referencia: todo el periodo previo)")
+  p <- ggplot(d, aes(e, att, shape = est, color = est)) +
+    geom_hline(yintercept = 0, linewidth = 0.3) + geom_vline(xintercept = -0.5, linetype = 2, linewidth = 0.3) +
+    geom_pointrange(aes(ymin = att - 1.96 * ee, ymax = att + 1.96 * ee), position = position_dodge(0.45),
+                    size = 0.3, linewidth = 0.4, na.rm = TRUE) +
+    scale_color_manual(values = c(COL$a, COL$b)) + scale_x_continuous(breaks = -5:5, labels = function(x) num(x, 0)) +
+    scale_y_continuous(labels = function(x) num(x, 0)) +
+    labs(x = lab_e, y = lab_ha) + tema_aer
+  guardar_fig(p, "figura_6_2")
+})
+
+hacer("figura_6_3", {
+  c58 <- read.csv(TAB("58_composicion_por_cohorte.csv"))
+  niv <- c("Nunca operaron", "Registrados sin cr\u00e9ditos", "Con cr\u00e9ditos", "Sin estado en Verra")
+  d <- rbind(data.frame(G = c58$G_dep, nivel = niv[1], n = c58$solo_S1),
+             data.frame(G = c58$G_dep, nivel = niv[2], n = c58$S2 - c58$E),
+             data.frame(G = c58$G_dep, nivel = niv[3], n = c58$E),
+             data.frame(G = c58$G_dep, nivel = niv[4], n = c58$sin_estado))
+  d$nivel <- factor(d$nivel, levels = niv)
+  p <- ggplot(d, aes(factor(G), n, fill = nivel)) + geom_col(width = 0.7, color = "black", linewidth = 0.2) +
+    scale_fill_manual(values = COL$escalera) +
+    labs(x = "Cohorte de adopci\u00f3n", y = "Municipios tratados") + tema_aer +
+    guides(fill = guide_legend(nrow = 2))
+  guardar_fig(p, "figura_6_3", alto = 3.8)
+})
+
+nombre_propio <- function(x) {
+  x <- tools::toTitleCase(tolower(x))
+  for (w in c("De", "Del", "La", "Las", "Los", "Y", "El")) x <- gsub(paste0(" ", w, " "), paste0(" ", tolower(w), " "), x)
+  x
+}
+hacer("figura_6_4", {
+  l <- read.csv(TAB("50_leave_one_out.csv"), stringsAsFactors = FALSE, encoding = "UTF-8")
+  l$etq <- ifelse(is.na(l$NOMBRE_MPI) | l$NOMBRE_MPI == "", "Cartagena del Chair\u00e1 y San Jos\u00e9 del Guaviare",
+                  nombre_propio(l$NOMBRE_MPI))
+  l$etq <- paste0(l$etq, " (", l$cohorte, ")")
+  l <- l[order(l$att_g1), ]; l$etq <- factor(l$etq, levels = l$etq)
+  p <- ggplot(l, aes(att_g1, etq)) +
+    annotate("rect", xmin = REF_ATT_DR - REF_EE_DR, xmax = REF_ATT_DR + REF_EE_DR, ymin = -Inf, ymax = Inf, fill = COL$banda) +
+    geom_vline(xintercept = REF_ATT_DR, linewidth = 0.4, color = COL$a) + geom_vline(xintercept = 0, linetype = 2, linewidth = 0.3) +
+    geom_point(size = 1.8, color = COL$a) + scale_x_continuous(labels = function(x) num(x, 0)) +
+    labs(x = "ATT sin el municipio indicado (ha por a\u00f1o)", y = NULL) + tema_aer
+  guardar_fig(p, "figura_6_4", alto = 4.2)
+})
+
+hacer("figura_6_5", {
+  o <- readRDS(file.path(DIR_OUT, "44_honestdid.rds"))
+  h <- o$resultados$dr$honestdid$promedio_0_5
+  if (is.null(h)) stop("44_honestdid.rds no tiene la estructura esperada")
+  rm <- data.frame(x = h$magnitudes_relativas$Mbar, lb = h$magnitudes_relativas$lb, ub = h$magnitudes_relativas$ub,
+                   panel = "Magnitudes~relativas~(bar(M))")
+  sd <- data.frame(x = h$suavidad$M, lb = h$suavidad$lb, ub = h$suavidad$ub,
+                   panel = "Suavidad~(italic(M)*\", ha por a\u00f1o\")")
+  d <- rbind(rm, sd)
+  p <- ggplot(d, aes(x, ymin = lb, ymax = ub)) + geom_hline(yintercept = 0, linewidth = 0.3) +
+    geom_errorbar(width = 0, linewidth = 0.6, color = COL$a) +
+    facet_wrap(~panel, scales = "free_x", labeller = label_parsed) + scale_y_continuous(labels = function(x) num(x, 0)) +
+    scale_x_continuous(labels = function(x) ifelse(abs(x - round(x)) < 1e-9, num(x, 0), num(x, 1))) +
+    labs(x = NULL, y = "Intervalo robusto al 95 % (ha por a\u00f1o)") + tema_aer
+  guardar_fig(p, "figura_6_5", alto = 3.5)
+})
+
+## =============================================================================
+## Preambulo LaTeX e indice
+## =============================================================================
+writeLines(c("% Paquetes que necesitan las tablas de scripts/70_tablas_figuras.R",
+             "\\usepackage[utf8]{inputenc}", "\\usepackage[T1]{fontenc}", "\\usepackage[spanish,es-noshorthands]{babel}",
+             "\\usepackage{booktabs}", "\\usepackage{threeparttable}",
+             "\\usepackage[labelformat=empty,font=small,skip=6pt]{caption}  % el titulo ya incluye 'Tabla X.Y--'"),
+           file.path(DIR_T, "preambulo.tex"))
+
+titulo("RESUMEN")
+for (k in names(productos)) cat(sprintf("  %-22s %s\n", k, productos[[k]]))
+cat("\nTablas:  ", DIR_T, "\nFiguras: ", DIR_F, "\n")
+if (any(grepl("^ERROR", unlist(productos)))) quit(status = 1)
