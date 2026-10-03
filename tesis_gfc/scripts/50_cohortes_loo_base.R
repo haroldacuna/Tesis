@@ -66,7 +66,7 @@ TEMPRANAS <- 2013:2016
 TARDIAS   <- 2017:2019
 K_PROM    <- 5
 B_BOOT    <- 199
-PRINCIPAL <- c(att = -207.9, ee = 198.5)
+PRINCIPAL <- c(att = REF_ATT_DR, ee = REF_EE_DR)
 EXCLUSION_CONJUNTA <- c("18150", "95001")   # Cartagena del Chaira, San Jose del Guaviare
 X <- COVARIABLES_XFORMLA   # B.1: lista oficial de 00_config_did.R
 

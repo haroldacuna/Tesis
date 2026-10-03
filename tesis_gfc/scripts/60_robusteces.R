@@ -52,7 +52,7 @@ if (!length(BLOQUES)) stop("Bloques validos: ", paste(TODOS, collapse = ", "))
 cat("Bloques a correr:", paste(BLOQUES, collapse = ", "), "\n")
 
 ## --- Parametros --------------------------------------------------------------
-REF_40_DR <- -213.73
+REF_40_DR <- REF_ATT_DR       # de 00_config_did.R (corrida final)
 UMBRAL_PCT <- 5                       # % del municipio cubierto (igual que P1 del 53)
 RUTA_VA <- file.path(RAIZ, "data/raw/renare_geovisor_iniciativas.geojson")
 FILTRO_VA <- "amazonia"               # sin tilde: la capa del geovisor trae las tildes danadas

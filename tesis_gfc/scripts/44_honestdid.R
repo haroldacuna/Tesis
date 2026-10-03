@@ -87,7 +87,7 @@ E_PRE     <- 5
 E_POST    <- 5
 ## ATT balanceado e = 0..5 del 40 (corrida sin Mogotes, oct-2026). El script
 ## verifica que el promedio post con base universal los reproduzca.
-REFERENCIA_BAL <- c(dr = -235.31, sincov = -247.35)
+REFERENCIA_BAL <- c(dr = REF_BAL_DR, sincov = REF_BAL_SINCOV)   # de 00_config_did.R
 ESPECIFICACIONES <- list(dr = "DR con covariables (principal)", sincov = "sin covariables (referencia del 59)")
 
 ## Grillas: Mbar adimensional; M en hectareas por periodo al cuadrado.

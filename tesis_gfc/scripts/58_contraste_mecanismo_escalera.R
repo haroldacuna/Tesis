@@ -81,7 +81,7 @@ muestra <- aplicar_controles_limpios(muestra, cont, col_g = "G_dep")
 mun <- muestra %>% distinct(COD_DANE, G_dep)
 cat(sprintf("Muestra para el contraste: %d municipios | %d tratados | %d controles\n",
             nrow(mun), sum(mun$G_dep > 0), sum(mun$G_dep == 0)))
-if (sum(mun$G_dep == 0) != 986 || sum(mun$G_dep > 0) != 36)
+if (sum(mun$G_dep == 0) != REF_N_CONTROLES || sum(mun$G_dep > 0) != REF_N_TRATADOS)
   stop("La muestra no coincide con la principal del 40 (36 tratados, 986 controles). Revisa antes de seguir.")
 
 ## =============================================================================

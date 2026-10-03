@@ -47,7 +47,7 @@ source(file.path(RAIZ_PROYECTO, "scripts/comun_controles_limpios.R"))
 source(file.path(RAIZ_PROYECTO, "scripts/comun_covariables_pre.R"))
 
 BAL_E     <- 5
-PRINCIPAL <- c(att = -207.9, ee = 198.5)
+PRINCIPAL <- c(att = REF_ATT_DR, ee = REF_EE_DR)
 X <- COVARIABLES_XFORMLA   # B.1: lista oficial de 00_config_did.R
 
 pad5   <- function(x) formatC(as.integer(x), width = 5, flag = "0")

@@ -56,16 +56,17 @@ UMBRAL_PCT <- 5                # % del municipio cubierto por un poligono (A.7, 
 ## sensibilidad sin esas dos variables se reporta aparte.
 COVARIABLES_XFORMLA <- ~ log_baseline_forest + temp_media_c_base +
   prec_anual_mm_base + discapital_base + disbogota_base + distancia_mercado_base +
-  H_coca_base + homicidios_base + log_defor_pre_media + defor_pre_tendencia
+  H_coca_base + homicidios_base + log_defor_pre_media + defor_pre_tendencia + pct_sinap_pub_base
 
 ## --- 3. Referencias de resultados-v1 ------------------------------------------
 ## Salen del 40 (corrida sin Mogotes, oct-2026). Los scripts que trabajan sobre
 ## la muestra principal deben reproducirlas; si no, se detienen.
 REF_N_TRATADOS     <- 36
 REF_N_CONTROLES    <- 986
-REF_ATT_DR         <- -213.73     # ATT simple, DR con covariables (principal)
+REF_ATT_DR         <- -152.53     # ATT simple, DR con covariables (principal)
+REF_EE_DR          <- 186.53      # EE del ATT simple, DR (principal)
 REF_ATT_SINCOV     <- -183.29     # ATT simple, sin covariables
-REF_BAL_DR         <- -235.31     # ATT balanceado e = 0..5, DR
+REF_BAL_DR         <- -200.13     # ATT balanceado e = 0..5, DR
 REF_BAL_SINCOV     <- -247.35     # ATT balanceado e = 0..5, sin covariables
 
 ## --- 4. Rutas de insumos compartidos ------------------------------------------

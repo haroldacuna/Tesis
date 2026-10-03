@@ -42,12 +42,12 @@ DIR_OUT <- file.path(RAIZ, "outputs"); DIR_TAB <- file.path(DIR_OUT, "tablas"); 
 for (d in c(DIR_TAB, DIR_FIG)) dir.create(d, showWarnings = FALSE, recursive = TRUE)
 
 ## --- Parametros (iguales al 40) ---------------------------------------------
-REF_40    <- -183.29          # CS sin covariables del 40: la referencia debe reproducirlo
+REF_40    <- REF_ATT_SINCOV   # de 00_config_did.R (corrida final)
 E_PRE     <- 5
 E_POST    <- 5
 
 ## Especificacion principal (DR con covariables): misma lista que el 40.
-REF_40_DR <- -213.73        # ATT simple de la principal (DR) en el 40
+REF_40_DR <- REF_ATT_DR       # de 00_config_did.R (corrida final)
 
 pad5   <- function(x) formatC(as.integer(x), width = 5, flag = "0")
 titulo <- function(t) cat("\n", strrep("=", 76), "\n", t, "\n", strrep("=", 76), "\n", sep = "")

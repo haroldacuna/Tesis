@@ -56,7 +56,7 @@ PASOS = [
     ("fase_A", "60_robusteces.R"),
     ("fase_A", "45_spillovers_depurada.R"),
     ("fase_A", "46_did_mapbiomas.R"),
-    ("fase_A", "46_event_study_tres_estimadores.R"),
+    ## 46_event_study_tres_estimadores.R fuera: usa otra muestra (sin controles limpios)
     ("fase_A", "48_soporte_comun.R"),
     ("fase_A", "49_controles_no_contiguos.R"),
     ("fase_A", "50_cohortes_loo_base.R"),

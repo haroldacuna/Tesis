@@ -49,7 +49,7 @@ source(file.path(RAIZ_PROYECTO, "scripts/comun_controles_limpios.R"))
 source(file.path(RAIZ_PROYECTO, "scripts/comun_covariables_pre.R"))
 
 BAL_E     <- 5
-PRINCIPAL <- c(att = -207.9, ee = 198.5)
+PRINCIPAL <- c(att = REF_ATT_DR, ee = REF_EE_DR)
 UMBRALES  <- c(P1 = 5, S_1 = 1, S_10 = 10)   # % del area municipal
 MIN_HA    <- 100
 X <- COVARIABLES_XFORMLA   # B.1: lista oficial de 00_config_did.R
@@ -126,7 +126,7 @@ correr <- function(d, metodo, xformla, etq) {
 
 titulo("CONTROLES CUBIERTOS POR POLIGONOS AD")
 filas <- list()
-r0 <- correr(base, "dr", X, "completa | dr (debe reproducir -207.9)")
+r0 <- correr(base, "dr", X, "completa | dr (debe reproducir REF_ATT_DR)")
 if (!is.null(r0)) filas[["completa dr"]] <- cbind(muestra = "completa", umbral_pct = NA, especificacion = "dr",
                                                    peso_att_excluido_pct = 0, r0)
 for (k in names(UMBRALES)) {

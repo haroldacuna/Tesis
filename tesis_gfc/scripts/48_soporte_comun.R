@@ -62,7 +62,7 @@ source(file.path(RAIZ_PROYECTO, "scripts/comun_covariables_pre.R"))
 BAL_E     <- 5
 RECORTES  <- list(completa = c(0, 1), R1 = c(0.01, 0.99), R2 = c(0.10, 0.90))
 METODOS   <- c("dr", "reg", "ipw")
-PRINCIPAL_ESPERADA <- -207.9            # 40 / 47 V1 x limpios
+PRINCIPAL_ESPERADA <- REF_ATT_DR            # 40 / 47 V1 x limpios
 X <- COVARIABLES_XFORMLA   # B.1: lista oficial de 00_config_did.R
 
 pad5   <- function(x) formatC(as.integer(x), width = 5, flag = "0")

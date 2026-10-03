@@ -17,7 +17,7 @@ if (is.na(dr$att_simple) || is.na(sc$att_simple)) stop("El resumen del 40 no tra
 m <- cargar_muestra_principal(verificar = FALSE)
 mun <- unique(m[, c("COD_DANE", "G_dep")])
 nuevos <- c(REF_N_TRATADOS = sum(mun$G_dep > 0), REF_N_CONTROLES = sum(mun$G_dep == 0),
-            REF_ATT_DR = round(dr$att_simple, 2), REF_ATT_SINCOV = round(sc$att_simple, 2),
+            REF_ATT_DR = round(dr$att_simple, 2), REF_EE_DR = round(dr$ee_simple, 2), REF_ATT_SINCOV = round(sc$att_simple, 2),
             REF_BAL_DR = round(dr$att_balanceado, 2), REF_BAL_SINCOV = round(sc$att_balanceado, 2))
 
 ruta_cfg <- file.path(RAIZ_PROYECTO, "scripts/00_config_did.R")
