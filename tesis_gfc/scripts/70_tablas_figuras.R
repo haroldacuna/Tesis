@@ -489,6 +489,76 @@ hacer("tabla_6_7", {
     fuente = "C\u00e1lculos propios."))
 })
 
+
+## =============================================================================
+## Tabla 6.8 - Evaluacion por poligonos (celdas de 2 x 2 km)
+## Tabla 6.9 - Efecto minimo detectable por cohorte
+## =============================================================================
+hacer("tabla_6_8", {
+  r <- leer("56_resultados_celdas.csv")
+  g <- function(res, patron) r[r$resultado == res & grepl(patron, r$analisis), ][1, ]
+  f8 <- function(z, etq, d = 3) fila(etq, c(num(z$att, d), ee(z$ee, d), ic(z$ic_inf, z$ic_sup, 2),
+                                           pct(z$att_rel_pct, 0), num(z$media_pre_tratadas, d)))
+  pr <- g("def_p1", "^principal")
+  filas <- apilar(
+    panel("Panel A. Efecto principal", 5),
+    f8(pr, "P\u00e9rdida de bosque natural (ha)"),
+    f8(g("tasa_pct", "^principal"), "Tasa de p\u00e9rdida (% del bosque)"),
+    panel("Panel B. Por tipo de bosque de origen", 5),
+    f8(g("def_p1_tierra_firme", "^por tipo"), "Bosque de tierra firme"),
+    f8(g("def_p1_inundable", "^por tipo"), "Bosque inundable"),
+    panel("Panel C. Por uso de destino", 5),
+    f8(g("def_p1_agropecuario", "^por tipo"), "Agropecuario"),
+    f8(g("def_p1_rastrojo", "^por tipo"), "Vegetaci\u00f3n secundaria (rastrojo)"),
+    f8(g("def_p1_mineria", "^por tipo"), "Miner\u00eda"),
+    f8(g("def_p1_otros_antropicos", "^por tipo"), "Otros usos antr\u00f3picos"),
+    panel("Panel D. Desplazamiento", 5),
+    f8(g("def_p1", "^fuga"), "Celdas de la zona de amortiguaci\u00f3n"),
+    panel("Panel E. Sensibilidad al estimador", 5),
+    f8(r[r$resultado == "def_p1" & grepl("^sensibilidad", r$analisis) & r$covariables %in% c(TRUE, "TRUE"), ][1, ],
+       "Doblemente robusto, con covariables"),
+    f8(r[r$resultado == "def_p1" & grepl("^sensibilidad", r$analisis) & r$covariables %in% c(FALSE, "FALSE"), ][1, ],
+       "Doblemente robusto, sin covariables"))
+  fu <- g("def_p1", "^fuga")
+  tabla(list(id = "tabla_6_8",
+    titulo = "Tabla 6.8\u2014Efecto de los proyectos sobre la conversi\u00f3n de bosque en sus pol\u00edgonos",
+    cab = list(c("(1)", "(2)", "(3)", "(4)", "(5)"),
+               c("ATT", "Error est\u00e1ndar", "IC 95 %", "Relativo", "Media previa")),
+    filas = filas,
+    notas = paste0("Unidad: celda de 2 \u00d7 2 km (400 ha); ATT y media previa en hect\u00e1reas por celda y a\u00f1o, salvo la tasa (puntos ",
+      "porcentuales). Celdas tratadas: las que caen dentro de los pol\u00edgonos de ", ent(pr$conglomerados_tratados),
+      " proyectos de deforestaci\u00f3n evitada (Karnik et al., 2025); controles emparejados por bosque en 2000, \u00e1rea inundable, ",
+      "elevaci\u00f3n, pendiente, deforestaci\u00f3n previa y presi\u00f3n de deforestaci\u00f3n en el entorno. Estimador de Callaway y ",
+      "Sant\u2019Anna por regresi\u00f3n sobre la muestra emparejada (", ent(pr$celdas_tratadas), " celdas tratadas y ",
+      ent(pr$celdas_control), " de control), con errores agrupados por proyecto. Panel D: celdas de la zona de amortiguaci\u00f3n frente ",
+      "a controles (", ent(fu$celdas_tratadas), " y ", ent(fu$celdas_control), " celdas). El relativo divide el ATT por la media previa; ",
+      "en miner\u00eda y otros usos la media es casi cero y el porcentaje no es informativo. Panel E: el estimador doblemente robusto ",
+      "con covariables es inestable por la separaci\u00f3n casi completa en el modelo de propensi\u00f3n."),
+    fuente = "MapBiomas Colombia, Colecci\u00f3n 3; Karnik et al. (2025); c\u00e1lculos propios."))
+})
+hacer("tabla_6_9", {
+  e <- leer("57_efecto_minimo_detectable.csv"); e <- e[e$resultado == "def_p1", ]
+  e <- e[order(e$cohorte == "todas", e$cohorte), ]
+  filas <- NULL
+  for (i in seq_len(nrow(e))) {
+    z <- e[i, ]; tot <- z$cohorte == "todas"
+    filas <- rbind(filas, fila(if (tot) "Todas las cohortes" else as.character(z$cohorte),
+      c(ent(z$proyectos), ent(z$celdas), num(z$media_pre, 2), num(z$att, 2), num(z$emd, 2), pct(z$emd_rel_pct, 0)),
+      if (tot) "sep" else "dato"),
+      fila("", c("", "", "", ee(z$ee, 2), "", ""), "ee"))
+  }
+  tabla(list(id = "tabla_6_9",
+    titulo = "Tabla 6.9\u2014Efecto m\u00ednimo detectable de la evaluaci\u00f3n por pol\u00edgonos",
+    cab = list(c("(1)", "(2)", "(3)", "(4)", "(5)", "(6)"),
+               c("Proyectos", "Celdas", "Media previa", "ATT", "EMD", "EMD / media")),
+    filas = filas,
+    notas = paste0("P\u00e9rdida de bosque natural en hect\u00e1reas por celda de 400 ha y a\u00f1o. Columna (4): ATT con su error est\u00e1ndar entre ",
+      "par\u00e9ntesis. EMD: efecto m\u00ednimo detectable con 5 % de significancia (dos colas) y 80 % de potencia, igual a 2,8 veces el ",
+      "error est\u00e1ndar. Columna (6): EMD como porcentaje de la p\u00e9rdida previa de las celdas tratadas; un valor mayor que 100 % ",
+      "significa que ni siquiera eliminar toda la deforestaci\u00f3n ser\u00eda detectable. No hay cohorte 2016 ni 2019 con pol\u00edgono."),
+    fuente = "MapBiomas Colombia, Colecci\u00f3n 3; Karnik et al. (2025); c\u00e1lculos propios."))
+})
+
 ## =============================================================================
 ## FIGURAS
 ## =============================================================================
@@ -608,6 +678,38 @@ hacer("figura_6_5", {
     scale_x_continuous(labels = function(x) ifelse(abs(x - round(x)) < 1e-9, num(x, 0), num(x, 1))) +
     labs(x = NULL, y = "Intervalo robusto al 95 % (ha por a\u00f1o)") + tema_aer
   guardar_fig(p, "figura_6_5", alto = 3.5)
+})
+
+
+hacer("figura_6_6", {
+  e <- read.csv(TAB("57_efecto_minimo_detectable.csv"), stringsAsFactors = FALSE)
+  e <- e[e$resultado == "def_p1", ]
+  e$coh <- ifelse(e$cohorte == "todas", "Todas", e$cohorte)
+  e$coh <- factor(e$coh, levels = c(sort(setdiff(e$coh, "Todas")), "Todas"))
+  d <- rbind(data.frame(coh = e$coh, serie = "P\u00e9rdida previa de las celdas tratadas", v = e$media_pre),
+             data.frame(coh = e$coh, serie = "Efecto m\u00ednimo detectable", v = e$emd))
+  d$serie <- factor(d$serie, levels = c("P\u00e9rdida previa de las celdas tratadas", "Efecto m\u00ednimo detectable"))
+  et <- data.frame(coh = e$coh, v = e$emd, txt = paste0(num(e$emd_rel_pct, 0), " %"))
+  p <- ggplot(d, aes(coh, v, fill = serie)) +
+    geom_col(position = position_dodge(0.75), width = 0.7) +
+    geom_text(data = et, aes(coh, v, label = txt), inherit.aes = FALSE, nudge_x = 0.19, vjust = -0.4,
+              size = 3, family = FUENTE) +
+    scale_fill_manual(values = c("grey70", COL$b)) +
+    scale_y_continuous(labels = function(x) num(x, 1), expand = expansion(mult = c(0, 0.08))) +
+    labs(x = "Cohorte de adopci\u00f3n", y = "Hect\u00e1reas por celda y a\u00f1o") + tema_aer
+  guardar_fig(p, "figura_6_6", alto = 3.8)
+})
+
+hacer("figura_6_7", {
+  d <- read.csv(TAB("56_event_study_celdas.csv"), stringsAsFactors = FALSE)
+  d <- d[d$modelo == "def_p1", ]
+  p <- ggplot(d, aes(e, att)) +
+    geom_hline(yintercept = 0, linewidth = 0.3) + geom_vline(xintercept = -0.5, linetype = 2, linewidth = 0.3) +
+    geom_pointrange(aes(ymin = att - 1.96 * ee, ymax = att + 1.96 * ee), color = COL$a, size = 0.3, linewidth = 0.4) +
+    scale_x_continuous(breaks = sort(unique(d$e)), labels = function(x) num(x, 0)) +
+    scale_y_continuous(labels = function(x) num(x, 1)) +
+    labs(x = lab_e, y = "Efecto sobre la p\u00e9rdida de bosque (ha por celda y a\u00f1o)") + tema_aer
+  guardar_fig(p, "figura_6_7", alto = 3.8)
 })
 
 ## =============================================================================
