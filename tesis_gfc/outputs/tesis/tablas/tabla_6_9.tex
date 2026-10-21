@@ -2,33 +2,45 @@
 \begin{table}[htbp]
 \centering
 \small
-\caption{Tabla 6.9—Efecto mínimo detectable de la evaluación por polígonos}
+\caption{Tabla 6.9—Pruebas de robustez}
 \label{tab:tabla_6_9}
 \begin{threeparttable}
-\begin{tabular}{@{}lcccccc@{}}
+\begin{tabular}{@{}lccccc@{}}
 \toprule
- & (1) & (2) & (3) & (4) & (5) & (6) \\
- & Proyectos & Celdas & Media previa & ATT & EMD & EMD / media \\
+ & (1) & (2) & (3) & (4) & (5) \\
+ & ATT & Error estándar & Tratados & Controles & Pares sin estimar \\
 \midrule
-2013 & 7 & 4.248 & 0,53 & $-$0,24 & 1,38 & 258 \% \\
- &  &  &  & (0,49) &  &  \\
-2014 & 4 & 718 & 1,46 & 0,13 & 3,75 & 257 \% \\
- &  &  &  & (1,34) &  &  \\
-2015 & 4 & 919 & 2,02 & 0,01 & 5,72 & 283 \% \\
- &  &  &  & (2,04) &  &  \\
-2017 & 3 & 1.290 & 2,34 & 0,41 & 5,34 & 228 \% \\
- &  &  &  & (1,90) &  &  \\
-2018 & 7 & 9.889 & 0,12 & $-$0,11 & 0,41 & 338 \% \\
- &  &  &  & (0,15) &  &  \\
-\midrule
-Todas las cohortes & 25 & 17.064 & 0,52 & $-$0,10 & 0,98 & 190 \% \\
- &  &  &  & (0,35) &  &  \\
+Especificación principal & $-$152,5 & (186,5) & 36 & 986 & 0 \\
+\addlinespace
+\multicolumn{6}{@{}l}{\textit{Panel A. Inferencia}} \\
+Errores agrupados por departamento & $-$152,5 & (3.879,8) & 36 & 986 & 0 \\
+\addlinespace
+\multicolumn{6}{@{}l}{\textit{Panel B. Definición del tratamiento}} \\
+Solo registros de Verra & $-$165,1 & (210,6) & 33 & 986 & 0 \\
+Sin ubicación recuperada a mano & $-$178,0 & (187,9) & 27 & 986 & 0 \\
+Cobertura de polígonos $\geq$ 5 \% & $-$73,7 & (116,7) & 60 & 965 & 0 \\
+\addlinespace
+\multicolumn{6}{@{}l}{\textit{Panel C. Grupo de control y soporte común}} \\
+Soporte común, propensión en [0,01; 0,99] & $-$205,1 & (199,2) & 34 & 243 & 0 \\
+Emparejamiento por propensión, con covariables & $-$93,9 & (233,3) & 33 & 735 & 0 \\
+Emparejamiento por propensión, sin covariables & $-$324,2 & (315,4) & 33 & 735 & 0 \\
+Sin controles cubiertos por polígonos & $-$135,9 & (182,3) & 36 & 965 & 0 \\
+Sin controles contiguos a tratados & 24,5 & (116,1) & 36 & 874 & 57 \\
+\addlinespace
+\multicolumn{6}{@{}l}{\textit{Panel D. Fuente del dato de deforestación}} \\
+MapBiomas, bosque estable con persistencia & $-$70,0 & (153,3) & 36 & 986 & — \\
+\addlinespace
+\multicolumn{6}{@{}l}{\textit{Panel E. Placebo, desplazamiento y heterogeneidad}} \\
+Placebo: proyectos forestales sin REDD+ & 41,0 & (102,1) & 9 & 986 & 0 \\
+Desplazamiento hacia municipios vecinos & $-$2,4 & (33,1) & — & — & — \\
+Fuera del área de Visión Amazonía & $-$57,8 & (77,5) & 27 & 930 & 0 \\
+Solo el área de Visión Amazonía & $-$865,0 & (1.439,6) & 9 & 56 & 0 \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}[flushleft]
 \footnotesize
-\item \textit{Notas:} Pérdida de bosque natural en hectáreas por celda de 400 ha y año. Columna (4): ATT con su error estándar entre paréntesis. EMD: efecto mínimo detectable con 5 \% de significancia (dos colas) y 80 \% de potencia, igual a 2,8 veces el error estándar. Columna (6): EMD como porcentaje de la pérdida previa de las celdas tratadas; un valor mayor que 100 \% significa que ni siquiera eliminar toda la deforestación sería detectable. No hay cohorte 2016 ni 2019 con polígono.
-\item \textit{Fuente:} MapBiomas Colombia, Colección 3; Karnik et al. (2025); cálculos propios.
+\item \textit{Notas:} ATT agregado en hectáreas por año. Salvo indicación, estimador doblemente robusto con las 11 covariables de la especificación principal y errores agrupados por municipio. El placebo, el área de Visión Amazonía y el emparejamiento sin covariables se reportan sin covariables porque la versión doblemente robusta pierde muchos pares cohorte-año. Pares sin estimar: pares cohorte-año que no pudieron estimarse (161 en la muestra principal). Desplazamiento: efecto sobre municipios no tratados con al menos un vecino tratado, frente a no tratados sin vecinos tratados; usa otra muestra, por eso no se reportan sus tamaños. Sin controles contiguos: el cambio de signo se explica por la composición de los pares cohorte-año que pueden estimarse, no por desplazamiento.
+\item \textit{Fuente:} Cálculos propios.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}

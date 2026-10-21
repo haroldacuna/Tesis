@@ -19,7 +19,7 @@
 ## VALIDACION OBLIGATORIA: con base g-1 el motor debe reproducir -207.9 ha
 ## (tolerancia 1 ha); si no, el script se detiene.
 ##
-## INFERENCIA: bootstrap por municipio, B = 199, estratificado por cohorte y
+## INFERENCIA: bootstrap por municipio, B = BOOT_COHORTES (999, en 00_config), estratificado por cohorte y
 ## controles (cada replica conserva el tamanio de cada cohorte). IC percentil.
 ##
 ## REGLAS (fijadas ANTES de correr, 27/09/2026):
@@ -65,7 +65,7 @@ source(file.path(RAIZ_PROYECTO, "scripts/comun_covariables_pre.R"))
 TEMPRANAS <- 2013:2016
 TARDIAS   <- 2017:2019
 K_PROM    <- 5
-B_BOOT    <- 199
+B_BOOT    <- BOOT_COHORTES   # 999 desde el 18/10/2026 (antes 199)
 PRINCIPAL <- c(att = REF_ATT_DR, ee = REF_EE_DR)
 EXCLUSION_CONJUNTA <- c("18150", "95001")   # Cartagena del Chaira, San Jose del Guaviare
 X <- COVARIABLES_XFORMLA   # B.1: lista oficial de 00_config_did.R
@@ -188,7 +188,7 @@ for (b in seq_len(B_BOOT)) {
   ix <- indices_boot(G_all)
   boot[b, 1:3] <- resumen_grupos(att_celdas(M, "g1", ix))
   boot[b, 4:6] <- resumen_grupos(att_celdas(M, "prom", ix))
-  if (b %% 20 == 0) cat(sprintf("  replica %d/%d (%.1f min)\n", b, B_BOOT,
+  if (b %% 100 == 0) cat(sprintf("  replica %d/%d (%.1f min)\n", b, B_BOOT,
                                 as.numeric(difftime(Sys.time(), t0, units = "mins"))))
 }
 pt <- c(resumen_grupos(cel_g1), resumen_grupos(cel_prom))

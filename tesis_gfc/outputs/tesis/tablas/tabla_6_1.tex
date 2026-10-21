@@ -5,29 +5,31 @@
 \caption{Tabla 6.1—Efecto de los proyectos REDD+ sobre la deforestación municipal}
 \label{tab:tabla_6_1}
 \begin{threeparttable}
-\begin{tabular}{@{}lcccc@{}}
+\begin{tabular}{@{}lcccccc@{}}
 \toprule
- & (1) & (2) & (3) & (4) \\
- & Principal & Sin SINAP & Sin covariables & D1 original \\
+ & (1) & (2) & (3) & (4) & (5) & (6) \\
+ & Principal & Sin SINAP & Sin covariables & Original & Solo nunca tratados & Sin dosis > 1 \\
 \midrule
-ATT agregado & $-$152,5 & $-$169,4 & $-$183,3 & $-$163,7 \\
- & (186,5) & (194,5) & (298,3) & (168,3) \\
- & [$-$518; 213] & [$-$550; 212] & [$-$768; 401] & [$-$493; 166] \\
+ATT agregado & $-$152,5 & $-$169,4 & $-$183,3 & $-$163,7 & $-$143,6 & $-$107,0 \\
+ & (186,5) & (194,5) & (298,3) & (168,3) & (186,6) & (209,9) \\
+ & [$-$518; 213] & [$-$550; 212] & [$-$768; 401] & [$-$493; 166] & [$-$509; 222] & [$-$518; 305] \\
 \midrule
-ATT balanceado, e = 0--5 & $-$200,1 & — & $-$247,3 & $-$202,9 \\
- & (196,9) &  & (304,9) & (189,2) \\
-Efecto relativo a la media previa & $-$15,1 \% & $-$16,8 \% & $-$18,2 \% & $-$15,9 \% \\
-Media previa de los tratados (ha/año) & 1.009,5 & 1.009,5 & 1.009,5 & 1.027,7 \\
+ATT balanceado, e = 0--5 & $-$200,1 & — & $-$247,3 & $-$202,9 & $-$186,5 & $-$139,0 \\
+ & (196,9) &  & (304,9) & (189,2) & (208,5) & (255,6) \\
+Efecto relativo a la media previa & $-$15,1 \% & $-$16,8 \% & $-$18,2 \% & $-$15,9 \% & $-$14,2 \% & $-$9,0 \% \\
+Media previa de los tratados (ha/año) & 1.009,5 & 1.009,5 & 1.009,5 & 1.027,7 & 1.009,5 & 1.186,3 \\
 \midrule
-Covariables & 11 & 10 & No & 11 \\
-Muestra de tratados & D1 depurada & D1 depurada & D1 depurada & D1 original \\
-Municipios tratados & 36 & 36 & 36 & 41 \\
-Municipios de control & 986 & 986 & 986 & 987 \\
+Covariables & 11 & 10 & No & 11 & 11 & 11 \\
+Grupo de comparación & NT + AN & NT + AN & NT + AN & NT + AN & NT & NT + AN \\
+Muestra de tratados & Principal & Principal & Principal & Original & Principal & Sin desborde \\
+Municipios tratados & 36 & 36 & 36 & 41 & 36 & 30 \\
+Nunca tratados (NT) & 986 & 986 & 986 & 987 & 986 & 986 \\
+Aún no tratados (AN) por par (g, t) & 0--31 & 0--31 & 0--31 & — & 0 & — \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}[flushleft]
 \footnotesize
-\item \textit{Notas:} Estimador de Callaway y Sant’Anna (2021) doblemente robusto, con grupo de comparación de municipios aún no tratados y cohortes de adopción 2013--2019. Variable dependiente: pérdida anual de cobertura arbórea (ha). Errores estándar entre paréntesis, por bootstrap multiplicador agrupado por municipio (999 repeticiones); intervalos de confianza al 95 \% entre corchetes. La columna (1) usa las 11 covariables de línea base (D4); la (2) excluye el área en el SINAP. La D1 depurada excluye seis municipios cuyo único proyecto REDD+ fue retirado o rechazado. Controles limpios: municipios sin ningún vínculo con proyectos de carbono. El efecto relativo divide el ATT agregado por la media previa de los tratados.
+\item \textit{Notas:} Estimador de Callaway y Sant’Anna (2021) doblemente robusto, cohortes de adopción 2013--2019. Variable dependiente: pérdida anual de cobertura arbórea (ha). Errores estándar entre paréntesis, por bootstrap multiplicador agrupado por municipio (999 repeticiones); intervalos de confianza al 95 \% entre corchetes. Grupo de comparación de cada cohorte g en el año t: los municipios nunca tratados (NT) más los tratados que aún no adoptan en t (AN, G > t); desde 2019 no quedan AN y la comparación es solo con NT. La columna (5) usa solo NT. Nunca tratados: controles limpios, sin ningún vínculo con proyectos de carbono en ninguna fuente ni año. La columna (2) excluye el área en el SINAP; la (6) excluye los municipios cuya área REDD+ supera el área de referencia de la dosis. La muestra principal excluye seis municipios cuyo único proyecto REDD+ fue retirado o rechazado. El efecto relativo divide el ATT agregado por la media previa de los tratados.
 \item \textit{Fuente:} Cálculos propios con Global Forest Change v1.12 y los registros Verra, RENARE y Cercarbono.
 \end{tablenotes}
 \end{threeparttable}

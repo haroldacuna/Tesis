@@ -2,45 +2,42 @@
 \begin{table}[htbp]
 \centering
 \small
-\caption{Tabla 6.7—Pruebas de robustez}
+\caption{Tabla 6.7—Efecto de los proyectos sobre la conversión de bosque en sus polígonos}
 \label{tab:tabla_6_7}
 \begin{threeparttable}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
  & (1) & (2) & (3) & (4) & (5) \\
- & ATT & Error estándar & Tratados & Controles & Pares sin estimar \\
+ & ATT & Error estándar & IC 95 \% & Relativo & Media previa \\
 \midrule
-Especificación principal & $-$152,5 & (186,5) & 36 & 986 & 0 \\
+\multicolumn{6}{@{}l}{\textit{Panel A. Efecto principal}} \\
+Pérdida de bosque natural (ha) & $-$0,098 & (0,351) & [$-$0,79; 0,59] & $-$19 \% & 0,518 \\
+Tasa de pérdida (\% del bosque) & $-$0,024 & (0,124) & [$-$0,27; 0,22] & $-$14 \% & 0,163 \\
 \addlinespace
-\multicolumn{6}{@{}l}{\textit{Panel A. Inferencia}} \\
-Errores agrupados por departamento & $-$152,5 & (3.879,8) & 36 & 986 & 0 \\
+\multicolumn{6}{@{}l}{\textit{Panel B. Por tipo de bosque de origen}} \\
+Bosque de tierra firme & $-$0,075 & (0,350) & [$-$0,76; 0,61] & $-$17 \% & 0,434 \\
+Bosque inundable & $-$0,022 & (0,046) & [$-$0,11; 0,07] & $-$26 \% & 0,084 \\
 \addlinespace
-\multicolumn{6}{@{}l}{\textit{Panel B. Definición del tratamiento}} \\
-Solo registros de Verra & $-$165,1 & (210,6) & 33 & 986 & 0 \\
-Sin ubicación recuperada a mano & $-$178,0 & (187,9) & 27 & 986 & 0 \\
-Cobertura de polígonos $\geq$ 5 \% & $-$73,7 & (116,7) & 60 & 965 & 0 \\
+\multicolumn{6}{@{}l}{\textit{Panel C. Por uso de destino}} \\
+Agropecuario & $-$0,081 & (0,340) & [$-$0,75; 0,58] & $-$16 \% & 0,503 \\
+Minería & $-$0,008 & (0,015) & [$-$0,04; 0,02] & $-$168 \% & 0,005 \\
+Otros usos antrópicos & $-$0,010 & (0,049) & [$-$0,11; 0,09] & $-$101 \% & 0,010 \\
 \addlinespace
-\multicolumn{6}{@{}l}{\textit{Panel C. Grupo de control y soporte común}} \\
-Soporte común, propensión en [0,01; 0,99] & $-$205,1 & (199,2) & 34 & 243 & 0 \\
-Emparejamiento por propensión, con covariables & $-$93,9 & (233,3) & 33 & 735 & 0 \\
-Emparejamiento por propensión, sin covariables & $-$324,2 & (315,4) & 33 & 735 & 0 \\
-Sin controles cubiertos por polígonos & $-$135,9 & (182,3) & 36 & 965 & 0 \\
-Sin controles contiguos a tratados & 24,5 & (116,1) & 36 & 874 & 57 \\
+\multicolumn{6}{@{}l}{\textit{Panel D. Conversión de vegetación secundaria (no incluida en el panel A)}} \\
+Rastrojo a uso antrópico & 0,013 & (0,258) & [$-$0,49; 0,52] & 11 \% & 0,116 \\
 \addlinespace
-\multicolumn{6}{@{}l}{\textit{Panel D. Fuente del dato de deforestación}} \\
-MapBiomas, bosque estable con persistencia & $-$70,0 & (153,3) & 36 & 986 & — \\
+\multicolumn{6}{@{}l}{\textit{Panel E. Desplazamiento}} \\
+Celdas de la zona de amortiguación & $-$0,194 & (0,163) & [$-$0,51; 0,13] & $-$21 \% & 0,927 \\
 \addlinespace
-\multicolumn{6}{@{}l}{\textit{Panel E. Placebo, desplazamiento y heterogeneidad}} \\
-Placebo: proyectos forestales sin REDD+ & 41,0 & (102,1) & 9 & 986 & 0 \\
-Desplazamiento hacia municipios vecinos & $-$2,4 & (33,1) & — & — & — \\
-Fuera del área de Visión Amazonía & $-$57,8 & (77,5) & 27 & 930 & 0 \\
-Solo el área de Visión Amazonía & $-$865,0 & (1.439,6) & 9 & 56 & 0 \\
+\multicolumn{6}{@{}l}{\textit{Panel F. Sensibilidad al estimador}} \\
+Doblemente robusto, con covariables & $-$0,160 & (2,856) & [$-$5,76; 5,44] & $-$31 \% & 0,518 \\
+Doblemente robusto, sin covariables & $-$0,066 & (0,171) & [$-$0,40; 0,27] & $-$13 \% & 0,518 \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}[flushleft]
 \footnotesize
-\item \textit{Notas:} ATT agregado en hectáreas por año. Salvo indicación, estimador doblemente robusto con las 11 covariables de la especificación principal y errores agrupados por municipio. El placebo, el área de Visión Amazonía y el emparejamiento sin covariables se reportan sin covariables porque la versión doblemente robusta pierde muchos pares cohorte-año. Pares sin estimar: pares cohorte-año que no pudieron estimarse (161 en la muestra principal). Desplazamiento: efecto sobre municipios no tratados con al menos un vecino tratado, frente a no tratados sin vecinos tratados; usa otra muestra, por eso no se reportan sus tamaños. Sin controles contiguos: el cambio de signo se explica por la composición de los pares cohorte-año que pueden estimarse, no por desplazamiento.
-\item \textit{Fuente:} Cálculos propios.
+\item \textit{Notas:} Unidad: celda de 2 × 2 km (400 ha); ATT y media previa en hectáreas por celda y año, salvo la tasa (puntos porcentuales). Celdas tratadas: las que caen dentro de los polígonos de 25 proyectos de deforestación evitada (Karnik et al., 2025); controles emparejados por bosque en 2000, área inundable, elevación, pendiente, deforestación previa y presión de deforestación en el entorno. Estimador de Callaway y Sant’Anna por regresión sobre la muestra emparejada (17.064 celdas tratadas y 31.674 de control), con errores agrupados por proyecto. Paneles B y C: el bosque de origen y el uso de destino descomponen la pérdida del panel A; el manglar y los destinos con menos de 1.000 celda-años con pérdida o de tres proyectos (palma, infraestructura, silvicultura, plátano) no se estiman por separado y explican la diferencia residual con el total. Panel D: conversión de vegetación secundaria, que no es bosque estable y por eso queda fuera de la pérdida del panel A. Panel E: celdas de la zona de amortiguación frente a controles (14.908 y 29.405 celdas). El relativo divide el ATT por la media previa; en minería y otros usos la media es casi cero y el porcentaje no es informativo. Panel F: el estimador doblemente robusto con covariables es inestable por la separación casi completa en el modelo de propensión.
+\item \textit{Fuente:} MapBiomas Colombia, Colección 3; Karnik et al. (2025); cálculos propios.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}

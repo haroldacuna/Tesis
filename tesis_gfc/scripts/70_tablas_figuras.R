@@ -266,6 +266,11 @@ hacer("tabla_6_1", {
   dr <- g("PRINCIPAL"); sc <- g("^D1 depurada - sin covariables"); og <- g("^D1 original - DR")
   s66 <- tryCatch(leer("66_regla_sinap.csv"), error = function(e) NULL)
   s10 <- if (!is.null(s66)) s66[grepl("^Sin SINAP", s66$especificacion), ][1, ] else NULL
+  ## Escenario A (71): solo nunca tratados y sin dosis desbordada
+  r71 <- leer("71_grupo_comparacion.csv")
+  q  <- function(etq) r71[r71$especificacion == etq, ][1, ]
+  nv <- q("Solo nunca tratados"); sd <- q("Sin dosis desbordada")
+  c71 <- leer("71_composicion_comparacion.csv")
   col <- function(att, se, lo, hi, bal = NA, sebal = NA, rel = NA, media = NA)
     list(att = att, se = se, lo = lo, hi = hi, bal = bal, sebal = sebal, rel = rel, media = media)
   c1 <- col(dr$att_simple, dr$ee_simple, dr$ic_inf, dr$ic_sup, dr$att_balanceado, dr$ee_balanceado, dr$att_rel_pct, dr$media_pre_tratados)
@@ -273,7 +278,10 @@ hacer("tabla_6_1", {
                                rel = 100 * s10$att / dr$media_pre_tratados, media = dr$media_pre_tratados) else col(NA, NA, NA, NA)
   c3 <- col(sc$att_simple, sc$ee_simple, sc$ic_inf, sc$ic_sup, sc$att_balanceado, sc$ee_balanceado, sc$att_rel_pct, sc$media_pre_tratados)
   c4 <- col(og$att_simple, og$ee_simple, og$ic_inf, og$ic_sup, og$att_balanceado, og$ee_balanceado, og$att_rel_pct, og$media_pre_tratados)
-  cs <- list(c1, c2, c3, c4); x <- function(campo, f) sapply(cs, function(z) f(z[[campo]]))
+  c5 <- col(nv$att, nv$ee, nv$ic_inf, nv$ic_sup, nv$att_bal, nv$ee_bal, nv$att_rel_pct, nv$media_pre)
+  c6 <- col(sd$att, sd$ee, sd$ic_inf, sd$ic_sup, sd$att_bal, sd$ee_bal, sd$att_rel_pct, sd$media_pre)
+  cs <- list(c1, c2, c3, c4, c5, c6); x <- function(campo, f) sapply(cs, function(z) f(z[[campo]]))
+  rango_ant <- paste0(ent(min(c71$aun_no_tratados)), "\u2013", ent(max(c71$aun_no_tratados)))
   filas <- apilar(
     fila("ATT agregado", x("att", num)),
     fila("", x("se", ee), "ee"),
@@ -282,21 +290,28 @@ hacer("tabla_6_1", {
     fila("", x("sebal", ee), "ee"),
     fila("Efecto relativo a la media previa", x("rel", pct)),
     fila("Media previa de los tratados (ha/a\u00f1o)", x("media", num)),
-    fila("Covariables", c("11", "10", "No", "11"), "sep"),
-    fila("Muestra de tratados", c("D1 depurada", "D1 depurada", "D1 depurada", "D1 original")),
-    fila("Municipios tratados", c(ent(dr$n_tratados), ent(dr$n_tratados), ent(sc$n_tratados), ent(og$n_tratados))),
-    fila("Municipios de control", c(ent(REF_N_CONTROLES), ent(REF_N_CONTROLES), ent(REF_N_CONTROLES), ent(N_CONTROLES_D1_ORIGINAL))))
+    fila("Covariables", c("11", "10", "No", "11", "11", "11"), "sep"),
+    fila("Grupo de comparaci\u00f3n", c("NT + AN", "NT + AN", "NT + AN", "NT + AN", "NT", "NT + AN")),
+    fila("Muestra de tratados", c("Principal", "Principal", "Principal", "Original", "Principal", "Sin desborde")),
+    fila("Municipios tratados", c(ent(dr$n_tratados), ent(dr$n_tratados), ent(sc$n_tratados), ent(og$n_tratados),
+                                  ent(nv$n_tratados), ent(sd$n_tratados))),
+    fila("Nunca tratados (NT)", c(ent(REF_N_CONTROLES), ent(REF_N_CONTROLES), ent(REF_N_CONTROLES), ent(N_CONTROLES_D1_ORIGINAL),
+                                  ent(nv$n_nunca), ent(sd$n_nunca))),
+    fila("A\u00fan no tratados (AN) por par (g, t)", c(rango_ant, rango_ant, rango_ant, "\u2014", "0", "\u2014")))
   filas$v2[4] <- "\u2014"   # la regla de SINAP (66) no reporta el ATT balanceado
   tabla(list(id = "tabla_6_1",
     titulo = "Tabla 6.1\u2014Efecto de los proyectos REDD+ sobre la deforestaci\u00f3n municipal",
-    cab = list(c("(1)", "(2)", "(3)", "(4)"), c("Principal", "Sin SINAP", "Sin covariables", "D1 original")),
+    cab = list(c("(1)", "(2)", "(3)", "(4)", "(5)", "(6)"),
+               c("Principal", "Sin SINAP", "Sin covariables", "Original", "Solo nunca tratados", "Sin dosis > 1")),
     filas = filas,
-    notas = paste0("Estimador de Callaway y Sant\u2019Anna (2021) doblemente robusto, con grupo de comparaci\u00f3n de municipios a\u00fan no tratados ",
-      "y cohortes de adopci\u00f3n 2013\u20132019. Variable dependiente: p\u00e9rdida anual de cobertura arb\u00f3rea (ha). Errores est\u00e1ndar ",
-      "entre par\u00e9ntesis, por bootstrap multiplicador agrupado por municipio (", BITERS, " repeticiones); intervalos de confianza ",
-      "al 95 % entre corchetes. La columna (1) usa las 11 covariables de l\u00ednea base (D4); la (2) excluye el \u00e1rea en el SINAP. ",
-      "La D1 depurada excluye seis municipios cuyo \u00fanico proyecto REDD+ fue retirado o rechazado. Controles limpios: municipios sin ",
-      "ning\u00fan v\u00ednculo con proyectos de carbono. El efecto relativo divide el ATT agregado por la media previa de los tratados."),
+    notas = paste0("Estimador de Callaway y Sant\u2019Anna (2021) doblemente robusto, cohortes de adopci\u00f3n 2013\u20132019. Variable ",
+      "dependiente: p\u00e9rdida anual de cobertura arb\u00f3rea (ha). Errores est\u00e1ndar entre par\u00e9ntesis, por bootstrap multiplicador ",
+      "agrupado por municipio (", BITERS, " repeticiones); intervalos de confianza al 95 % entre corchetes. Grupo de comparaci\u00f3n de ",
+      "cada cohorte g en el a\u00f1o t: los municipios nunca tratados (NT) m\u00e1s los tratados que a\u00fan no adoptan en t (AN, G > t); desde ",
+      "2019 no quedan AN y la comparaci\u00f3n es solo con NT. La columna (5) usa solo NT. Nunca tratados: controles limpios, sin ning\u00fan ",
+      "v\u00ednculo con proyectos de carbono en ninguna fuente ni a\u00f1o. La columna (2) excluye el \u00e1rea en el SINAP; la (6) excluye los ",
+      "municipios cuya \u00e1rea REDD+ supera el \u00e1rea de referencia de la dosis. La muestra principal excluye seis municipios cuyo ",
+      "\u00fanico proyecto REDD+ fue retirado o rechazado. El efecto relativo divide el ATT agregado por la media previa de los tratados."),
     fuente = "C\u00e1lculos propios con Global Forest Change v1.12 y los registros Verra, RENARE y Cercarbono."))
 })
 
@@ -355,7 +370,7 @@ hacer("tabla_6_3", {
     filas = rbind(filas, filas2),
     notas = paste0("ATT en hect\u00e1reas por a\u00f1o, especificaci\u00f3n principal. Columna (1): referencia en el a\u00f1o previo a la adopci\u00f3n. ",
       "Columna (2): referencia igual al promedio de los cinco a\u00f1os previos (g \u2212 5 a g \u2212 1). Panel A: errores est\u00e1ndar entre ",
-      "par\u00e9ntesis e intervalos al 95 % entre corchetes, por bootstrap de 199 r\u00e9plicas estratificado por cohorte. Panel B: estimados ",
+      "par\u00e9ntesis e intervalos al 95 % entre corchetes, por bootstrap de ", BOOT_COHORTES, " r\u00e9plicas estratificado por cohorte. Panel B: estimados ",
       "puntuales por cohorte; con tan pocos municipios por cohorte no se reportan intervalos."),
     fuente = "C\u00e1lculos propios."))
 })
@@ -364,7 +379,7 @@ hacer("tabla_6_3", {
 ## Tabla 6.4 - Composicion de las cohortes por nivel de la escalera
 ## Tabla 6.5 - Efecto por nivel de la escalera
 ## =============================================================================
-hacer("tabla_6_4", {
+hacer("tabla_6_5", {
   c58 <- leer("58_composicion_por_cohorte.csv")
   filas <- NULL
   for (i in seq_len(nrow(c58))) {
@@ -373,8 +388,8 @@ hacer("tabla_6_4", {
   }
   tot <- colSums(c58[, c("n", "solo_S1", "S2", "E", "sin_estado")])
   filas <- rbind(filas, fila("Total", c(ent(tot["n"]), ent(tot["solo_S1"]), ent(tot["S2"] - tot["E"]), ent(tot["E"]), ent(tot["sin_estado"])), "sep"))
-  tabla(list(id = "tabla_6_4",
-    titulo = "Tabla 6.4\u2014Municipios tratados por cohorte y estado de sus proyectos en el registro",
+  tabla(list(id = "tabla_6_5",
+    titulo = "Tabla 6.5\u2014Municipios tratados por cohorte y estado de sus proyectos en el registro",
     cab = list(c("Tratados", "Nunca operaron", "Registrados sin cr\u00e9ditos", "Con cr\u00e9ditos", "Sin estado")),
     filas = filas,
     notas = paste0("Cada municipio se clasifica por el mejor estado entre sus proyectos REDD+ de Verra. Nunca operaron: proyectos que no ",
@@ -383,8 +398,9 @@ hacer("tabla_6_4", {
       "o Cercarbono, que no publican estado de registro."),
     fuente = "Verra (API de Platts); Berkeley VROD; c\u00e1lculos propios."))
 })
-hacer("tabla_6_5", {
+hacer("tabla_6_6", {
   r58 <- leer("58_contraste_mecanismo.csv")
+  if ("control" %in% names(r58)) r58 <- r58[r58$control == CONTROL_PRINCIPAL, ]
   sel <- list(c("^solo_S1 \\(", "Nunca operaron (solo S1)"), c("^S2 \\(", "Registro efectivo (S2)"),
               c("^E \\(", "Con cr\u00e9ditos emitidos (E)"), c("^S3 \\(", "Registrado hoy (S3)"))
   filas <- NULL
@@ -393,11 +409,11 @@ hacer("tabla_6_5", {
     filas <- rbind(filas, fila(s[2], c(num(z$att), ent(z$n_tratados), ent(z$cohortes_ok))),
                    fila("", c(ee(z$ee), "", ""), "ee"))
   }
-  tabla(list(id = "tabla_6_5",
-    titulo = "Tabla 6.5\u2014El efecto seg\u00fan el estado de los proyectos en el registro",
+  tabla(list(id = "tabla_6_6",
+    titulo = "Tabla 6.6\u2014El efecto seg\u00fan el estado de los proyectos en el registro",
     cab = list(c("(1)", "(2)", "(3)"), c("ATT", "Tratados", "Cohortes con 3 o m\u00e1s")), filas = filas,
-    notas = paste0("ATT en hect\u00e1reas por a\u00f1o, sin covariables, contra los mismos 986 controles limpios (grupo de comparaci\u00f3n: nunca ",
-      "tratados); errores est\u00e1ndar entre par\u00e9ntesis. Los grupos E y S3 est\u00e1n contenidos en S2. Ning\u00fan grupo alcanza tres o m\u00e1s ",
+    notas = paste0("ATT en hect\u00e1reas por a\u00f1o, sin covariables. Grupo de comparaci\u00f3n igual al de la especificaci\u00f3n principal: los 986 ",
+      "nunca tratados limpios m\u00e1s los municipios del mismo grupo que a\u00fan no adoptan; errores est\u00e1ndar entre par\u00e9ntesis. Los grupos E y S3 est\u00e1n contenidos en S2. Ning\u00fan grupo alcanza tres o m\u00e1s ",
       "municipios en la mayor\u00eda de sus cohortes, por lo que el contraste se lee como descriptivo (decisi\u00f3n D13). E y S3 dependen en ",
       "parte del resultado: un proyecto emite cr\u00e9ditos o se mantiene registrado cuando verifica reducciones."),
     fuente = "C\u00e1lculos propios."))
@@ -406,7 +422,7 @@ hacer("tabla_6_5", {
 ## =============================================================================
 ## Tabla 6.6 - Analisis de sensibilidad de Rambachan y Roth
 ## =============================================================================
-hacer("tabla_6_6", {
+hacer("tabla_6_4", {
   h <- leer("44_honestdid_resumen.csv")
   nom <- c(dr = "Con covariables", sincov = "Sin covariables"); par <- c(e0 = "e = 0", promedio_0_5 = "Promedio e = 0\u20135")
   filas <- NULL
@@ -420,16 +436,16 @@ hacer("tabla_6_6", {
     mo <- h$M_obs[h$especificacion == sp][1]
     filas <- rbind(filas, fila(paste0("  M observado = ", num(mo, 0), " ha"), rep("", 5), "ee"))
   }
-  tabla(list(id = "tabla_6_6",
-    titulo = "Tabla 6.6\u2014Intervalos robustos a violaciones de tendencias paralelas",
+  tabla(list(id = "tabla_6_4",
+    titulo = "Tabla 6.4\u2014Intervalos robustos a violaciones de tendencias paralelas",
     cab = list(c("(1)", "(2)", "(3)", "(4)", "(5)"),
                c("Convencional", "M\u0304 = 0,5", "M\u0304 = 1", "M = 0", "M = M obs.")),
     filas = filas,
     notas = paste0("Intervalos de confianza al 95 % (ha por a\u00f1o) seg\u00fan Rambachan y Roth (2023). Columnas (2) y (3): magnitudes relativas, ",
       "la violaci\u00f3n posterior puede ser hasta M\u0304 veces la mayor violaci\u00f3n previa. Columnas (4) y (5): suavidad, la pendiente de la ",
       "tendencia diferencial puede cambiar hasta M ha por a\u00f1o; M = 0 extrapola linealmente la tendencia previa y M observado es la mayor ",
-      "curvatura previa a la adopci\u00f3n. Estudio de eventos con referencia universal en g \u2212 1. Intervalos de suavidad calculados con el ",
-      "m\u00e9todo condicional h\u00edbrido (C-LF), porque el m\u00e9todo FLCI no pudo ejecutarse por una incompatibilidad de software. El valor de ",
+      "curvatura previa a la adopci\u00f3n. Estudio de eventos con referencia universal en g \u2212 1. Intervalos de magnitudes relativas con el ",
+      "m\u00e9todo condicional h\u00edbrido (C-LF) y de suavidad con el intervalo de longitud fija (FLCI), los predeterminados de HonestDiD. El valor de ",
       "ruptura es cero en todos los casos: el intervalo convencional ya incluye el cero."),
     fuente = "C\u00e1lculos propios."))
 })
@@ -437,7 +453,7 @@ hacer("tabla_6_6", {
 ## =============================================================================
 ## Tabla 6.7 - Pruebas de robustez
 ## =============================================================================
-hacer("tabla_6_7", {
+hacer("tabla_6_9", {
   gv <- function(df, cands) { c <- intersect(cands, names(df))[1]; if (is.na(c)) NA else df[[c]][1] }
   fila_r <- function(df, etq, misma_muestra = TRUE) {
     if (is.null(df) || !nrow(df) || all(is.na(df[1, ]))) { cat("    (sin fila para: ", etq, ")\n", sep = ""); return(NULL) }
@@ -477,8 +493,8 @@ hacer("tabla_6_7", {
     fila_r(q(r45, function(d) grepl("^A", d$enfoque) & grepl("Doblemente", d$especificacion)), "Desplazamiento hacia municipios vecinos", misma_muestra = FALSE),
     fila_r(q(r60, function(d) grepl("^Fuera de VA .* - sin covariables", d$especificacion)), "Fuera del \u00e1rea de Visi\u00f3n Amazon\u00eda"),
     fila_r(q(r60, function(d) grepl("^Solo VA .* - sin covariables", d$especificacion)), "Solo el \u00e1rea de Visi\u00f3n Amazon\u00eda"))
-  tabla(list(id = "tabla_6_7",
-    titulo = "Tabla 6.7\u2014Pruebas de robustez",
+  tabla(list(id = "tabla_6_9",
+    titulo = "Tabla 6.9\u2014Pruebas de robustez",
     cab = list(c("(1)", "(2)", "(3)", "(4)", "(5)"), c("ATT", "Error est\u00e1ndar", "Tratados", "Controles", "Pares sin estimar")),
     filas = filas,
     notas = paste0("ATT agregado en hect\u00e1reas por a\u00f1o. Salvo indicaci\u00f3n, estimador doblemente robusto con las 11 covariables de la ",
@@ -494,7 +510,7 @@ hacer("tabla_6_7", {
 ## Tabla 6.8 - Evaluacion por poligonos (celdas de 2 x 2 km)
 ## Tabla 6.9 - Efecto minimo detectable por cohorte
 ## =============================================================================
-hacer("tabla_6_8", {
+hacer("tabla_6_7", {
   r <- leer("56_resultados_celdas.csv")
   g <- function(res, patron) r[r$resultado == res & grepl(patron, r$analisis), ][1, ]
   f8 <- function(z, etq, d = 3) fila(etq, c(num(z$att, d), ee(z$ee, d), ic(z$ic_inf, z$ic_sup, 2),
@@ -509,19 +525,20 @@ hacer("tabla_6_8", {
     f8(g("def_p1_inundable", "^por tipo"), "Bosque inundable"),
     panel("Panel C. Por uso de destino", 5),
     f8(g("def_p1_agropecuario", "^por tipo"), "Agropecuario"),
-    f8(g("def_p1_rastrojo", "^por tipo"), "Vegetaci\u00f3n secundaria (rastrojo)"),
     f8(g("def_p1_mineria", "^por tipo"), "Miner\u00eda"),
     f8(g("def_p1_otros_antropicos", "^por tipo"), "Otros usos antr\u00f3picos"),
-    panel("Panel D. Desplazamiento", 5),
+    panel("Panel D. Conversi\u00f3n de vegetaci\u00f3n secundaria (no incluida en el panel A)", 5),
+    f8(g("def_p1_rastrojo", "^por tipo"), "Rastrojo a uso antr\u00f3pico"),
+    panel("Panel E. Desplazamiento", 5),
     f8(g("def_p1", "^fuga"), "Celdas de la zona de amortiguaci\u00f3n"),
-    panel("Panel E. Sensibilidad al estimador", 5),
+    panel("Panel F. Sensibilidad al estimador", 5),
     f8(r[r$resultado == "def_p1" & grepl("^sensibilidad", r$analisis) & r$covariables %in% c(TRUE, "TRUE"), ][1, ],
        "Doblemente robusto, con covariables"),
     f8(r[r$resultado == "def_p1" & grepl("^sensibilidad", r$analisis) & r$covariables %in% c(FALSE, "FALSE"), ][1, ],
        "Doblemente robusto, sin covariables"))
   fu <- g("def_p1", "^fuga")
-  tabla(list(id = "tabla_6_8",
-    titulo = "Tabla 6.8\u2014Efecto de los proyectos sobre la conversi\u00f3n de bosque en sus pol\u00edgonos",
+  tabla(list(id = "tabla_6_7",
+    titulo = "Tabla 6.7\u2014Efecto de los proyectos sobre la conversi\u00f3n de bosque en sus pol\u00edgonos",
     cab = list(c("(1)", "(2)", "(3)", "(4)", "(5)"),
                c("ATT", "Error est\u00e1ndar", "IC 95 %", "Relativo", "Media previa")),
     filas = filas,
@@ -530,13 +547,16 @@ hacer("tabla_6_8", {
       " proyectos de deforestaci\u00f3n evitada (Karnik et al., 2025); controles emparejados por bosque en 2000, \u00e1rea inundable, ",
       "elevaci\u00f3n, pendiente, deforestaci\u00f3n previa y presi\u00f3n de deforestaci\u00f3n en el entorno. Estimador de Callaway y ",
       "Sant\u2019Anna por regresi\u00f3n sobre la muestra emparejada (", ent(pr$celdas_tratadas), " celdas tratadas y ",
-      ent(pr$celdas_control), " de control), con errores agrupados por proyecto. Panel D: celdas de la zona de amortiguaci\u00f3n frente ",
+      ent(pr$celdas_control), " de control), con errores agrupados por proyecto. Paneles B y C: el bosque de origen y el uso de destino ",
+      "descomponen la p\u00e9rdida del panel A; el manglar y los destinos con menos de 1.000 celda-a\u00f1os con p\u00e9rdida o de tres proyectos ",
+      "(palma, infraestructura, silvicultura, pl\u00e1tano) no se estiman por separado y explican la diferencia residual con el total. Panel D: conversi\u00f3n de ",
+      "vegetaci\u00f3n secundaria, que no es bosque estable y por eso queda fuera de la p\u00e9rdida del panel A. Panel E: celdas de la zona de amortiguaci\u00f3n frente ",
       "a controles (", ent(fu$celdas_tratadas), " y ", ent(fu$celdas_control), " celdas). El relativo divide el ATT por la media previa; ",
-      "en miner\u00eda y otros usos la media es casi cero y el porcentaje no es informativo. Panel E: el estimador doblemente robusto ",
+      "en miner\u00eda y otros usos la media es casi cero y el porcentaje no es informativo. Panel F: el estimador doblemente robusto ",
       "con covariables es inestable por la separaci\u00f3n casi completa en el modelo de propensi\u00f3n."),
     fuente = "MapBiomas Colombia, Colecci\u00f3n 3; Karnik et al. (2025); c\u00e1lculos propios."))
 })
-hacer("tabla_6_9", {
+hacer("tabla_6_8", {
   e <- leer("57_efecto_minimo_detectable.csv"); e <- e[e$resultado == "def_p1", ]
   e <- e[order(e$cohorte == "todas", e$cohorte), ]
   filas <- NULL
@@ -547,8 +567,8 @@ hacer("tabla_6_9", {
       if (tot) "sep" else "dato"),
       fila("", c("", "", "", ee(z$ee, 2), "", ""), "ee"))
   }
-  tabla(list(id = "tabla_6_9",
-    titulo = "Tabla 6.9\u2014Efecto m\u00ednimo detectable de la evaluaci\u00f3n por pol\u00edgonos",
+  tabla(list(id = "tabla_6_8",
+    titulo = "Tabla 6.8\u2014Efecto m\u00ednimo detectable de la evaluaci\u00f3n por pol\u00edgonos",
     cab = list(c("(1)", "(2)", "(3)", "(4)", "(5)", "(6)"),
                c("Proyectos", "Celdas", "Media previa", "ATT", "EMD", "EMD / media")),
     filas = filas,
@@ -556,6 +576,110 @@ hacer("tabla_6_9", {
       "par\u00e9ntesis. EMD: efecto m\u00ednimo detectable con 5 % de significancia (dos colas) y 80 % de potencia, igual a 2,8 veces el ",
       "error est\u00e1ndar. Columna (6): EMD como porcentaje de la p\u00e9rdida previa de las celdas tratadas; un valor mayor que 100 % ",
       "significa que ni siquiera eliminar toda la deforestaci\u00f3n ser\u00eda detectable. No hay cohorte 2016 ni 2019 con pol\u00edgono."),
+    fuente = "MapBiomas Colombia, Colecci\u00f3n 3; Karnik et al. (2025); c\u00e1lculos propios."))
+})
+
+
+## =============================================================================
+## Tabla 5.3 - Cohortes y anos de implementacion observados [JM p.40] (capitulo 5)
+## =============================================================================
+hacer("tabla_5_3", {
+  m <- cargar_muestra_principal()
+  tr <- m %>% filter(G_dep > 0) %>% distinct(COD_DANE, G_dep)
+  ymin <- min(m$year); ymax <- max(m$year)
+  c47 <- tr %>% count(G_dep) %>% arrange(G_dep)
+  filas <- NULL
+  for (i in seq_len(nrow(c47))) {
+    g <- c47$G_dep[i]
+    filas <- rbind(filas, fila(as.character(g), c(ent(c47$n[i]), ent(g - ymin), ent(ymax - g + 1),
+      paste0(MENOS, ent(g - ymin), " a ", ent(ymax - g)), ifelse(g + 5 <= ymax, "S\u00ed", "No"))))
+  }
+  filas <- rbind(filas, fila("Total", c(ent(sum(c47$n)), "", "", "", ""), "sep"))
+  tabla(list(id = "tabla_5_3",
+    titulo = "Tabla 5.3\u2014Cohortes de adopci\u00f3n y a\u00f1os observados antes y despu\u00e9s de la adopci\u00f3n",
+    cab = list(c("(1)", "(2)", "(3)", "(4)", "(5)"),
+               c("Municipios", "A\u00f1os antes", "A\u00f1os despu\u00e9s", "Rango de e", "Entra en e = 0\u20135")),
+    filas = filas,
+    notas = paste0("Muestra principal: municipios tratados de la D1 depurada con adopci\u00f3n entre 2013 y 2019. A\u00f1os antes: a\u00f1os ",
+      "observados desde ", ymin, " hasta el previo a la adopci\u00f3n. A\u00f1os despu\u00e9s: desde el a\u00f1o de adopci\u00f3n (e = 0) hasta ", ymax,
+      ". Rango de e: tiempo relativo a la adopci\u00f3n que aporta cada cohorte al estudio de eventos. La \u00faltima columna indica si la ",
+      "cohorte se observa completa en los seis primeros a\u00f1os, que es la ventana del efecto balanceado."),
+    fuente = "C\u00e1lculos propios."))
+})
+
+## =============================================================================
+## Tabla 6.10 - Heterogeneidad por gasto ambiental y desempeno fiscal [JM p.43]
+## =============================================================================
+hacer("tabla_6_10", {
+  h <- leer("68_heterogeneidad_fiscal.csv")
+  f10 <- function(v, g) {
+    a <- h[h$variable == v & h$grupo == g & h$especificacion == "sincov", ][1, ]
+    b <- h[h$variable == v & h$grupo == g & h$especificacion == "dr", ][1, ]
+    dif <- grepl("^Diferencia", g)
+    rbind(fila(if (dif) "  Diferencia (alto \u2212 bajo)" else if (grepl("alto$", g)) "  Alto" else "  Bajo",
+               c(num(a$att), num(b$att), if (dif) "" else ent(a$n_tratados), if (dif) "" else ent(a$n_controles),
+                 if (dif) "" else ent(a$cohortes_ok))),
+          fila("", c(ee(a$ee), ee(b$ee), "", "", ""), "ee"))
+  }
+  filas <- apilar(
+    panel("Panel A. Inversi\u00f3n municipal en medio ambiente, 2002\u20132009", 5),
+    f10("inv_amb_pct_2002_2009", "Gasto ambiental alto"), f10("inv_amb_pct_2002_2009", "Gasto ambiental bajo"),
+    f10("inv_amb_pct_2002_2009", "Diferencia (alto - bajo)"),
+    panel("Panel B. \u00cdndice de Desempe\u00f1o Fiscal, 2001\u20132009", 5),
+    f10("idf_2001_2009", "Desempe\u00f1o fiscal alto"), f10("idf_2001_2009", "Desempe\u00f1o fiscal bajo"),
+    f10("idf_2001_2009", "Diferencia (alto - bajo)"))
+  med <- tapply(h$mediana, h$variable, function(x) x[1])
+  tabla(list(id = "tabla_6_10",
+    titulo = "Tabla 6.10\u2014Heterogeneidad del efecto por gasto ambiental y desempe\u00f1o fiscal de l\u00ednea base",
+    cab = list(c("(1)", "(2)", "(3)", "(4)", "(5)"),
+               c("Sin covariables", "Con covariables", "Tratados", "Controles", "Cohortes con 3 o m\u00e1s")),
+    filas = filas,
+    notas = paste0("ATT en hect\u00e1reas por a\u00f1o, estimado por separado en cada grupo con la muestra principal; errores est\u00e1ndar entre ",
+      "par\u00e9ntesis, agrupados por municipio. Los grupos se cortan en la mediana de todos los municipios de la muestra: ",
+      num(med[["inv_amb_pct_2002_2009"]], 2), " % de la inversi\u00f3n total en medio ambiente y ", num(med[["idf_2001_2009"]], 1),
+      " puntos del \u00edndice de desempe\u00f1o fiscal. La diferencia usa un error est\u00e1ndar conservador, sin covarianza entre grupos. ",
+      "La columna (2) pierde muchos pares cohorte-a\u00f1o (", paste(paste0(h$gt_na[h$especificacion == "dr" & !is.na(h$gt_na)], " de ",
+      h$gt_total[h$especificacion == "dr" & !is.na(h$gt_na)]), collapse = ", "), ", en el orden de las filas) y se reporta solo como referencia. ",
+      "Regla fijada antes de correr: la diferencia se lee como hallazgo solo si ambos grupos tienen al menos dos cohortes con tres o m\u00e1s ",
+      "tratados y su intervalo excluye el cero. Exploratoria: no corresponde a ninguna hip\u00f3tesis."),
+    fuente = "Panel de Buen Gobierno del CEDE; c\u00e1lculos propios."))
+})
+
+## =============================================================================
+## Tabla 6.11 - RDD espacial en el borde de los poligonos (73)
+## =============================================================================
+hacer("tabla_6_11", {
+  r <- leer("73_rdd_espacial.csv"); b <- leer("73_rdd_balance.csv")
+  g <- function(y, dona, cov = FALSE) r[r$resultado == y & r$dona_km == dona & as.logical(r$covariables) == cov, ][1, ]
+  f <- function(z, etq, d = 3) fila(etq, c(num(z$tau, d), ee(z$ee_robusto, d), ic(z$ic_rob_inf, z$ic_rob_sup, min(d, 2)),
+                                           num(z$h_km, 1), paste0(ent(z$n_fuera), " / ", ent(z$n_dentro))))
+  filas <- apilar(
+    panel("Panel A. Cambio en la p\u00e9rdida (principal)", 5),
+    f(g("cambio", 0), "Sin dona"), f(g("cambio", 0, TRUE), "Con covariables"),
+    f(g("cambio", 1), "Dona de 1 km"), f(g("cambio", 2), "Dona de 2 km"),
+    panel("Panel B. P\u00e9rdida despu\u00e9s de la adopci\u00f3n", 5),
+    f(g("post", 0), "Sin dona"), f(g("post", 1), "Dona de 1 km"), f(g("post", 2), "Dona de 2 km"),
+    panel("Panel C. Placebo: p\u00e9rdida previa", 5),
+    f(g("pre", 0), "Sin dona"), f(g("pre", 1), "Dona de 1 km"), f(g("pre", 2), "Dona de 2 km"),
+    panel("Panel D. Covariables en el borde", 5),
+    f(b[b$resultado == "elev", ][1, ], "Elevaci\u00f3n (m)", 1),
+    f(b[b$resultado == "pend", ][1, ], "Pendiente (grados)", 2),
+    f(b[b$resultado == "pct_bosque2000", ][1, ], "Bosque en 2000 (fracci\u00f3n)"))
+  m0 <- g("cambio", 0)
+  tabla(list(id = "tabla_6_11",
+    titulo = "Tabla 6.11\u2014Discontinuidad en el borde de los pol\u00edgonos REDD+",
+    cab = list(c("(1)", "(2)", "(3)", "(4)", "(5)"),
+               c("Salto", "EE robusto", "IC 95 % robusto", "Ventana (km)", "Celdas fuera / dentro")),
+    filas = filas,
+    notas = paste0("Regresi\u00f3n discontinua espacial con celdas de 2 \u00d7 2 km a menos de 20 km del borde de los proyectos de ",
+      "deforestaci\u00f3n evitada de las cohortes 2013, 2014, 2015, 2017 y 2018 (", ent(m0$proyectos), " proyectos; Karnik et al., 2025). Variable de asignaci\u00f3n: distancia ",
+      "del centroide al borde, positiva dentro del pol\u00edgono. Resultado: p\u00e9rdida de bosque natural (ha por celda y a\u00f1o, MapBiomas), ",
+      "con el a\u00f1o de adopci\u00f3n del proyecto del borde m\u00e1s cercano. Polinomio local lineal, kernel triangular, ventana \u00f3ptima ",
+      "MSE com\u00fan a ambos lados e intervalos robustos con correcci\u00f3n de sesgo (Calonico, Cattaneo y Titiunik, 2014), agrupados por ",
+      "proyecto. Un salto negativo indica menos p\u00e9rdida dentro del proyecto. La dona excluye las celdas a menos de 1 o 2 km del borde. ",
+      "Panel A: p\u00e9rdida media desde la adopci\u00f3n hasta 2023 menos la media de los cinco a\u00f1os previos; panel C: media de los cinco a\u00f1os ",
+      "previos. Covariables: elevaci\u00f3n, pendiente y bosque en 2000. Media del cambio fuera del borde, dentro de la ventana: ",
+      num(m0$media_fuera, 3), " ha."),
     fuente = "MapBiomas Colombia, Colecci\u00f3n 3; Karnik et al. (2025); c\u00e1lculos propios."))
 })
 
@@ -577,17 +701,27 @@ hacer("figura_4_1", {
     summarise(G = suppressWarnings(max(anio_inicio_tratamiento_todas_fuentes_redd_depurada, na.rm = TRUE)), .groups = "drop") %>%
     mutate(tratado = is.finite(G) & G > 0)
   mun <- mun %>% left_join(acum, by = "COD_DANE") %>% left_join(tr, by = "COD_DANE")
+  ## Numero de proyectos REDD+ por municipio (Verra y poligonos de Karnik, script 65) [JM p.17]
+  rp <- file.path(RAIZ_PROYECTO, "data/interim/diagnostics/65_proyectos_territorio_proponente.csv")
+  npro <- if (file.exists(rp)) read.csv(rp, stringsAsFactors = FALSE) %>% mutate(COD_DANE = pad5(COD_DANE)) %>%
+    count(COD_DANE, name = "proyectos") else data.frame(COD_DANE = character(), proyectos = integer())
+  cen <- suppressWarnings(sf::st_point_on_surface(mun[mun$COD_DANE %in% npro$COD_DANE, "COD_DANE"])) %>%
+    left_join(npro, by = "COD_DANE")
   p <- ggplot(mun) +
     geom_sf(aes(fill = perdida), color = NA) +
-    geom_sf(data = mun[mun$tratado %in% TRUE, ], fill = NA, color = COL$borde, linewidth = 0.5) +
+    geom_sf(data = mun[mun$tratado %in% TRUE, ], fill = NA, color = "grey35", linewidth = 0.25) +
+    geom_sf(data = cen, aes(size = proyectos), shape = 21, fill = COL$a, color = "white", stroke = 0.3, alpha = 0.85) +
+    scale_size_area(max_size = 6, breaks = function(l) unique(pmax(1, round(seq(1, l[2], length.out = 3)))),
+                    name = "Proyectos REDD+") +
     (if (PALETA == "color")
        scale_fill_distiller(palette = "YlOrRd", direction = 1, trans = "sqrt", na.value = "white",
-                            name = "P\u00e9rdida de bosque\n2001\u20132024 (miles de ha)")
+                            name = "P\u00e9rdida de bosque 2001\u20132024 (miles de ha)")
      else scale_fill_gradient(low = "grey95", high = "grey15", trans = "sqrt", na.value = "white",
-                              name = "P\u00e9rdida de bosque\n2001\u20132024 (miles de ha)")) +
+                              name = "P\u00e9rdida de bosque 2001\u20132024 (miles de ha)")) +
     theme_void(base_family = FUENTE, base_size = 9) +
-    theme(legend.position = "right", legend.title = element_text(size = 8))
-  guardar_fig(p, "figura_4_1", ancho = 6, alto = 7)
+    theme(legend.position = "bottom", legend.box = "vertical", legend.title = element_text(size = 8),
+          legend.key.width = unit(1.2, "cm"), legend.margin = margin(2, 0, 2, 0))
+  guardar_fig(p, "figura_4_1", ancho = 6, alto = 7.4)
 })
 
 hacer("figura_4_2", {
@@ -600,6 +734,27 @@ hacer("figura_4_2", {
     scale_fill_manual(values = COL$ventana) +
     labs(x = "A\u00f1o de adopci\u00f3n", y = "Municipios tratados") + tema_aer
   guardar_fig(p, "figura_4_2", alto = 3.5)
+})
+
+
+hacer("figura_4_3", {
+  rp <- file.path(RAIZ_PROYECTO, "data/interim/diagnostics/65_proyectos_territorio_proponente.csv")
+  if (!file.exists(rp)) stop("falta ", rp)
+  d <- read.csv(rp, stringsAsFactors = FALSE)
+  d <- d[d$registro == "Verra", ]
+  d$anio <- suppressWarnings(as.integer(sub("^.*?((19|20)[0-9]{2}).*$", "\\1", d$anio_inicio, perl = TRUE)))
+  est <- tolower(d$estado); emit <- !is.na(d$emitidos) & d$emitidos > 0
+  niv <- c("Emiti\u00f3 cr\u00e9ditos", "Registrado sin cr\u00e9ditos", "En tr\u00e1mite", "Retirado, rechazado o inactivo")
+  d$grupo <- ifelse(emit, niv[1],
+             ifelse(grepl("^registered|late to verify|^verification approval", est), niv[2],
+             ifelse(grepl("withdrawn|rejected|inactive", est), niv[4], niv[3])))
+  d <- d[!is.na(d$anio), ]; d$grupo <- factor(d$grupo, levels = niv)
+  cat(sprintf("    figura 4.3: %d proyectos de Verra con a\u00f1o de inicio\n", nrow(d)))
+  p <- ggplot(d, aes(factor(anio), fill = grupo)) + geom_bar(width = 0.7, color = "black", linewidth = 0.2) +
+    scale_fill_manual(values = c(COL$escalera[3], COL$escalera[2], "grey85", COL$escalera[1]), drop = FALSE) +
+    labs(x = "A\u00f1o de inicio del periodo de acreditaci\u00f3n", y = "Proyectos REDD+ de Verra") + tema_aer +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) + guides(fill = guide_legend(nrow = 2))
+  guardar_fig(p, "figura_4_3", alto = 3.8)
 })
 
 hacer("figura_6_1", {
@@ -629,7 +784,7 @@ hacer("figura_6_2", {
   guardar_fig(p, "figura_6_2")
 })
 
-hacer("figura_6_3", {
+hacer("figura_6_5", {
   c58 <- read.csv(TAB("58_composicion_por_cohorte.csv"))
   niv <- c("Nunca operaron", "Registrados sin cr\u00e9ditos", "Con cr\u00e9ditos", "Sin estado en Verra")
   d <- rbind(data.frame(G = c58$G_dep, nivel = niv[1], n = c58$solo_S1),
@@ -641,7 +796,7 @@ hacer("figura_6_3", {
     scale_fill_manual(values = COL$escalera) +
     labs(x = "Cohorte de adopci\u00f3n", y = "Municipios tratados") + tema_aer +
     guides(fill = guide_legend(nrow = 2))
-  guardar_fig(p, "figura_6_3", alto = 3.8)
+  guardar_fig(p, "figura_6_5", alto = 3.8)
 })
 
 nombre_propio <- function(x) {
@@ -649,7 +804,7 @@ nombre_propio <- function(x) {
   for (w in c("De", "Del", "La", "Las", "Los", "Y", "El")) x <- gsub(paste0(" ", w, " "), paste0(" ", tolower(w), " "), x)
   x
 }
-hacer("figura_6_4", {
+hacer("figura_6_3", {
   l <- read.csv(TAB("50_leave_one_out.csv"), stringsAsFactors = FALSE, encoding = "UTF-8")
   l$etq <- ifelse(is.na(l$NOMBRE_MPI) | l$NOMBRE_MPI == "", "Cartagena del Chair\u00e1 y San Jos\u00e9 del Guaviare",
                   nombre_propio(l$NOMBRE_MPI))
@@ -660,10 +815,10 @@ hacer("figura_6_4", {
     geom_vline(xintercept = REF_ATT_DR, linewidth = 0.4, color = COL$a) + geom_vline(xintercept = 0, linetype = 2, linewidth = 0.3) +
     geom_point(size = 1.8, color = COL$a) + scale_x_continuous(labels = function(x) num(x, 0)) +
     labs(x = "ATT sin el municipio indicado (ha por a\u00f1o)", y = NULL) + tema_aer
-  guardar_fig(p, "figura_6_4", alto = 4.2)
+  guardar_fig(p, "figura_6_3", alto = 4.2)
 })
 
-hacer("figura_6_5", {
+hacer("figura_6_4", {
   o <- readRDS(file.path(DIR_OUT, "44_honestdid.rds"))
   h <- o$resultados$dr$honestdid$promedio_0_5
   if (is.null(h)) stop("44_honestdid.rds no tiene la estructura esperada")
@@ -677,11 +832,11 @@ hacer("figura_6_5", {
     facet_wrap(~panel, scales = "free_x", labeller = label_parsed) + scale_y_continuous(labels = function(x) num(x, 0)) +
     scale_x_continuous(labels = function(x) ifelse(abs(x - round(x)) < 1e-9, num(x, 0), num(x, 1))) +
     labs(x = NULL, y = "Intervalo robusto al 95 % (ha por a\u00f1o)") + tema_aer
-  guardar_fig(p, "figura_6_5", alto = 3.5)
+  guardar_fig(p, "figura_6_4", alto = 3.5)
 })
 
 
-hacer("figura_6_6", {
+hacer("figura_6_7", {
   e <- read.csv(TAB("57_efecto_minimo_detectable.csv"), stringsAsFactors = FALSE)
   e <- e[e$resultado == "def_p1", ]
   e$coh <- ifelse(e$cohorte == "todas", "Todas", e$cohorte)
@@ -697,10 +852,10 @@ hacer("figura_6_6", {
     scale_fill_manual(values = c("grey70", COL$b)) +
     scale_y_continuous(labels = function(x) num(x, 1), expand = expansion(mult = c(0, 0.08))) +
     labs(x = "Cohorte de adopci\u00f3n", y = "Hect\u00e1reas por celda y a\u00f1o") + tema_aer
-  guardar_fig(p, "figura_6_6", alto = 3.8)
+  guardar_fig(p, "figura_6_7", alto = 3.8)
 })
 
-hacer("figura_6_7", {
+hacer("figura_6_6", {
   d <- read.csv(TAB("56_event_study_celdas.csv"), stringsAsFactors = FALSE)
   d <- d[d$modelo == "def_p1", ]
   p <- ggplot(d, aes(e, att)) +
@@ -709,7 +864,7 @@ hacer("figura_6_7", {
     scale_x_continuous(breaks = sort(unique(d$e)), labels = function(x) num(x, 0)) +
     scale_y_continuous(labels = function(x) num(x, 1)) +
     labs(x = lab_e, y = "Efecto sobre la p\u00e9rdida de bosque (ha por celda y a\u00f1o)") + tema_aer
-  guardar_fig(p, "figura_6_7", alto = 3.8)
+  guardar_fig(p, "figura_6_6", alto = 3.8)
 })
 
 ## =============================================================================

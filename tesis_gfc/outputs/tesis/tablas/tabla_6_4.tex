@@ -2,28 +2,29 @@
 \begin{table}[htbp]
 \centering
 \small
-\caption{Tabla 6.4—Municipios tratados por cohorte y estado de sus proyectos en el registro}
+\caption{Tabla 6.4—Intervalos robustos a violaciones de tendencias paralelas}
 \label{tab:tabla_6_4}
 \begin{threeparttable}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
- & Tratados & Nunca operaron & Registrados sin créditos & Con créditos & Sin estado \\
+ & (1) & (2) & (3) & (4) & (5) \\
+ & Convencional & $\bar{M}$ = 0,5 & $\bar{M}$ = 1 & M = 0 & M = M obs. \\
 \midrule
-2013 & 5 & 0 & 0 & 5 & 0 \\
-2014 & 7 & 0 & 2 & 3 & 2 \\
-2015 & 5 & 0 & 0 & 1 & 4 \\
-2016 & 6 & 1 & 0 & 2 & 3 \\
-2017 & 3 & 2 & 1 & 0 & 0 \\
-2018 & 6 & 3 & 1 & 0 & 2 \\
-2019 & 4 & 2 & 1 & 1 & 0 \\
-\midrule
-Total & 36 & 8 & 5 & 12 & 11 \\
+\multicolumn{6}{@{}l}{\textit{Panel A. Con covariables}} \\
+e = 0 & [$-$231; 248] & [$-$365; 433] & [$-$565; 707] & [$-$269; 242] & [$-$751; 627] \\
+Promedio e = 0--5 & [$-$570; 170] & [$-$1.289; 888] & [$-$2.279; 1.878] & [$-$847; 483] & [$-$4.203; 3.376] \\
+  M observado = 233 ha &  &  &  &  &  \\
+\addlinespace
+\multicolumn{6}{@{}l}{\textit{Panel B. Sin covariables}} \\
+e = 0 & [$-$160; 456] & [$-$355; 852] & [$-$808; 1.343] & [$-$249; 244] & [$-$856; 661] \\
+Promedio e = 0--5 & [$-$843; 348] & [$-$2.438; 1.271] & [$-$4.238; 3.046] & [$-$1.318; 366] & [$-$5.407; 3.851] \\
+  M observado = 274 ha &  &  &  &  &  \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}[flushleft]
 \footnotesize
-\item \textit{Notas:} Cada municipio se clasifica por el mejor estado entre sus proyectos REDD+ de Verra. Nunca operaron: proyectos que no pasaron de solicitud, validación o lista de espera (nivel S1). Registrados sin créditos: alcanzaron registro efectivo pero no emitieron créditos. Con créditos: emitieron créditos según Berkeley VROD. Sin estado: municipios tratados solo por RENARE o Cercarbono, que no publican estado de registro.
-\item \textit{Fuente:} Verra (API de Platts); Berkeley VROD; cálculos propios.
+\item \textit{Notas:} Intervalos de confianza al 95 \% (ha por año) según Rambachan y Roth (2023). Columnas (2) y (3): magnitudes relativas, la violación posterior puede ser hasta $\bar{M}$ veces la mayor violación previa. Columnas (4) y (5): suavidad, la pendiente de la tendencia diferencial puede cambiar hasta M ha por año; M = 0 extrapola linealmente la tendencia previa y M observado es la mayor curvatura previa a la adopción. Estudio de eventos con referencia universal en g $-$ 1. Intervalos de magnitudes relativas con el método condicional híbrido (C-LF) y de suavidad con el intervalo de longitud fija (FLCI), los predeterminados de HonestDiD. El valor de ruptura es cero en todos los casos: el intervalo convencional ya incluye el cero.
+\item \textit{Fuente:} Cálculos propios.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}

@@ -50,6 +50,17 @@ E_PRE      <- 5                # ventana de eventos para HonestDiD y figuras
 E_POST     <- 5
 MIN_COH    <- 3                # minimo de municipios para reportar una cohorte (D1)
 UMBRAL_PCT <- 5                # % del municipio cubierto por un poligono (A.7, A.9, 53)
+BOOT_COHORTES <- 999           # replicas del bootstrap estratificado del 50 (Tabla 6; era 199, comentario de Jorge)
+
+## Grupo de comparacion (escenario A, 18/10/2026). La principal NO cambia:
+## C_{g,t} = {i: G_i = 0} U {i: G_i > t}, nunca tratados limpios mas aun no
+## tratados. "nevertreated" se reporta como contraste en la Tabla 4 (71) y en
+## la Tabla 7 (58).
+CONTROL_PRINCIPAL  <- "notyettreated"
+CONTROL_CONTRASTE  <- "nevertreated"
+## Desborde de dosis (J29): municipios cuya area REDD+ cruda supera el area de
+## referencia. Se excluyen en una columna de la Tabla 4.
+COL_DESBORDE <- "desborda_bosque"   # alternativa: "desborda_area"
 
 ## D4: lista oficial de covariables del modelo doblemente robusto. La
 ## deforestacion previa entra en ambos modelos (did no los separa); la

@@ -1,0 +1,41 @@
+% Generado por scripts/70_tablas_figuras.R a partir de resultados-v1. No editar a mano.
+\begin{table}[htbp]
+\centering
+\small
+\caption{Tabla 6.11—Discontinuidad en el borde de los polígonos REDD+}
+\label{tab:tabla_6_11}
+\begin{threeparttable}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+ & (1) & (2) & (3) & (4) & (5) \\
+ & Salto & EE robusto & IC 95 \% robusto & Ventana (km) & Celdas fuera / dentro \\
+\midrule
+\multicolumn{6}{@{}l}{\textit{Panel A. Cambio en la pérdida (principal)}} \\
+Sin dona & 0,105 & (0,106) & [$-$0,10; 0,31] & 6,6 & 11.084 / 10.598 \\
+Con covariables & 0,106 & (0,105) & [$-$0,10; 0,32] & 7,2 & 11.931 / 11.137 \\
+Dona de 1 km & 0,225 & (0,158) & [$-$0,07; 0,55] & 6,9 & 9.367 / 8.179 \\
+Dona de 2 km & 0,068 & (0,185) & [$-$0,32; 0,40] & 8,4 & 9.562 / 7.444 \\
+\addlinespace
+\multicolumn{6}{@{}l}{\textit{Panel B. Pérdida después de la adopción}} \\
+Sin dona & 0,056 & (0,268) & [$-$0,45; 0,60] & 6,4 & 10.797 / 10.395 \\
+Dona de 1 km & 0,015 & (0,295) & [$-$0,56; 0,60] & 5,1 & 6.868 / 6.477 \\
+Dona de 2 km & 0,056 & (0,431) & [$-$0,73; 0,96] & 8,4 & 9.553 / 7.437 \\
+\addlinespace
+\multicolumn{6}{@{}l}{\textit{Panel C. Placebo: pérdida previa}} \\
+Sin dona & $-$0,052 & (0,273) & [$-$0,57; 0,50] & 6,8 & 11.392 / 10.778 \\
+Dona de 1 km & $-$0,225 & (0,346) & [$-$0,93; 0,43] & 6,0 & 8.198 / 7.419 \\
+Dona de 2 km & 0,013 & (0,500) & [$-$0,90; 1,06] & 7,0 & 7.723 / 6.347 \\
+\addlinespace
+\multicolumn{6}{@{}l}{\textit{Panel D. Covariables en el borde}} \\
+Elevación (m) & $-$38,1 & (110,2) & [$-$225,8; 206,4] & 4,4 & 7.871 / 8.222 \\
+Pendiente (grados) & $-$0,12 & (1,26) & [$-$2,28; 2,65] & 5,5 & 9.479 / 9.484 \\
+Bosque en 2000 (fracción) & 0,018 & (0,019) & [$-$0,02; 0,05] & 4,3 & 7.705 / 8.071 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\footnotesize
+\item \textit{Notas:} Regresión discontinua espacial con celdas de 2 × 2 km a menos de 20 km del borde de los proyectos de deforestación evitada de las cohortes 2013, 2014, 2015, 2017 y 2018 (26 proyectos; Karnik et al., 2025). Variable de asignación: distancia del centroide al borde, positiva dentro del polígono. Resultado: pérdida de bosque natural (ha por celda y año, MapBiomas), con el año de adopción del proyecto del borde más cercano. Polinomio local lineal, kernel triangular, ventana óptima MSE común a ambos lados e intervalos robustos con corrección de sesgo (Calonico, Cattaneo y Titiunik, 2014), agrupados por proyecto. Un salto negativo indica menos pérdida dentro del proyecto. La dona excluye las celdas a menos de 1 o 2 km del borde. Panel A: pérdida media desde la adopción hasta 2023 menos la media de los cinco años previos; panel C: media de los cinco años previos. Covariables: elevación, pendiente y bosque en 2000. Media del cambio fuera del borde, dentro de la ventana: $-$0,057 ha.
+\item \textit{Fuente:} MapBiomas Colombia, Colección 3; Karnik et al. (2025); cálculos propios.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

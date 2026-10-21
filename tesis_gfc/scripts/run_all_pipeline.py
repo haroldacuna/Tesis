@@ -13,6 +13,7 @@ Etapas
   clima (gee)  61   (solo con --gee; si no, usa el CSV ya calculado)
   panel        01 -> 02
   principal    40 -> 66 (regla SINAP; si cambia la configuracion, vuelve a correr 40) -> 67 (referencias)
+  principal    + 71 (grupo de comparacion, Tabla 4)
   fase_A       58, 59, 44, 60, 45, 46_did_mapbiomas, 46_event_study, 48, 49, 50, 51, 53
   descriptivos 64, 65
   celdas       39 MapBiomas, 52, 54, 55, 56, 57   (solo con --completo; Earth Engine y horas de computo)
@@ -50,6 +51,7 @@ PASOS = [
     ("principal", "40_did_depurada_y_dosis.R"),
     ("principal", "66_regla_sinap.R"),
     ("principal", "67_actualizar_referencias.R"),
+    ("principal", "71_grupo_comparacion.R"),
     ("fase_A", "58_contraste_mecanismo_escalera.R"),
     ("fase_A", "59_periodo_base_y_poisson.R"),
     ("fase_A", "44_honestdid.R"),
@@ -62,6 +64,7 @@ PASOS = [
     ("fase_A", "50_cohortes_loo_base.R"),
     ("fase_A", "51_psm_principal.R"),
     ("fase_A", "53_controles_sin_poligonos.R"),
+    ("fase_A", "68_heterogeneidad_fiscal.R"),
     ("descriptivos", "64_verificar_placebo.py"),
     ("descriptivos", "65_territorios_proponentes.py"),
     ("celdas", "39_transiciones_mapbiomas.py"),
@@ -70,6 +73,8 @@ PASOS = [
     ("celdas", "55_panel_celdas.py"),
     ("celdas", "56_did_celdas.R"),
     ("celdas", "57_figura_mde_celdas.R"),
+    ("celdas", "72_distancia_borde.py"),
+    ("celdas", "73_rdd_espacial.R"),
 ]
 CONFIG = Path("scripts/00_config_did.R")
 USAN_EE = {"61_clima_linea_base.py", "39_transiciones_mapbiomas.py", "54_celdas_gee_export.py"}
