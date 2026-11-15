@@ -1,0 +1,19 @@
+muestra,indicador,valor
+todos D1,n_poligono,30.0
+todos D1,n_reubicado,2.0
+todos D1,n_sin_poligono,10.0
+todos D1,dosis_area_mediana,0.30269291405198695
+todos D1,dosis_area_max,0.8991183726930815
+todos D1,dosis_bosque_mediana,0.3166472374142352
+todos D1,dosis_bosque_max,0.8940440693274032
+principal,n_poligono,26.0
+principal,n_reubicado,2.0
+principal,n_sin_poligono,8.0
+principal,dosis_area_mediana,0.3472647748842007
+principal,dosis_area_max,0.8991183726930815
+principal,dosis_bosque_mediana,0.349695602741365
+principal,dosis_bosque_max,0.8940440693274032
+todos D1,spearman_bosque_declarada_poligono,-0.02926367287029816
+todos D1,spearman_area_declarada_poligono,-0.015492532696040203
+todos D1,pct_mismo_tercil_declarado,31.818181818181817
+todos D1,n_declarada_mayor_1,9.0

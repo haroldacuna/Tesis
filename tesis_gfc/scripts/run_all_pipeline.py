@@ -43,6 +43,8 @@ PASOS = [
     ("datos", "26_consolidar_fuentes_carbono.py"),
     ("datos", "38_construir_dosis_tratamiento.py"),
     ("datos", "39_reconciliar_dosis_panel.py"),
+    # 76 usa las salidas de 52 y 55 (etapa celdas); si faltan, se detiene con aviso
+    ("datos", "76_dosis_poligonos.py"),
     ("clima", "61_clima_linea_base.py"),
     ("datos", "62_areas_protegidas.py"),
     ("datos", "63_fiscal_linea_base.py"),
@@ -52,6 +54,8 @@ PASOS = [
     ("principal", "66_regla_sinap.R"),
     ("principal", "67_actualizar_referencias.R"),
     ("principal", "71_grupo_comparacion.R"),
+    ("principal", "77_gradiente_dosis.R"),
+    ("principal", "75_descriptivos.R"),
     ("fase_A", "58_contraste_mecanismo_escalera.R"),
     ("fase_A", "59_periodo_base_y_poisson.R"),
     ("fase_A", "44_honestdid.R"),
@@ -62,6 +66,7 @@ PASOS = [
     ("fase_A", "48_soporte_comun.R"),
     ("fase_A", "49_controles_no_contiguos.R"),
     ("fase_A", "50_cohortes_loo_base.R"),
+    ("fase_A", "74_loo_ic.R"),
     ("fase_A", "51_psm_principal.R"),
     ("fase_A", "53_controles_sin_poligonos.R"),
     ("fase_A", "68_heterogeneidad_fiscal.R"),
@@ -75,6 +80,8 @@ PASOS = [
     ("celdas", "57_figura_mde_celdas.R"),
     ("celdas", "72_distancia_borde.py"),
     ("celdas", "73_rdd_espacial.R"),
+    # 78 reconcilia conteos con las salidas finales (40, 60 A10/A11, 71, 73)
+    ("celdas", "78_construccion_muestra.py"),
 ]
 CONFIG = Path("scripts/00_config_did.R")
 USAN_EE = {"61_clima_linea_base.py", "39_transiciones_mapbiomas.py", "54_celdas_gee_export.py"}

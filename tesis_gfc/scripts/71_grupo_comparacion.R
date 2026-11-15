@@ -10,8 +10,13 @@
 ##   2. Contraste: solo nunca tratados como comparacion (nevertreated), DR y
 ##      sin covariables. Si difiere de la principal, muestra el sesgo que
 ##      anticipa Jorge (los nunca tratados son distintos de los tratados, Tabla 3).
-##   3. Sin los municipios con dosis desbordada (area REDD+ cruda > area de
-##      referencia; COL_DESBORDE en 00_config).
+##   3. Sin los municipios con dosis desbordada (area REDD+ DECLARADA > area de
+##      referencia; COL_DESBORDE en 00_config). Se conserva por trazabilidad.
+##   3b. (26/10/2026, lista de chequeo 1, 3 y 6) Corregida la geografia con
+##      los poligonos (76), ya no hay desbordes: la columna 6 de la Tabla 4
+##      pasa a ser la muestra de tratados con UBICACION VERIFICADA, los que
+##      algun poligono AD cubre (clase_geo = "poligono"). Salen los reubicados
+##      (su poligono esta en otro municipio) y los que no tienen poligono.
 ##   4. Composicion efectiva del grupo de comparacion por (g, t):
 ##          C_{g,t} = {i: G_i = 0}  U  {i: G_i > t}
 ##      cuantos nunca tratados y cuantos aun no tratados entran en cada par.
@@ -98,7 +103,7 @@ res$nunca_sin <- estimar(muestra, ~1, "Solo nunca tratados sin covariables", CON
 ## 3. Sin municipios con dosis desbordada
 ## =============================================================================
 titulo(sprintf("3. SIN MUNICIPIOS CON DOSIS DESBORDADA (%s)", COL_DESBORDE))
-dos <- read_csv(RUTA_DOSIS, col_types = cols(COD_DANE = col_character()), show_col_types = FALSE) %>%
+dos <- read_csv(RUTA_DOSIS_DECLARADA, col_types = cols(COD_DANE = col_character()), show_col_types = FALSE) %>%
   mutate(COD_DANE = pad5(COD_DANE))
 ## Si el CSV no trae las banderas, se reconstruyen de las dosis crudas
 if (!"desborda_bosque" %in% names(dos) && "dosis_bosque_cruda" %in% names(dos))
@@ -125,6 +130,24 @@ coh <- m_sd %>% filter(G_dep > 0) %>% distinct(COD_DANE, G_dep) %>% count(G_dep)
 cat("Cohortes que quedan sin los desbordados:\n"); print(as.data.frame(coh), row.names = FALSE)
 res$sin_desborde     <- estimar(m_sd, COVARIABLES_XFORMLA, "Sin dosis desbordada", CONTROL_PRINCIPAL)
 res$sin_desborde_sin <- estimar(m_sd, ~1, "Sin dosis desbordada sin covariables", CONTROL_PRINCIPAL)
+
+## =============================================================================
+## 3b. Solo tratados con ubicacion verificada por poligono (76)
+## =============================================================================
+titulo("3b. SOLO TRATADOS CON UBICACION VERIFICADA POR POLIGONO")
+if (!file.exists(RUTA_DOSIS_POLIGONOS)) stop("Falta ", RUTA_DOSIS_POLIGONOS, ": corre scripts/76_dosis_poligonos.py")
+geo <- read_csv(RUTA_DOSIS_POLIGONOS, col_types = cols(COD_DANE = col_character()), show_col_types = FALSE) %>%
+  mutate(COD_DANE = pad5(COD_DANE))
+tg <- muestra %>% filter(G_dep > 0) %>% distinct(COD_DANE, G_dep) %>%
+  left_join(geo %>% select(COD_DANE, all_of(COL_CLASE_GEO)), by = "COD_DANE")
+print(table(tg[[COL_CLASE_GEO]], useNA = "ifany"))
+fuera_geo <- tg$COD_DANE[!tg[[COL_CLASE_GEO]] %in% "poligono"]
+write_csv(tg, file.path(DIR_TAB, "71_clase_geografica.csv"))
+m_pol <- muestra %>% filter(!COD_DANE %in% fuera_geo)
+cat("Cohortes con ubicacion verificada:\n")
+print(as.data.frame(m_pol %>% filter(G_dep > 0) %>% distinct(COD_DANE, G_dep) %>% count(G_dep)), row.names = FALSE)
+res$con_poligono     <- estimar(m_pol, COVARIABLES_XFORMLA, "Ubicacion verificada por poligono", CONTROL_PRINCIPAL)
+res$con_poligono_sin <- estimar(m_pol, ~1, "Ubicacion verificada por poligono sin covariables", CONTROL_PRINCIPAL)
 
 ## =============================================================================
 ## 4. Composicion efectiva del grupo de comparacion
@@ -157,4 +180,5 @@ print(tab[, c("especificacion", "control", "n_tratados", "att", "ee", "ic_inf", 
 dif <- tab$att[tab$especificacion == "Solo nunca tratados"] - tab$att[tab$especificacion == "Principal"]
 cat(sprintf("\nSolo nunca tratados - principal: %.1f ha (%.2f EE de la principal)\n", dif, dif / REF_EE_DR))
 write_csv(tab, file.path(DIR_TAB, "71_grupo_comparacion.csv"))
-cat("Guardado: outputs/tablas/71_grupo_comparacion.csv, 71_composicion_comparacion.csv, 71_desborde_dosis.csv\n")
+cat("Guardado: outputs/tablas/71_grupo_comparacion.csv, 71_composicion_comparacion.csv, 71_desborde_dosis.csv,",
+    "71_clase_geografica.csv\n")

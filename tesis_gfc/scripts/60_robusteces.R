@@ -16,6 +16,20 @@
 ##        pct_ad >= 5 %; adopcion = min(anio actual, cohorte del poligono).
 ##        Agrega proyectos de EcoRegistry y reparte proyectos multimunicipio.
 ##   A.8  Definiciones alternativas: alta_redd y sinmanual, mismos controles.
+##   A.10 (26/10/2026) Reasignacion geografica COMPLETA con los poligonos
+##        (lista de chequeo, punto 6). A diferencia de A.7, que solo AGREGA
+##        municipios cubiertos, aqui: (i) los tratados de la D1 cuyo proyecto
+##        tiene poligono en otro municipio (reubicados del 76) salen del
+##        tratamiento y de la muestra; (ii) entran como tratados los municipios
+##        cubiertos con la regla del 52 (>= 1 % y >= 100 ha), con adopcion =
+##        min(anio de la D1, cohorte del poligono); (iii) los tratados sin
+##        poligono en la base conservan la asignacion por punto.
+##   A.11 (27/10/2026) Momento de adopcion con el poligono (lista de chequeo,
+##        punto 5). Misma muestra y controles que la principal; para los
+##        tratados cubiertos por poligonos (clase_geo = "poligono" en el 76) la
+##        adopcion pasa a min(anio de la D1, inicio del primer proyecto AD que
+##        cubre >= 1 % y >= 100 ha del municipio). Los que caen fuera de la
+##        ventana 2013-2019 salen de la muestra.
 ##   A.9  Vision Amazonia: (i) excluir municipios con >= 5 % de su area en el
 ##        poligono del programa (capa del geovisor del RENARE); (ii) solo esos
 ##        municipios. Si no hay poligono, aproximacion por 6 departamentos.
@@ -45,7 +59,7 @@ RAIZ <- local({
 DIR_OUT <- file.path(RAIZ, "outputs"); DIR_TAB <- file.path(DIR_OUT, "tablas")
 dir.create(DIR_TAB, showWarnings = FALSE, recursive = TRUE)
 
-TODOS <- c("A5", "A6", "A7", "A8", "A9")
+TODOS <- c("A5", "A6", "A7", "A8", "A9", "A10", "A11")
 args <- toupper(gsub("[^A-Za-z0-9]", "", commandArgs(trailingOnly = TRUE)))
 BLOQUES <- if (length(args)) intersect(args, TODOS) else TODOS
 if (!length(BLOQUES)) stop("Bloques validos: ", paste(TODOS, collapse = ", "))
@@ -80,7 +94,7 @@ CONTROLES <- mun$COD_DANE[mun$G_dep == 0]
 cov_cols <- all.vars(COVARIABLES_XFORMLA)
 
 ## Panel completo y tratamientos: solo los bloques A.6-A.8 los necesitan
-if (any(c("A6", "A7", "A8") %in% BLOQUES)) {
+if (any(c("A6", "A7", "A8", "A10", "A11") %in% BLOQUES)) {
   panel_full <- readRDS(file.path(DIR_OUT, "panel_analisis_did.rds"))
   panel_full$COD_DANE <- pad5(panel_full$COD_DANE)
   ruta_cov <- file.path(DIR_TAB, "covariables_pre_municipio.csv")
@@ -193,13 +207,57 @@ if ("A7" %in% BLOQUES) {
   CONTROLES <- CONTROLES_BAK
 }
 
+## --- A.10 -------------------------------------------------------------------
+if ("A10" %in% BLOQUES) {
+  titulo("A.10 REASIGNACION GEOGRAFICA COMPLETA POR POLIGONOS (>= 1 % y >= 100 ha)")
+  cob <- read_csv(RUTA_COBERTURA, col_types = cols(COD_DANE = col_character(), .default = col_guess()),
+                  show_col_types = FALSE) %>%
+    mutate(COD_DANE = pad5(COD_DANE), cubierto = toupper(as.character(cubierto_ad)) == "TRUE",
+           cohorte_poligono = as.numeric(cohorte_poligono))
+  if (!file.exists(RUTA_DOSIS_POLIGONOS)) stop("Falta ", RUTA_DOSIS_POLIGONOS, ": corre scripts/76_dosis_poligonos.py")
+  geo <- read_csv(RUTA_DOSIS_POLIGONOS, col_types = cols(COD_DANE = col_character()), show_col_types = FALSE) %>%
+    mutate(COD_DANE = pad5(COD_DANE))
+  reub <- geo$COD_DANE[geo$clase_geo == "reubicado"]
+  pol  <- cob %>% filter(cubierto, !is.na(cohorte_poligono)) %>% select(COD_DANE, cohorte_poligono)
+  base10 <- mun %>% filter(G_dep > 0, !COD_DANE %in% reub) %>% transmute(COD_DANE, G = G_dep)
+  a10 <- full_join(base10, pol, by = "COD_DANE") %>%
+    mutate(G = pmin(coalesce(G, Inf), coalesce(cohorte_poligono, Inf)), G = ifelse(is.finite(G), G, 0)) %>%
+    select(COD_DANE, G)
+  nuevos <- setdiff(a10$COD_DANE[a10$G %in% VENTANA], base10$COD_DANE)
+  cat(sprintf("Reubicados fuera: %s | cubiertos: %d | nuevos tratados en la ventana: %d (%d eran controles limpios)\n",
+              paste(reub, collapse = ", "), nrow(pol), length(nuevos), sum(nuevos %in% CONTROLES)))
+  cambian <- inner_join(base10, a10, by = "COD_DANE", suffix = c("_d1", "_a10")) %>% filter(G_d1 != G_a10)
+  if (nrow(cambian)) { cat("Tratados que adelantan su cohorte por el poligono:\n"); print(as.data.frame(cambian)) }
+  CONTROLES_BAK <- CONTROLES
+  CONTROLES <- setdiff(CONTROLES, c(cob$COD_DANE[cob$cubierto], reub))
+  d10 <- armar(a10, "Reasignacion geografica")
+  dos_specs(d10, "Reasignacion geografica por poligonos", "A.10")
+  CONTROLES <- CONTROLES_BAK
+}
+
+## --- A.11 -------------------------------------------------------------------
+if ("A11" %in% BLOQUES) {
+  titulo("A.11 MOMENTO DE ADOPCION CON LA COHORTE DEL POLIGONO")
+  if (!file.exists(RUTA_DOSIS_POLIGONOS)) stop("Falta ", RUTA_DOSIS_POLIGONOS, ": corre scripts/76_dosis_poligonos.py")
+  geo <- read_csv(RUTA_DOSIS_POLIGONOS, col_types = cols(COD_DANE = col_character()), show_col_types = FALSE) %>%
+    mutate(COD_DANE = pad5(COD_DANE), cohorte_poligono = as.numeric(cohorte_poligono))
+  a11 <- mun %>% filter(G_dep > 0) %>% left_join(geo %>% select(COD_DANE, clase_geo, cohorte_poligono), by = "COD_DANE") %>%
+    mutate(G = ifelse(clase_geo %in% "poligono" & !is.na(cohorte_poligono), pmin(G_dep, cohorte_poligono), G_dep))
+  cambian <- a11 %>% filter(G != G_dep)
+  cat(sprintf("Tratados con poligono: %d | cambian de cohorte: %d | quedan fuera de la ventana: %d\n",
+              sum(a11$clase_geo %in% "poligono"), nrow(cambian), sum(!a11$G %in% VENTANA)))
+  print(as.data.frame(cambian %>% select(COD_DANE, G_dep, cohorte_poligono, G)), row.names = FALSE)
+  d11 <- armar(a11 %>% select(COD_DANE, G), "Cohorte del poligono")
+  dos_specs(d11, "Adopcion con la cohorte del poligono", "A.11")
+}
+
 ## --- A.8 --------------------------------------------------------------------
 if ("A8" %in% BLOQUES) {
   titulo("A.8 DEFINICIONES ALTERNATIVAS (muestra depurada)")
   dep_ok <- trat$COD_DANE[trat$muestra_dep == 1]
   for (def in c("G_alta", "G_sinm")) {
     g <- trat %>% filter(COD_DANE %in% dep_ok) %>% transmute(COD_DANE, G = .data[[def]])
-    nom <- if (def == "G_alta") "alta_redd (solo Verra)" else "todas_redd_sinmanual"
+    nom <- if (def == "G_alta") "alta_redd (alta confianza: Verra y Cercarbono con ficha)" else "todas_redd_sinmanual"
     dos_specs(armar(g, nom), nom, "A.8")
   }
 }

@@ -1,0 +1,38 @@
+panel,etapa,n,controles,obs,nota
+A,"Proyectos de Verra en Colombia, todos los sectores (Tabla 1)",101,,,
+A,Con actividad AFOLU REDD+ declarada,45,,,
+A,Menos: punto en la sede del proponente,1,,,CO2ROZO
+A,Con ubicación válida (Figura 3 y escalera de estado),44,,,
+A,"De ellos, con año de inicio publicado",44,,,
+A,"De ellos, con polígono en Karnik et al. (2025)",19,,,
+A,"De ellos, sin tratamiento (metodología o área)",2,,,restoration of degraded lands in Jaguar Corri; REDD+ conservation of the Oak ecological corr
+A,Fuera de los 45: metodología REDD+ sin la actividad,1,,,Yaguara Llanos del Yari
+B,De Verra: los 44 válidos y el de metodología sin la actividad,45,,,
+B,Polígonos de deforestación evitada de otros registros,14,,,EcoRegistry: 13; BioCarbon Registry: 1
+B,Total de registros,59,,,
+B,Proyectos únicos,58,,,Chonta Corozo
+C,Polígonos en Colombia (todos los registros y tipos),55,,,
+C,De deforestación evitada,32,,,
+C,"De ellos, de proyectos de Verra",18,,,
+C,Municipios que cubren (≥ 1 % y ≥ 100 ha),68,,,
+D,Municipios del panel,1122,,26928.0,
+D,Tratados (definición principal),42,,,
+D,"De ellos, con adopción fuera de 2013–2019",6,,,
+D,Excluidos: único proyecto retirado o rechazado,6,,,
+D,Nunca tratados,1074,,,
+D,Menos: con vínculo con proyectos de carbono,88,,,
+D,Controles limpios,986,,,
+D,Tratados de la muestra principal,36,,,
+D,"De ellos, con proyecto REDD+ de Verra",25,,,
+D,"De ellos, solo con proyectos de RENARE o Cercarbono",11,,,
+D,"De ellos, con ubicación verificada",26,,,
+D,"De ellos, con su polígono en otros municipios",2,,,
+D,"De ellos, sin polígono en la base",8,,,
+E,Binaria principal (Tabla 4),36,986.0,24528.0,
+E,"Ubicación verificada (Tabla 4, columna 6)",26,986.0,24288.0,
+E,Tratamiento continuo y gradiente (Tabla 5),26,986.0,24288.0,
+E,Dosis híbrida (Tabla 5),30,986.0,24384.0,
+E,Reasignación geográfica (Tabla 10),72,953.0,24600.0,
+E,Adopción según el polígono (Tabla 10),34,986.0,24480.0,
+E,"Evaluación por polígonos (Tabla 9), proyectos",25,,,celdas de 2 x 2 km dentro de los polígonos y controles emparejados
+E,"Regresión discontinua (Tabla A.4), proyectos",26,,,celdas de 2 x 2 km a menos de 20 km del borde

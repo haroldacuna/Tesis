@@ -42,7 +42,14 @@
 ##   outputs/panel_analisis_did.rds                  (01_preparar_datos_did.R)
 ##   outputs/tablas/covariables_pre_municipio.csv    (02_matching_psm.R)
 ##   data/final/panel_con_tratamiento_actualizado.csv (26)
-##   data/interim/dosis_tratamiento_final.csv         (39)
+##   data/interim/dosis_tratamiento_poligonos.csv     (76; RUTA_DOSIS en 00_config)
+##
+## CAMBIO 26/10/2026 (lista de chequeo, puntos 1-6): la dosis se toma de
+## RUTA_DOSIS, que por defecto es la dosis por POLIGONOS del 76 (la union de
+## los poligonos AD intersectada con cada municipio) y no el area declarada
+## asignada al municipio del punto. El bloque B estima terciles con las dos
+## medidas (bosque y area) y el C agrega la dosis hibrida como sensibilidad.
+## FUENTE_DOSIS <- "declarada" en 00_config reproduce la corrida anterior.
 ## =============================================================================
 
 suppressPackageStartupMessages({
@@ -127,10 +134,15 @@ trat_mpio <- trat %>%
   mutate(G_dep = coalesce(G_dep, 0), G_orig = coalesce(G_orig, 0))
 
 ## Dosis, desde la salida del 39
-dosis <- read_csv(file.path(RAIZ_PROYECTO, "data/interim/dosis_tratamiento_final.csv"),
-                  col_types = cols(COD_DANE = col_character()), show_col_types = FALSE) %>%
+if (!file.exists(RUTA_DOSIS))
+  stop("Falta ", RUTA_DOSIS, if (FUENTE_DOSIS == "poligonos") ": corre scripts/76_dosis_poligonos.py" else "")
+cat("Fuente de la dosis:", FUENTE_DOSIS, "->", RUTA_DOSIS, "\n")
+dosis <- read_csv(RUTA_DOSIS, col_types = cols(COD_DANE = col_character()), show_col_types = FALSE) %>%
   mutate(COD_DANE = pad5(COD_DANE)) %>%
-  select(COD_DANE, tiene_dosis, tercil_dosis, dosis_bosque, dosis_area)
+  select(COD_DANE, tiene_dosis, tercil_dosis, dosis_bosque, dosis_area,
+         any_of(c("tercil_area", "clase_geo", "dosis_bosque_hibrida", "dosis_area_hibrida",
+                  "tiene_dosis_hibrida")))
+if (!"tercil_area" %in% names(dosis)) dosis$tercil_area <- NA_character_
 
 panel <- panel %>%
   select(-any_of(c("G_dep", "G_orig", "muestra_dep", names(dosis)[-1]))) %>%
@@ -284,33 +296,41 @@ if (!is.null(resultados$A_dep_dr)) {
 ## de otros terciles quedan fuera (no son controles: estan tratados). Por eso
 ## control_group = "nevertreated" en este bloque.
 ## =============================================================================
-titulo("B. ATT POR TERCIL DE DOSIS (bosque), ventana balanceada e = 0..5")
+titulo("B. ATT POR TERCIL DE DOSIS (bosque y area), ventana balanceada e = 0..5")
 
+## Terciles con las DOS medidas (lista de chequeo, punto 4). Con la dosis por
+## poligonos ambas coinciden en la mayoria de los municipios; reportar las dos
+## muestra cuanto depende el gradiente de la medida.
+MEDIDAS_TERCIL <- c(bosque = "tercil_dosis", area = "tercil_area")
 base_B <- muestra_A
-for (k in c("bajo", "medio", "alto")) {
-  d_k <- base_B %>% filter(G_dep == 0 | (tiene_dosis %in% 1 & tercil_dosis == k))
-  describir(d_k, "G_dep", paste("Tercil", k))
-  resultados[[paste0("B_", k, "_sincov")]] <- correr_cs(
-    d_k, "G_dep", ~1, paste("Tercil", k, "- sin covariables"), control = "nevertreated")
-  resultados[[paste0("B_", k, "_dr")]] <- correr_cs(
-    d_k, "G_dep", COVARIABLES_XFORMLA, paste("Tercil", k, "- DR"), control = "nevertreated")
+for (med in names(MEDIDAS_TERCIL)) {
+  col_t <- MEDIDAS_TERCIL[[med]]
+  if (all(is.na(base_B[[col_t]]))) { cat("Sin", col_t, "en la dosis: se omiten los terciles de", med, "\n"); next }
+  for (k in c("bajo", "medio", "alto")) {
+    d_k <- base_B %>% filter(G_dep == 0 | (tiene_dosis %in% 1 & .data[[col_t]] == k))
+    describir(d_k, "G_dep", paste("Tercil", k, "-", med))
+    resultados[[paste0("B_", med, "_", k, "_sincov")]] <- correr_cs(
+      d_k, "G_dep", ~1, paste0("Tercil ", k, " (", med, ") - sin covariables"), control = "nevertreated")
+    resultados[[paste0("B_", med, "_", k, "_dr")]] <- correr_cs(
+      d_k, "G_dep", COVARIABLES_XFORMLA, paste0("Tercil ", k, " (", med, ") - DR"), control = "nevertreated")
+  }
 }
 
-## Grafico: ATT balanceado por tercil
-terc <- do.call(rbind, lapply(c("bajo", "medio", "alto"), function(k) {
+## Grafico: ATT balanceado por tercil y medida
+terc <- do.call(rbind, lapply(names(MEDIDAS_TERCIL), function(med) do.call(rbind, lapply(c("bajo", "medio", "alto"), function(k) {
   do.call(rbind, lapply(c("sincov", "dr"), function(s) {
-    r <- resultados[[paste0("B_", k, "_", s)]]
+    r <- resultados[[paste0("B_", med, "_", k, "_", s)]]
     if (is.null(r) || is.null(r$balanceado)) return(NULL)
-    data.frame(tercil = k, spec = s, att = r$balanceado$overall.att, se = r$balanceado$overall.se)
+    data.frame(medida = med, tercil = k, spec = s, att = r$balanceado$overall.att, se = r$balanceado$overall.se)
   }))
-}))
+}))))
 if (!is.null(terc) && nrow(terc)) {
   terc$tercil <- factor(terc$tercil, levels = c("bajo", "medio", "alto"))
-  p <- ggplot(terc, aes(tercil, att, color = spec)) +
+  p <- ggplot(terc, aes(tercil, att, color = spec)) + facet_wrap(~ medida) +
     geom_hline(yintercept = 0, linetype = "dashed", color = "grey50") +
     geom_pointrange(aes(ymin = att - 1.96 * se, ymax = att + 1.96 * se),
                     position = position_dodge(width = 0.4)) +
-    labs(title = "ATT por tercil de dosis (proporcion del bosque municipal con REDD+)",
+    labs(title = paste0("ATT por tercil de dosis (", FUENTE_DOSIS, "): bosque y area con REDD+"),
          subtitle = sprintf("Promedio del estudio de eventos balanceado, e = 0..%d. IC 95%% normal.", BALANCE_E),
          x = "Tercil de dosis", y = "ATT (hectareas deforestadas)", color = "Especificacion") +
     theme_minimal()
@@ -332,22 +352,25 @@ if (!requireNamespace("contdid", quietly = TRUE)) {
       "(alfa: registrar la version en el capitulo)\n")
 
   ## Muestra: nunca tratados (D = 0) + tratados en ventana CON dosis.
-  base_C <- muestra_A %>% filter(G_dep == 0 | tiene_dosis %in% 1)
-
   ## Cohortes sin variacion de dosis suficiente: se sacan de la muestra de
   ## contdid (no pasan a control: estan tratadas). Se reporta cuales y cuanto
   ## cuesta, porque es una restriccion de muestra que hay que declarar.
-  var_coh <- base_C %>% filter(G_dep > 0) %>% distinct(COD_DANE, G_dep, dosis_bosque) %>%
-    group_by(G_dep) %>% summarise(n = n(), n_dosis = n_distinct(dosis_bosque), .groups = "drop")
-  cat("\nVariacion de dosis por cohorte (muestra de contdid):\n")
-  print(as.data.frame(var_coh), row.names = FALSE)
-  coh_malas <- var_coh$G_dep[var_coh$n_dosis < MIN_DOSIS_DISTINTAS]
-  if (length(coh_malas)) {
-    n_fuera <- n_distinct(base_C$COD_DANE[base_C$G_dep %in% coh_malas])
-    cat(sprintf("Cohortes con menos de %d dosis distintas, excluidas de contdid: %s (%d municipios)\n",
-                MIN_DOSIS_DISTINTAS, paste(coh_malas, collapse = ", "), n_fuera))
-    base_C <- base_C %>% filter(!G_dep %in% coh_malas)
+  armar_base_C <- function(col_tiene, col_dosis, etiqueta) {
+    b <- muestra_A %>% filter(G_dep == 0 | .data[[col_tiene]] %in% 1)
+    var_coh <- b %>% filter(G_dep > 0) %>% distinct(COD_DANE, G_dep, d = .data[[col_dosis]]) %>%
+      group_by(G_dep) %>% summarise(n = n(), n_dosis = n_distinct(d), .groups = "drop")
+    cat("\nVariacion de dosis por cohorte (muestra de contdid, ", etiqueta, "):\n", sep = "")
+    print(as.data.frame(var_coh), row.names = FALSE)
+    coh_malas <- var_coh$G_dep[var_coh$n_dosis < MIN_DOSIS_DISTINTAS]
+    if (length(coh_malas)) {
+      n_fuera <- n_distinct(b$COD_DANE[b$G_dep %in% coh_malas])
+      cat(sprintf("Cohortes con menos de %d dosis distintas, excluidas de contdid: %s (%d municipios)\n",
+                  MIN_DOSIS_DISTINTAS, paste(coh_malas, collapse = ", "), n_fuera))
+      b <- b %>% filter(!G_dep %in% coh_malas)
+    }
+    b
   }
+  base_C <- armar_base_C("tiene_dosis", "dosis_bosque", FUENTE_DOSIS)
   dptos_trat <- unique(base_C$dpto[base_C$G_dep > 0])
 
   ## contdid 0.1.1 asume periodos numerados 1..T: con anios calendario falla
@@ -382,9 +405,12 @@ if (!requireNamespace("contdid", quietly = TRUE)) {
 
   muestras_C <- list(
     todos_controles     = base_C,
-    controles_regionales = base_C %>% filter(G_dep > 0 | dpto %in% dptos_trat),
-    sin_censura         = base_C %>% filter(G_dep == 0 | .data[["dosis_bosque"]] < 0.9999)
+    controles_regionales = base_C %>% filter(G_dep > 0 | dpto %in% dptos_trat)
   )
+  ## La dosis declarada se trunca en 1; la de poligonos no puede superar 1 y
+  ## la muestra sin censura seria identica a la completa.
+  if (any(base_C$dosis_bosque >= 0.9999, na.rm = TRUE))
+    muestras_C$sin_censura <- base_C %>% filter(G_dep == 0 | .data[["dosis_bosque"]] < 0.9999)
   for (nm in names(muestras_C)) describir(muestras_C[[nm]], "G_dep", paste("contdid:", nm))
 
   ## Outcome RELATIVO: el reportable. ATT(d) = cambio en la deforestacion como
@@ -396,6 +422,14 @@ if (!requireNamespace("contdid", quietly = TRUE)) {
       res_cd[[paste0(et, "_dose")]] <- correr_cd(muestras_C[[nm]], dose, "level", "dose", paste(et, "ATT(d)"))
       res_cd[[paste0(et, "_es")]]   <- correr_cd(muestras_C[[nm]], dose, "level", "eventstudy", paste(et, "estudio de eventos"))
     }
+  }
+  ## Dosis hibrida (solo sensibilidad): poligono donde existe y area declarada
+  ## truncada para los tratados sin poligono en la base (76).
+  if (all(c("tiene_dosis_hibrida", "dosis_bosque_hibrida") %in% names(muestra_A))) {
+    base_H <- armar_base_C("tiene_dosis_hibrida", "dosis_bosque_hibrida", "hibrida")
+    describir(base_H, "G_dep", "contdid: hibrida")
+    res_cd[["relativo dosis_bosque_hibrida todos_controles_dose"]] <- correr_cd(
+      base_H, "dosis_bosque_hibrida", "level", "dose", "relativo dosis_bosque_hibrida todos_controles ATT(d)")
   }
   ## Hectareas: solo como referencia, para mostrar el artefacto de escala.
   res_cd[["hectareas_dose"]] <- correr_cd(base_C, "dosis_bosque", "level", "dose",
@@ -421,6 +455,30 @@ if (!requireNamespace("contdid", quietly = TRUE)) {
     "Puente relativo: binario sin covariables, outcome / base 2001-2012", control = "nevertreated")
   OUTCOME <- OUTCOME_ORIG
 
+  ## Resumen legible por el 70 y el texto: ATT global (y ACRT) de cada corrida,
+  ## leido del summary() para no depender de nombres internos de contdid.
+  leer_overall <- function(r) {
+    txt <- capture.output(summary(r))
+    i <- grep("^Overall (ATT|ACRT)", txt)
+    do.call(rbind, lapply(i, function(k) {
+      v <- suppressWarnings(as.numeric(strsplit(trimws(gsub("\\*", "", txt[k + 2])), "\\s+")[[1]]))
+      data.frame(parametro = sub("^Overall ([A-Z]+).*", "\\1", txt[k]), est = v[1], ee = v[2], ic_inf = v[3], ic_sup = v[4])
+    }))
+  }
+  n_trat_cd <- function(nm) {
+    b <- if (grepl("hibrida", nm)) base_H else if (grepl("regionales", nm)) muestras_C$controles_regionales else base_C
+    n_distinct(b$COD_DANE[b$G_dep > 0])
+  }
+  res_tab <- do.call(rbind, lapply(names(res_cd), function(nm) {
+    r <- res_cd[[nm]]; if (is.null(r) || !grepl("_dose$|^hectareas|^pendiente", nm)) return(NULL)
+    o <- tryCatch(leer_overall(r), error = function(e) NULL); if (is.null(o)) return(NULL)
+    cbind(corrida = nm, fuente_dosis = FUENTE_DOSIS, n_tratados = n_trat_cd(nm), o)
+  }))
+  if (!is.null(res_tab)) {
+    print(res_tab, row.names = FALSE, digits = 4)
+    write_csv(res_tab, file.path(DIR_TAB, "40_contdid_resumen.csv"))
+  }
+
   for (nm in names(res_cd)) {
     r <- res_cd[[nm]]
     if (is.null(r)) next
@@ -445,7 +503,7 @@ if (!is.null(tabla)) {
   write_csv(tabla, file.path(DIR_TAB, "40_resumen_depurada_y_dosis.csv"))
 }
 saveRDS(list(binario_y_terciles = resultados, contdid = res_cd,
-             parametros = list(ventana = VENTANA, balance_e = BALANCE_E, semilla = SEMILLA,
+             parametros = list(fuente_dosis = FUENTE_DOSIS, ruta_dosis = RUTA_DOSIS, ventana = VENTANA, balance_e = BALANCE_E, semilla = SEMILLA,
                                contdid_version = if (requireNamespace("contdid", quietly = TRUE))
                                  as.character(packageVersion("contdid")) else NA)),
         file.path(DIR_OUT, "40_resultados_depurada_y_dosis.rds"))

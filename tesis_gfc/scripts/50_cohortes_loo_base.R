@@ -183,11 +183,18 @@ G_all <- M$U$G_dep
 boot <- matrix(NA_real_, B_BOOT, 6,
                dimnames = list(NULL, c(paste0("g1_", c("todas", "tempranas", "tardias")),
                                        paste0("prom_", c("todas", "tempranas", "tardias")))))
+## CAMBIO 21/10/2026 (comentario de Jorge, Tabla 6 panel B): ATT por cohorte con
+## su error estandar e IC, de las mismas replicas.
+COH <- sort(unique(M$U$G_dep[M$U$G_dep > 0]))
+boot_coh <- matrix(NA_real_, B_BOOT, 2 * length(COH),
+                   dimnames = list(NULL, c(paste0("g1_", COH), paste0("prom_", COH))))
 t0 <- Sys.time()
 for (b in seq_len(B_BOOT)) {
   ix <- indices_boot(G_all)
-  boot[b, 1:3] <- resumen_grupos(att_celdas(M, "g1", ix))
-  boot[b, 4:6] <- resumen_grupos(att_celdas(M, "prom", ix))
+  c1 <- att_celdas(M, "g1", ix); c2 <- att_celdas(M, "prom", ix)
+  boot[b, 1:3] <- resumen_grupos(c1)
+  boot[b, 4:6] <- resumen_grupos(c2)
+  boot_coh[b, ] <- c(sapply(COH, function(g) agregar(c1, g)), sapply(COH, function(g) agregar(c2, g)))
   if (b %% 100 == 0) cat(sprintf("  replica %d/%d (%.1f min)\n", b, B_BOOT,
                                 as.numeric(difftime(Sys.time(), t0, units = "mins"))))
 }
@@ -212,6 +219,19 @@ por_coh$att_base_prom <- sapply(por_coh$g, function(g) agregar(cel_prom, g))
 por_coh$y_base_g1_tratados   <- sapply(por_coh$g, function(g) mean(M$Y[G_all == g, as.character(g - 1)]))
 por_coh$y_base_prom_tratados <- sapply(por_coh$g, function(g)
   mean(rowMeans(M$Y[G_all == g, as.character((g - K_PROM):(g - 1)), drop = FALSE])))
+sd_na <- function(v) sd(v, na.rm = TRUE)
+q_na  <- function(v, p) unname(quantile(v, p, na.rm = TRUE))
+for (bs in c("g1", "prom")) {
+  cols <- paste0(bs, "_", por_coh$g)
+  por_coh[[paste0("ee_", bs)]]     <- sapply(cols, function(cc) sd_na(boot_coh[, cc]))
+  por_coh[[paste0("ic_inf_", bs)]] <- sapply(cols, function(cc) q_na(boot_coh[, cc], 0.025))
+  por_coh[[paste0("ic_sup_", bs)]] <- sapply(cols, function(cc) q_na(boot_coh[, cc], 0.975))
+}
+## IC normal (att +/- 1,96 EE) junto al percentil: la distribucion bootstrap de
+## las tardias es asimetrica y los dos pueden no coincidir (se reportan ambos).
+tab$ic_normal_inf <- tab$att - 1.96 * tab$ee_boot
+tab$ic_normal_sup <- tab$att + 1.96 * tab$ee_boot
+write_csv(tab, file.path(DIR_TAB, "50_cohortes_y_base.csv"))
 cat("\nPor cohorte (el nivel del anio base de los tratados indica si g-1 fue un pico):\n")
 print(por_coh, row.names = FALSE, digits = 4)
 write_csv(por_coh, file.path(DIR_TAB, "50_por_cohorte.csv"))
@@ -245,7 +265,7 @@ p <- ggplot(loo %>% filter(!grepl("\\+", excluido)),
   geom_point(aes(color = depende), size = 2) + coord_flip() +
   scale_color_manual(values = c(`FALSE` = "grey40", `TRUE` = "firebrick")) +
   labs(title = "Leave-one-out: ATT al excluir cada municipio tratado",
-       subtitle = "Linea continua: principal (-207,9 ha); discontinuas: +/- 1 EE", x = NULL,
+       subtitle = sprintf("Linea continua: principal (%.1f ha); discontinuas: +/- 1 EE", PRINCIPAL["att"]), x = NULL,
        y = "ATT (ha), base g-1", color = "Cambia signo o > 1 EE") +
   theme_minimal() + theme(legend.position = "bottom")
 ggsave(file.path(DIR_FIG, "50_leave_one_out.png"), p, width = 8, height = 9, dpi = 150)
@@ -273,7 +293,7 @@ cat(sprintf("P3 tardias: base g-1 %.1f vs base promedio %.1f [%.1f, %.1f] -> %s\
             tard$att, tard_p$att, tard_p$ic_inf, tard_p$ic_sup,
             if (p3) "la mayor parte del efecto de las tardias PROVIENE DEL ANIO BASE"
             else "el efecto de las tardias NO se explica por el anio base"))
-saveRDS(list(celdas_g1 = cel_g1, celdas_prom = cel_prom, boot = boot, tabla = tab,
+saveRDS(list(celdas_g1 = cel_g1, celdas_prom = cel_prom, boot = boot, boot_coh = boot_coh, tabla = tab,
              por_cohorte = por_coh, loo = loo), file.path(DIR_OUT, "50_resultados.rds"))
 cat("\nGuardado: outputs/tablas/50_cohortes_y_base.csv, 50_por_cohorte.csv, 50_leave_one_out.csv\n")
 cat("Figura:   outputs/figuras/50_leave_one_out.png\n")

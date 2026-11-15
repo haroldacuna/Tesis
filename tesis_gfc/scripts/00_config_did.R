@@ -58,9 +58,12 @@ BOOT_COHORTES <- 999           # replicas del bootstrap estratificado del 50 (Ta
 ## la Tabla 7 (58).
 CONTROL_PRINCIPAL  <- "notyettreated"
 CONTROL_CONTRASTE  <- "nevertreated"
-## Desborde de dosis (J29): municipios cuya area REDD+ cruda supera el area de
-## referencia. Se excluyen en una columna de la Tabla 4.
+## Desborde de dosis (J29): municipios cuya area REDD+ declarada supera el area
+## de referencia. Con la dosis por poligonos no hay desbordes; el 71 los toma de
+## la dosis declarada y reporta, ademas, la muestra con ubicacion verificada.
 COL_DESBORDE <- "desborda_bosque"   # alternativa: "desborda_area"
+## Clase geografica de cada tratado (76): poligono | reubicado | sin_poligono
+COL_CLASE_GEO <- "clase_geo"
 
 ## D4: lista oficial de covariables del modelo doblemente robusto. La
 ## deforestacion previa entra en ambos modelos (did no los separa); la
@@ -85,7 +88,14 @@ RUTA_PANEL_DID   <- file.path(DIR_OUT, "panel_analisis_did.rds")                
 RUTA_MUESTRA_A   <- file.path(DIR_OUT, "40_muestra_A.rds")                             # 40
 RUTA_COV_PRE     <- file.path(DIR_TAB, "covariables_pre_municipio.csv")                # 02/47
 RUTA_PANEL_TRAT  <- file.path(RAIZ_PROYECTO, "data/final/panel_con_tratamiento_actualizado.csv")  # 26
-RUTA_DOSIS       <- file.path(RAIZ_PROYECTO, "data/interim/dosis_tratamiento_final.csv")          # 39
+## Dosis (lista de chequeo, puntos 1, 3 y 6; 26/10/2026): la principal usa la
+## GEOMETRIA de los proyectos (76: union de poligonos AD intersectada con cada
+## municipio). La dosis declarada del 38/39, asignada integra al municipio del
+## punto, queda como RUTA_DOSIS_DECLARADA para reproducir las corridas previas.
+FUENTE_DOSIS         <- "poligonos"          # "poligonos" (principal) o "declarada"
+RUTA_DOSIS_DECLARADA <- file.path(RAIZ_PROYECTO, "data/interim/dosis_tratamiento_final.csv")       # 39
+RUTA_DOSIS_POLIGONOS <- file.path(RAIZ_PROYECTO, "data/interim/dosis_tratamiento_poligonos.csv")   # 76
+RUTA_DOSIS       <- if (FUENTE_DOSIS == "poligonos") RUTA_DOSIS_POLIGONOS else RUTA_DOSIS_DECLARADA
 RUTA_COBERTURA   <- file.path(RAIZ_PROYECTO, "data/interim/proyectos_poligonos/cobertura_municipal.csv")  # 52
 RUTA_MUNICIPIOS  <- file.path(RAIZ_PROYECTO, "data/interim/municipios_clean.gpkg")
 RUTA_VA          <- file.path(RAIZ_PROYECTO, "data/raw/renare_geovisor_iniciativas.geojson")
