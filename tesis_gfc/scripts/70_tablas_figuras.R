@@ -192,6 +192,14 @@ hacer("tabla_4_4", {
     summarise(defor_pre = mean(.data[[OUTCOME]], na.rm = TRUE), .groups = "drop")
   mun <- m %>% group_by(COD_DANE) %>% slice(1) %>% ungroup() %>% left_join(pre, by = "COD_DANE") %>%
     mutate(tratado = G_dep > 0)
+  ## Territorios colectivos (62_territorios_colectivos.py, respuesta al jurado, 3.8):
+  ## proporcion del municipio en resguardos y consejos titulados, version vigente
+  ruta_tc <- file.path(RAIZ_PROYECTO, "data/interim/territorios_colectivos_municipio.csv")
+  if (file.exists(ruta_tc)) {
+    tc <- read.csv(ruta_tc, colClasses = c(COD_DANE = "character"))
+    mun <- mun %>% select(-any_of("pct_tc_hoy")) %>%
+      left_join(transmute(tc, COD_DANE = pad5(COD_DANE), pct_tc_hoy = 100 * tc_total_hoy), by = "COD_DANE")
+  } else cat("    (sin territorios_colectivos_municipio.csv: la Tabla 4.4 sale sin esa fila)\n")
   vars <- list(
     c("defor_pre", "P\u00e9rdida de bosque, promedio 2001\u20132009 (ha/a\u00f1o)", 1),
     c("defor_pre_tendencia", "Tendencia de la p\u00e9rdida 2001\u20132009 (pendiente, ha por a\u00f1o)", 1),
@@ -199,11 +207,12 @@ hacer("tabla_4_4", {
     c("temp_media_c_base", "Temperatura media, 2001 (\u00b0C)", 1),
     c("prec_anual_mm_base", "Precipitaci\u00f3n anual, 2001 (mm)", 0),
     c("pct_sinap_pub_base", "\u00c1rea en el SINAP p\u00fablico, 2012 (%)", 1),
-    c("discapital_base", "Distancia a la capital departamental", 1),
-    c("disbogota_base", "Distancia a Bogot\u00e1", 1),
-    c("distancia_mercado_base", "Distancia al mercado mayorista", 1),
+    c("pct_tc_hoy", "\u00c1rea en territorios colectivos (%)", 1),
+    c("discapital_base", "Distancia a la capital departamental (km)", 1),
+    c("disbogota_base", "Distancia a Bogot\u00e1 (km)", 1),
+    c("distancia_mercado_base", "Distancia al mercado mayorista (km)", 1),
     c("H_coca_base", "Cultivos de coca (ha)", 1),
-    c("homicidios_base", "Homicidios, 2003", 1))
+    c("homicidios_base", "Homicidios, 2003 (n\u00famero)", 1))
   vars <- Filter(function(v) v[1] %in% names(mun), vars)
   filas <- NULL
   for (v in vars) {
@@ -220,8 +229,10 @@ hacer("tabla_4_4", {
     notas = paste0("Medias por grupo; desviaci\u00f3n est\u00e1ndar entre par\u00e9ntesis. La diferencia es estandarizada: ",
       "diferencia de medias dividida por la ra\u00edz del promedio de las varianzas. Muestra principal: municipios tratados ",
       "de la D1 depurada con adopci\u00f3n entre 2013 y 2019 y controles limpios, sin ning\u00fan v\u00ednculo con proyectos de carbono. ",
-      "Las distancias y la tasa de homicidios est\u00e1n en las unidades del panel municipal del CEDE."),
-    fuente = "Global Forest Change v1.12; ERA5-Land y CHIRPS; RUNAP; panel municipal del CEDE."))
+      "Distancias lineales desde la cabecera municipal; homicidios: casos registrados en el a\u00f1o (Panel Municipal del CEDE). ",
+      "P\u00e9rdida y tendencia: Global Forest Change; temperatura: ERA5-Land; precipitaci\u00f3n: CHIRPS; \u00e1reas protegidas: RUNAP; ",
+      "territorios colectivos: resguardos ind\u00edgenas y consejos comunitarios titulados (ANT), titulaci\u00f3n vigente."),
+    fuente = "Global Forest Change v1.12; ERA5-Land y CHIRPS; RUNAP; Agencia Nacional de Tierras; panel municipal del CEDE."))
 })
 
 ## =============================================================================
@@ -242,14 +253,34 @@ hacer("tabla_4_6", {
       filas <- rbind(filas, fila(paste0("  ", ifelse(s$tipo_proponente[i] %in% names(nom_p), nom_p[s$tipo_proponente[i]], s$tipo_proponente[i])),
         c(ent(s$proyectos[i]), ent(s$municipios[i]), num(s$area_mha[i], 2), ent(s$con_creditos[i]), num(s$creditos_millones[i], 2))))
   }
+  ## Universo y unidad: los registros de Verra y de otros registros, y cuantos
+  ## proyectos unicos son (salen del 65 y del 78; ninguna cifra a mano)
+  universo_46 <- paste0("Proyectos REDD+ de Verra con la actividad AFOLU REDD+ o una metodolog\u00eda REDD+, sin CO2ROZO, y pol\u00edgonos ",
+    "de deforestaci\u00f3n evitada de Karnik et al. (2025) de otros registros. ")
+  r65 <- file.path(RAIZ_PROYECTO, "data/interim/diagnostics/65_proyectos_territorio_proponente.csv")
+  r78 <- TAB("78_construccion_muestra.csv")
+  if (file.exists(r65) && file.exists(r78)) {
+    p65 <- read.csv(r65, stringsAsFactors = FALSE, encoding = "UTF-8", colClasses = "character")
+    d78 <- read.csv(r78, stringsAsFactors = FALSE, encoding = "UTF-8")
+    nv <- sum(p65$registro == "Verra"); otros <- table(p65$registro[p65$registro != "Verra"])
+    val <- d78$n[grepl("^Con ubicaci\u00f3n v\u00e1lida", d78$etapa)][1]
+    uni <- d78[grepl("^Proyectos \u00fanicos", d78$etapa), ][1, ]
+    universo_46 <- paste0("Universo: ", ent(nv), " registros de Verra, los ", ent(val), " proyectos con la actividad AFOLU REDD+ y ",
+      "ubicaci\u00f3n v\u00e1lida y Yaguara Llanos del Yar\u00ed, con metodolog\u00eda REDD+ sin esa actividad, y ",
+      ent(sum(otros)), " pol\u00edgonos de deforestaci\u00f3n evitada de otros registros (Karnik et al., 2025). ",
+      if (!is.na(uni$n) && uni$n < nrow(p65))
+        paste0("Los ", ent(nrow(p65)), " registros corresponden a ", ent(uni$n), " proyectos porque ", uni$nota,
+               " figura en Verra y en EcoRegistry (Tabla A.5). ")
+      else "Cada registro es un proyecto distinto. ")
+  }
   filas <- rbind(filas, fila("Total", c(ent(sum(t46$proyectos)), "", num(sum(t46$area_mha), 2),
                                          ent(sum(t46$con_creditos)), num(sum(t46$creditos_millones), 2)), "sep"))
   tabla(list(id = "tabla_4_6",
     titulo = "Tabla 4.6\u2014Proyectos REDD+ seg\u00fan tipo de territorio y de proponente",
-    cab = list(c("Proyectos", "Municipios", "\u00c1rea (Mha)", "Con cr\u00e9ditos", "Cr\u00e9ditos (millones)")),
+    cab = list(c("Registros", "Municipios", "\u00c1rea (Mha)", "Con cr\u00e9ditos", "Cr\u00e9ditos (millones)")),
     filas = filas,
-    notas = paste0("Proyectos REDD+ de Verra sin las exclusiones D2 y pol\u00edgonos de deforestaci\u00f3n evitada de Karnik et al. (2025) ",
-      "en Colombia. El territorio es el que contiene al menos el 50 % del \u00e1rea del proyecto (o su punto, si no tiene pol\u00edgono); ",
+    notas = paste0(universo_46,
+      "El territorio es el que contiene al menos el 50 % del \u00e1rea del proyecto (o su punto, si no tiene pol\u00edgono); ",
       "\u00abotros territorios\u00bb incluye proyectos sin mayor\u00eda en un solo tipo. El proponente se clasific\u00f3 por su nombre ",
       "y se revis\u00f3 a mano; cuando el registro solo informa \u00abMultiple Project Proponents\u00bb se deja como categor\u00eda propia. ",
       "Los municipios no suman entre filas porque un municipio puede tener proyectos de varios tipos. Cr\u00e9ditos: total emitido. ",
@@ -269,7 +300,13 @@ hacer("tabla_6_1", {
   ## Escenario A (71): solo nunca tratados y sin dosis desbordada
   r71 <- leer("71_grupo_comparacion.csv")
   q  <- function(etq) r71[r71$especificacion == etq, ][1, ]
-  nv <- q("Solo nunca tratados"); sd <- q("Sin dosis desbordada")
+  nv <- q("Solo nunca tratados")
+  ## Columna 6 (26/10/2026): con la dosis por poligonos ya no hay desbordes; se
+  ## reporta la muestra con ubicacion verificada (71, bloque 3b). Si el 71 no
+  ## trae esa fila (corrida previa), se cae a la de sin desborde.
+  sd <- q("Ubicacion verificada por poligono")
+  col6 <- "Ubicaci\u00f3n verificada"; muestra6 <- "Con pol\u00edgono"
+  if (is.na(sd$att)) { sd <- q("Sin dosis desbordada"); col6 <- "Sin dosis > 1"; muestra6 <- "Sin desborde" }
   c71 <- leer("71_composicion_comparacion.csv")
   col <- function(att, se, lo, hi, bal = NA, sebal = NA, rel = NA, media = NA)
     list(att = att, se = se, lo = lo, hi = hi, bal = bal, sebal = sebal, rel = rel, media = media)
@@ -292,25 +329,30 @@ hacer("tabla_6_1", {
     fila("Media previa de los tratados (ha/a\u00f1o)", x("media", num)),
     fila("Covariables", c("11", "10", "No", "11", "11", "11"), "sep"),
     fila("Grupo de comparaci\u00f3n", c("NT + AN", "NT + AN", "NT + AN", "NT + AN", "NT", "NT + AN")),
-    fila("Muestra de tratados", c("Principal", "Principal", "Principal", "Original", "Principal", "Sin desborde")),
+    fila("Muestra de tratados", c("Principal", "Principal", "Principal", "Original", "Principal", muestra6)),
     fila("Municipios tratados", c(ent(dr$n_tratados), ent(dr$n_tratados), ent(sc$n_tratados), ent(og$n_tratados),
                                   ent(nv$n_tratados), ent(sd$n_tratados))),
     fila("Nunca tratados (NT)", c(ent(REF_N_CONTROLES), ent(REF_N_CONTROLES), ent(REF_N_CONTROLES), ent(N_CONTROLES_D1_ORIGINAL),
                                   ent(nv$n_nunca), ent(sd$n_nunca))),
-    fila("A\u00fan no tratados (AN) por par (g, t)", c(rango_ant, rango_ant, rango_ant, "\u2014", "0", "\u2014")))
+    fila("A\u00fan no tratados (AN) por par (g, t)", c(rango_ant, rango_ant, rango_ant, "\u2014", "0", "\u2014")),
+    ## Observaciones municipio-anio: panel balanceado de 24 anios (2001-2024)
+    fila("Observaciones (municipio-a\u00f1o)", sapply(list(c(dr$n_tratados, REF_N_CONTROLES), c(dr$n_tratados, REF_N_CONTROLES),
+      c(sc$n_tratados, REF_N_CONTROLES), c(og$n_tratados, N_CONTROLES_D1_ORIGINAL), c(nv$n_tratados, nv$n_nunca),
+      c(sd$n_tratados, sd$n_nunca)), function(z) ent(sum(as.numeric(z)) * length(2001:2024)))))
   filas$v2[4] <- "\u2014"   # la regla de SINAP (66) no reporta el ATT balanceado
   tabla(list(id = "tabla_6_1",
     titulo = "Tabla 6.1\u2014Efecto de los proyectos REDD+ sobre la deforestaci\u00f3n municipal",
     cab = list(c("(1)", "(2)", "(3)", "(4)", "(5)", "(6)"),
-               c("Principal", "Sin SINAP", "Sin covariables", "Original", "Solo nunca tratados", "Sin dosis > 1")),
+               c("Principal", "Sin SINAP", "Sin covariables", "Original", "Solo nunca tratados", col6)),
     filas = filas,
     notas = paste0("Estimador de Callaway y Sant\u2019Anna (2021) doblemente robusto, cohortes de adopci\u00f3n 2013\u20132019. Variable ",
       "dependiente: p\u00e9rdida anual de cobertura arb\u00f3rea (ha). Errores est\u00e1ndar entre par\u00e9ntesis, por bootstrap multiplicador ",
       "agrupado por municipio (", BITERS, " repeticiones); intervalos de confianza al 95 % entre corchetes. Grupo de comparaci\u00f3n de ",
       "cada cohorte g en el a\u00f1o t: los municipios nunca tratados (NT) m\u00e1s los tratados que a\u00fan no adoptan en t (AN, G > t); desde ",
       "2019 no quedan AN y la comparaci\u00f3n es solo con NT. La columna (5) usa solo NT. Nunca tratados: controles limpios, sin ning\u00fan ",
-      "v\u00ednculo con proyectos de carbono en ninguna fuente ni a\u00f1o. La columna (2) excluye el \u00e1rea en el SINAP; la (6) excluye los ",
-      "municipios cuya \u00e1rea REDD+ supera el \u00e1rea de referencia de la dosis. La muestra principal excluye seis municipios cuyo ",
+      "v\u00ednculo con proyectos de carbono en ninguna fuente ni a\u00f1o. La columna (2) excluye el \u00e1rea en el SINAP; la (6) conserva solo ",
+      "los tratados cubiertos por al menos un pol\u00edgono de deforestaci\u00f3n evitada (\u2265 1 % del municipio y \u2265 100 ha; Karnik et al., 2025) ",
+      "y excluye los que no tienen pol\u00edgono en la base y aquellos cuyo pol\u00edgono est\u00e1 en otros municipios. La muestra principal excluye seis municipios cuyo ",
       "\u00fanico proyecto REDD+ fue retirado o rechazado. El efecto relativo divide el ATT agregado por la media previa de los tratados."),
     fuente = "C\u00e1lculos propios con Global Forest Change v1.12 y los registros Verra, RENARE y Cercarbono."))
 })
@@ -363,6 +405,8 @@ hacer("tabla_6_3", {
   for (i in seq_len(nrow(c50))) {
     z <- c50[i, ]
     filas2 <- rbind(filas2, fila(sprintf("%d (%d municipios)", z$g, z$n_municipios), c(num(z$att_base_g1), num(z$att_base_prom))))
+    if ("ee_g1" %in% names(c50))
+      filas2 <- rbind(filas2, fila("", c(ee(z$ee_g1), ee(z$ee_prom)), "ee"))
   }
   tabla(list(id = "tabla_6_3",
     titulo = "Tabla 6.3\u2014El efecto por cohorte y seg\u00fan el a\u00f1o de referencia",
@@ -371,7 +415,9 @@ hacer("tabla_6_3", {
     notas = paste0("ATT en hect\u00e1reas por a\u00f1o, especificaci\u00f3n principal. Columna (1): referencia en el a\u00f1o previo a la adopci\u00f3n. ",
       "Columna (2): referencia igual al promedio de los cinco a\u00f1os previos (g \u2212 5 a g \u2212 1). Panel A: errores est\u00e1ndar entre ",
       "par\u00e9ntesis e intervalos al 95 % entre corchetes, por bootstrap de ", BOOT_COHORTES, " r\u00e9plicas estratificado por cohorte. Panel B: estimados ",
-      "puntuales por cohorte; con tan pocos municipios por cohorte no se reportan intervalos."),
+      "por cohorte con su error est\u00e1ndar bootstrap; con tres a siete municipios por cohorte, se leen como descriptivos. Los ",
+      "intervalos son percentiles de la distribuci\u00f3n bootstrap; en las cohortes tard\u00edas esa distribuci\u00f3n es asim\u00e9trica y el ",
+      "intervalo normal (ATT \u00b1 1,96 EE) s\u00ed incluye el cero."),
     fuente = "C\u00e1lculos propios."))
 })
 
@@ -410,12 +456,14 @@ hacer("tabla_6_6", {
                    fila("", c(ee(z$ee), "", ""), "ee"))
   }
   tabla(list(id = "tabla_6_6",
-    titulo = "Tabla 6.6\u2014El efecto seg\u00fan el estado de los proyectos en el registro",
+    titulo = "Tabla 6.6\u2014Diferencia estimada seg\u00fan el estado de los proyectos en el registro",
     cab = list(c("(1)", "(2)", "(3)"), c("ATT", "Tratados", "Cohortes con 3 o m\u00e1s")), filas = filas,
     notas = paste0("ATT en hect\u00e1reas por a\u00f1o, sin covariables. Grupo de comparaci\u00f3n igual al de la especificaci\u00f3n principal: los 986 ",
-      "nunca tratados limpios m\u00e1s los municipios del mismo grupo que a\u00fan no adoptan; errores est\u00e1ndar entre par\u00e9ntesis. Los grupos E y S3 est\u00e1n contenidos en S2. Ning\u00fan grupo alcanza tres o m\u00e1s ",
+      "nunca tratados limpios m\u00e1s los municipios del mismo grupo que a\u00fan no adoptan; errores est\u00e1ndar entre par\u00e9ntesis; el intervalo de confianza al 95 % es el ATT \u00b1 1,96 errores est\u00e1ndar. Los grupos E y S3 est\u00e1n contenidos en S2. Ning\u00fan grupo alcanza tres o m\u00e1s ",
       "municipios en la mayor\u00eda de sus cohortes, por lo que el contraste se lee como descriptivo (decisi\u00f3n D13). E y S3 dependen en ",
-      "parte del resultado: un proyecto emite cr\u00e9ditos o se mantiene registrado cuando verifica reducciones."),
+      "parte del resultado: un proyecto emite cr\u00e9ditos o se mantiene registrado cuando verifica reducciones. El estado de un ",
+      "proyecto no se asigna al azar, de modo que las diferencias entre grupos no se atribuyen causalmente a la inscripci\u00f3n, ",
+      "la operaci\u00f3n o la emisi\u00f3n de cr\u00e9ditos."),
     fuente = "C\u00e1lculos propios."))
 })
 
@@ -463,9 +511,14 @@ hacer("tabla_6_9", {
     fila(etq, c(num(gv(df, c("att", "coef"))), ee(gv(df, "ee")), raya(ent(nt)), raya(ent(nc)), raya(ent(na))))
   }
   lee <- function(f) tryCatch(leer(f), error = function(e) { cat("    (sin ", f, ")\n", sep = ""); NULL })
-  r60 <- lee("60_robusteces.csv"); r48 <- lee("48_soporte_comun_estimaciones.csv"); r49 <- lee("49_controles_no_contiguos.csv")
+  r60 <- lee("60_robusteces.csv")
+  ## A.10 puede venir en el CSV completo o en el de la corrida parcial (Rscript 60 A10)
+  r60b <- if (!is.null(r60) && any(grepl("^Reasignacion", r60$especificacion))) r60 else lee("60_robusteces_A10.csv")
+  r60c <- if (!is.null(r60) && any(grepl("^Adopcion con la cohorte", r60$especificacion))) r60 else lee("60_robusteces_A11.csv")
+  r48 <- lee("48_soporte_comun_estimaciones.csv"); r49 <- lee("49_controles_no_contiguos.csv")
   r51 <- lee("51_psm_principal.csv"); r53 <- lee("53_controles_sin_poligonos.csv"); r46 <- lee("46_resumen_mapbiomas.csv")
   r45 <- lee("45_spillover_resumen.csv")
+  r63 <- lee("63_territorios_colectivos.csv")   # respuesta al jurado, 3.7 y 3.8
   q <- function(df, cond) {
     if (is.null(df)) return(NULL)
     i <- tryCatch(which(cond(df)), error = function(e) integer(0))
@@ -477,15 +530,20 @@ hacer("tabla_6_9", {
     panel("Panel A. Inferencia", 5),
     fila_r(q(r60, function(d) grepl("^Principal, cluster departamento", d$especificacion)), "Errores agrupados por departamento"),
     panel("Panel B. Definici\u00f3n del tratamiento", 5),
-    fila_r(q(r60, function(d) grepl("^alta_redd .* - DR", d$especificacion)), "Solo registros de Verra"),
+    fila_r(q(r60, function(d) grepl("^alta_redd .* - DR", d$especificacion)), "Solo registros de alta confianza"),
     fila_r(q(r60, function(d) grepl("^todas_redd_sinmanual - DR", d$especificacion)), "Sin ubicaci\u00f3n recuperada a mano"),
     fila_r(q(r60, function(d) grepl("^Cobertura de poligonos .* - DR", d$especificacion)), "Cobertura de pol\u00edgonos \u2265 5 %"),
+    fila_r(q(r60b, function(d) grepl("^Reasignacion geografica por poligonos - DR", d$especificacion)), "Reasignaci\u00f3n geogr\u00e1fica por pol\u00edgonos"),
+    fila_r(q(r60c, function(d) grepl("^Adopcion con la cohorte del poligono - DR", d$especificacion)), "Adopci\u00f3n seg\u00fan el pol\u00edgono"),
     panel("Panel C. Grupo de control y soporte com\u00fan", 5),
     fila_r(q(r48, function(d) d$recorte == "R1" & d$metodo == "dr"), "Soporte com\u00fan, propensi\u00f3n en [0,01; 0,99]"),
     fila_r(q(r51, function(d) grepl("^\\(c'\\)", d$especificacion)), "Emparejamiento por propensi\u00f3n, con covariables"),
     fila_r(q(r51, function(d) grepl("^\\(c\\)", d$especificacion)), "Emparejamiento por propensi\u00f3n, sin covariables"),
     fila_r(q(r53, function(d) d$muestra == "P1" & d$especificacion == "dr"), "Sin controles cubiertos por pol\u00edgonos"),
     fila_r(q(r49, function(d) d$muestra == "C1" & d$especificacion == "dr"), "Sin controles contiguos a tratados"),
+    fila_r(q(r63, function(d) d$especificacion == "Principal + TC (union)"), "Con territorios colectivos como covariable"),
+    fila_r(q(r63, function(d) grepl("^Principal \\+ TC con corte 2012", d$especificacion)), "\u00cddem, con titulaci\u00f3n hasta 2012"),
+    fila_r(q(r63, function(d) d$especificacion == "Controles TC > 0 - DR"), "Solo controles con territorios colectivos"),
     panel("Panel D. Fuente del dato de deforestaci\u00f3n", 5),
     fila_r(q(r46, function(d) d$outcome == "MB_est5_p1" & d$especificacion == "propias"), "MapBiomas, bosque estable con persistencia"),
     panel("Panel E. Placebo, desplazamiento y heterogeneidad", 5),
@@ -493,15 +551,41 @@ hacer("tabla_6_9", {
     fila_r(q(r45, function(d) grepl("^A", d$enfoque) & grepl("Doblemente", d$especificacion)), "Desplazamiento hacia municipios vecinos", misma_muestra = FALSE),
     fila_r(q(r60, function(d) grepl("^Fuera de VA .* - sin covariables", d$especificacion)), "Fuera del \u00e1rea de Visi\u00f3n Amazon\u00eda"),
     fila_r(q(r60, function(d) grepl("^Solo VA .* - sin covariables", d$especificacion)), "Solo el \u00e1rea de Visi\u00f3n Amazon\u00eda"))
+  ## Conteos de la reasignacion (A.10) y de la adopcion segun el poligono (A.11),
+  ## leidos de las salidas: los tratados de A.10 son los municipios cubiertos mas
+  ## los tratados sin poligono, que conservan la asignacion por punto (78); en A.11
+  ## los tratados cuya cohorte pasa a antes de 2013 salen de la ventana.
+  en_letras <- function(n) if (!is.na(n) && n >= 1 && n <= 9) c("uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve")[n] else ent(n)
+  r78 <- lee("78_construccion_muestra.csv")
+  n_pto <- if (!is.null(r78)) r78$n[grepl("^De ellos, sin pol\u00edgono en la base", r78$etapa)][1] else NA
+  n_a10 <- if (!is.null(r60b)) r60b$n_tratados[grepl("^Reasignacion.*DR", r60b$especificacion)][1] else NA
+  n_a11 <- if (!is.null(r60c)) r60c$n_tratados[grepl("^Adopcion con la cohorte.*DR", r60c$especificacion)][1] else NA
+  nota_a10 <- if (length(n_pto) && length(n_a10) && !is.na(n_pto) && !is.na(n_a10))
+    paste0("Reasignaci\u00f3n geogr\u00e1fica: los ", ent(n_a10), " tratados son los ", ent(n_a10 - n_pto), " municipios cubiertos por ",
+           "pol\u00edgonos (\u2265 1 % y \u2265 100 ha) con adopci\u00f3n en 2013\u20132019, en el a\u00f1o m\u00e1s temprano entre el registro y el ",
+           "pol\u00edgono, y los ", en_letras(n_pto), " tratados sin pol\u00edgono en la base, que conservan la asignaci\u00f3n por punto; salen ",
+           "los dos tratados cuyo pol\u00edgono est\u00e1 en otros municipios. ")
+    else paste0("Reasignaci\u00f3n geogr\u00e1fica: tratados los municipios cubiertos por pol\u00edgonos (\u2265 1 % y \u2265 100 ha) y los tratados ",
+                "sin pol\u00edgono, que conservan la asignaci\u00f3n por punto; salen los dos tratados cuyo pol\u00edgono est\u00e1 en otros municipios. ")
+  nota_a11 <- paste0("Adopci\u00f3n seg\u00fan el pol\u00edgono: para los tratados cubiertos, el a\u00f1o de adopci\u00f3n es el inicio del primer ",
+    "proyecto cuyo pol\u00edgono los cubre, si es anterior al del registro",
+    if (length(n_a11) && !is.na(n_a11) && n_a11 < REF_N_TRATADOS)
+      paste0("; ", en_letras(REF_N_TRATADOS - n_a11), " pasan a una cohorte anterior a 2013 y salen de la ventana, por lo que quedan ",
+             ent(n_a11), " tratados") else "", ". ")
   tabla(list(id = "tabla_6_9",
     titulo = "Tabla 6.9\u2014Pruebas de robustez",
     cab = list(c("(1)", "(2)", "(3)", "(4)", "(5)"), c("ATT", "Error est\u00e1ndar", "Tratados", "Controles", "Pares sin estimar")),
     filas = filas,
-    notas = paste0("ATT agregado en hect\u00e1reas por a\u00f1o. Salvo indicaci\u00f3n, estimador doblemente robusto con las 11 covariables de la ",
+    notas = paste0("ATT agregado en hect\u00e1reas por a\u00f1o; el intervalo de confianza al 95 % es el ATT \u00b1 1,96 errores est\u00e1ndar. Salvo indicaci\u00f3n, estimador doblemente robusto con las 11 covariables de la ",
       "especificaci\u00f3n principal y errores agrupados por municipio. El placebo, el \u00e1rea de Visi\u00f3n Amazon\u00eda y el emparejamiento sin ",
       "covariables se reportan sin covariables porque la versi\u00f3n doblemente robusta pierde muchos pares cohorte-a\u00f1o. Pares sin estimar: ",
-      "pares cohorte-a\u00f1o que no pudieron estimarse (161 en la muestra principal). Desplazamiento: efecto sobre municipios no ",
-      "tratados con al menos un vecino tratado, frente a no tratados sin vecinos tratados; usa otra muestra, por eso no se reportan sus tama\u00f1os. Sin controles contiguos: el cambio de signo se explica por la composici\u00f3n de los pares cohorte-a\u00f1o que pueden estimarse, no por desplazamiento."),
+      "n\u00famero de pares cohorte-a\u00f1o, de 161 en la muestra principal, que no pudieron estimarse. Errores por departamento: ",
+      "15 departamentos tienen tratados y uno (Choc\u00f3) concentra 16 de los 36, por lo que ese error es poco confiable y se reporta como cota. Desplazamiento: efecto sobre municipios no ",
+      "tratados con al menos un vecino tratado, frente a no tratados sin vecinos tratados; usa otra muestra, por eso no se reportan sus tama\u00f1os. ",
+      nota_a10, nota_a11,
+      "Territorios colectivos: proporci\u00f3n del municipio en resguardos ind\u00edgenas y consejos comunitarios titulados (ANT), con la ",
+      "titulaci\u00f3n vigente o solo con los territorios cuyo \u00faltimo acto administrativo es de 2012 o antes; la \u00faltima de esas filas ",
+      "restringe los controles a los municipios con alg\u00fan territorio colectivo. Sin controles contiguos: el cambio de signo se explica por la composici\u00f3n de los pares cohorte-a\u00f1o que pueden estimarse, no por desplazamiento."),
     fuente = "C\u00e1lculos propios."))
 })
 
@@ -635,7 +719,7 @@ hacer("tabla_6_10", {
                c("Sin covariables", "Con covariables", "Tratados", "Controles", "Cohortes con 3 o m\u00e1s")),
     filas = filas,
     notas = paste0("ATT en hect\u00e1reas por a\u00f1o, estimado por separado en cada grupo con la muestra principal; errores est\u00e1ndar entre ",
-      "par\u00e9ntesis, agrupados por municipio. Los grupos se cortan en la mediana de todos los municipios de la muestra: ",
+      "par\u00e9ntesis, agrupados por municipio. Municipios con dato fiscal: 35 tratados y 971 controles. Los grupos se cortan en la mediana de todos los municipios de la muestra: ",
       num(med[["inv_amb_pct_2002_2009"]], 2), " % de la inversi\u00f3n total en medio ambiente y ", num(med[["idf_2001_2009"]], 1),
       " puntos del \u00edndice de desempe\u00f1o fiscal. La diferencia usa un error est\u00e1ndar conservador, sin covarianza entre grupos. ",
       "La columna (2) pierde muchos pares cohorte-a\u00f1o (", paste(paste0(h$gt_na[h$especificacion == "dr" & !is.na(h$gt_na)], " de ",
@@ -681,6 +765,129 @@ hacer("tabla_6_11", {
       "previos. Covariables: elevaci\u00f3n, pendiente y bosque en 2000. Media del cambio fuera del borde, dentro de la ventana: ",
       num(m0$media_fuera, 3), " ha."),
     fuente = "MapBiomas Colombia, Colecci\u00f3n 3; Karnik et al. (2025); c\u00e1lculos propios."))
+})
+
+## =============================================================================
+## Tabla 6.12 - Analisis de intensidad (40, 76). Desde el 27/10/2026 va en el
+## cuerpo (Tabla 5): el tratamiento continuo es la especificacion principal del
+## analisis de intensidad (segunda prediccion de H1) y los terciles su robustez.
+## =============================================================================
+hacer("tabla_6_12", {
+  r40 <- leer("40_resumen_depurada_y_dosis.csv"); cd <- leer("40_contdid_resumen.csv")
+  r76 <- tryCatch(leer("76_resumen_dosis.csv"), error = function(e) NULL)
+  cd_fila <- function(patron) cd[grepl(patron, cd$corrida) & cd$parametro == "ATT", ][1, ]
+  filas <- panel("Panel A. Tratamiento continuo: efecto promedio sobre la distribuci\u00f3n de dosis", 4)
+  for (z in list(c("^relativo dosis_bosque todos_controles_dose", "Dosis de bosque", "3"),
+                 c("^relativo dosis_area todos_controles_dose", "Dosis de \u00e1rea", "3"),
+                 c("^hectareas_dose", "Dosis de bosque, en hect\u00e1reas", "1"),
+                 c("^relativo dosis_bosque controles_regionales_dose", "Dosis de bosque, controles regionales", "3"),
+                 c("^relativo dosis_bosque_hibrida", "Dosis h\u00edbrida (sensibilidad)", "3"))) {
+    w <- cd_fila(z[1]); if (is.na(w$est)) next
+    d <- as.integer(z[3])
+    filas <- rbind(filas, fila(z[2], c(num(w$est, d), "\u2014", ent(w$n_tratados), ic(w$ic_inf, w$ic_sup, if (d == 1) 0 else 2))),
+                   fila("", c(ee(w$ee, d), "", "", ""), "ee"))
+  }
+  ## Panel B: gradiente en dos etapas (77). Si no existe la salida, se omite.
+  g77 <- tryCatch(leer("77_gradiente_dosis.csv"), error = function(e) NULL)
+  if (!is.null(g77)) {
+    gq <- function(ref, fe) g77[g77$referencia == ref & g77$dosis == "dosis_bosque" & as.logical(g77$efectos_fijos_cohorte) == fe, ][1, ]
+    filas <- rbind(filas, panel("Panel B. Gradiente exploratorio: cambio del efecto al pasar de dosis 0 a 1 (dosis de bosque)", 4))
+    for (z in list(list("g-1", FALSE, "Referencia g \u2212 1"), list("g-1", TRUE, "Referencia g \u2212 1, efectos fijos de cohorte"),
+                   list("g-5..g-1", FALSE, "Referencia g \u2212 5 a g \u2212 1"))) {
+      w <- gq(z[[1]], z[[2]])
+      filas <- rbind(filas, fila(z[[3]], c(num(w$beta, 2), "\u2014", ent(w$n), ic(w$ic_inf, w$ic_sup, 2))),
+                     fila("", c(ee(w$ee_hc2, 2), "", "", paste0("p = ", num(w$p_permutacion, 2))), "ee"))
+    }
+  }
+  terc_fila <- function(med, k, s) r40[r40$especificacion == paste0("Tercil ", k, " (", med, ") - ", s), ][1, ]
+  filas <- rbind(filas, panel(paste0("Panel ", if (is.null(g77)) "B" else "C", ". Terciles de la dosis de bosque, ATT balanceado e = 0\u20135 (ha/a\u00f1o)"), 4))
+  ## Solo la dosis de bosque: con la de area el 87 % de los municipios cae en el
+  ## mismo tercil y los resultados son casi iguales (se reportan en la nota).
+  for (med in c("bosque")) {
+    for (k in c("bajo", "medio", "alto")) {
+      a <- terc_fila(med, k, "sin covariables"); b <- terc_fila(med, k, "DR")
+      filas <- rbind(filas,
+        fila(paste0(if (med == "bosque") "Tercil" else "Tercil", " ", k),
+             c(num(a$att_balanceado), num(b$att_balanceado), ent(a$n_tratados), pct(a$att_rel_pct))),
+        fila("", c(ee(a$ee_balanceado), ee(b$ee_balanceado), "", ""), "ee"))
+    }
+  }
+  v <- function(ind) if (is.null(r76)) NA else r76$valor[r76$indicador == ind & r76$muestra == "todos D1"][1]
+  tabla(list(id = "tabla_6_12",
+    titulo = "Tabla 6.12\u2014Efecto seg\u00fan la intensidad del tratamiento",
+    cab = list(c("(1)", "(2)", "(3)", "(4)"),
+               c("Sin covariables", "Con covariables", "Tratados", "IC 95 % / Relativo")),
+    filas = filas,
+    notas = paste0("Dosis calculada con los pol\u00edgonos de deforestaci\u00f3n evitada de Karnik et al. (2025) intersectados con los l\u00edmites ",
+      "municipales: dosis de \u00e1rea, fracci\u00f3n del municipio dentro de la uni\u00f3n de los pol\u00edgonos; dosis de bosque, fracci\u00f3n del bosque ",
+      "natural de 2000 (MapBiomas) dentro de ella. Solo tienen dosis los 26 tratados cubiertos por pol\u00edgonos. Panel A: especificaci\u00f3n ",
+      "principal del an\u00e1lisis de intensidad, Callaway, Goodman-Bacon y Sant\u2019Anna (2024), lineal en la dosis, con los nunca tratados ",
+      "como comparaci\u00f3n y la p\u00e9rdida dividida por la media propia de 2001\u20132012, salvo la fila en hect\u00e1reas; el paquete (contdid 0.1.1) ",
+      "no admite covariables. Con una curva lineal, el efecto promedio no depende de la medida de dosis. La dosis h\u00edbrida usa el \u00e1rea ",
+      "declarada (truncada en 1) para los tratados sin pol\u00edgono. En el estudio de eventos asociado, 3 de 17 coeficientes previos tienen ",
+      "un intervalo que excluye el cero (e = \u221216, \u221214 y \u22125). ",
+      if (!is.null(g77)) paste0("Panel B: pendiente de una regresi\u00f3n del efecto de cada municipio ",
+      "tratado (su cambio en e = 0\u20135 frente a la referencia, menos el de los nunca tratados en los mismos a\u00f1os) sobre su dosis; ",
+      "errores HC2 entre par\u00e9ntesis y valor p por permutaci\u00f3n de la dosis (9.999 permutaciones). Es exploratoria: no equivale al ",
+      "estimador del panel A y su lectura causal exige supuestos adicionales sobre las tendencias de municipios con distinta dosis. ") else "",
+      if (!is.null(g77)) { ga <- function(ref) g77[g77$referencia == ref & g77$dosis == "dosis_area" & !as.logical(g77$efectos_fijos_cohorte), ][1, ]
+        fa <- function(ref) { z <- ga(ref); paste0(num(z$beta, 2), " (", num(z$ee_hc2, 2), "; IC 95 \u0025: [", num(z$ic_inf, 2), "; ",
+                                                    num(z$ic_sup, 2), "]; p = ", num(z$p_permutacion, 2), ")") }
+        paste0("Con la dosis de \u00e1rea, las pendientes son ", fa("g-1"), " con la referencia g \u2212 1 y ", fa("g-5..g-1"),
+               " con g \u2212 5 a g \u2212 1. ") } else "",
+      "Panel ", if (is.null(g77)) "B" else "C", ": robustez del gradiente con el estimador binario; terciles ",
+      "calculados entre todos los tratados con dosis y comparados con los mismos nunca tratados; columna (4), ATT agregado sin covariables ",
+      "sobre la media previa del tercil. Con covariables, entre la mitad y tres cuartos de los pares cohorte-a\u00f1o de cada tercil no pueden ",
+      "estimarse, por lo que la columna (2) es solo indicativa. Con el \u00e1rea declarada, la correlaci\u00f3n de rangos con la dosis por ",
+      "pol\u00edgonos es ", num(v("spearman_bosque_declarada_poligono"), 2), " y solo el ", num(v("pct_mismo_tercil_declarado"), 0),
+      " % de los municipios queda en el mismo tercil. Con los terciles de la dosis de \u00e1rea, que coinciden con los de bosque en el 87 % ",
+      "de los municipios, el efecto sin covariables es de ", { x <- sapply(c("bajo", "medio", "alto"), function(k) num(terc_fila("area", k, "sin covariables")$att_balanceado)); paste0(x[1], ", ", x[2], " y ", x[3]) },
+      " hect\u00e1reas en los terciles bajo, medio y alto."),
+    fuente = "Karnik et al. (2025); MapBiomas Colombia; Global Forest Change v1.12; c\u00e1lculos propios."))
+})
+
+## =============================================================================
+## Tabla 6.13 - Construccion de la muestra (78). Va en el anexo (Tabla A.5).
+## =============================================================================
+hacer("tabla_6_13", {
+  d <- leer("78_construccion_muestra.csv")
+  tit <- c(A = "Panel A. Proyectos de Verra", B = "Panel B. Universo de la Tabla A.3 (registros)",
+           C = "Panel C. Base de pol\u00edgonos (Karnik et al., 2025)", D = "Panel D. Municipios",
+           E = "Panel E. Muestra de cada especificaci\u00f3n")
+  filas <- NULL
+  for (pn in intersect(names(tit), unique(d$panel))) {
+    z <- d[d$panel == pn, ]
+    filas <- rbind(filas, panel(tit[[pn]], 3))
+    for (i in seq_len(nrow(z))) {
+      etq <- trimws(z$etapa[i])
+      filas <- rbind(filas, fila(etq, c(ent(z$n[i]), ent(z$controles[i]), ent(z$obs[i]))))
+    }
+  }
+  ## Nota de conciliacion: universo, criterio, exclusiones y unidad de cada cifra
+  nb <- function(patron) { k <- d[grepl(patron, d$etapa), ]; if (nrow(k)) k[1, ] else NULL }
+  en_letras <- function(n) if (n >= 1 && n <= 9) c("uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve")[n] else ent(n)
+  sint <- nb("^De ellos, sin tratamiento"); n45 <- nb("^Con actividad AFOLU"); unico <- nb("^Proyectos \u00fanicos"); total <- nb("^Total de registros")
+  nota_b <- if (!is.null(unico) && !is.null(total) && unico$n < total$n)
+    paste0("Panel B: los ", ent(total$n), " registros corresponden a ", ent(unico$n), " proyectos porque ", unico$nota,
+           " figura en Verra y en EcoRegistry. ") else ""
+  tabla(list(id = "tabla_6_13",
+    titulo = "Tabla 6.13\u2014Construcci\u00f3n de la muestra",
+    cab = list(c("(1)", "(2)", "(3)"), c("Proyectos o tratados", "Controles", "Observaciones")),
+    filas = filas,
+    notas = paste0("Todas las cifras salen de las bases y de las salidas finales (script 78). Unidad: proyecto \u00fanico por ",
+      "identificador en los paneles A y C, registro en el B y municipio en el D y el E, con observaciones municipio-a\u00f1o del ",
+      "panel balanceado 2001\u20132024; la evaluaci\u00f3n por pol\u00edgonos y la regresi\u00f3n discontinua cuentan proyectos y usan celdas ",
+      "de 2 \u00d7 2 km. Panel A: REDD+ es la actividad AFOLU declarada en el registro, y el tratamiento exige adem\u00e1s una ",
+      "metodolog\u00eda REDD+. El excluido es CO2ROZO, cuyo punto corresponde a la sede del proponente. Los ",
+      if (!is.null(sint)) en_letras(sint$n) else "", " v\u00e1lidos sin tratamiento son el de corredores de jaguar, cuya metodolog\u00eda ",
+      "es de restauraci\u00f3n, y el corredor de robles, cuya \u00e1rea declarada no puede asignarse al municipio de su punto ",
+      "(cap\u00edtulo 4). Yaguara Llanos del Yar\u00ed no est\u00e1 entre los ", if (!is.null(n45)) ent(n45$n) else "", ": usa una ",
+      "metodolog\u00eda REDD+ sin la actividad declarada, fue retirado y no tiene fecha de inicio, y su municipio, Calamar, sale de la muestra por ",
+      "tener solo proyectos retirados. ", nota_b,
+      "Panel D: los tratados combinan Verra, RENARE y Cercarbono; la adopci\u00f3n es el a\u00f1o de inicio m\u00e1s temprano entre ",
+      "sus proyectos REDD+ no retirados ni rechazados, y la ubicaci\u00f3n se verifica con los pol\u00edgonos de deforestaci\u00f3n ",
+      "evitada. Los conteos de Cercarbono, en registros y proyectos, y del RENARE, en iniciativas, est\u00e1n en el cap\u00edtulo 4."),
+    fuente = "Verra; Karnik et al. (2025); EcoRegistry; BioCarbon Registry; RENARE; Cercarbono; c\u00e1lculos propios."))
 })
 
 ## =============================================================================
@@ -743,6 +950,17 @@ hacer("figura_4_3", {
   d <- read.csv(rp, stringsAsFactors = FALSE)
   d <- d[d$registro == "Verra", ]
   d$anio <- suppressWarnings(as.integer(sub("^.*?((19|20)[0-9]{2}).*$", "\\1", d$anio_inicio, perl = TRUE)))
+  ## Completa el anio desde Verra (Platts) cuando la base del 65 no lo trae:
+  ## el corredor de robles (VCS1657) llega con id de Karnik y sin fecha, pero
+  ## Verra publica su inicio (2015). Asi la figura cubre los 44 proyectos REDD+
+  ## con ubicacion valida (27/10/2026, conciliacion de conteos).
+  rv <- file.path(RAIZ_PROYECTO, "data/interim/verra_platts_colombia_con_municipio.csv")
+  if (file.exists(rv)) {
+    vp <- as.data.frame(readr::read_csv(rv, col_types = readr::cols(.default = readr::col_character()), show_col_types = FALSE))
+    yr <- setNames(suppressWarnings(as.integer(substr(vp$creditPeriodStartDate, 1, 4))), as.character(vp$projectId))
+    falta <- is.na(d$anio) & grepl("^VCS[0-9]+$", d$id)
+    d$anio[falta] <- yr[sub("^VCS", "", d$id[falta])]
+  }
   est <- tolower(d$estado); emit <- !is.na(d$emitidos) & d$emitidos > 0
   niv <- c("Emiti\u00f3 cr\u00e9ditos", "Registrado sin cr\u00e9ditos", "En tr\u00e1mite", "Retirado, rechazado o inactivo")
   d$grupo <- ifelse(emit, niv[1],
@@ -805,7 +1023,10 @@ nombre_propio <- function(x) {
   x
 }
 hacer("figura_6_3", {
-  l <- read.csv(TAB("50_leave_one_out.csv"), stringsAsFactors = FALSE, encoding = "UTF-8")
+  ## Con IC si existe la salida del 74; si no, solo puntos del 50
+  ic74 <- file.exists(TAB("74_leave_one_out_ic.csv"))
+  l <- read.csv(TAB(if (ic74) "74_leave_one_out_ic.csv" else "50_leave_one_out.csv"), stringsAsFactors = FALSE, encoding = "UTF-8")
+  if (ic74) l$att_g1 <- l$att
   l$etq <- ifelse(is.na(l$NOMBRE_MPI) | l$NOMBRE_MPI == "", "Cartagena del Chair\u00e1 y San Jos\u00e9 del Guaviare",
                   nombre_propio(l$NOMBRE_MPI))
   l$etq <- paste0(l$etq, " (", l$cohorte, ")")
@@ -813,9 +1034,10 @@ hacer("figura_6_3", {
   p <- ggplot(l, aes(att_g1, etq)) +
     annotate("rect", xmin = REF_ATT_DR - REF_EE_DR, xmax = REF_ATT_DR + REF_EE_DR, ymin = -Inf, ymax = Inf, fill = COL$banda) +
     geom_vline(xintercept = REF_ATT_DR, linewidth = 0.4, color = COL$a) + geom_vline(xintercept = 0, linetype = 2, linewidth = 0.3) +
+    { if (ic74) geom_errorbarh(aes(xmin = ic_inf, xmax = ic_sup), height = 0, linewidth = 0.35, color = COL$a) } +
     geom_point(size = 1.8, color = COL$a) + scale_x_continuous(labels = function(x) num(x, 0)) +
     labs(x = "ATT sin el municipio indicado (ha por a\u00f1o)", y = NULL) + tema_aer
-  guardar_fig(p, "figura_6_3", alto = 4.2)
+  guardar_fig(p, "figura_6_3", alto = if (ic74) 6.2 else 4.2)
 })
 
 hacer("figura_6_4", {

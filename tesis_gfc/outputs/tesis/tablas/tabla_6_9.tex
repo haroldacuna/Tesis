@@ -16,9 +16,11 @@ Especificación principal & $-$152,5 & (186,5) & 36 & 986 & 0 \\
 Errores agrupados por departamento & $-$152,5 & (3.879,8) & 36 & 986 & 0 \\
 \addlinespace
 \multicolumn{6}{@{}l}{\textit{Panel B. Definición del tratamiento}} \\
-Solo registros de Verra & $-$165,1 & (210,6) & 33 & 986 & 0 \\
+Solo registros de alta confianza & $-$165,1 & (210,6) & 33 & 986 & 0 \\
 Sin ubicación recuperada a mano & $-$178,0 & (187,9) & 27 & 986 & 0 \\
 Cobertura de polígonos $\geq$ 5 \% & $-$73,7 & (116,7) & 60 & 965 & 0 \\
+Reasignación geográfica por polígonos & $-$43,8 & (99,2) & 72 & 953 & 10 \\
+Adopción según el polígono & $-$50,1 & (193,7) & 34 & 986 & 36 \\
 \addlinespace
 \multicolumn{6}{@{}l}{\textit{Panel C. Grupo de control y soporte común}} \\
 Soporte común, propensión en [0,01; 0,99] & $-$205,1 & (199,2) & 34 & 243 & 0 \\
@@ -26,6 +28,9 @@ Emparejamiento por propensión, con covariables & $-$93,9 & (233,3) & 33 & 735 &
 Emparejamiento por propensión, sin covariables & $-$324,2 & (315,4) & 33 & 735 & 0 \\
 Sin controles cubiertos por polígonos & $-$135,9 & (182,3) & 36 & 965 & 0 \\
 Sin controles contiguos a tratados & 24,5 & (116,1) & 36 & 874 & 57 \\
+Con territorios colectivos como covariable & $-$186,5 & (195,6) & 36 & 986 & 0 \\
+Ídem, con titulación hasta 2012 & $-$178,0 & (192,1) & 36 & 986 & 0 \\
+Solo controles con territorios colectivos & $-$191,0 & (187,6) & 36 & 302 & 0 \\
 \addlinespace
 \multicolumn{6}{@{}l}{\textit{Panel D. Fuente del dato de deforestación}} \\
 MapBiomas, bosque estable con persistencia & $-$70,0 & (153,3) & 36 & 986 & — \\
@@ -39,7 +44,7 @@ Solo el área de Visión Amazonía & $-$865,0 & (1.439,6) & 9 & 56 & 0 \\
 \end{tabular}
 \begin{tablenotes}[flushleft]
 \footnotesize
-\item \textit{Notas:} ATT agregado en hectáreas por año. Salvo indicación, estimador doblemente robusto con las 11 covariables de la especificación principal y errores agrupados por municipio. El placebo, el área de Visión Amazonía y el emparejamiento sin covariables se reportan sin covariables porque la versión doblemente robusta pierde muchos pares cohorte-año. Pares sin estimar: pares cohorte-año que no pudieron estimarse (161 en la muestra principal). Desplazamiento: efecto sobre municipios no tratados con al menos un vecino tratado, frente a no tratados sin vecinos tratados; usa otra muestra, por eso no se reportan sus tamaños. Sin controles contiguos: el cambio de signo se explica por la composición de los pares cohorte-año que pueden estimarse, no por desplazamiento.
+\item \textit{Notas:} ATT agregado en hectáreas por año; el intervalo de confianza al 95 \% es el ATT ± 1,96 errores estándar. Salvo indicación, estimador doblemente robusto con las 11 covariables de la especificación principal y errores agrupados por municipio. El placebo, el área de Visión Amazonía y el emparejamiento sin covariables se reportan sin covariables porque la versión doblemente robusta pierde muchos pares cohorte-año. Pares sin estimar: número de pares cohorte-año, de 161 en la muestra principal, que no pudieron estimarse. Errores por departamento: 15 departamentos tienen tratados y uno (Chocó) concentra 16 de los 36, por lo que ese error es poco confiable y se reporta como cota. Desplazamiento: efecto sobre municipios no tratados con al menos un vecino tratado, frente a no tratados sin vecinos tratados; usa otra muestra, por eso no se reportan sus tamaños. Reasignación geográfica: los 72 tratados son los 64 municipios cubiertos por polígonos ($\geq$ 1 \% y $\geq$ 100 ha) con adopción en 2013--2019, en el año más temprano entre el registro y el polígono, y los ocho tratados sin polígono en la base, que conservan la asignación por punto; salen los dos tratados cuyo polígono está en otros municipios. Adopción según el polígono: para los tratados cubiertos, el año de adopción es el inicio del primer proyecto cuyo polígono los cubre, si es anterior al del registro; dos pasan a una cohorte anterior a 2013 y salen de la ventana, por lo que quedan 34 tratados. Territorios colectivos: proporción del municipio en resguardos indígenas y consejos comunitarios titulados (ANT), con la titulación vigente o solo con los territorios cuyo último acto administrativo es de 2012 o antes; la última de esas filas restringe los controles a los municipios con algún territorio colectivo. Sin controles contiguos: el cambio de signo se explica por la composición de los pares cohorte-año que pueden estimarse, no por desplazamiento.
 \item \textit{Fuente:} Cálculos propios.
 \end{tablenotes}
 \end{threeparttable}
