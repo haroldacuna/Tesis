@@ -1,0 +1,63 @@
+% Generado por scripts/81_robusteces_jurado2.R (bloque TAB). No editar a mano.
+\begin{table}[htbp]
+\centering
+\small
+\caption{Tabla A.6—Covariables, grupo de control y gobernanza}
+\label{tab:tabla_a_6}
+\begin{threeparttable}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+ & (1) & (2) & (3) & (4) & (5) \\
+ & ATT & Error estándar & Tratados & Controles & Placebos previos \\
+\midrule
+\multicolumn{6}{@{}l}{\textit{Panel A. Covariables agregadas por bloques, de forma acumulada}} \\
+Sin covariables & $-$183,3 & (298,3) & 36 & 986 & 121,2 \\
++ Deforestación previa (nivel y tendencia) & $-$125,4 & (232,8) & 36 & 986 & 55,3 \\
++ Bosque en 2000 & $-$216,0 & (249,7) & 36 & 986 & 37,3 \\
++ Clima & $-$274,6 & (239,5) & 36 & 986 & 38,2 \\
++ Accesibilidad & $-$204,6 & (227,4) & 36 & 986 & 41,7 \\
++ Coca y homicidios & $-$169,4 & (194,5) & 36 & 986 & 29,2 \\
++ Áreas protegidas & $-$152,5 & (186,5) & 36 & 986 & 31,8 \\
+\addlinespace
+\multicolumn{6}{@{}l}{\textit{Panel B. Un solo bloque de covariables}} \\
+Deforestación previa (nivel y tendencia) & $-$125,4 & (232,8) & 36 & 986 & 55,3 \\
+Bosque en 2000 & $-$521,0 & (271,2) & 36 & 986 & 82,9 \\
+Clima & $-$178,7 & (292,1) & 36 & 986 & 117,1 \\
+Accesibilidad & $-$208,7 & (300,4) & 36 & 986 & 117,0 \\
+Coca y homicidios & $-$261,8 & (261,1) & 36 & 986 & 112,1 \\
+Áreas protegidas & $-$186,2 & (297,0) & 36 & 986 & 120,9 \\
+\addlinespace
+\multicolumn{6}{@{}l}{\textit{Panel C. Todas las covariables menos un bloque}} \\
+Sin deforestación previa (nivel y tendencia) & $-$307,5 & (220,9) & 36 & 986 & 53,8 \\
+Sin bosque en 2000 & $-$144,0 & (197,5) & 36 & 986 & 43,1 \\
+Sin clima & $-$360,9 & (236,8) & 36 & 986 & 25,2 \\
+Sin accesibilidad & $-$413,1 & (306,7) & 36 & 986 & 33,9 \\
+Sin coca y homicidios & $-$194,4 & (223,0) & 36 & 986 & 42,4 \\
+Sin áreas protegidas & $-$169,4 & (194,5) & 36 & 986 & 29,2 \\
+\addlinespace
+\multicolumn{6}{@{}l}{\textit{Panel D. Controles con vínculo con proyectos de carbono}} \\
+Principal, controles limpios & $-$152,5 & (186,5) & 36 & 986 & 31,8 \\
+Con los 88 controles excluidos & $-$127,0 & (168,9) & 36 & 1.074 & 32,3 \\
+Controles limpios, sin covariables & $-$183,3 & (298,3) & 36 & 986 & 121,2 \\
+Con los 88 controles, sin covariables & $-$181,4 & (307,2) & 36 & 1.074 & 121,7 \\
+\addlinespace
+\multicolumn{6}{@{}l}{\textit{Panel E. Gobernanza del proyecto que define la adopción, sin covariables}} \\
+Territorio: consejo comunitario & $-$75,5 & (123,1) & 18 & 986 & 38,4 \\
+Territorio: otro & $-$295,1 & (307,0) & 6 & 986 & 368,8 \\
+Territorio: resguardo indígena & 225,7 & (968,6) & 8 & 986 & 97,5 \\
+Proponente: comunitario & $-$400,3 & (707,3) & 8 & 986 & 94,2 \\
+Proponente: empresa & 116,9 & (476,0) & 14 & 986 & 136,8 \\
+Proponente: varios o sin detalle & 119,3 & (125,5) & 7 & 986 & 144,0 \\
+Metodología: otro registro & 800,1 & (944,2) & 6 & 986 & $-$54,1 \\
+Metodología: VM0006 & $-$204,7 & (175,4) & 10 & 986 & 71,1 \\
+Metodología: VM0007 & 451,1 & (776,8) & 6 & 986 & $-$62,7 \\
+Metodología: VM0015 & $-$254,0 & (243,8) & 8 & 986 & 310,0 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\footnotesize
+\item \textit{Notas:} ATT agregado en hectáreas por año, con la especificación principal (Callaway y Sant'Anna, doblemente robusto, grupo de comparación de nunca y aún no tratados, errores agrupados por municipio) y el conjunto de covariables que indica cada fila. Bloques: deforestación previa (logaritmo del nivel y tendencia de 2001-2009), bosque de 2000 (logaritmo), clima (temperatura y precipitación), accesibilidad (distancias a la capital departamental, a Bogotá y al mercado mayorista), coca y homicidios, y áreas protegidas públicas. La última fila del panel A es la especificación principal. Placebos previos: promedio de los coeficientes del estudio de eventos entre $e = -5$ y $e = -2$, que con la referencia variable del estimador son cambios año a año antes de la adopción; cuanto más cerca de cero, menor el desbalance previo. Panel D: incluye los 88 municipios nunca tratados que la regla de controles limpios excluye por algún vínculo con proyectos de carbono (capítulo 4). Panel E: cada fila compara los tratados del grupo contra los mismos 986 controles; el grupo lo define el proyecto de inicio más temprano entre los vinculados al municipio en la Tabla A.3, por su ubicación registrada o por su polígono. Se omiten los grupos con menos de cinco tratados (ONG o público, la VM0009 y los cuatro tratados sin proyecto en la Tabla A.3). Se reportan sin covariables porque la versión doblemente robusta deja sin estimar entre un tercio y el 80 \% de los pares cohorte-año; son descriptivas.
+\item \textit{Fuente:} Cálculos propios.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

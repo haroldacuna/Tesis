@@ -23,7 +23,8 @@
 ##
 ## Paquetes: dplyr, ggplot2, gridExtra, gtable, scales; sf (solo el mapa);
 ##           ragg (opcional, mejor calidad de PNG).
-## USO:  Rscript scripts/70_tablas_figuras.R
+## USO:  Rscript scripts/70_tablas_figuras.R              (todo)
+##       Rscript scripts/70_tablas_figuras.R tabla_6_6 figura_6_5   (solo esos)
 ## =============================================================================
 source("scripts/00_config_did.R")   # B.1: parametros comunes (no redefinir aqui)
 for (p in c("dplyr", "ggplot2", "gridExtra", "gtable", "scales"))
@@ -149,7 +150,11 @@ escribir_png <- function(t) {
 }
 
 productos <- list()
+## Ejecucion selectiva: con argumentos, solo se generan esos productos
+## (p. ej. Rscript scripts/70_tablas_figuras.R tabla_6_5 tabla_6_6 figura_6_5).
+SOLO <- commandArgs(trailingOnly = TRUE)
 hacer <- function(id, expr) {
+  if (length(SOLO) && !(id %in% SOLO)) return(invisible(NULL))   # expr no se evalua
   r <- tryCatch({ expr; "ok" }, error = function(e) paste("ERROR:", conditionMessage(e)))
   productos[[id]] <<- r
   cat(sprintf("  %-22s %s\n", id, r))
@@ -436,10 +441,10 @@ hacer("tabla_6_5", {
   filas <- rbind(filas, fila("Total", c(ent(tot["n"]), ent(tot["solo_S1"]), ent(tot["S2"] - tot["E"]), ent(tot["E"]), ent(tot["sin_estado"])), "sep"))
   tabla(list(id = "tabla_6_5",
     titulo = "Tabla 6.5\u2014Municipios tratados por cohorte y estado de sus proyectos en el registro",
-    cab = list(c("Tratados", "Nunca operaron", "Registrados sin cr\u00e9ditos", "Con cr\u00e9ditos", "Sin estado")),
+    cab = list(c("Tratados", "No alcanzaron el registro", "Registrados sin cr\u00e9ditos", "Con cr\u00e9ditos", "Sin estado")),
     filas = filas,
-    notas = paste0("Cada municipio se clasifica por el mejor estado entre sus proyectos REDD+ de Verra. Nunca operaron: proyectos que no ",
-      "pasaron de solicitud, validaci\u00f3n o lista de espera (nivel S1). Registrados sin cr\u00e9ditos: alcanzaron registro efectivo pero no ",
+    notas = paste0("Cada municipio se clasifica por el mejor estado entre sus proyectos REDD+ de Verra. No alcanzaron el registro: proyectos que no ",
+      "pasaron de solicitud, validaci\u00f3n o lista de espera (nivel S1); no implica que no tengan actividades en terreno. Registrados sin cr\u00e9ditos: alcanzaron registro efectivo pero no ",
       "emitieron cr\u00e9ditos. Con cr\u00e9ditos: emitieron cr\u00e9ditos seg\u00fan Berkeley VROD. Sin estado: municipios tratados solo por RENARE ",
       "o Cercarbono, que no publican estado de registro."),
     fuente = "Verra (API de Platts); Berkeley VROD; c\u00e1lculos propios."))
@@ -447,7 +452,7 @@ hacer("tabla_6_5", {
 hacer("tabla_6_6", {
   r58 <- leer("58_contraste_mecanismo.csv")
   if ("control" %in% names(r58)) r58 <- r58[r58$control == CONTROL_PRINCIPAL, ]
-  sel <- list(c("^solo_S1 \\(", "Nunca operaron (solo S1)"), c("^S2 \\(", "Registro efectivo (S2)"),
+  sel <- list(c("^solo_S1 \\(", "No alcanzaron el registro (solo S1)"), c("^S2 \\(", "Registro efectivo (S2)"),
               c("^E \\(", "Con cr\u00e9ditos emitidos (E)"), c("^S3 \\(", "Registrado hoy (S3)"))
   filas <- NULL
   for (s in sel) {
@@ -463,7 +468,7 @@ hacer("tabla_6_6", {
       "municipios en la mayor\u00eda de sus cohortes, por lo que el contraste se lee como descriptivo (decisi\u00f3n D13). E y S3 dependen en ",
       "parte del resultado: un proyecto emite cr\u00e9ditos o se mantiene registrado cuando verifica reducciones. El estado de un ",
       "proyecto no se asigna al azar, de modo que las diferencias entre grupos no se atribuyen causalmente a la inscripci\u00f3n, ",
-      "la operaci\u00f3n o la emisi\u00f3n de cr\u00e9ditos."),
+      "el registro o la emisi\u00f3n de cr\u00e9ditos."),
     fuente = "C\u00e1lculos propios."))
 })
 
@@ -1004,7 +1009,7 @@ hacer("figura_6_2", {
 
 hacer("figura_6_5", {
   c58 <- read.csv(TAB("58_composicion_por_cohorte.csv"))
-  niv <- c("Nunca operaron", "Registrados sin cr\u00e9ditos", "Con cr\u00e9ditos", "Sin estado en Verra")
+  niv <- c("No alcanzaron el registro", "Registrados sin cr\u00e9ditos", "Con cr\u00e9ditos", "Sin estado en Verra")
   d <- rbind(data.frame(G = c58$G_dep, nivel = niv[1], n = c58$solo_S1),
              data.frame(G = c58$G_dep, nivel = niv[2], n = c58$S2 - c58$E),
              data.frame(G = c58$G_dep, nivel = niv[3], n = c58$E),

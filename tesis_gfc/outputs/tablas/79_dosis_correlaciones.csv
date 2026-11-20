@@ -1,0 +1,23 @@
+"dosis","variable","etiqueta","n","rho","p_valor","significativa_5"
+"dosis_bosque","log_defor_pre_media","Deforestación previa (log)",26,-0.0974358974358974,0.635840501493066,FALSE
+"dosis_bosque","defor_pre_tendencia","Tendencia de la deforestación previa",26,-0.0461538461538461,0.822847496255693,FALSE
+"dosis_bosque","log_baseline_forest","Bosque en 2000 (log)",26,-0.32991452991453,0.0997713115020756,FALSE
+"dosis_bosque","pct_sinap_pub_base","Área en el SINAP público",26,-0.194576450670531,0.340843337066339,FALSE
+"dosis_bosque","tc_total_hoy","Área en territorios colectivos",26,0.0311111111111111,0.88007794786367,FALSE
+"dosis_bosque","distancia_mercado_base","Distancia al mercado",26,-0.24991452991453,0.218210625082197,FALSE
+"dosis_bosque","discapital_base","Distancia a la capital departamental",26,0.253034710485655,0.21232735737854,FALSE
+"dosis_bosque","H_coca_base","Coca",26,-0.104542987836366,0.611280623296885,FALSE
+"dosis_bosque","homicidios_base","Homicidios",26,0.246747704305596,0.224292936111255,FALSE
+"dosis_bosque","temp_media_c_base","Temperatura media",26,-0.115897435897436,0.572887073891802,FALSE
+"dosis_bosque","prec_anual_mm_base","Precipitación anual",26,0.0441025641025641,0.830606533333275,FALSE
+"dosis_area","log_defor_pre_media","Deforestación previa (log)",26,-0.11042735042735,0.591249800253431,FALSE
+"dosis_area","defor_pre_tendencia","Tendencia de la deforestación previa",26,0.0222222222222222,0.914192618302654,FALSE
+"dosis_area","log_baseline_forest","Bosque en 2000 (log)",26,-0.28957264957265,0.151323279200784,FALSE
+"dosis_area","pct_sinap_pub_base","Área en el SINAP público",26,-0.175230417334264,0.391879991640167,FALSE
+"dosis_area","tc_total_hoy","Área en territorios colectivos",26,0.126153846153846,0.539158507304271,FALSE
+"dosis_area","distancia_mercado_base","Distancia al mercado",26,-0.184957264957265,0.365699970827294,FALSE
+"dosis_area","discapital_base","Distancia a la capital departamental",26,0.235595831790022,0.246608727611639,FALSE
+"dosis_area","H_coca_base","Coca",26,-0.112355808991397,0.584747229796026,FALSE
+"dosis_area","homicidios_base","Homicidios",26,0.212749796183944,0.296731096884821,FALSE
+"dosis_area","temp_media_c_base","Temperatura media",26,-0.125470085470085,0.541377750932617,FALSE
+"dosis_area","prec_anual_mm_base","Precipitación anual",26,0.0687179487179487,0.738714631104951,FALSE
